@@ -1,9 +1,16 @@
 {
-  "name": "My Extension",
+  "name": "urLink",
   "version": "1.0",
   "manifest_version": 2,
   "browser_action": {
+    "default_icon": "logo.png",
     "default_popup": "index.html"
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": false
   },
   "content_security_policy": "script-src 'self' 'sha256-34M3HxxCd7web+UMuTvWUlRtVdx6QrTGItv3k4d183Y='; object-src 'self'"
 }
