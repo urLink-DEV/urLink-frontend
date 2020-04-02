@@ -8,16 +8,8 @@
   "browser_action": {
     "default_icon": "logo.png"
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "http://*/*",
-        "https://*/*"
-      ],
-      "js": ["content.js"],
-      "run_at": "document_end"
-    }
-  ], 
-  "web_accessible_resources": ["index.html"],
+  "background" : {
+    "scripts" : ["background.js"]
+  },
   "content_security_policy": "script-src 'self' 'sha256-34M3HxxCd7web+UMuTvWUlRtVdx6QrTGItv3k4d183Y='; object-src 'self'"
 }
