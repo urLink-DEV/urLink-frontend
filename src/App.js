@@ -8,7 +8,7 @@ function App() {
     <div className={'app'}>
       hello URLink
       <Login />
-      <GoogleLogin />
+      {/* <GoogleLogin /> */}
     </div>
   );
 }
