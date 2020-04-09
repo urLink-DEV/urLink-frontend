@@ -3,15 +3,13 @@
   "version": "1.0",
   "manifest_version": 2,
   "permissions": [
-    "tabs","<all_urls>",
-    "history",
-    "https://apis.google.com/js/api.js"
-    ],
+    "tabs", "<all_urls>",
+    "history"
+  ],
   "browser_action": {
     "default_icon": "logo.png"
   },
-  "background" : {
-    "scripts" : ["background.js"]
-  },
-  "content_security_policy": "script-src 'self' https://apis.google.com/js/api.js; 'sha256-34M3HxxCd7web+UMuTvWUlRtVdx6QrTGItv3k4d183Y='; object-src 'self'"
+  "background": {
+    "scripts": ["background.js"]
+  }
 }

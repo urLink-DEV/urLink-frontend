@@ -1,7 +1,7 @@
 import React from 'react';
 import {Switch, BrowserRouter, Route} from "react-router-dom";
-import Login from './containers/Login';
-// import GoogleLogin from './containers/GoogleLogin';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
 import './App.scss';
 
 function Main() {
@@ -16,8 +16,9 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path={"/login"} component={Login}/>
         <Route exact path={"/"} component={Main} />
+        <Route exact path={"/login"} component={LoginPage}/>
+        <Route exact path={"/signup"} component={SignupPage}/>
       </Switch>
     </BrowserRouter>
   );
