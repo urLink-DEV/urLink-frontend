@@ -1,0 +1,284 @@
+/*-----------media query-----------*/
+
+$phone : "only screen and (max-width: 767px)";
+$tablet : "only screen and (max-width: 1024px) and (min-width: 768px)";
+$desktop : "only screen and (min-width: 1025px)";
+
+@media #{$desktop} {
+    .container-layout {
+        flex-direction: row;
+    }
+
+    .login-layout {
+        width: 500px;
+    }
+
+    .image-layout {
+        width: calc(100vw - 500px);
+    }
+}
+
+@media #{$tablet} {
+    .container-layout {
+        flex-direction: row;
+    }
+
+    .login-layout {
+        width: 500px;
+    }
+
+    .image-layout {
+        width: calc(100vw - 500px);
+    }
+}
+
+@media #{$phone} {
+    .container-layout {
+        flex-direction: column;
+    }
+
+    .login-layout {
+        width: 100vw
+    }
+
+    .image-layout {
+        display: none;
+    }
+}
+
+
+
+
+/*-----------login && signup-----------*/
+
+$mainTextColor: #212529;
+
+
+.container {
+    display: block;
+}
+
+.container-layout {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+}
+
+.login-box {
+    height: auto;
+    box-shadow: 3px 2px 16px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+}
+
+.logo-URLink {
+    width: 155px;
+    height: 35px;
+}
+
+.title-login {
+    width: 164px;
+    height: 48px;
+    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', arial, sans-serif;
+    font-size: 35px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -1px;
+    color: #393f45;
+    margin-top: 45px;
+    margin-bottom: 30px;
+}
+
+.line {
+    width: 420px;
+    position: relative;
+    text-align: center;
+    margin: 33px auto;
+    z-index: 1;
+}
+
+.line::before {
+    display: inline-block;
+    content: "";
+    position: absolute;
+    height: 0px;
+    top: 50%;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: -1;
+    width: 420px;
+    border-top: 1px solid #979797;
+    margin: 0px auto;
+}
+
+.line span {
+    color: $mainTextColor;
+    background: rgb(255, 255, 255);
+    padding: 0px 10px;
+    width: 24px;
+    height: 24px;
+    font-family: "Apple SD Gothic Neo";
+    font-size: 20px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.91px;
+
+    text-align: center;
+}
+
+.subtitle {
+    width: 74px;
+    height: 19px;
+    font-family: "Apple SD Gothic Neo";
+    font-size: 16px;
+    font-weight: 700;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    color: #393f45;
+    letter-spacing: -0.73px;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 44px;
+}
+
+.form-id {
+    width: 420px;
+}
+
+.form-password {
+    width: 420px;
+}
+
+.input-email {
+    margin: 8px 0 24px 0;
+    height: 72px;
+    background-color: #f1f3f5;
+    border-color: #ced4da;
+    font-family: "AppleSDGothicNeo";
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.91px;
+}
+
+.input-password {
+    margin: 8px 0 0 0;
+    height: 72px;
+    background-color: #f1f3f5;
+    border-color: #ced4da;
+    font-family: "AppleSDGothicNeo";
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.91px;
+}
+
+::placeholder {
+    color: #9da6af;
+}
+
+.btn-SigninupBox {
+    width: 160px;
+    height: 56px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', arial, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -1.09px;
+    color: #ffffff;
+}
+
+.btn-SigninupText {
+    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', arial, sans-serif;
+    font-size: 24px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -1.09px;
+}
+
+/*-----------login-----------*/
+
+.logo-google {
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+}
+
+.btn-GoogleLogin {
+    background-color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #212529;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+    padding: 0;
+    border-radius: 3px;
+    border: none;
+    width: 420px;
+    height: 72px;
+    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', arial, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -1px;
+    cursor: pointer;
+}
+
+.image-box-login {
+    height: auto;
+    background-image: url("../images/background1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+
+
+/*-----------signup-----------*/
+
+.agree-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 19px;
+}
+
+.text-agree {
+    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', arial, sans-serif;
+    font-size: 20px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.91px;
+    color: #737b84;
+}
+
+.image-box-signup {
+    height: auto;
+    background-image: url("../images/background2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
