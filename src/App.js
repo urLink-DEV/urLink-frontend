@@ -1,15 +1,24 @@
 import React from 'react';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Login from './containers/Login';
-import GoogleLogin from './containers/GoogleLogin';
-import './App.scss';
+
+function Main() {
+  return (
+    <div>
+      hello Urlink
+    </div>
+  )
+}
 
 function App() {
+
   return (
-    <div className={'app'}>
-      hello URLink
-      <Login />
-      {/* <GoogleLogin /> */}
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path={"/login"} component={Login}/>
+        <Route exact path={"/"} component={Main} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 

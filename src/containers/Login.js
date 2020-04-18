@@ -12,6 +12,9 @@ export default function Login() {
             <button onSubmit={onSubmit}>
                 normal login
             </button>
+            <button className='oauth-button'>
+                google login
+            </button>
         </div>
     )
 }

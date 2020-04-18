@@ -3,9 +3,9 @@
   "version": "1.0",
   "manifest_version": 2,
   "permissions": [
-    "tabs","<all_urls>",
+    "tabs",
     "history",
-    "https://apis.google.com/js/api.js"
+    "identity"
     ],
   "browser_action": {
     "default_icon": "logo.png"
@@ -13,5 +13,11 @@
   "background" : {
     "scripts" : ["background.js"]
   },
-  "content_security_policy": "script-src 'self' https://apis.google.com/js/api.js; 'sha256-34M3HxxCd7web+UMuTvWUlRtVdx6QrTGItv3k4d183Y='; object-src 'self'"
+  "oauth2": {
+    "client_id": "683415540436-aimi7aksc043mre0pdj2nejtr08fkchs.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/contacts.readonly"
+    ]
+  },
+  "content_security_policy": "script-src 'self' 'sha256-34M3HxxCd7web+UMuTvWUlRtVdx6QrTGItv3k4d183Y='; object-src 'self'"
 }
