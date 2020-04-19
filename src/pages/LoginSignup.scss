@@ -10,11 +10,11 @@ $desktop : "only screen and (min-width: 1025px)";
     }
 
     .login-layout {
-        width: 500px;
+        width: 388px;
     }
 
     .image-layout {
-        width: calc(100vw - 500px);
+        width: calc(100vw - 388px);
     }
 }
 
@@ -24,11 +24,11 @@ $desktop : "only screen and (min-width: 1025px)";
     }
 
     .login-layout {
-        width: 500px;
+        width: 388px;
     }
 
     .image-layout {
-        width: calc(100vw - 500px);
+        width: calc(100vw - 388px);
     }
 }
 
@@ -47,6 +47,13 @@ $desktop : "only screen and (min-width: 1025px)";
 }
 
 
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css);
+
+* {
+    box-sizing: border-box;
+    font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', sans-serif;
+}
 
 
 /*-----------login && signup-----------*/
@@ -70,31 +77,29 @@ $mainTextColor: #212529;
     background-color: #fff;
     display: flex;
     flex-direction: column;
-    padding: 40px;
+    padding: 50px 40px;
 }
 
 .logo-URLink {
-    width: 155px;
-    height: 35px;
+    width: 87px;
+    height: 19px;
 }
 
 .title-login {
     width: 164px;
-    height: 48px;
-    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', arial, sans-serif;
-    font-size: 35px;
+    height: 24px;
+    font-size: 24px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
-    letter-spacing: -1px;
     color: #393f45;
-    margin-top: 45px;
-    margin-bottom: 30px;
+    margin-top: 33px;
+    margin-bottom: 20px;
 }
 
 .line {
-    width: 420px;
+    width: 300px;
     position: relative;
     text-align: center;
     margin: 33px auto;
@@ -111,7 +116,7 @@ $mainTextColor: #212529;
     right: 0px;
     bottom: 0px;
     z-index: -1;
-    width: 420px;
+    width: 300px;
     border-top: 1px solid #979797;
     margin: 0px auto;
 }
@@ -120,30 +125,27 @@ $mainTextColor: #212529;
     color: $mainTextColor;
     background: rgb(255, 255, 255);
     padding: 0px 10px;
-    width: 24px;
-    height: 24px;
-    font-family: "Apple SD Gothic Neo";
-    font-size: 20px;
+    width: 14px;
+    height: 14px;
+    font-size: 12px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: -0.91px;
-
     text-align: center;
 }
 
 .subtitle {
     width: 74px;
-    height: 19px;
-    font-family: "Apple SD Gothic Neo";
-    font-size: 16px;
-    font-weight: 700;
+    height: 14px;
+    font-size: 14px;
+    font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     color: #393f45;
-    letter-spacing: -0.73px;
+    letter-spacing: -0.64px;
 }
 
 .btn-group {
@@ -153,39 +155,50 @@ $mainTextColor: #212529;
 }
 
 .form-id {
-    width: 420px;
+    width: 300px;
 }
 
 .form-password {
-    width: 420px;
+    width: 300px;
 }
 
 .input-email {
-    margin: 8px 0 24px 0;
-    height: 72px;
+    margin: 10px 0 24px 0;
+    height: 40px;
     background-color: #f1f3f5;
     border-color: #ced4da;
-    font-family: "AppleSDGothicNeo";
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
-    letter-spacing: -0.91px;
+    letter-spacing: -0.64px;
+}
+
+.input-nickname {
+    margin: 10px 0 24px 0;
+    height: 40px;
+    background-color: #f1f3f5;
+    border-color: #ced4da;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.64px;
 }
 
 .input-password {
-    margin: 8px 0 0 0;
-    height: 72px;
+    margin: 10px 0 0 0;
+    height: 40px;
     background-color: #f1f3f5;
     border-color: #ced4da;
-    font-family: "AppleSDGothicNeo";
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
-    letter-spacing: -0.91px;
+    letter-spacing: -0.64px;
 }
 
 ::placeholder {
@@ -193,35 +206,84 @@ $mainTextColor: #212529;
 }
 
 .btn-SigninupBox {
-    width: 160px;
-    height: 56px;
+    width: 100px;
+    height: 36px;
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.1);
-    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', arial, sans-serif;
-    font-size: 24px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: -1.09px;
-    color: #ffffff;
-}
-
-.btn-SigninupText {
-    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', arial, sans-serif;
-    font-size: 24px;
+    font-size: 16px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
-    letter-spacing: -1.09px;
+    letter-spacing: -0.73px;
+    color: #ffffff;
 }
+
+
+.btn-SigninupBox span {
+    font-family: 'SpoqaHanSans';
+}
+
+.btn-SigninupText {
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.73px;
+}
+
+.btn-SigninupText span {
+    font-family: 'SpoqaHanSans';
+}
+
+.check-idpw {
+    width: 298px;
+    height: 12px;
+    font-family: 'SpoqaHanSans';
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.55px;
+    position: relative;
+    display: none;
+}
+
+.id-true {
+    color: #00b381;
+    top: -20px;
+}
+
+.id-false {
+    color: #ff6b6b;
+    top: -32px;
+}
+
+.pw-true {
+    color: #00b381;
+    top: 4px;
+}
+
+.pw-false {
+    color: #ff6b6b;
+    top: -8px;
+}
+
+.nickname-false {
+    top: -20px;
+    color: #ff6b6b;
+}
+
+
+
 
 /*-----------login-----------*/
 
 .logo-google {
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
     margin-right: 5px;
 }
 
@@ -230,20 +292,19 @@ $mainTextColor: #212529;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: #212529;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+    color: $mainTextColor;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
     padding: 0;
-    border-radius: 3px;
+    border-radius: 1.8px;
     border: none;
-    width: 420px;
-    height: 72px;
-    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', arial, sans-serif;
-    font-size: 20px;
-    font-weight: bold;
+    width: 300px;
+    height: 40px;
+    font-size: 16px;
+    font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
-    letter-spacing: -1px;
+    letter-spacing: -0.58px;
     cursor: pointer;
 }
 
@@ -263,6 +324,7 @@ $mainTextColor: #212529;
     display: flex;
     justify-content: space-between;
     margin-top: 19px;
+    padding-right: 8px;
 }
 
 .text-agree {
