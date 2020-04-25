@@ -1,11 +1,14 @@
 import React from 'react';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {Link, Router} from "react-chrome-extension-router";
 import Login from './containers/Login';
 
 function Main() {
   return (
     <div>
       hello Urlink
+      <Link component={Login}>
+        Login
+      </Link>
     </div>
   )
 }
@@ -13,12 +16,9 @@ function Main() {
 function App() {
 
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route path={"/login"} component={Login}/>
-        <Route exact path={"/"} component={Main} />
-      </Switch>
-    </BrowserRouter>
+    <Router>
+        <Main />
+    </Router>
   );
 }
 
