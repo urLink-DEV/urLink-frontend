@@ -2,7 +2,6 @@
 import React from 'react';
 import {GoogleLoginBtn} from '../components/button'
 
-
 export default function Login() {
 
     const onSubmit = e => {
