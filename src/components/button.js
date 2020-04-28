@@ -5,9 +5,9 @@ import Button from '@material-ui/core/Button';
 import LogoGoogle from '../images/logo-google.png';
 
 
-export function GoogleLoginBtn({text}) {
+export function GoogleLoginBtn({text, onClick}) {
     return (
-        <Button className="btn-GoogleLogin" >
+        <Button className="btn-GoogleLogin" onClick={onClick} >
             <img className="logo-google" alt="URLink" src={LogoGoogle} />
             {text}
         </Button>

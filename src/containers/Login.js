@@ -1,5 +1,7 @@
 /* global chrome */
 import React from 'react';
+import {GoogleLoginBtn} from '../components/button'
+
 
 export default function Login() {
 
@@ -35,9 +37,7 @@ export default function Login() {
             <button onSubmit={onSubmit}>
                 normal login
             </button>
-            <button onClick={onClickLogin}>
-                google login
-            </button>
+            <GoogleLoginBtn text="구글 로그인" onClick={onClickLogin} />
         </div>
     )
 }
