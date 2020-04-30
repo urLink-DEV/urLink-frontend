@@ -1,11 +1,12 @@
 import React from 'react';
-import './LoginSignup.scss';
+import {onClickGoogleSignup, onClickSignup} from '../containers/Signup'
 import URLinkLogo from '../images/logo-urlink-full.png'
 import checkTrue from '../images/check-true.png';
 import checkFalse from '../images/check-false.png';
 import { GoogleLoginBtn, AgreeBtn, SigninupBoxBtn, SigninupText, TermsBtn } from '../components/button';
 import { TermsModal } from '../components/modal';
 import { IdInput, NicknameInput, PasswordInput  } from '../components/input';
+import './LoginSignup.scss';
 
 
 function SignupPage() {
@@ -27,7 +28,7 @@ function SignupPage() {
 
             <form method="POST">
 
-              <GoogleLoginBtn text="구글 이메일로 회원가입" />
+              <GoogleLoginBtn text="구글 이메일로 회원가입" onClick={onClickGoogleSignup}/>
               <div className="line"><span>OR</span></div>
 
               <div className="subtitle">닉네임</div>
@@ -67,7 +68,7 @@ function SignupPage() {
               </div>
 
               <div className="btn-group">
-                <SigninupBoxBtn text="회원가입"/>
+                <SigninupBoxBtn text="회원가입" onClick={onClickSignup}/>
                 <SigninupText text="< 로그인" />
               </div>
 

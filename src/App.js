@@ -1,45 +1,30 @@
 /* global chrome */
 import React from 'react';
 import {Link, Router} from "react-chrome-extension-router";
-// import {Switch, BrowserRouter, Route} from "react-router-dom";
-// import LoginPage from './pages/LoginPage';
-// import SignupPage from './pages/SignupPage';
-import Login from './containers/Login';
+import SignupPage from './pages/SignupPage';
+import LoginPage from './pages/LoginPage';
+import Button from '@material-ui/core/Button'
 import './App.scss';
 
-function Main() {
-  console.log('chrome', chrome);
-
-  return (
-    <div>
-      hello Urlink
-      
-      <Link component={Login}>
-        login
-      </Link>
-    </div>
-  )
-}
-
 function App() {
-
   return (
     <Router>
-        <Main />
+      안녕하세요! urLink 계정을 이미 가지고 계시다면,
+      <Link component={LoginPage}>
+        <Button variant='contained' color='primary'>
+          로그인
+        </Button>
+      </Link>
+
+      처음 회원이시라면,
+      <Link component={SignupPage}>
+        <Button variant='contained' color='primary'>
+          회원가입
+        </Button>
+      </Link>
+      을 해주세요!
     </Router>
   );
 }
-
-// function App() {
-//   return (
-//     <BrowserRouter>
-//       <Switch>
-//         <Route exact path={"/"} component={Main} />
-//         <Route exact path={"/login"} component={LoginPage}/>
-//         <Route exact path={"/signup"} component={SignupPage}/>
-//       </Switch>
-//     </BrowserRouter>
-//   );
-// }
 
 export default App;

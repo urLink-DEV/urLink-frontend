@@ -22,12 +22,12 @@ const theme = createMuiTheme({
   });
 
 ReactDOM.render(
-    <StylesProvider injectFirst>
+  <StylesProvider injectFirst>
     <MuiThemeProvider theme={theme}>
       <App/>
     </MuiThemeProvider>
-    </StylesProvider>
-    , document.getElementById('root'));
+  </StylesProvider>,
+  document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
