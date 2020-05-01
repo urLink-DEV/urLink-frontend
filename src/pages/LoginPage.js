@@ -1,10 +1,13 @@
 import React from 'react';
-import './LoginSignup.scss';
+import {Link} from 'react-chrome-extension-router';
 import URLinkLogo from '../images/logo-urlink-full.png';
 import checkTrue from '../images/check-true.png';
 import checkFalse from '../images/check-false.png';
-import { GoogleLoginBtn, SigninupBoxBtn, SigninupText } from '../components/button';
+import { GoogleLoginBtn /*, SigninupBoxBtn, SigninupText */} from '../components/button';
 import { IdInput, PasswordInput } from '../components/input';
+import SignupPage from './SignupPage';
+import Button from '@material-ui/core/Button';
+import './LoginSignup.scss';
 
 
 function LoginPage() {
@@ -36,8 +39,14 @@ function LoginPage() {
             <span><img src={checkFalse} alt="check false"></img></span>
             올바르지 않은 비밀번호 양식입니다.</div>
           <div className="btn-group">
-            <SigninupBoxBtn text="로그인"/>
-            <SigninupText text="회원가입" />
+            <Button type="submit" variant="contained" color="primary">
+              로그인
+            </Button>
+            <Link component={SignupPage}>
+              <Button variant="text" color="primary">
+                회원가입
+              </Button>
+            </Link>
           </div>
         </form>
       </section>

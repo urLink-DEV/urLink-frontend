@@ -5,7 +5,6 @@ export const onClickSignup = e => {
 }
 
 export const onClickGoogleSignup = e => {
-  console.log('event', e);
   chrome.identity.getAuthToken({interactive: true}, function(token) {
     let init = {
       method: 'GET',
