@@ -1,8 +1,22 @@
 /* global chrome */
-export const onClickSignup = e => {
-  e.preventDefault();
-  console.log('submit');
-}
+import { axios, api } from '../commons/http';
+import queryData from '../commons/queryData';
+
+export const onClickSignup = async ({email,username,password}) => {
+  const nRegister = queryData["n_register"];
+
+  nRegister.email = email;
+  nRegister.username = username;
+  nRegister.password = password;
+  try {
+    const response = await axios.post(api.N_MEMBER_REGISTER, nRegister);
+    // console.log(response.data);
+    return true;
+  } catch (error) {
+    // console.log(error);
+    return false;
+  }
+};
 
 let retry = true;
 

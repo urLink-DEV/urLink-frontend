@@ -2,7 +2,7 @@ import React from 'react';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormControl from '@material-ui/core/FormControl';
 
-export function IdInput({placeholder}) {
+export function IdInput({placeholder, onChange}) {
     return (
       <FormControl variant="outlined" className="form-id">
           <OutlinedInput 
@@ -10,12 +10,13 @@ export function IdInput({placeholder}) {
               variant="outlined" 
               color="primary" 
               placeholder={placeholder}
+              onChange = {onChange}
               className="input-email" />
       </FormControl>
     );
 }
 
-export function NicknameInput({placeholder}) {
+export function NicknameInput({placeholder, onChange}) {
     return (
       <FormControl variant="outlined" className="form-id">
           <OutlinedInput 
@@ -23,13 +24,14 @@ export function NicknameInput({placeholder}) {
               variant="outlined" 
               color="primary" 
               placeholder={placeholder}
+              onChange={onChange} 
               className="input-nickname" />
       </FormControl>
     );
 }
 
 
-export function PasswordInput({placeholder}) {
+export function PasswordInput({placeholder, onChange}) {
     return (
     <FormControl variant="outlined" className="form-password">
         <OutlinedInput 
@@ -38,6 +40,7 @@ export function PasswordInput({placeholder}) {
             variant="outlined"
             color="primary"
             placeholder={placeholder}
+            onChange={onChange}
             className="input-password" />
     </FormControl>
     );
