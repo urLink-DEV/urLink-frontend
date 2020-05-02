@@ -29,7 +29,7 @@ const api = {
 
 const axiosSetting = {
     scheme: "http",
-    host: "ef5fdc13.ngrok.io/api/v1",
+    host: "15.165.198.243//api/v1",
     port: "",
     server: function() {
 		return (this.scheme ? this.scheme + ":" : "") + "//" + this.host + (this.port ? ":" + this.port : "");
