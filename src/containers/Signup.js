@@ -11,6 +11,7 @@ export const onClickGoogleSignup = e => {
     requestGoogleSignUp(token)
       .then(res => {
         if (res.status >= 400 && retry) {
+          console.log('res', res)
           retry = false
           chrome.identity.removeCachedAuthToken({token}, onClickGoogleSignup)
         }
@@ -19,12 +20,11 @@ export const onClickGoogleSignup = e => {
 }
 
 function requestGoogleSignUp(token) {
-  console.log('request', token)
   const headers = new Headers();
   headers.append('Content-Type', 'application/json')
   return fetch('http://15.165.198.243/api/v1/user/google/sign-up/', {
     method: 'POST',
     headers,
-    body: {token},
+    body: JSON.stringify({token}),
   })
 }
