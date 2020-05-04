@@ -1,20 +1,18 @@
 /* global chrome */
 import React from 'react';
 import {Link} from "react-chrome-extension-router";
-import {onClickGoogleSignup, onClickSignup} from '../containers/Signup'
 import URLinkLogo from '../images/logo-urlink-full.png'
 import checkTrue from '../images/check-true.png';
 import checkFalse from '../images/check-false.png';
-import { GoogleLoginBtn, AgreeBtn, /* SigninupBoxBtn , SigninupText,*/ TermsBtn } from '../components/button';
+import { GoogleLoginBtn, AgreeBtn, TermsBtn } from '../components/button';
 import { TermsModal } from '../components/modal';
 import { IdInput, NicknameInput, PasswordInput  } from '../components/input';
 import Button from '@material-ui/core/Button';
+import LoginContainer from '../containers/LoginContainer';
 import './LoginSignup.scss';
-import LoginPage from './LoginPage';
 
-
-function SignupPage() {
-
+function SignupPage(props) {
+  const {onClickSignup, onClickGoogleSignup} = props;
   //terms modal
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
@@ -70,7 +68,7 @@ function SignupPage() {
                 <Button type="submit" onClick={onClickSignup} variant="contained" color="primary">
                   회원가입
                 </Button>
-                <Link component={LoginPage}>
+                <Link component={LoginContainer}>
                   <Button variant="text" color="primary">
                     로그인
                   </Button>
