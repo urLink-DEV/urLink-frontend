@@ -6,6 +6,8 @@ import LoginPage from './pages/LoginPage';
 import Button from '@material-ui/core/Button'
 import './App.scss';
 import CategoryPage from './pages/CategoryPage';
+import LoginTest from './test/LoginTest';
+import auth from './commons/auth';
 
 function InitMain() {
   return (
@@ -31,8 +33,16 @@ function InitMain() {
 function App() {
 
   const [authState, setAuthState] = useState(false);
-
   
+  (async () => {
+    try {
+      const authCheck = await auth.tokenCheck();
+      setAuthState(!authCheck);
+    } catch (error) {
+      setAuthState(false);
+    }
+  })();
+
 
   return (
     authState 
