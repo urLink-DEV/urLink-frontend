@@ -1,11 +1,12 @@
 /* global chrome */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link, Router} from "react-chrome-extension-router";
 import Button from '@material-ui/core/Button'
 import CategoryPage from './pages/CategoryPage';
 import SignupContainer from './containers/SignupContainer';
 import LoginContainer from './containers/LoginContainer';
 import './App.scss';
+import Auth from './commons/auth';
 
 function InitMain() {
   return (
@@ -30,10 +31,18 @@ function InitMain() {
 
 function App() {
 
-  const [authState, setAuthState] = useState(false);
+  const [auth, setAuth] = useState(false);
+
+  useEffect(() => {
+    Auth.tokenCheck()
+      .then(res => {
+        if (res) setAuth(true);
+      })
+      .catch(e => console.log(e))
+  }, []);
 
   return (
-    authState 
+    auth
       ? <CategoryPage></CategoryPage>
       : <InitMain></InitMain>
   );
