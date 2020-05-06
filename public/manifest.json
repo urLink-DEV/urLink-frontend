@@ -16,7 +16,9 @@
   "oauth2": {
     "client_id": "683415540436-aimi7aksc043mre0pdj2nejtr08fkchs.apps.googleusercontent.com",
     "scopes": [
-      "https://www.googleapis.com/auth/contacts.readonly"
+      "https://www.googleapis.com/auth/contacts.readonly",
+      "profile",
+      "email"
     ]
   },
   "content_security_policy": "script-src 'self' https://apis.google.com 'sha256-34M3HxxCd7web+UMuTvWUlRtVdx6QrTGItv3k4d183Y='; object-src 'self'"

@@ -4,6 +4,8 @@ import React, {useState} from 'react';
 import {Link} from "react-chrome-extension-router";
 /* page */
 import LoginPage from './LoginPage';
+/* container */
+import LoginContainer from '../containers/LoginContainer';
 /* image */
 import URLinkLogo from '../images/logo-urlink-full.png'
 /* css */
@@ -26,7 +28,6 @@ function SignupPage() {
 
   const [password,setPassword] = useState('');
   const [open,setOpen] = useState(false);
-
 
   const handleSubmit = async (e) => {
     try {
@@ -53,12 +54,6 @@ function SignupPage() {
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
-  };
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
   };
 
   return (
@@ -90,10 +85,10 @@ function SignupPage() {
           </div>
 
           <div className="btn-group">
-            <Button type="submit" variant="contained" color="primary">
+            <Button type="submit" onClick={onClickSignup} variant="contained" color="primary">
               회원가입
             </Button>
-            <Link component={LoginPage}>
+            <Link component={LoginContainer}>
               <Button variant="text" color="primary">
                 로그인
               </Button>
@@ -101,7 +96,7 @@ function SignupPage() {
           </div>
         </form>
       </section>
-
+      
       <section className="image-box-signup image-layout">
       </section>
     </div>
