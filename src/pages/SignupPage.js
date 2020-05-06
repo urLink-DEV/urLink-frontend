@@ -1,29 +1,36 @@
 /* global chrome */
+/* React & module*/
 import React, {useState} from 'react';
 import {Link} from "react-chrome-extension-router";
-import {onClickGoogleSignup, onClickSignup} from '../containers/Signup'
-import URLinkLogo from '../images/logo-urlink-full.png'
-import checkTrue from '../images/check-true.png';
-import checkFalse from '../images/check-false.png';
-import { GoogleLoginBtn, AgreeBtn, /* SigninupBoxBtn , SigninupText,*/ TermsBtn } from '../components/button';
-import { TermsModal } from '../components/modal';
-import { IdInput, NicknameInput, PasswordInput  } from '../components/input';
-import Button from '@material-ui/core/Button';
-import './LoginSignup.scss';
+/* page */
 import LoginPage from './LoginPage';
+/* image */
+import URLinkLogo from '../images/logo-urlink-full.png'
+/* css */
+import './LoginSignup.scss';
+/* components */
+import Button from '@material-ui/core/Button';
+import {GoogleLoginBtn, AgreeBtn, TermsBtn} from '../components/button';
+import {IdInput, NicknameInput, PasswordInput} from '../components/input';
+import {TermsModal} from '../components/modal';
+import {singupAlert, singupAlertCheck} from '../components/alert';
+/* function */
+import {onClickGoogleSignup, onClickSignup} from '../containers/Signup'
 
 function SignupPage() {
-
-  //terms modal
-  const [open,setOpen] = useState(false);
-  const [username,setUsername] = useState('');
-  const [password,setPassword] = useState('');
-  const [email,setEmail] = useState('');
   
+  const [username,setUsername] = useState('');
+  const [userAlert, setUserAlert] = useState(false);
+  const [email,setEmail] = useState('');
+  const [emailAlert, setEmailAlert] = useState(false);
+
+  const [password,setPassword] = useState('');
+  const [open,setOpen] = useState(false);
+
+
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      console.log({email,username,password});
       const check = await onClickSignup({email,username,password});
       if(check) alert("가입 완료 Hello world! ~~");
       else alert("가입 실패"); 
@@ -32,12 +39,18 @@ function SignupPage() {
     }
   };
 
-  const handleUserChange = (e) => {
-    setUsername(e.target.value);
+  const handleUserNameChange = (e) => {
+    const name = e.target.value;
+    setUsername(name);
+    setUserAlert(singupAlertCheck.userName(name));
   };
+
   const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+    const email = e.target.value;
+    setEmail(email);
+    setEmailAlert(singupAlertCheck.email(email));
   };
+
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
@@ -59,41 +72,16 @@ function SignupPage() {
         <form onSubmit={handleSubmit}>
 
           <div className="subtitle">닉네임</div>
-          <NicknameInput onChange={handleUserChange} placeholder="최대 8자" />
-          <div className="check-idpw nickname-false">8자 이내로 작성해주세요.</div>
+          <NicknameInput onChange={handleUserNameChange} placeholder="최대 8자" />
+          {userAlert ? singupAlert.userNameFalse() : ""}
 
           <div className="subtitle">이메일</div>
           <IdInput onChange={handleEmailChange} placeholder="user@exmaple.com" />
-
-          <div className="check-idpw id-true">
-            <span><img src={checkTrue} alt="check true"></img></span>
-            올바른 이메일 양식입니다.
-          </div>
-
-          <div className="check-idpw id-false">
-            <span><img src={checkFalse} alt="check false"></img></span>
-            올바르지 않은 이메일 양식입니다.
-          </div>
+          {emailAlert ? singupAlert.emailFalse() : singupAlert.emailTrue()}
 
           <div className="subtitle">비밀번호</div>
           <PasswordInput onChange={handlePasswordChange} placeholder="영문 + 숫자 조합 6자리 이상" />
-          <div className="check-idpw pw-true">
-            <span><img src={checkTrue} alt="check true"></img></span>
-            올바른 비밀번호 양식입니다.
-          </div>
-          <div className="check-idpw pw-false">
-            <span><img src={checkFalse} alt="check false"></img></span>
-            올바르지 않은 비밀번호 양식입니다.
-          </div>
           <PasswordInput placeholder="비밀번호 확인" />
-          <div className="check-idpw pw-true">
-            <span><img src={checkTrue} alt="check true"></img></span>
-            올바른 비밀번호 양식입니다.
-          </div>
-          <div className="check-idpw pw-false">
-            <span><img src={checkFalse} alt="check false"></img></span>
-            비밀번호가 일치하지 않습니다.
-          </div>
 
           <div className="agree-group">
             <AgreeBtn />
@@ -121,4 +109,3 @@ function SignupPage() {
 }
 
 export default SignupPage;
-
