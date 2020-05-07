@@ -25,6 +25,14 @@ function InitMain() {
         </Button>
       </Link>
       을 해주세요!
+      <br/>
+      로그인을 하시면,
+      <Link component={CategoryPage}>
+        <Button variant='contained' color='primary'>
+          메인화면
+        </Button>
+      </Link>
+      으로 이동됩니다!
     </Router>
   )
 }
