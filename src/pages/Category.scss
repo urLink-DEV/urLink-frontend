@@ -1,0 +1,702 @@
+/*-----------media query-----------*/
+
+$phone : "only screen and (max-width: 767px)";
+$tablet : "only screen and (max-width: 1024px) and (min-width: 768px)";
+$desktop : "only screen and (min-width: 1025px)";
+
+
+
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css);
+
+* {
+    box-sizing: border-box;
+    font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', sans-serif;
+}
+
+/* common */
+
+$mainGrayColor: #868e96;
+$mainBlueColor: #2083ff;
+
+button {
+    cursor: pointer;
+    outline: 0;
+    border: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.show {
+    display: block !important;
+}
+
+/* category list */
+
+.container {
+    display: block;
+}
+
+.container-layout {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+}
+
+.list-tab-layout {
+    width: 240px;
+    padding-top: 72px;
+    padding-left: 16px;
+    background-color: #fff;
+}
+
+
+.favorite-text {
+    width: 49px;
+    height: 18px;
+    font-family: 'SpoqaHanSans';
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: $mainGrayColor;
+    display: inline-block;
+}
+
+.list-tab-layout hr {
+    display: inline-block;
+    width: 160px;
+    position: relative;
+    top: 4px;
+    margin-left: 5px;
+    border: 0.5px solid #d6d6d6;
+}
+
+.drag-box {
+    width: 212px;
+    height: 24px;
+    border-radius: 4px;
+    border: dashed 1px #ced4da;
+    background-color: #f8f9fa;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: $mainGrayColor;
+    margin: 16px 0;
+}
+
+.category-text {
+    width: 49px;
+    height: 18px;
+    font-family: 'SpoqaHanSans';
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: $mainGrayColor;
+    display: inline-block;
+}
+
+.tab-container {
+    position: relative;
+}
+.default-tab {
+    width: 208px;
+    height: 52px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+    font-family: 'SpoqaHanSans';
+    font-size: 16px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 52px;
+    letter-spacing: normal;
+    color: #212529;
+    cursor: pointer;
+}
+
+.default-tab:hover {
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12);
+}
+
+.default-tab-total {
+    font-family: 'SpoqaHanSans';
+    font-size: 12px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 52px;
+    letter-spacing: normal;
+    position: relative;
+    left: 30px;
+    color: $mainGrayColor;
+    font-weight: normal;
+}
+
+.active {
+    border: 1px solid #2083ff;
+    color: $mainBlueColor;
+    font-weight: bold;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12);
+}
+
+.btn-more {
+    color: #d1d1d1;
+    padding: 0 !important;
+    height: 30px;
+}
+
+.tab-more-menu {
+    width: 88px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 25px;
+    right: -55px;
+    z-index: 999;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12);
+}
+
+.tab-more-menu button {
+    background-color: #fff;
+    color: #868e96;
+    border-radius: 4px;
+    text-align: left;
+    padding: 5px 0 5px 10px;
+    font-family: SpoqaHanSans;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+.tab-more-menu button:hover {
+    color: #212529;
+    background-color: #eef0f2
+}
+
+.add-list-tab {
+    width: 208px;
+    height: 52px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+    background-color: #f1f3f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.add-list-enter {
+    width: 208px;
+    height: 52px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    border: 1px solid #2083ff;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.add-list-enter input {
+    width: 115px;
+    height: 28px;
+    border-radius: 4px;
+    border: solid 1px #e9ecef;
+    color: #868e96;
+    background-color: #f1f3f5;
+    margin: 0 7px;
+  }
+
+.add-list-enter button {
+    width: 37px;
+    height: 24px;
+    border-radius: 4px;
+    font-family: 'SpoqaHanSans';
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.55px;
+}
+.add-list-enter .add-true {
+    background-color: #2083ff;
+    color: #fff;
+}
+
+.add-list-enter .add-false {
+    background-color: #fff;
+    color: #737b84;
+}
+
+
+
+
+/* category card */
+
+
+.card-tab-layout {
+    max-width: calc(100vw - 240px - 52px);
+    padding: 20px 0 0 34px;
+    background-color: #fff;
+}
+
+.card-tab-layout header{
+
+}
+
+.category-title {
+    display: inline-block;
+    height: 36px;
+    font-family: 'SpoqaHanSans';
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000000;
+    margin-right: 15px;
+}
+
+.search-box {
+    display: inline-block;
+    position: fixed;
+    top: 24px;
+    min-width: 64px;
+    min-height: 24px;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+    padding: 5px 8px;
+    z-index: 99;
+}
+
+.search-box-shadow {
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12);
+}
+
+.search-head {
+    font-size: 12px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #868e96;
+    display: flex;
+    align-items: center;
+}
+
+.search-head img {
+    margin-right: 4px;
+}
+
+.search-body input {
+    width: 204px;
+    height: 28px;
+    border-radius: 4px;
+    border: solid 1px #e9ecef;
+    background-color: #f1f3f5;
+    margin: 8px 0;
+}
+
+.search-filter button {
+    height: 24px;
+    border-radius: 4px;
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.1);
+    background-color: $mainBlueColor;
+    font-family: 'SpoqaHanSans';
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.55px;
+    color: #ffffff;
+    margin-right: 8px;
+}
+
+.tab-btn-group {
+    margin-left: 80px;
+    display: inline-block;
+    position: relative;
+    top: -2px;
+}
+
+.tab-btn-group button{
+    background: #fff;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.64px;
+    text-align: center;
+    color: #737b84;
+}
+
+.tab-btn-group button:hover {
+    color: #ed1c24;
+}
+
+
+.card-box {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.default-card {
+    width: 208px;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+    margin: 20px 20px 0 0;
+    padding-bottom: 10px;
+    position: relative;
+}
+
+.default-card:hover {
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12);
+}
+
+.default-card img {
+    width: 208px;
+    height: 116px;
+    border-radius: 4px 4px 0 0;
+}
+
+.blue-layer {
+    border: solid 1px #2083ff;
+    background-color: rgba(32, 131, 255, 0.1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.card-title {
+    font-family: AppleSDGothicNeo;
+    font-size: 14px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #212529;
+    margin: 10px;
+}
+
+.card-desc {
+    font-size: 12px;
+    font-family: 'SpoqaHanSans';
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: -0.4px;
+    color: #191c1f;
+    margin: 0 10px 10px;
+}
+
+.card-url {
+    font-size: 12px;
+    font-family: 'SpoqaHanSans';
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: #868e96;
+    margin: 0 10px;
+}
+
+.card-btn-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: none;
+}
+
+.default-card:hover .card-btn-group{
+    display: block;
+}
+
+.card-btn-group button {
+    background: transparent;
+    display: inline-block;
+    width: 17px;
+    margin: 3px;
+}
+.card-btn-group img{
+    width: 17px;
+    height: 17px;
+}
+
+.back-black {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.alert-modal {
+    display: inline-block;
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    z-index: 9999;
+    background-color: #fff;
+    width: 320px;
+    height: 216px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12);
+}
+
+.alert-btn-text {
+    width: 320px;
+    height: 167px;
+    font-size: 14px;
+    font-family: 'SpoqaHanSans';
+    color: #212529;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    overflow: hidden;
+    word-break: break-all;
+}
+
+.alert-btn-group {
+    border-top: 1px solid #ced4da;
+    height: 48px;
+}
+
+.alert-btn-group button {
+    background: transparent;
+    height: 100%;
+    width: 50%;
+    font-size: 14px;
+    font-family: 'SpoqaHanSans';
+    color: #737b84;
+}
+
+.alert-btn-group button:hover {
+    background-color: #eef0f2;
+    color: #212529;
+
+}
+
+/* history drawer */
+
+.history-tab-layout {
+    width: 490px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    background-color: #f6f6f6;
+}
+
+/* category drawer */
+
+.drawer-tab-layout {
+    width: 52px;
+    border: 1px solid #000;
+    background-color: #fff;
+    position: relative;
+}
+
+.drawer-btn-group {
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+    justify-content: center;
+}
+
+.drawer-btn-group button {
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin: 10px auto;
+    border-radius: 4px;
+}
+
+.drawer-btn-group button:hover {
+    background-color: $mainBlueColor;
+}
+
+.drawer-btn-group button:hover img {
+    -webkit-filter: brightness(10);
+    filter: brightness(10);
+}
+
+.drawer-btn-group img{
+    width: 20px;
+    height: 20px;
+}
+
+.drawer-btn-group button:last-child img {
+    width: 17px;
+    height: 19px;
+}
+
+.info-box {
+    display: none;
+    position: absolute;
+    top: 146px;
+    right: 60px;
+    width: 320px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+}
+
+.info-title {
+    padding: 15px;
+    font-family: 'SpoqaHanSans';
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.info-body {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.info-box img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.info-contents p {
+    margin: 5px 15px;
+}
+  
+.info-contents .name {
+    font-size: 14px;
+    font-family: 'SpoqaHanSans';
+    font-weight: 700;
+    color: #212529;
+}
+
+.info-contents .email {
+    font-size: 12px;
+    font-family: 'SpoqaHanSans';
+    font-weight: normal;
+    color: #868e96
+}
+
+.info-box button {
+    width: 280px;
+    height: 40px;
+    border-radius: 1.8px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    margin: 20px;
+}
+
+.alarm-box {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 60px;
+    width: 320px;
+    height: 330px;
+    overflow: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+}
+
+.alarm-box::-webkit-scrollbar {
+    width: 20px;
+}
+ 
+.alarm-box::-webkit-scrollbar-track {
+    margin: 10px;
+}
+
+.alarm-box::-webkit-scrollbar-thumb {
+    background-color: #d8d8d8;
+    border: 8px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+    border-radius: 20px;
+}
+
+.alarm-title {
+    padding: 15px;
+    font-family: 'SpoqaHanSans';
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.alarm-body { 
+
+}
+
+.alarm-contents {
+    display: flex;
+    align-items: center;
+    margin: 10px 25px;
+
+}
+
+.alarm-contents img {
+    width: 18px;
+    height: 18px;
+    margin-right: 20px;
+}
+
+.alarm-contents .title {
+    margin: 5px 0;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'SpoqaHanSans';
+    color: #212529;
+}
+
+.alarm-contents .date{
+    margin: 5px 0;
+    font-size: 12px;
+    font-weight: normal;
+    font-family: 'SpoqaHanSans';
+    color: #868e96;
+}
+
+.btn-close {
+    width: 20px;
+    margin-left: auto;
+    cursor: pointer;
+}
