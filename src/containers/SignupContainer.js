@@ -3,8 +3,32 @@ import React from 'react';
 import {axios,api} from '../commons/http';
 import queryData from '../commons/queryData';
 import SignupPage from '../pages/SignupPage';
-
+import {axios, api} from '../commons/http';
+import Auth from '../commons/auth';
+import queryData from "../commons/queryData";
 export default function SignupContainer() {
+  let retry = true;
+  const onClickGoogleSignup = e => {
+    chrome.identity.getAuthToken({interactive: true}, function(token) {
+      requestGoogleSignup(token)
+        .then(res => {
+          if (res.status === 201) requestGoogleLoginAfterSignup(token)
+          if (res.status >= 400 && retry) {
+            console.log('res', res)
+            retry = false
+            return chrome.identity.removeCachedAuthToken({token}, onClickGoogleSignup)
+          }
+        })
+        .then(res => {
+          if (res.status === 201) {
+            console.log(res.json())
+            return res.json();
+          }
+        })
+        .then(res => Auth.setAccessToken(res.token))
+        .catch(e => console.log(e))
+    })
+  }
 
   const props = {
     onClickSignup,
@@ -29,29 +53,18 @@ const onClickSignup = async (e) => {
   } catch (error) {
     alert("가입 실패\n"+error.response.data.message);
   }
+
+  return <SignupPage {...props}/>
 }
 
-let retry = true;
-
-const onClickGoogleSignup = e => {
-  chrome.identity.getAuthToken({interactive: true}, function(token) {
-    requestGoogleSignUp(token)
-      .then(res => {
-        if (res.status >= 400 && retry) {
-          console.log('res', res)
-          retry = false
-          chrome.identity.removeCachedAuthToken({token}, onClickGoogleSignup)
-        }
-      }).catch(e => console.log(e))
-  })
+function requestGoogleSignup(token) {
+  const gToken = queryData['g_register'];
+  gToken.token = token;
+  return axios.post(api.G_MEMBER_REGISTER, gToken);
 }
 
-function requestGoogleSignUp(token) {
-  const headers = new Headers();
-  headers.append('Content-Type', 'application/json')
-  return fetch('http://15.165.198.243/api/v1/user/google/sign-up/', {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({token}),
-  })
+function requestGoogleLoginAfterSignup(token) {
+  const gToken = queryData['g_login']
+  gToken.token = token;
+  return axios.post(api.G_MEMBER_LOGIN, gToken);
 }
