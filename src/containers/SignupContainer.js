@@ -1,5 +1,7 @@
 /* global chrome */
 import React from 'react';
+import {axios,api} from '../commons/http';
+import queryData from '../commons/queryData';
 import SignupPage from '../pages/SignupPage';
 
 export default function SignupContainer() {
@@ -8,13 +10,25 @@ export default function SignupContainer() {
     onClickSignup,
     onClickGoogleSignup,
   }
-    
+  
   return <SignupPage {...props}/>
 }
 
-const onClickSignup = e => {
-  e.preventDefault();
-  console.log('submit');
+const onClickSignup = async (e) => {
+  try {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const nRegister = queryData["n_register"];
+    nRegister.email = data.get("email");
+    nRegister.username = data.get("username");
+    nRegister.password = data.get("password");
+
+    await axios.post(api.N_MEMBER_REGISTER, nRegister);
+    alert("가입 완료!!\n환영 합니다~");
+    window.location.href = "/index.html";
+  } catch (error) {
+    alert("가입 실패\n"+error.response.data.message);
+  }
 }
 
 let retry = true;

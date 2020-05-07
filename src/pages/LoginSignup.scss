@@ -189,7 +189,7 @@ $mainTextColor: #212529;
 }
 
 .input-password {
-    margin: 10px 0 0 0;
+    margin: 10px 0 10px 0;
     height: 40px;
     background-color: #f1f3f5;
     border-color: #ced4da;
@@ -257,17 +257,17 @@ $mainTextColor: #212529;
 
 .id-false {
     color: #ff6b6b;
-    top: -32px;
+    top: -20px;
 }
 
 .pw-true {
     color: #00b381;
-    top: 4px;
+    top: -8px;
 }
 
 .pw-false {
     color: #ff6b6b;
-    top: -8px;
+    top: -12px;
 }
 
 .nickname-false {

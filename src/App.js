@@ -37,12 +37,11 @@ function App() {
   (async () => {
     try {
       const authCheck = await auth.tokenCheck();
-      setAuthState(!authCheck);
+      setAuthState(authCheck);
     } catch (error) {
       setAuthState(false);
     }
   })();
-
 
   return (
     authState 
