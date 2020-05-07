@@ -35,7 +35,7 @@ const buildTypedUrlList = (divName) => {
     let numRequestsOutstanding = 0;
   
     chrome.history.search(
-        { text: "", startTime: 0, maxResults: 0 }, 
+        { text: "", startTime: 0, maxResults: 10 }, 
         
         (historyItems) => {
             historyItems.forEach(function(history){
