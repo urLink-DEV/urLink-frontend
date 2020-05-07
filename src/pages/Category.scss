@@ -110,6 +110,7 @@ button {
 .tab-container {
     position: relative;
 }
+
 .default-tab {
     width: 208px;
     height: 52px;
@@ -226,7 +227,7 @@ button {
     color: #868e96;
     background-color: #f1f3f5;
     margin: 0 7px;
-  }
+}
 
 .add-list-enter button {
     width: 37px;
@@ -240,6 +241,7 @@ button {
     line-height: normal;
     letter-spacing: -0.55px;
 }
+
 .add-list-enter .add-true {
     background-color: #2083ff;
     color: #fff;
@@ -262,9 +264,7 @@ button {
     background-color: #fff;
 }
 
-.card-tab-layout header{
-
-}
+.card-tab-layout header {}
 
 .category-title {
     display: inline-block;
@@ -344,7 +344,7 @@ button {
     top: -2px;
 }
 
-.tab-btn-group button{
+.tab-btn-group button {
     background: #fff;
     font-size: 14px;
     font-weight: normal;
@@ -442,7 +442,7 @@ button {
     display: none;
 }
 
-.default-card:hover .card-btn-group{
+.default-card:hover .card-btn-group {
     display: block;
 }
 
@@ -452,7 +452,8 @@ button {
     width: 17px;
     margin: 3px;
 }
-.card-btn-group img{
+
+.card-btn-group img {
     width: 17px;
     height: 17px;
 }
@@ -467,7 +468,7 @@ button {
     justify-content: center;
     align-items: center;
     z-index: 999;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .alert-modal {
@@ -529,7 +530,6 @@ button {
 
 .drawer-tab-layout {
     width: 52px;
-    border: 1px solid #000;
     background-color: #fff;
     position: relative;
 }
@@ -560,7 +560,7 @@ button {
     filter: brightness(10);
 }
 
-.drawer-btn-group img{
+.drawer-btn-group img {
     width: 20px;
     height: 20px;
 }
@@ -603,7 +603,7 @@ button {
 .info-contents p {
     margin: 5px 15px;
 }
-  
+
 .info-contents .name {
     font-size: 14px;
     font-family: 'SpoqaHanSans';
@@ -643,7 +643,7 @@ button {
 .alarm-box::-webkit-scrollbar {
     width: 20px;
 }
- 
+
 .alarm-box::-webkit-scrollbar-track {
     margin: 10px;
 }
@@ -662,9 +662,7 @@ button {
     font-size: 20px;
 }
 
-.alarm-body { 
-
-}
+.alarm-body {}
 
 .alarm-contents {
     display: flex;
@@ -687,7 +685,7 @@ button {
     color: #212529;
 }
 
-.alarm-contents .date{
+.alarm-contents .date {
     margin: 5px 0;
     font-size: 12px;
     font-weight: normal;
