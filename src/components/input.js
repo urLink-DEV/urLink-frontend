@@ -15,6 +15,20 @@ export function IdInput({placeholder}) {
     );
 }
 
+export function NicknameInput({placeholder}) {
+    return (
+      <FormControl variant="outlined" className="form-id">
+          <OutlinedInput 
+              type="text" 
+              variant="outlined" 
+              color="primary" 
+              placeholder={placeholder}
+              className="input-nickname" />
+      </FormControl>
+    );
+}
+
+
 export function PasswordInput({placeholder}) {
     return (
     <FormControl variant="outlined" className="form-password">

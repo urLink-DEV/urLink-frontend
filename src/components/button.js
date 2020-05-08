@@ -5,9 +5,9 @@ import Button from '@material-ui/core/Button';
 import LogoGoogle from '../images/logo-google.png';
 
 
-export function GoogleLoginBtn({text}) {
+export function GoogleLoginBtn({text, onClick}) {
     return (
-        <Button className="btn-GoogleLogin" >
+        <Button className="btn-GoogleLogin" onClick={onClick} >
             <img className="logo-google" alt="URLink" src={LogoGoogle} />
             {text}
         </Button>
@@ -38,19 +38,20 @@ export function TermsBtn({callback}) {
     );
 }
 
-export function SigninupBoxBtn({text}) {
-    return (
-        <Button variant="contained" color="primary" className="btn-SigninupBox">
-          {text}
-        </Button>
-    );
-}
+// export function SigninupBoxBtn({text, onClick}) {
+//     return (
+//         <Button className="btn-SigninupBox" 
+//           variant="contained" color="primary" onClick={onClick}>
+//             {text}
+//         </Button>
+//     );
+// }
 
-export function SigninupText({text}) {
-    return (
-        <Button variant="text" color="primary" className="btn-SigninupText">
-          {text}
-        </Button>
-    );
-}
+// export function SigninupText({text}) {
+//     return (
+//         <Button className="btn-SigninupText" variant="text" color="primary">
+//           {text}
+//         </Button>
+//     );
+// }
 

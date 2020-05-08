@@ -1,26 +1,50 @@
-import React from 'react';
-import {Switch, BrowserRouter, Route} from "react-router-dom";
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
+/* global chrome */
+import React, {useState, useEffect} from 'react';
+import {Link, Router} from "react-chrome-extension-router";
+import Button from '@material-ui/core/Button'
+import CategoryPage from './pages/CategoryPage';
+import SignupContainer from './containers/SignupContainer';
+import LoginContainer from './containers/LoginContainer';
 import './App.scss';
+import Auth from './commons/auth';
 
-function Main() {
+function InitMain() {
   return (
-    <div>
-      hello URLink
-    </div>
-  );
+    <Router>
+    안녕하세요! urLink 계정을 이미 가지고 계시다면,
+      <Link component={LoginContainer}>
+        <Button variant='contained' color='primary'>
+          로그인
+        </Button>
+      </Link>
+
+      처음 회원이시라면,
+      <Link component={SignupContainer}>
+        <Button variant='contained' color='primary'>
+          회원가입
+        </Button>
+      </Link>
+      을 해주세요!
+    </Router>
+  )
 }
 
 function App() {
+
+  const [auth, setAuth] = useState(false);
+
+  useEffect(() => {
+    Auth.tokenCheck()
+      .then(res => {
+        if (res) setAuth(true);
+      })
+      .catch(e => console.log(e))
+  }, []);
+
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path={"/"} component={Main} />
-        <Route exact path={"/login"} component={LoginPage}/>
-        <Route exact path={"/signup"} component={SignupPage}/>
-      </Switch>
-    </BrowserRouter>
+    auth
+      ? <CategoryPage></CategoryPage>
+      : <InitMain></InitMain>
   );
 }
 
