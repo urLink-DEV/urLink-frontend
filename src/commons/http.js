@@ -1,6 +1,8 @@
 import Axios from 'axios';
 import auth from './auth';
-
+import React, {useState} from 'react';
+import SignupPage from '../pages/SignupPage';
+import {goTo} from 'react-chrome-extension-router';
 /**
  * 	* Basic
  * 	* Security scheme type:	HTTP
@@ -34,14 +36,14 @@ const axiosSetting = {
     server: function() {
 		return (this.scheme ? this.scheme + ":" : "") + "//" + this.host + (this.port ? ":" + this.port : "");
 	},
-	redirectPage: function(){
+	redirectPage: () => {
 		window.location.href = "/login";
 	}
 };
 
 const axios = Axios.create({
 	baseURL: axiosSetting.server(),
-	timeout: 2000,
+	timeout: 2000
 });
 
 if(localStorage.getItem('accessToken')) axios.defaults.headers.common['Authorization'] = "JWT " + localStorage.getItem('accessToken');
@@ -70,19 +72,19 @@ axios.interceptors.response.use((response) => {
 			try {
 				const response = await auth.refreshAccessToken(refreshToken);
 				if(!response) {
-					this.redirectPage(); // * "token_not_valid login!!
+					axiosSetting.redirectPage(); // * "token_not_valid login!!
 				}
 				else if(response && localStorage.getItem('accessToken')) {
 					axios.defaults.headers.common['Authorization'] = "JWT " + localStorage.getItem('accessToken');
 					return axios.request(originalRequest);
 				}
 			} catch (error) {
-				this.redirectPage(); // * token_not_valid login!!
+				axiosSetting.redirectPage(); // * token_not_valid login!!
 			}
 		}
 		// * login 필수
-		else if(status=== 401 && response.detail.indexOf("authentication credentials") >- 1){
-			this.redirectPage(); // * no authentication login!!
+		else if(status=== 401 && response.detail.indexOf("authentication credentials") > -1){
+			axiosSetting.redirectPage(); // * no authentication login!!
 		}
 		return Promise.reject(error);
 });

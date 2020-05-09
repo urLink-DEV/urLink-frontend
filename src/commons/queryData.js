@@ -5,7 +5,7 @@ const queryData = {
      * * Authorization: JWT 불필요
      */
     n_register: {
-        sign_up_type: "",
+        sign_up_type: "normal",
         email: "",
         username: "",
         password: ""
