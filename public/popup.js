@@ -28,12 +28,6 @@ const buildPopupDom = (divName, {url, title, visitCount}) => {
 }
 
 const buildTypedUrlList = (divName) => {
-
-    const microsecondsPerWeek = 1000 * 60 * 60 * 24 * 7;
-    const oneWeekAgo = (new Date).getTime() - microsecondsPerWeek;
-
-    let numRequestsOutstanding = 0;
-  
     chrome.history.search(
         { text: "", startTime: 0, maxResults: 10 }, 
         
@@ -43,28 +37,6 @@ const buildTypedUrlList = (divName) => {
             });
         }
     );
-
-    const processVisitsWithUrl = (url) => {
-        return (visitItems) => {
-            processVisits(url, visitItems);
-        };
-    };
-
-    const historyItems = {};
-
-    // * Callback for chrome.history.getVisits().  Counts the number of times a user visited a URL by typing the address.
-    const processVisits = (url, visitItems) => {
-        visitItems.some(function(visit){
-            // * Ignore items unless the user typed the URL.
-            if (visit.transition !== 'typed') return false;
-            historyItems[url] && historyItems[url]++ || 0;
-        });
-    };
-
-    // * This function is called when we have the final list of URls to display.
-    const onAllVisitsProcessed = (historyItems) => {
-        buildPopupDom(divName, historyItems);
-    };
 }
 
 document.addEventListener('DOMContentLoaded', function () {
