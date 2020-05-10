@@ -3,8 +3,10 @@ import React, {useState, useEffect} from 'react';
 import {Link, Router} from "react-chrome-extension-router";
 import Button from '@material-ui/core/Button'
 import CategoryPage from './pages/CategoryPage';
+import CategoryTestPage from './pages/CategoryTestPage';
 import SignupContainer from './containers/SignupContainer';
 import LoginContainer from './containers/LoginContainer';
+import CategoryContainer from './containers/CategoryContainer';
 import './App.scss';
 import Auth from './commons/auth';
 
@@ -27,7 +29,7 @@ function InitMain() {
       을 해주세요!
       <br/>
       로그인을 하시면,
-      <Link component={CategoryPage}>
+      <Link component={CategoryTestPage}>
         <Button variant='contained' color='primary'>
           메인화면
         </Button>
@@ -51,7 +53,18 @@ function App() {
 
   return (
     auth
-      ? <CategoryPage></CategoryPage>
+      ? <Router>
+          <Link component={CategoryPage}>
+            <Button variant='contained' color='primary'>
+            메인화면
+            </Button>
+          </Link>
+          <Link component={CategoryContainer}>
+            <Button variant='contained' color='primary'>
+             수정중
+            </Button>
+          </Link>
+        </Router>
       : <InitMain></InitMain>
   );
 }

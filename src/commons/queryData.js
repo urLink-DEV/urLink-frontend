@@ -59,7 +59,7 @@ const queryData = {
      * * JWT 불필요
      */
     updateToken: {
-        refresh: ""
+        access: ""
     },
 
     /**
