@@ -3,12 +3,15 @@
   "version": "1.0",
   "manifest_version": 2,
   "permissions": [
-    "tabs",
+    "tabs", 
+    "activeTab",
+    "<all_urls>",
     "history",
-    "identity"
+    "storage"
   ],
   "browser_action": {
-    "default_icon": "logo.png"
+    "default_icon": "logo.png",
+    "default_popup": "popup.html"
   },
   "background" : {
     "scripts" : ["background.js"]
