@@ -1,8 +1,5 @@
 import Axios from 'axios';
 import auth from './auth';
-import React, {useState} from 'react';
-import SignupPage from '../pages/SignupPage';
-import {goTo} from 'react-chrome-extension-router';
 /**
  * 	* Basic
  * 	* Security scheme type:	HTTP
@@ -27,6 +24,12 @@ const api = {
 	MEMBER_LOGOUT: "user/sign-out/", // * 로그아웃
 
 	MEMBER: "user/", // * 회원정보 관련
+
+	READ_CATEGORY: "category/", // * 카테고리 리스트 조회
+	WRITE_CATEGORY: "category/", // * 카테고리 등록
+	UPDATE_CATEGORY: "category/", // * 카테고리 수정
+	DELETE_CATEGORY: "category/", // * 카테고리 삭제
+	
 };
 
 const axiosSetting = {
@@ -37,7 +40,7 @@ const axiosSetting = {
 		return (this.scheme ? this.scheme + ":" : "") + "//" + this.host + (this.port ? ":" + this.port : "");
 	},
 	redirectPage: () => {
-		window.location.href = "/login";
+		window.location.href = "/index.html";
 	}
 };
 
