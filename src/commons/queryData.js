@@ -118,6 +118,7 @@ const queryData = {
      * * 카테고리 등록
      * * category/
      * * JWT 필요
+     * !! order가 필요 없으면 delete
      */
     categoryWrite: {
         "name": "",
