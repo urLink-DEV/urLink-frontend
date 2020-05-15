@@ -36,20 +36,3 @@ export function NomalBtn({text, onClick}) {
         </Button>
     );
 }
-
-// export function SigninupBoxBtn({text, onClick}) {
-//     return (
-//         <Button className="btn-SigninupBox" 
-//           variant="contained" color="primary" onClick={onClick}>
-//             {text}
-//         </Button>
-//     );
-// }
-
-// export function SigninupText({text}) {
-//     return (
-//         <Button className="btn-SigninupText" variant="text" color="primary">
-//           {text}
-//         </Button>
-//     );
-// }
