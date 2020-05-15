@@ -70,7 +70,7 @@ const Auth = {
 		if(!token) return false;
 		else{
 			const refreshToken = queryData["updateToken"];
-			refreshToken.refresh = token;
+			refreshToken.access = token;
 
 			// * refresh Token으로 accessToken을 업데이트한다. (UPDATE_TOKEN API)
 			try {
