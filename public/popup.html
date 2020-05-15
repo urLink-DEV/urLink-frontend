@@ -1,9 +1,15 @@
-chrome.browserAction.onClicked.addListener(function(tab) {
-    chrome.tabs.create({ url: chrome.extension.getURL('index.html'), selected: true });
- });
-console.log('queryData', axios.create())
-
-chrome.runtime.onMessage.addListener(
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+  chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
       console.log(sender.tab ?
                   "from a content script:" + sender.tab.url :
@@ -11,3 +17,5 @@ chrome.runtime.onMessage.addListener(
       if (request.greeting == "hello")
         sendResponse({farewell: "goodbye"});
     });
+</script>
+</html>

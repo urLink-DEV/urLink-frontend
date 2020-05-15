@@ -8,10 +8,11 @@
     "identity"
   ],
   "browser_action": {
-    "default_icon": "logo.png"
+    "default_icon": "logo.png",
+    "default_popup": "popup.html"
   },
   "background" : {
-    "scripts" : ["background.js"]
+    "scripts" : ["./commons/Axios.js","./commons/queryData.js","background.js"]
   },
   "oauth2": {
     "client_id": "683415540436-aimi7aksc043mre0pdj2nejtr08fkchs.apps.googleusercontent.com",
