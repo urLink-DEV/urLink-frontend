@@ -5,10 +5,10 @@ const queryData = {
      * * Authorization: JWT 불필요
      */
     n_register: {
-        sign_up_type: "normal",
-        email: "",
-        username: "",
-        password: ""
+        "sign_up_type": "normal",
+        "email": "",
+        "username": "",
+        "password": ""
     },
 
     /**
@@ -16,8 +16,8 @@ const queryData = {
      * * Authorization: JWT 불필요
      */
     n_login: {
-        email: "",
-        password: ""
+        "email": "",
+        "password": ""
     },
 
     /**
@@ -26,7 +26,7 @@ const queryData = {
      * * email, password 불필요
      */
     g_login: {
-        token: "",
+        "token": ""
     },
 
     /**
@@ -35,7 +35,7 @@ const queryData = {
      * * email, password 불필요
      */
     g_register: {
-        token: "",
+        "token": ""
     },
 
     /**
@@ -50,8 +50,8 @@ const queryData = {
      * * JWT 불필요
      */
     getToken: {
-        email: "",
-        password: "",
+        "email": "",
+        "password": ""
     },
 
     /**
@@ -59,7 +59,7 @@ const queryData = {
      * * JWT 불필요
      */
     updateToken: {
-        refresh: ""
+        "refresh": ""
     },
 
     /**
@@ -67,7 +67,7 @@ const queryData = {
      * * JWT 불필요
      */
     checkToken: {
-        token: ""
+        "token": ""
     },
 
     /**
@@ -86,7 +86,7 @@ const queryData = {
         "sign_up_type": "",
         "email": "",
         "username": "",
-        "password": "",
+        "password": ""
     },
 
     /**
@@ -96,7 +96,7 @@ const queryData = {
      */
     userPartialUpdate: {
         "email": "",
-        "username": "",
+        "username": ""
     },
 
     /**
@@ -104,7 +104,47 @@ const queryData = {
      * * user/{id}/
      * * JWT 필요
      */
-    userDelete: {}
+    userDelete: {},
+
+    /**
+     * * 카테고리 리스트 조회
+     * * category/ -> list
+     * * category/{id}/ -> partical
+     * * JWT 필요
+     */
+    categoryRead: {},
+
+    /**
+     * * 카테고리 등록
+     * * category/
+     * * JWT 필요
+     * !! order가 필요 없으면 delete
+     */
+    categoryWrite: {
+        "name": "",
+        "is_favorited": false,
+        "order": 0
+    },
+
+    /**
+     * * 카테고리 수정
+     * * category/{id}/
+     * * JWT 필요
+     * !! order가 필요 없으면 delete
+     */
+    categoryUpdate: {
+        "name": "",
+        "is_favorited": false,
+        "order": 0
+    },
+    
+    /**
+     * * 카테고리 삭제
+     * * category/{id}/
+     * * JWT 필요
+     */
+    categoryDelete: {}
+
 };
 
 export default  queryData;
