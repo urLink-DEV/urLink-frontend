@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -6,12 +6,16 @@ import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Paper from '@material-ui/core/Paper';
+import Input from '@material-ui/core/Input';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { CategoryTab } from '../components/category';
+import CategoryTab from '../components/CategoryTab';
 import '../pages/Category.scss';
 
 const drawerWidth = 240;
@@ -47,18 +51,97 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  listItem: {
+    width: 208,
+    height: 52,
+    borderRadius: 4,
+    padding: 0,
+    marginTop: 10,
+    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#ffffff",
+    '&:hover': {
+      boxShadow: "0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12)"
+    }  
+  },
+  tabButton: {
+    width: 208,
+    height: 52,
+    borderRadius: 4,
+    margin: "10px 0",
+    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#f1f3f5",
+    '&:hover': {
+      backgroundColor: '#f7f7f7'
+    }
+  },
+  enterTab: {
+    width: 208,
+    height: 52,
+    display: 'flex',
+    alignItems: 'center',
+    justifyCntent: "space-around",
+    borderRadius: 4,
+    padding: 8,
+    marginTop: 10,
+    backgroundColor: "#ffffff",
+    boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
+    border: "solid 1px #2083ff",
+  },
+  input: {
+    padding:12,
+    width: 122,
+    height: 28,
+    borderRadius: 4,
+    marginRight: 8,
+    backgroundColor: "#f1f3f5",
+    fontFamily: "AppleSDGothicNeo",
+    fontSize: 14,
+  },
+  okBtn: {
+    width: 37,
+    height: 24,
+    borderRadius: 4,
+    backgroundColor: "#2083ff",
+    padding: 0,
+    minWidth: 0,
+    color: "#fff",
+    fontFamily: "SpoqaHanSans",
+    fontSize: 12,
+    '&:hover': {
+      backgroundColor: '#2083ff'
+    }
+  },
+  cancleBtn: {
+    width: 37,
+    height: 24,
+    borderRadius: 4,
+    padding: 0,
+    minWidth: 0,
+    fontFamily: "SpoqaHanSans",
+    fontSize: 12
+  }
 }));
 
 export default function CategoryDrawer(props) {
-  const { window, categories, favoriteCategories } = props;
-  console.log(window, categories, favoriteCategories)
-  const classes = useStyles();
-  const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const { 
+    window,
+    categories, 
+    defaultCategories,
+    favoriteCategories,
+    getCategory,
+    writeCategory,
+    updateCategory,
+    deleteCategory } = props;
+  console.log(categories, defaultCategories, favoriteCategories)
+  
+  const classes = useStyles()
+  const theme = useTheme()
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
 
   const drawer = (
     <div>
@@ -72,11 +155,9 @@ export default function CategoryDrawer(props) {
           Drag the category here!
         </div>
         <List>
-          {favoriteCategories.map((text, index) => (
-            <ListItem button key={text}>
-              <CategoryTab key={index} text={text}>
-                <ListItemText primary={text} />
-              </CategoryTab>
+          {favoriteCategories.map((data, index) => (
+            <ListItem key={data.id} className={classes.listItem}>
+              <CategoryTab key={data.id} text={data.name} />
             </ListItem>
           ))}
         </List>
@@ -84,14 +165,29 @@ export default function CategoryDrawer(props) {
           Category
         </div>
         <hr />
-      </div>
-      <List>
-        {categories.map((text, index) => (
-          <CategoryTab key={index} text={text}>
-            <ListItemText primary={text} />
-          </CategoryTab>
+        <Button className={classes.tabButton} variant="contained">
+          <AddCircleOutlineIcon style={{color: "#cccccc"}} />
+        </Button>
+        <Button className={classes.tabButton} variant="contained">
+          <DeleteIcon style={{color: "#cccccc"}} />
+        </Button>
+        <Paper component="div" className={classes.enterTab}>
+          <Input
+            disableUnderline={true}
+            className={classes.input}
+            placeholder="New one"
+          />
+            <Button className={classes.okBtn}>확인</Button>
+            <Button className={classes.cancleBtn}>취소</Button>
+        </Paper>
+        <List>
+        {defaultCategories.map((data, index) => (
+          <ListItem key={data.id} className={classes.listItem}>
+            <CategoryTab key={data.id} text={data.name} />
+          </ListItem>
         ))}
-      </List>   
+        </List>   
+      </div>
     </div>
   )
 

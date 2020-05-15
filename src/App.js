@@ -10,6 +10,7 @@ import LoginContainer from './containers/LoginContainer';
 import CategoryContainer from './containers/CategoryContainer';
 import './App.scss';
 import Auth from './commons/auth';
+import CategoryTest from './test/CategoryTest'
 
 function InitMain() {
   return (

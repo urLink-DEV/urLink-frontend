@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Grid from '@material-ui/core/Grid';
 import CategoryDrawer from '../components/CategoryDrawer';
 import CategoryCard from '../components/CategoryCard';
@@ -8,18 +8,31 @@ import './Category.scss';
 export default function CategoryPage(props) {
 
   const {
-    getCategories,
-    getFavoriteCategories,
-    getCategoryUrlInfoList
+    getCategoryUrlInfoList,
+    category,
+    getCategory,
+    writeCategory,
+    updateCategory,
+    deleteCategory
   } = props;
 
-  console.log('categoryPage', getCategories, getFavoriteCategories, getCategoryUrlInfoList)
+  const favoriteCategories = category.filter(data => data.is_favorited === true)
+  const defaultCategories = category.filter(data => data.is_favorited === false)
+  console.log('categoryPage', getCategoryUrlInfoList, category)
+
+  useEffect(() => {
+    getCategory()
+  },[category])
 
   return (
     <div>
       <CategoryDrawer 
-        categories={getCategories}
-        favoriteCategories={getFavoriteCategories}
+        defaultCategories={defaultCategories}
+        favoriteCategories={favoriteCategories}
+        getCategory={getCategory}
+        writeCategory={writeCategory}
+        updateCategory={updateCategory}
+        deleteCategory={deleteCategory}
       >
         <Grid container spacing={2}>
           {getCategoryUrlInfoList.map(urlObj => 
