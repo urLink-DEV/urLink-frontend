@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     padding:12,
     fontFamily: "SpoqaHanSans",
     fontSize: 16,
-  },
+  }
 }))
 
 export default function CategoryTab({text, id}) {
@@ -32,12 +32,13 @@ export default function CategoryTab({text, id}) {
   }
 
   const updateText = (e) => {
-      dispatch.updateCategory(id, value)
+    console.log(id)
       if (e.keyCode === 13) {
+        dispatch.updateCategory(id, value, false )
         setDisabled(!disabled)
+
       }
   }
-  
 
 
   return (

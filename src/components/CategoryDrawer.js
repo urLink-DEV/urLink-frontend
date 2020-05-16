@@ -124,6 +124,9 @@ const useStyles = makeStyles((theme) => ({
     width:210,
     boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
     border: "solid 1px #2083ff",
+  },
+  hidden: {
+    display:"none"
   }
 }));
 
@@ -154,29 +157,34 @@ export default function CategoryDrawer(props) {
   const classes = useStyles()
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [value, setValue] = useState('');
-  const [selectedId, setSelectedId] = useState('');
+  const [value, setValue] = useState('')
+  const [selectedId, setSelectedId] = useState('')
+  const [addOpen, setAddOpen] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false)
+
 
   const handleChange = (e) => {
     setValue(e.target.value);
-  };
-
+  }
   const handleId = (id) => {
     setSelectedId(id);
-  };
-
+  }
   const addTab = () => {
     dispatch.writeCategory(value,1,false)
     setValue('')
   }
-
   const deleteTab = () => {
     dispatch.deleteCategory(selectedId)
   }
-
+  // const toggleAddBtn = () => {
+  //   setAddOpen(!addOpen)
+  // }
+  // const toggleDeleteBtn = () => {
+  //   setDeleteOpen(!deleteOpen)
+  // }
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
-  };
+  }
 
 
   const drawer = (
@@ -227,7 +235,7 @@ export default function CategoryDrawer(props) {
           key={data.id} 
           className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
           onClick={() => handleId(data.id)}>
-            <CategoryTab key={data.id} text={data.name} />
+            <CategoryTab key={data.id} text={data.name} id={data.id} />
           </ListItem>
         ))}
         </List>   
