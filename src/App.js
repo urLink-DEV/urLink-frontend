@@ -7,7 +7,7 @@ import LoginTest from './test/LoginTest';
 import auth from './commons/auth';
 import SignupContainer from './containers/SignupContainer';
 import LoginContainer from './containers/LoginContainer';
-import CategoryContainer from './containers/CategoryContainer';
+import {CategoryContainer} from './containers/CategoryContainer';
 import './App.scss';
 import Auth from './commons/auth';
 import CategoryTest from './test/CategoryTest'

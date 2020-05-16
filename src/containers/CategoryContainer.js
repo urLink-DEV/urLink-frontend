@@ -1,20 +1,88 @@
 /* global chrome */
-import React from 'react';
+import React, { useState, useReducer , createContext , useContext } from 'react';
+import CategoryAPI from '../commons/CategoryAPI';
 import CategoryTestPage from '../pages/CategoryTestPage';
 import {axios, api} from '../commons/http';
 import queryData from '../commons/queryData';
 import Auth from '../commons/auth';
 
-export default function CategoryContainer() {
-  
-  const props = {
-    getCategories,
-    getFavoriteCategories,
-    getCategoryUrlInfoList,
+//context API
+const CategoryStateContext = createContext(null);
+const CategoryDispatchContext = createContext(null);
+
+ //custom HOOK : 다른 컴포넌트에서 쉽게 불러와서 사용할 수 있도록 하기
+export function useCategoryState() {
+    return useContext(CategoryStateContext);
+}
+
+export function useCategoryDispatch() {
+    return useContext(CategoryDispatchContext);
+}
+
+
+export function CategoryContainer({children}) {
+
+  const [categoryState, setcategory] = useState([])
+
+  // * 전체 카테고리 가져오기
+  const getCategory = (id) => {
+    CategoryAPI.get({ id })
+    .then((response) => {
+        setcategory([...response.data])
+    })
+    .catch((error) => console.warn("response" in error ? error.response.data.message : error))
   }
 
-  return <CategoryTestPage {...props} />
+  // * 카테고리 작성
+  const writeCategory = (name, order, isFavorited) => {
+    CategoryAPI.write({ name, order, isFavorited })
+    .then((response) => {
+        setcategory(m => m.concat(response.data))
+    })
+    .catch((error) => console.warn("response" in error ? error.response.data.message : error))
+  }
+
+  // * 카테고리 수정
+  const updateCategory = (id, name, order, isFavorited) => {
+    CategoryAPI.update({ id, name, order, isFavorited })
+    .then(() => {
+        // * 전체 카테고리 가져오기
+        getCategory()
+    })
+    .catch((error) => console.warn("response" in error ? error.response.data.message : error))
+  }
+
+  // * 카테고리 삭제
+  const deleteCategory = (id) => {
+    CategoryAPI.remove({ id })
+    .then((response) => {
+        if (response.status === 204) {
+        getCategory()
+        }
+        else throw new Error("서버 에러")
+    })
+    .catch((error) => console.warn("response" in error ? error.response.data.message : error))
+  }
+
+
+  const categoryDispatch = {
+    getCategory,
+    writeCategory,
+    updateCategory,
+    deleteCategory
+  }
+  return (
+      <CategoryStateContext.Provider value={categoryState}>
+        <CategoryDispatchContext.Provider value={categoryDispatch}>
+          <CategoryTestPage getCategoryUrlInfoList={getCategoryUrlInfoList}>
+            {children}
+          </CategoryTestPage>
+        </CategoryDispatchContext.Provider>
+      </CategoryStateContext.Provider>
+  )
+
 }
+
 
 const getCategories = ['first', 'second', 'youtube']
 const getFavoriteCategories = ['first favor', 'second favor', 'youtube favor']

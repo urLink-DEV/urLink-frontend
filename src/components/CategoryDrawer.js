@@ -17,8 +17,9 @@ import Input from '@material-ui/core/Input';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CategoryTab from '../components/CategoryTab';
 import '../pages/Category.scss';
+import {useCategoryState, useCategoryDispatch} from '../containers/CategoryContainer';
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
   },
   listItem: {
     width: 208,
-    height: 52,
     borderRadius: 4,
     padding: 0,
     marginTop: 10,
@@ -119,24 +119,60 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 0,
     fontFamily: "SpoqaHanSans",
     fontSize: 12
+  },
+  selected: {
+    width:210,
+    boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
+    border: "solid 1px #2083ff",
   }
 }));
 
 export default function CategoryDrawer(props) {
+
+
+  const dispatch = useCategoryDispatch()
+  /*
+  dispatch.getCategory()
+  dispatch.writeCategory(value,1,false)
+  이런식으로 함수 4가지 중에 하나 불러와서 사용 가능
+  */
+
   const { 
-    window,
-    categories, 
+    window, 
     defaultCategories,
     favoriteCategories,
-    getCategory,
-    writeCategory,
-    updateCategory,
-    deleteCategory } = props;
-  console.log(categories, defaultCategories, favoriteCategories)
+  } = props;
+  
+  
+  useEffect(() => {
+    dispatch.getCategory()
+  },[])
+
+
+  console.log(defaultCategories, favoriteCategories)
   
   const classes = useStyles()
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [value, setValue] = useState('');
+  const [selectedId, setSelectedId] = useState('');
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  const handleId = (id) => {
+    setSelectedId(id);
+  };
+
+  const addTab = () => {
+    dispatch.writeCategory(value,1,false)
+    setValue('')
+  }
+
+  const deleteTab = () => {
+    dispatch.deleteCategory(selectedId)
+  }
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -156,8 +192,11 @@ export default function CategoryDrawer(props) {
         </div>
         <List>
           {favoriteCategories.map((data, index) => (
-            <ListItem key={data.id} className={classes.listItem}>
-              <CategoryTab key={data.id} text={data.name} />
+            <ListItem 
+            key={data.id} 
+            className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
+            onClick={() => handleId(data.id)}>
+              <CategoryTab key={data.id} text={data.name} id={data.id}/>
             </ListItem>
           ))}
         </List>
@@ -168,7 +207,7 @@ export default function CategoryDrawer(props) {
         <Button className={classes.tabButton} variant="contained">
           <AddCircleOutlineIcon style={{color: "#cccccc"}} />
         </Button>
-        <Button className={classes.tabButton} variant="contained">
+        <Button className={classes.tabButton} variant="contained" onClick={deleteTab}>
           <DeleteIcon style={{color: "#cccccc"}} />
         </Button>
         <Paper component="div" className={classes.enterTab}>
@@ -176,13 +215,18 @@ export default function CategoryDrawer(props) {
             disableUnderline={true}
             className={classes.input}
             placeholder="New one"
+            value={value}
+            onChange={handleChange}
           />
-            <Button className={classes.okBtn}>확인</Button>
+            <Button className={classes.okBtn} onClick={addTab}>확인</Button>
             <Button className={classes.cancleBtn}>취소</Button>
         </Paper>
         <List>
         {defaultCategories.map((data, index) => (
-          <ListItem key={data.id} className={classes.listItem}>
+          <ListItem 
+          key={data.id} 
+          className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
+          onClick={() => handleId(data.id)}>
             <CategoryTab key={data.id} text={data.name} />
           </ListItem>
         ))}

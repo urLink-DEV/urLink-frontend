@@ -47,7 +47,7 @@ button {
 
 .list-tab-layout {
     width: 240px;
-    padding-left: 16px;
+    padding: 0 16px;
     background-color: #fff;
 }
 
@@ -252,6 +252,9 @@ button {
     color: #737b84;
 }
 
+.MuiInputBase-input.Mui-disabled {
+    color: #212529;
+}
 
 
 
