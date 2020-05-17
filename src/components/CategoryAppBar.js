@@ -13,8 +13,15 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     height: '100vh',
   },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    backgroundColor: '#fff',
+    position: 'absolute',
+    right: 0,
+    height: '100vh',
+    boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.1)',
+  },
   drawer: {
-    width: '52px',
     backgroundColor: '#fff',
     position: 'absolute',
     right: 0,
@@ -28,16 +35,22 @@ const useStyles = makeStyles(theme => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
+  drawerOpenSpace: {
+    width: '100%',
+    height: '100vh'
+  },
   drawerClose: {
     width: 30,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    backgroundColor: '#fff',
+    position: 'absolute',
+    right: 0,
+    height: '100vh',
+    boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.1)',
     overflowX: 'hidden',
-  },
-  appBar: {
-    
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -51,10 +64,18 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  '@global': {
+    '.MuiDrawer-paperAnchorDockedRight': {
+      position: 'relative',
+      width: '100%',
+      height: '100vh',
+    }
+  }
 }))
 
 export default function CategoryAppBar(props) {
 
+  const {children} = props
   const classes = useStyles()
   const [open, setOpen] = useState(false)
   const onClickHistoryDrawer = () => {
@@ -62,26 +83,37 @@ export default function CategoryAppBar(props) {
   }
 
   return (
-    <Drawer className={clsx(classes.drawer, {
-      [classes.drawerOpen]: open,
-      [classes.drawerClose]: !open,
-    })}
-      variant="permanent"
-      anchor="right"
-      open={open}
-      onClose={onClickHistoryDrawer}
-    >
-      <div className="drawer-btn-group">
-        <button onClick={onClickHistoryDrawer}>
-          <img src={history} alt="history button" />
-        </button>
-        <button>
-          <img src={alarm} alt="alarm button" />
-        </button>
-        <button>
-          <img src={person} alt="person button" />
-        </button>
+    <div>
+      <div className={classes.appBar}>
+        <div className="drawer-btn-group">
+          <button onClick={onClickHistoryDrawer}>
+            <img src={history} alt="history button" />
+          </button>
+          <button>
+            <img src={alarm} alt="alarm button" />
+          </button>
+          <button>
+            <img src={person} alt="person button" />
+          </button>
+        </div>
       </div>
-    </Drawer>
+      <Drawer className={clsx(classes.drawer, {
+        [classes.drawerOpen]: open,
+        [classes.drawerClose]: !open,
+      })}
+        variant="permanent"
+        anchor="right"
+        open={open}
+        onClose={onClickHistoryDrawer}
+      >
+        {
+          open ?
+            <div className={classes.drawerOpenSpace}>
+              {children}
+            </div> : null
+        }
+      </Drawer>
+    </div>
+    
   )
 }

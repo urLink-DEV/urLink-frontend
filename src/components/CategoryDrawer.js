@@ -83,8 +83,6 @@ export default function CategoryDrawer(props) {
     </div>
   )
 
-  const container = window !== undefined ? () => window().document.body : undefined;
-
   return (
     <div className={classes.root}>
       <nav className={classes.drawer} aria-label="mailbox folders">

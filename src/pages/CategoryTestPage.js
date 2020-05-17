@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid'
 import CategoryAppBar from '../components/CategoryAppBar'
 import CategoryDrawer from '../components/CategoryDrawer'
 import CategoryCard from '../components/CategoryCard'
+import HistoryContainer from '../containers/HistoryContainer'
 import './Category.scss'
 
 
@@ -18,7 +19,9 @@ export default function CategoryPage(props) {
 
   return (
     <CategoryDrawer
-      appBar={<CategoryAppBar>helllo</CategoryAppBar>}
+      appBar={<CategoryAppBar>
+        <HistoryContainer />
+      </CategoryAppBar>}
       categories={getCategories}
       favoriteCategories={getFavoriteCategories}
     >
