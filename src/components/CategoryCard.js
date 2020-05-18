@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     maxWidth: 345,
   },
   cardContent: {
-    maxHeight: 130,
+    height: 130,
   },
   cardActions: {
     padding: 5
