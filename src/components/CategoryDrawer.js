@@ -148,7 +148,7 @@ const useStyles = makeStyles((theme) => ({
   selected: {
     width:210,
     boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
-    border: "solid 1px #2083ff",
+    border: "solid 1px #2083ff"
   }
 }));
 
@@ -264,7 +264,7 @@ export default function CategoryDrawer(props) {
             className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
             onClick={() => toggleAddBtn(data.id)}
             >
-              <CategoryTab key={data.id} text={data.name} id={data.id} />
+              <CategoryTab key={data.id} text={data.name} id={data.id} selected={(data.id === selectedId)} />
             </ListItem>
           ))}
         </List>
@@ -307,7 +307,7 @@ export default function CategoryDrawer(props) {
           className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
           onClick={() => toggleAddBtn(data.id)} 
           >
-            <CategoryTab key={data.id} text={data.name} id={data.id} />
+            <CategoryTab key={data.id} text={data.name} id={data.id} selected={(data.id === selectedId)} />
           </ListItem>
         ))}
         </List>
