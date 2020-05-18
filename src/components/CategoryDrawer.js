@@ -178,7 +178,6 @@ export default function CategoryDrawer(props) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [enterOpen, setEnterOpen] = useState(false)
 
-
   const handleChange = (e) => {
     setValue(e.target.value);
   }
@@ -195,7 +194,8 @@ export default function CategoryDrawer(props) {
     setEnterOpen(false)
   }
 
-  const openDeleteModal = () => {
+  const openDeleteModal = (e) => {
+    setDeleteOpen(true)
     setDeleteModalOpen(true)
   }
 
@@ -222,20 +222,34 @@ export default function CategoryDrawer(props) {
     setEnterOpen(true)
   }
 
-  const focusOut = (id) => {
-      setDeleteOpen(false)
-      setAddOpen(true)
-  }
+  const wrapperRef = useRef(null);
 
 
   useEffect(() => {
     dispatch.getCategory()
-  },[])
+
+    
+    //change add&delete button state if clicked on outside of element
+    function handleClickOutside(event) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setAddOpen(true)
+        setDeleteOpen(false)
+        console.log(wrapperRef.current, event.target)
+      } 
+    }
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+
+  },[wrapperRef])
 
 
   const drawer = (
     <div>
-      <div className="list-tab-layout">
+      <div className="list-tab-layout" ref={wrapperRef}>
         <div className="favorite-text">
           Favorite
         </div>
@@ -247,10 +261,8 @@ export default function CategoryDrawer(props) {
           {favoriteCategories.map((data, index) => (
             <ListItem 
             key={data.id} 
-            tabIndex={(data.id === selectedId ? 0 : -1)}
             className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
             onClick={() => toggleAddBtn(data.id)}
-            onBlur={() => focusOut(data.id)}
             >
               <CategoryTab key={data.id} text={data.name} id={data.id} />
             </ListItem>
@@ -292,10 +304,8 @@ export default function CategoryDrawer(props) {
         {defaultCategories.map((data, index) => (
           <ListItem 
           key={data.id} 
-          tabIndex={(data.id === selectedId ? 0 : -1)} 
           className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
           onClick={() => toggleAddBtn(data.id)} 
-          onBlur={() => focusOut(data.id)}
           >
             <CategoryTab key={data.id} text={data.name} id={data.id} />
           </ListItem>
