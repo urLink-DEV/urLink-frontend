@@ -3,27 +3,28 @@ import Grid from '@material-ui/core/Grid'
 import CategoryAppBar from '../components/CategoryAppBar'
 import CategoryDrawer from '../components/CategoryDrawer'
 import CategoryCard from '../components/CategoryCard'
+import {useCategoryState} from '../containers/CategoryContainer';
 import HistoryContainer from '../containers/HistoryContainer'
 import './Category.scss'
 
+export default function CategoryPage({getCategoryUrlInfoList}) {
 
-export default function CategoryPage(props) {
-
-  const {
-    getCategories,
-    getFavoriteCategories,
-    getCategoryUrlInfoList,
-  } = props
-
-  console.log('categoryPage', getCategories, getFavoriteCategories, getCategoryUrlInfoList)
+  const categories = useCategoryState()
+  const favoriteCategories = categories.filter(data => data.is_favorited === true)
+  const defaultCategories = categories.filter(data => data.is_favorited === false)
+  // const {
+  //   getCategories,
+  //   getFavoriteCategories,
+  //   getCategoryUrlInfoList,
+  // } = props
 
   return (
     <CategoryDrawer
       appBar={<CategoryAppBar>
         <HistoryContainer />
       </CategoryAppBar>}
-      categories={getCategories}
-      favoriteCategories={getFavoriteCategories}
+      defaultCategories={defaultCategories}
+      favoriteCategories={favoriteCategories}
     >
       <Grid container spacing={2}>
         {getCategoryUrlInfoList.map(urlObj => 
@@ -34,8 +35,4 @@ export default function CategoryPage(props) {
       </Grid>
     </CategoryDrawer>
   )
-} 
-
-
-
-
+}

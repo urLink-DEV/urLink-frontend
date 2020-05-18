@@ -14,28 +14,25 @@ export function GoogleLoginBtn({text, onClick}) {
     );
 }
 
-export function AgreeBtn() {
-    const [bool, setBool] = React.useState(false);
-    const changeBool = () => {
-        setBool(prevBool => !prevBool);
-    };
-
-  return (
-    <FormControlLabel 
-        value="이메일 수신 동의" 
-        label="이메일 수신 동의" 
-        className="text-agree"
-        control={<Radio color="primary" checked={bool} onClick={changeBool} />}
-        />
-  );
-}
-
-export function TermsBtn({callback}) {
+export function OneRadioBtn({text, checked, onClick}) {
+    // const [bool, setBool] = React.useState(false);
+    // const changeBool = () => {
+    //     setBool(prevBool => !prevBool);
+    // };
     return (
-        <Button variant="outlined" color="primary" onClick={callback}>
-          약관보기
-        </Button>
+        <FormControlLabel
+            value={text}
+            label={text}
+            className="text-agree"
+            control={<Radio color="primary" checked={checked} onClick={onClick} />}
+        />
     );
 }
 
-
+export function NomalBtn({text, onClick}) {
+    return (
+        <Button variant="outlined" color="primary" onClick={onClick}>
+          {text}
+        </Button>
+    );
+}

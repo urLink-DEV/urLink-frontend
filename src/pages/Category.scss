@@ -47,8 +47,7 @@ button {
 
 .list-tab-layout {
     width: 240px;
-    padding-top: 72px;
-    padding-left: 16px;
+    padding: 0 16px;
     background-color: #fff;
 }
 
@@ -78,19 +77,19 @@ button {
 
 .drag-box {
     width: 212px;
-    height: 24px;
+    height: 52px;
     border-radius: 4px;
     border: dashed 1px #ced4da;
     background-color: #f8f9fa;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 300;
     font-stretch: normal;
     font-style: normal;
-    line-height: normal;
+    line-height: 50px;
     letter-spacing: normal;
     text-align: center;
-    color: $mainGrayColor;
-    margin: 16px 0;
+    color: #868e96;
+    margin: 10px 0;
 }
 
 .category-text {
@@ -98,6 +97,7 @@ button {
     height: 18px;
     font-family: 'SpoqaHanSans';
     font-size: 12px;
+    margin-top: 30px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -252,6 +252,9 @@ button {
     color: #737b84;
 }
 
+.MuiInputBase-input.Mui-disabled {
+    color: #212529;
+}
 
 
 

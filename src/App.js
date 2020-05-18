@@ -3,11 +3,14 @@ import React, {useState, useEffect} from 'react';
 import {Link, Router} from "react-chrome-extension-router";
 import Button from '@material-ui/core/Button'
 import CategoryPage from './pages/CategoryPage';
+import LoginTest from './test/LoginTest';
+import auth from './commons/auth';
 import SignupContainer from './containers/SignupContainer';
 import LoginContainer from './containers/LoginContainer';
-import CategoryContainer from './containers/CategoryContainer';
+import {CategoryContainer} from './containers/CategoryContainer';
 import './App.scss';
 import Auth from './commons/auth';
+import CategoryTest from './test/CategoryTest'
 
 function InitMain() {
   return (
