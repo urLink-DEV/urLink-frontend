@@ -253,10 +253,40 @@ button {
 }
 
 .MuiInputBase-input.Mui-disabled {
+    font-family: "SpoqaHanSans";
     color: #212529;
 }
 
+.MuiInputBase-root.Mui-disabled.selected input {
+    color: #2083ff !important;
+    font-weight: bold;
+}
 
+.MuiDialog-paperWidthSm {
+    width: 340px;
+    height: 216px;
+}
+
+.MuiDialogContentText-root {
+    margin-bottom: 12px;
+    font-family: "AppleSDGothicNeo";
+    font-size: 14px;
+    color: #212529;
+}
+
+.MuiDialogContent-root:first-child {
+    padding: 60px 30px;
+    overflow-y: hidden;
+}
+
+.MuiDialogActions-root {
+    flex: 0 0 auto;
+    display: flex;
+    padding: 8px;
+    align-items: center;
+    justify-content: space-around;
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
 
 /* category card */
 

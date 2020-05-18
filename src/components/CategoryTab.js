@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import Input from '@material-ui/core/Input';
+import InputBase from '@material-ui/core/Input';
 import {useCategoryDispatch} from '../containers/CategoryContainer';
 
 
@@ -14,10 +14,15 @@ const useStyles = makeStyles((theme) => ({
     padding:12,
     fontFamily: "SpoqaHanSans",
     fontSize: 16,
+  },
+  selected : {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#2083ff'
   }
 }))
 
-export default function CategoryTab({text, id}) {
+export default function CategoryTab({text, id, selected}) {
   const classes = useStyles()
   const dispatch = useCategoryDispatch()
   const [value, setValue] = useState(text);
@@ -44,9 +49,9 @@ export default function CategoryTab({text, id}) {
         component="div" 
         className={classes.root} 
       >
-        <Input
+        <InputBase 
           disableUnderline={true}
-          className={classes.input}
+          className={classes.input + (selected ? ' selected': '')}
           disabled={disabled}
           onDoubleClick={onDoubleClick}
           value={value}
