@@ -41,20 +41,26 @@ export function TermsModal({ openBool, onClose, onClick }) {
   );
 }
 
-
-export function AlertModal({text, btnLeft, btnRight, delModal, toggleDeleteModal}) {
-
+export function AlertModal({ btnText, modalText, openBool, onClose, onClickOk }) {
     return (
-        <div className={"back-black " + (delModal ? 'show' : '')}>    
-          <div className="alert-modal">
-            <div className="alert-btn-text">
-                {text}
-            </div>
-            <div className="alert-btn-group">
-              <button type="button" onClick={toggleDeleteModal}>{btnLeft}</button>
-              <button type="button"  onClick={toggleDeleteModal}>{btnRight}</button>
-            </div>
-          </div>
-        </div>
-    );
+        <Dialog
+        open={openBool}
+        onClose={onClose}
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {modalText}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose} color="primary">
+            취소
+          </Button>
+          <Button onClick={onClickOk} color="primary" autoFocus>
+            {btnText}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    )
 }

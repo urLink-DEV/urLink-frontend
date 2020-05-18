@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -14,6 +14,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Paper from '@material-ui/core/Paper';
 import Input from '@material-ui/core/Input';
+import {AlertModal} from '../components/modal';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CategoryTab from '../components/CategoryTab';
 import '../pages/Category.scss';
@@ -64,7 +65,20 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: "0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12)"
     }  
   },
-  tabButton: {
+  addButton: {
+    width: 208,
+    height: 52,
+    display: 'block',
+    borderRadius: 4,
+    margin: "10px 0",
+    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#f1f3f5",
+    '&:hover': {
+      backgroundColor: '#f7f7f7'
+    }
+  },
+  deleteButton: {
+    display: 'none',
     width: 208,
     height: 52,
     borderRadius: 4,
@@ -78,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
   enterTab: {
     width: 208,
     height: 52,
-    display: 'flex',
+    display: 'none',
     alignItems: 'center',
     justifyCntent: "space-around",
     borderRadius: 4,
@@ -87,6 +101,15 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#ffffff",
     boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
     border: "solid 1px #2083ff",
+  },
+  flex: {
+    display: 'flex'
+  },
+  block: {
+    display: 'block'
+  },
+  hidden: {
+    display: 'none'
   },
   input: {
     padding:12,
@@ -125,9 +148,6 @@ const useStyles = makeStyles((theme) => ({
     width:210,
     boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
     border: "solid 1px #2083ff",
-  },
-  hidden: {
-    display:"none"
   }
 }));
 
@@ -142,48 +162,72 @@ export default function CategoryDrawer(props) {
   */
 
   const { 
-    window, 
     defaultCategories,
     favoriteCategories,
   } = props;
   
-  
-  useEffect(() => {
-    dispatch.getCategory()
-  },[])
-
 
   console.log(defaultCategories, favoriteCategories)
   
   const classes = useStyles()
-  const theme = useTheme()
-  const [mobileOpen, setMobileOpen] = useState(false)
   const [value, setValue] = useState('')
   const [selectedId, setSelectedId] = useState('')
-  const [addOpen, setAddOpen] = useState(false)
+  const [addOpen, setAddOpen] = useState(true)
   const [deleteOpen, setDeleteOpen] = useState(false)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [enterOpen, setEnterOpen] = useState(false)
 
 
   const handleChange = (e) => {
     setValue(e.target.value);
   }
-  const handleId = (id) => {
-    setSelectedId(id);
-  }
+
   const addTab = () => {
     dispatch.writeCategory(value,1,false)
     setValue('')
+    setAddOpen(true)
+    setEnterOpen(false)
   }
+  
+  const cancleAddTab = () => {
+    setAddOpen(true)
+    setEnterOpen(false)
+  }
+
+  const openDeleteModal = () => {
+    setDeleteModalOpen(true)
+  }
+
+  const closeDeleteModal = () => {
+    setDeleteModalOpen(false)
+    setDeleteOpen(false)
+    setAddOpen(true)
+  }
+  
   const deleteTab = () => {
     dispatch.deleteCategory(selectedId)
+    setDeleteModalOpen(false)
+    setDeleteOpen(false)
+    setAddOpen(true)
   }
-  // const toggleAddBtn = () => {
-  //   setAddOpen(!addOpen)
-  // }
-  // const toggleDeleteBtn = () => {
-  //   setDeleteOpen(!deleteOpen)
-  // }
-  
+  const toggleAddBtn = (id) => {
+    setAddOpen(false)
+    setDeleteOpen(true)
+    setSelectedId(id);
+    console.log(document.activeElement)
+  }
+
+  const toggleEnterTab = () => {
+    setAddOpen(false)
+    setEnterOpen(true)
+  }
+
+
+  useEffect(() => {
+    dispatch.getCategory()
+  },[])
+
+
   const drawer = (
     <div>
       <div className="list-tab-layout">
@@ -199,8 +243,8 @@ export default function CategoryDrawer(props) {
             <ListItem 
             key={data.id} 
             className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
-            onClick={() => handleId(data.id)}>
-              <CategoryTab key={data.id} text={data.name} id={data.id}/>
+            onClick={() => toggleAddBtn(data.id)}>
+              <CategoryTab key={data.id} text={data.name} id={data.id} />
             </ListItem>
           ))}
         </List>
@@ -208,13 +252,24 @@ export default function CategoryDrawer(props) {
           Category
         </div>
         <hr />
-        <Button className={classes.tabButton} variant="contained">
+        <Button 
+          className={classes.addButton + (addOpen ? '' : ' '+classes.hidden)} 
+          variant="contained"
+          onClick={toggleEnterTab}
+        >
           <AddCircleOutlineIcon style={{color: "#cccccc"}} />
         </Button>
-        <Button className={classes.tabButton} variant="contained" onClick={deleteTab}>
+        <Button 
+          className={classes.deleteButton + (deleteOpen ? ' '+classes.block : '')} 
+          variant="contained" 
+          onClick={openDeleteModal}
+        >
           <DeleteIcon style={{color: "#cccccc"}} />
         </Button>
-        <Paper component="div" className={classes.enterTab}>
+        <Paper 
+          component="div" 
+          className={classes.enterTab + (enterOpen ? ' '+classes.flex : '')}
+        >
           <Input
             disableUnderline={true}
             className={classes.input}
@@ -223,19 +278,26 @@ export default function CategoryDrawer(props) {
             onChange={handleChange}
           />
             <Button className={classes.okBtn} onClick={addTab}>확인</Button>
-            <Button className={classes.cancleBtn}>취소</Button>
+            <Button className={classes.cancleBtn} onClick={cancleAddTab}>취소</Button>
         </Paper>
         <List>
         {defaultCategories.map((data, index) => (
           <ListItem 
           key={data.id} 
           className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
-          onClick={() => handleId(data.id)}>
+          onClick={() => toggleAddBtn(data.id)}>
             <CategoryTab key={data.id} text={data.name} id={data.id} />
           </ListItem>
         ))}
-        </List>   
+        </List>
       </div>
+
+      <AlertModal 
+        btnText = '삭제'
+        modalText = '카테고리를 삭제하면 안에 저장된 모든 탭이 삭제 됩니다. 그래도 삭제 하시겠습니까?'
+        openBool = {deleteModalOpen} 
+        onClose = {closeDeleteModal}
+        onClickOk = {deleteTab} />
     </div>
   )
 

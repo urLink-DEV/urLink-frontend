@@ -71,6 +71,7 @@ export function CategoryContainer({children}) {
     updateCategory,
     deleteCategory
   }
+  
   return (
       <CategoryStateContext.Provider value={categoryState}>
         <CategoryDispatchContext.Provider value={categoryDispatch}>

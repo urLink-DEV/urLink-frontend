@@ -40,7 +40,6 @@ export default function CategoryTab({text, id}) {
       }
   }
 
-
   return (
     <div>
       <Paper 
