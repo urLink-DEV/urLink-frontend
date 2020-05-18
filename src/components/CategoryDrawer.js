@@ -63,7 +63,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#ffffff",
     '&:hover': {
       boxShadow: "0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12)"
-    }  
+    },
+    outline: 'none'
   },
   addButton: {
     width: 208,
@@ -213,13 +214,17 @@ export default function CategoryDrawer(props) {
   const toggleAddBtn = (id) => {
     setAddOpen(false)
     setDeleteOpen(true)
-    setSelectedId(id);
-    console.log(document.activeElement)
+    setSelectedId(id)
   }
 
   const toggleEnterTab = () => {
     setAddOpen(false)
     setEnterOpen(true)
+  }
+
+  const focusOut = (id) => {
+      setDeleteOpen(false)
+      setAddOpen(true)
   }
 
 
@@ -242,8 +247,11 @@ export default function CategoryDrawer(props) {
           {favoriteCategories.map((data, index) => (
             <ListItem 
             key={data.id} 
+            tabIndex={(data.id === selectedId ? 0 : -1)}
             className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
-            onClick={() => toggleAddBtn(data.id)}>
+            onClick={() => toggleAddBtn(data.id)}
+            onBlur={() => focusOut(data.id)}
+            >
               <CategoryTab key={data.id} text={data.name} id={data.id} />
             </ListItem>
           ))}
@@ -284,8 +292,11 @@ export default function CategoryDrawer(props) {
         {defaultCategories.map((data, index) => (
           <ListItem 
           key={data.id} 
+          tabIndex={(data.id === selectedId ? 0 : -1)} 
           className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
-          onClick={() => toggleAddBtn(data.id)}>
+          onClick={() => toggleAddBtn(data.id)} 
+          onBlur={() => focusOut(data.id)}
+          >
             <CategoryTab key={data.id} text={data.name} id={data.id} />
           </ListItem>
         ))}

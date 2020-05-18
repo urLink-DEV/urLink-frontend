@@ -32,11 +32,9 @@ export default function CategoryTab({text, id}) {
   }
 
   const updateText = (e) => {
-    console.log(id)
       if (e.keyCode === 13) {
         dispatch.updateCategory(id, value, false )
         setDisabled(!disabled)
-
       }
   }
 
