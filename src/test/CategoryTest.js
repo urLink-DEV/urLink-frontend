@@ -44,13 +44,13 @@ export default function CategoryTest() {
       .catch((error) => console.warn("response" in error ? error.response.data.message : error))
   }
 
-  useEffect(() => {
-    // getCategory()
-    // writeCategory("react hi~",1)
-    // updateCategory(8,"update~",1)
-    // deleteCategory(31)
+  // useEffect(() => {
+  //   getCategory();
+  //   writeCategory("insta",1,true)
+  //   updateCategory(8,"update~",1)
+  //   deleteCategory(53)
 
-  }, []);
+  // }, []);
 
   return (
     <div>

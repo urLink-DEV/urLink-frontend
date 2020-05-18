@@ -38,5 +38,23 @@ export function TermsModal({ openBool, onClose, onClick }) {
                 </Button>
             </DialogActions>
         </Dialog>
+  );
+}
+
+
+export function AlertModal({text, btnLeft, btnRight, delModal, toggleDeleteModal}) {
+
+    return (
+        <div className={"back-black " + (delModal ? 'show' : '')}>    
+          <div className="alert-modal">
+            <div className="alert-btn-text">
+                {text}
+            </div>
+            <div className="alert-btn-group">
+              <button type="button" onClick={toggleDeleteModal}>{btnLeft}</button>
+              <button type="button"  onClick={toggleDeleteModal}>{btnRight}</button>
+            </div>
+          </div>
+        </div>
     );
-};
+}
