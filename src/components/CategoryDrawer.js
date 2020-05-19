@@ -1,15 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
-import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Paper from '@material-ui/core/Paper';
@@ -17,7 +10,7 @@ import Input from '@material-ui/core/Input';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CategoryTab from '../components/CategoryTab';
 import '../pages/Category.scss';
-import {useCategoryState, useCategoryDispatch} from '../containers/CategoryContainer';
+import {useCategoryDispatch} from '../containers/CategoryContainer';
 
 const drawerWidth = 260;
 
