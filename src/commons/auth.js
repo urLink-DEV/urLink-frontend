@@ -8,7 +8,6 @@ const Auth = {
 	 */
 	tokenCheck: async function(){
 		const accessToken = localStorage.getItem('accessToken') || ""
-		const refreshToken = localStorage.getItem('refreshToken') || ""
 
 		if(!accessToken) return false
 		else {
@@ -22,14 +21,14 @@ const Auth = {
 				return true
 			}
 			catch (error) {
-				if (!refreshToken) return false
-				else this.refreshAccessToken(refreshToken)
+				return false
 			}
 		}
 	},
 	
 	/**
 	 * * if false return, You Should be redirect page, and remove AccessToken in the localStorage
+	 * @deprecated
 	 * @return {Promise}
 	 */
 	refreshAccessToken: async function(token){
@@ -37,10 +36,10 @@ const Auth = {
 		else {
 			// * refresh Token으로 accessToken을 업데이트한다. (UPDATE_TOKEN API)
 			try {
-				const refreshToken = queryData["updateToken"]
-				refreshToken.refresh = token
+				const updateToken = queryData["updateToken"]
+				updateToken.refresh = token
 
-				const response = await axios.post(api.UPDATE_TOKEN, refreshToken)
+				const response = await axios.post(api.UPDATE_TOKEN, updateToken)
 				this.setAccessToken(response.data) // * 만료되지 않은 경우, token header 부여
 				return true
 			}
@@ -53,6 +52,10 @@ const Auth = {
 
 	getAccessToken: function () {
 		return localStorage.getItem('accessToken') || ""
+	},
+	
+	getRefreshToken: function () {
+		return localStorage.getItem('refreshToken') || ""
 	},
 
 	setAccessToken: function (token) {
