@@ -1,7 +1,7 @@
-import { axios, api } from './http'
-import queryData from './queryData'
+import { axios, api } from '../http'
+import queryData from '../queryData'
 
-const Auth = {
+const auth = {
 	/**
 	 * * if false return, You Should be redirect page
 	 * @return {Promise}
@@ -72,4 +72,4 @@ const Auth = {
 	}
 }
 
-export default Auth
+export default auth
