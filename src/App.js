@@ -7,8 +7,10 @@ import LoginTest from './test/LoginTest';
 import auth from './commons/auth';
 import SignupContainer from './containers/SignupContainer';
 import LoginContainer from './containers/LoginContainer';
+import {CategoryContainer} from './containers/CategoryContainer';
 import './App.scss';
 import Auth from './commons/auth';
+import CategoryTest from './test/CategoryTest'
 
 function InitMain() {
   return (
@@ -27,6 +29,14 @@ function InitMain() {
         </Button>
       </Link>
       을 해주세요!
+      <br/>
+      로그인을 하시면,
+      <Link component={CategoryContainer}>
+        <Button variant='contained' color='primary'>
+          메인화면
+        </Button>
+      </Link>
+      으로 이동됩니다!
     </Router>
   )
 }
@@ -45,7 +55,18 @@ function App() {
 
   return (
     auth
-      ? <CategoryPage></CategoryPage>
+      ? <Router>
+          <Link component={CategoryPage}>
+            <Button variant='contained' color='primary'>
+            메인화면
+            </Button>
+          </Link>
+          <Link component={CategoryContainer}>
+            <Button variant='contained' color='primary'>
+             수정중
+            </Button>
+          </Link>
+        </Router>
       : <InitMain></InitMain>
   );
 }

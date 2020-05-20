@@ -6,6 +6,7 @@
     "tabs", 
     "activeTab",
     "<all_urls>",
+    "identity",
     "history",
     "storage"
   ],
