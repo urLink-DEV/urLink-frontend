@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import auth from './auth'
+import auth from './apis/auth'
 import queryData from './queryData'
 
 /**
