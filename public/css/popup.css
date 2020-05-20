@@ -1,0 +1,173 @@
+/* popup body */
+body{
+  margin: 0px;
+  padding: 0px;
+}
+.popup-body {
+  width: 260px;
+  height: 410px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12);
+  background-color: #ffffff;
+}
+
+::-webkit-scrollbar { display: none; }
+
+/* category */
+.category {
+  overflow: auto;
+  width: 260px;
+  height: 234px;
+  background-color: #fafafa;
+}
+
+.category .category-card {
+  display: block;
+  margin: 16px 26px;
+  width: 208px;
+  height: 52px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+.category .category-card .category-card-text {
+  display: inline-block;
+  padding: 12px 14px;
+
+  width: 43px;
+  height: 24px;
+  font-family: SpoqaHanSans;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: var(--maintext);
+}
+
+.category .category-card .tab-text {
+  display: inline-block;
+  position: relative;
+  left: 80px;
+
+  width: 35px;
+  height: 18px;
+  font-family: SpoqaHanSans;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: var(--blue-grey);
+}
+
+a.category-card.check {
+  width: 208px;
+  height: 52px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  border: solid 1px var(--maincolor);
+  background-color: #ffffff;
+}
+
+a.category-card.check .category-card-text {
+  width: 47px;
+  height: 24px;
+  font-family: SpoqaHanSans;
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: var(--maincolor);
+}
+
+a.category-card:hover {
+  width: 208px;
+  height: 52px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12);
+  background-color: #ffffff;
+}
+
+a.category-card.check:hover {
+    width: 208px;
+    height: 52px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12);
+    border: solid 1px var(--maincolor);
+    background-color: #ffffff;
+}
+
+/* tab save Btn */
+.tab-save-btn {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  margin: 12px;
+  width: 228px;
+  height: 40px;
+  border-radius: 1.8px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+.tab-save-btn .tab-save-btn-text{
+  width: 102px;
+  height: 14px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.58px;
+  text-align: center;
+  color: var(--maintext);
+}
+
+/* urlLink open */
+.urlLink-open-btn {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  
+  margin: 12px;
+  width: 228px;
+  height: 40px;
+  border-radius: 1.8px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+  background-color: var(--maincolor);
+}
+
+.urlLink-open-btn .urlLink-open-btn-text{
+  padding: 14px;
+  width: 102px;
+  height: 14px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.58px;
+  text-align: center;
+  color: #ffffff;
+}
+
+/* logo */
+.center {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 12px;
+}
+.logo {
+  width: 92px;
+  height: 20px;
+  object-fit: contain;
+}
