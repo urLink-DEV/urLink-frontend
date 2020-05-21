@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function HistoryPage(props) {
+export default function CategoryHistoryPage(props) {
   const {urlList} = props
   const classes = useStyles()
 

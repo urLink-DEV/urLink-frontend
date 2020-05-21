@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Input from '@material-ui/core/Input';
-import {useCategoryDispatch} from '../containers/CategoryContainer';
+import {useCategoryDispatch} from '../../containers/CategoryContainer';
 
 
 const useStyles = makeStyles((theme) => ({

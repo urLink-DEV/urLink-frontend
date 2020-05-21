@@ -1,16 +1,13 @@
 /* global chrome */
-import React, {useState, useEffect} from 'react';
-import {Link, Router} from "react-chrome-extension-router";
+import React, {useState, useEffect} from 'react'
+import {Link, Router} from 'react-chrome-extension-router'
+import auth from './commons/apis/auth'
 import Button from '@material-ui/core/Button'
-import CategoryPage from './pages/CategoryPage';
-import LoginTest from './test/LoginTest';
-import auth from './commons/auth';
-import SignupContainer from './containers/SignupContainer';
-import LoginContainer from './containers/LoginContainer';
-import {CategoryContainer} from './containers/CategoryContainer';
-import './App.scss';
-import Auth from './commons/auth';
-import CategoryTest from './test/CategoryTest'
+import CategoryPage from './pages/category/CategoryPage'
+import SignupContainer from './containers/SignupContainer'
+import LoginContainer from './containers/LoginContainer'
+import {CategoryContainer} from './containers/CategoryContainer'
+import './App.scss'
 
 function InitMain() {
   return (
@@ -31,7 +28,7 @@ function InitMain() {
       을 해주세요!
       <br/>
       로그인을 하시면,
-      <Link component={CategoryContainer}>
+      <Link component={CategoryPage}>
         <Button variant='contained' color='primary'>
           메인화면
         </Button>
@@ -43,18 +40,18 @@ function InitMain() {
 
 function App() {
 
-  const [auth, setAuth] = useState(false);
+  const [login, setLogin] = useState(false);
 
   useEffect(() => {
-    Auth.tokenCheck()
+    auth.tokenCheck()
       .then(res => {
-        if (res) setAuth(true);
+        if (res) setLogin(true);
       })
       .catch(e => console.log(e))
   }, []);
 
   return (
-    auth
+    login
       ? <Router>
           <Link component={CategoryPage}>
             <Button variant='contained' color='primary'>
@@ -68,7 +65,7 @@ function App() {
           </Link>
         </Router>
       : <InitMain></InitMain>
-  );
+  )
 }
 
 export default App;

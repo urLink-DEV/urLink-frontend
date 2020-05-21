@@ -1,14 +1,15 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import IconButton from '@material-ui/core/IconButton';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import Typography from '@material-ui/core/Typography';
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import Card from '@material-ui/core/Card'
+import CardActionArea from '@material-ui/core/CardActionArea'
+import CardActions from '@material-ui/core/CardActions'
+import CardContent from '@material-ui/core/CardContent'
+import CardMedia from '@material-ui/core/CardMedia'
+import IconButton from '@material-ui/core/IconButton'
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import ShareIcon from '@material-ui/icons/Share'
+import AlarmIcon from '@material-ui/icons/Alarm'
+import Typography from '@material-ui/core/Typography'
 
 const useStyles = makeStyles({
   divRoot: {
@@ -59,11 +60,14 @@ export default function CategoryCard(props) {
           </CardContent>
         </CardActionArea>
         <CardActions className={classes.cardActions}>
-          <IconButton className={classes.icons} aria-label="add to favorites">
+          <IconButton className={classes.icons} aria-label="favorites">
             <FavoriteIcon fontSize="small"/>
           </IconButton>
           <IconButton className={classes.icons} aria-label="share">
             <ShareIcon fontSize="small"/>
+          </IconButton>
+          <IconButton className={classes.icons} aria-label="alarm">
+            <AlarmIcon fontSize="small"/>
           </IconButton>
         </CardActions>
       </Card>

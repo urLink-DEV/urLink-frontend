@@ -1,11 +1,10 @@
-/* global chrome */
-import React, { useState, useReducer , createContext , useContext } from 'react';
-import {axios, api} from '../commons/http';
-import queryData from '../commons/queryData';
-import auth from '../commons/apis/auth';
-import category from '../commons/apis/category';
-import CategoryTestPage from '../pages/CategoryTestPage';
-import CategoryPage from '../pages/CategoryPage';
+import React, {useState, createContext, useContext} from 'react'
+import category from '../../commons/apis/category'
+import Grid from '@material-ui/core/Grid'
+import CategoryHistoryContainer from '../category/CategoryHistoryContainer'
+import CategoryDrawer from '../../components/category/CategoryDrawer'
+import CategoryAppBar from '../../components/category/CategoryAppBar'
+import CategoryCard from '../../components/category/CategoryCard'
 
 //context API
 const CategoryStateContext = createContext(null);
@@ -21,7 +20,24 @@ export function useCategoryDispatch() {
 }
 
 
-export function CategoryContainer({children}) {
+export default function CategoryTabContainer() {
+  
+  const categories = useCategoryState()
+  const favoriteCategories = categories.filter(data => data.is_favorited === true)
+  const defaultCategories = categories.filter(data => data.is_favorited === false)
+
+  const appBar = (
+    <CategoryAppBar>
+      <CategoryHistoryContainer />
+    </CategoryAppBar>
+  )
+
+  const props = {
+    appBar,
+    defaultCategories,
+    favoriteCategories,
+    getCategoryUrlInfoList,
+  }
 
   const [categoryState, setCategory] = useState([])
 
@@ -65,27 +81,30 @@ export function CategoryContainer({children}) {
     .catch((error) => console.warn("response" in error ? error.response.data.message : error))
   }
 
-
   const categoryDispatch = {
     getCategory,
     writeCategory,
     updateCategory,
     deleteCategory
   }
-  return (
-      <CategoryStateContext.Provider value={categoryState}>
-        <CategoryDispatchContext.Provider value={categoryDispatch}>
-          <CategoryTestPage getCategoryUrlInfoList={getCategoryUrlInfoList}>
-            {children}
-          </CategoryTestPage>
-        </CategoryDispatchContext.Provider>
-      </CategoryStateContext.Provider>
-  )
 
+  return (
+    <CategoryStateContext.Provider value={categoryState}>
+      <CategoryDispatchContext.Provider value={categoryDispatch}>
+        <CategoryDrawer {...props}>
+          <Grid container spacing={2}>
+            {getCategoryUrlInfoList.map(urlObj => 
+              <Grid item xs={2}>
+                <CategoryCard urlInfoList={urlObj} />
+              </Grid>
+            )}
+          </Grid>
+        </CategoryDrawer>
+      </CategoryDispatchContext.Provider>
+    </CategoryStateContext.Provider>
+  )
 }
 
-const getCategories = ['first', 'second', 'youtube']
-const getFavoriteCategories = ['first favor', 'second favor', 'youtube favor']
 const getCategoryUrlInfoList = [{
   img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
   title: 'naver: 네이버',

@@ -3,7 +3,7 @@ import React from 'react';
 import {axios,api} from '../commons/http';
 import queryData from '../commons/queryData';
 import SignupPage from '../pages/SignupPage';
-import Auth from '../commons/auth';
+import Auth from '../commons/apis/auth';
 
 export default function SignupContainer() {
   let retry = true;

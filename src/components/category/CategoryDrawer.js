@@ -8,9 +8,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Paper from '@material-ui/core/Paper';
 import Input from '@material-ui/core/Input';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import CategoryTab from '../components/CategoryTab';
-import '../pages/Category.scss';
-import {useCategoryDispatch} from '../containers/CategoryContainer';
+import CategoryTab from './CategoryTab';
+import '../../pages/Category.scss';
+import {useCategoryDispatch} from '../../containers/CategoryContainer';
 
 const drawerWidth = 260;
 

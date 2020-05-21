@@ -1,8 +1,8 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
-import CategoryAppBar from '../components/category/CategoryAppBar'
-import CategoryDrawer from '../components/category/CategoryDrawer'
-import CategoryCard from '../components/category/CategoryCard'
+import CategoryAppBar from '../components/CategoryAppBar'
+import CategoryDrawer from '../components/CategoryDrawer'
+import CategoryCard from '../components/CategoryCard'
 import {useCategoryState} from '../containers/CategoryContainer';
 import HistoryContainer from '../containers/HistoryContainer'
 import './Category.scss'

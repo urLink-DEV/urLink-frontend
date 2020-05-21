@@ -1,9 +1,9 @@
 /* global chrome */
-import React from 'react';
-import {axios,api} from '../commons/http';
-import queryData from '../commons/queryData';
-import LoginPage from '../pages/LoginPage';
-import Auth from '../commons/auth';
+import React from 'react'
+import {axios,api} from '../commons/http'
+import queryData from '../commons/queryData'
+import LoginPage from '../pages/LoginPage'
+import auth from '../commons/apis/auth'
 
 export default function LoginContainer() {
 
@@ -22,7 +22,7 @@ const onClickGoogleLogin = e => {
     requestGoogleLogin(token)
       .then(res => {
         console.log('res', res)
-        if (res.status === 200) Auth.setAccessToken(res.data.token);
+        if (res.status === 200) auth.setAccessToken(res.data.token);
         if (res.status >= 400 && retry) {
           retry = false;
           chrome.identity.removeCachedAuthToken({token}, onClickGoogleLogin);
@@ -42,7 +42,7 @@ const onClickLogin = async (e) => {
 
   try {
       const response = await axios.post(api.N_MEMBER_LOGIN, nLogin);
-      Auth.setAccessToken(response.data.token);
+      auth.setAccessToken(response.data.token);
       window.location.href = "/index.html";
   } catch (error) {
     alert("로그인 실패\n"+error.response.data.message);

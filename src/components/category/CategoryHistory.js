@@ -1,9 +1,6 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
-import alarm from '../images/alarm.png'
-import person from '../images/person.png'
-import history from '../images/history.png'
 import Drawer from '@material-ui/core/Drawer'
 
 const drawerWidth = '50%'
@@ -73,7 +70,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function CategoryAppBar(props) {
+export default function CategoryHistory(props) {
 
   const {children} = props
   const classes = useStyles()
@@ -82,38 +79,20 @@ export default function CategoryAppBar(props) {
     setOpen(!open)
   }
 
-  return (
-    <div>
-      <div className={classes.appBar}>
-        <div className="drawer-btn-group">
-          <button onClick={onClickHistoryDrawer}>
-            <img src={history} alt="history button" />
-          </button>
-          <button>
-            <img src={alarm} alt="alarm button" />
-          </button>
-          <button>
-            <img src={person} alt="person button" />
-          </button>
-        </div>
-      </div>
-      <Drawer className={clsx(classes.drawer, {
-        [classes.drawerOpen]: open,
-        [classes.drawerClose]: !open,
-      })}
-        variant="permanent"
-        anchor="right"
-        open={open}
-        onClose={onClickHistoryDrawer}
-      >
-        {
-          open ?
-            <div className={classes.drawerOpenSpace}>
-              {children}
-            </div> : null
-        }
-      </Drawer>
-    </div>
-    
-  )
+  return <Drawer className={clsx(classes.drawer, {
+    [classes.drawerOpen]: open,
+    [classes.drawerClose]: !open,
+  })}
+    variant="permanent"
+    anchor="right"
+    open={open}
+    onClose={onClickHistoryDrawer}
+  >
+    {
+      open ?
+        <div className={classes.drawerOpenSpace}>
+          {children}
+        </div> : null
+    }
+  </Drawer>
 }
