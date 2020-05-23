@@ -1,24 +1,17 @@
-import React, {useState, useEffect, useRef} from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Button from '@material-ui/core/Button';
-import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Paper from '@material-ui/core/Paper';
-import Input from '@material-ui/core/Input';
-import {AlertModal} from '../components/modal';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import CategoryTab from '../components/CategoryTab';
-import '../pages/Category.scss';
-import {useCategoryState, useCategoryDispatch} from '../containers/CategoryContainer';
+import React, {useState, useEffect, useRef} from 'react'
+import Drawer from '@material-ui/core/Drawer'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import Button from '@material-ui/core/Button'
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
+import DeleteIcon from '@material-ui/icons/Delete'
+import Paper from '@material-ui/core/Paper'
+import Input from '@material-ui/core/Input'
+import {AlertModal} from '../components/modal'
+import { makeStyles } from '@material-ui/core/styles'
+import CategoryTab from '../components/CategoryTab'
+import '../pages/Category.scss'
+import {useCategoryDispatch} from '../containers/CategoryContainer'
 
 const drawerWidth = 260;
 
@@ -149,6 +142,15 @@ const useStyles = makeStyles((theme) => ({
     width:210,
     boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
     border: "solid 1px #2083ff"
+  },
+  dragline: {
+    width: 208,
+    margin: "10px 0",
+    height: 5,
+    borderRadius: 2,
+    display: "none",
+    backgroundColor: "#2083ff"
+    // backgroundImage: "linear-gradient(271deg, #e0f6ff 100%, #2083ff)"
   }
 }));
 
@@ -179,7 +181,7 @@ export default function CategoryDrawer(props) {
   const [enterOpen, setEnterOpen] = useState(false)
 
   const handleChange = (e) => {
-    setValue(e.target.value);
+    setValue(e.target.value)
   }
 
   const addTab = () => {
@@ -188,7 +190,16 @@ export default function CategoryDrawer(props) {
     setAddOpen(true)
     setEnterOpen(false)
   }
-  
+
+  const pressEnter = (e) => {
+    if (e.keyCode === 13) {
+      dispatch.writeCategory(value,1,false)
+      setValue('')
+      setAddOpen(true)
+      setEnterOpen(false)
+    }
+  }
+
   const cancleAddTab = () => {
     setAddOpen(true)
     setEnterOpen(false)
@@ -228,7 +239,6 @@ export default function CategoryDrawer(props) {
   useEffect(() => {
     dispatch.getCategory()
 
-    
     //change add&delete button state if clicked on outside of element
     function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -247,6 +257,50 @@ export default function CategoryDrawer(props) {
   },[wrapperRef])
 
 
+  
+  const [dragged, setDragged] = useState('')
+  const [over, setOver] = useState('')
+  const [overedTabOrder, setOveredTabOrder] = useState(0)
+  const [overedTabfavorite, setOveredTabfavorite] = useState(null)
+
+
+  const dragOver = (e, order, favorited) => {
+    e.stopPropagation()
+    setOver(e.currentTarget)
+    setOveredTabOrder(order)
+    setOveredTabfavorite(favorited)
+    dragged.style.display='none'
+    e.currentTarget.previousSibling.style.display = 'block'
+    console.log('over',order, favorited)
+  }
+
+  // const listDragOver = (e) => {
+  //   e.preventDefault()
+  //   console.log(e.currentTarget.className)
+  //   if(e.currentTarget.classList.contains("dragline")) {
+  //     e.currentTarget.style.display = 'block'
+  //   }
+  // }
+
+  const dragLeave = (e) => {
+    e.currentTarget.previousSibling.style.display = 'none'
+  }
+
+  const dragStart = (e) => {
+    const target = e.currentTarget
+    setDragged(target);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', target);
+  }
+
+  const dragEnd = (e, id, name, order, favorited) => {
+    e.preventDefault();
+    dragged.style.display = 'block';
+    dispatch.updateCategory(id, name, order, favorited)
+    console.log('end',name, order, favorited)
+  }
+
+
   const drawer = (
     <div>
       <div className="list-tab-layout" ref={wrapperRef}>
@@ -258,14 +312,22 @@ export default function CategoryDrawer(props) {
           Drag the category here!
         </div>
         <List>
-          {favoriteCategories.map((data, index) => (
+          {favoriteCategories.sort((a, b) => a.order - b.order).map((data, index) => (
+            <>
+            <div className={classes.dragline + " dragline"}></div>
             <ListItem 
             key={data.id} 
             className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
             onClick={() => toggleAddBtn(data.id)}
+            draggable='true'
+            onDragEnd={(e) => dragEnd(e, data.id, data.name, overedTabOrder, overedTabfavorite)}
+            onDragStart={dragStart}
+            onDragOver={(e) => dragOver(e, data.order , data.is_favorited)}
+            onDragLeave={dragLeave}
             >
               <CategoryTab key={data.id} text={data.name} id={data.id} selected={(data.id === selectedId)} />
             </ListItem>
+            </>
           ))}
         </List>
         <div className="category-text">
@@ -296,19 +358,28 @@ export default function CategoryDrawer(props) {
             placeholder="New one"
             value={value}
             onChange={handleChange}
+            onKeyDown={pressEnter}
           />
             <Button className={classes.okBtn} onClick={addTab}>확인</Button>
             <Button className={classes.cancleBtn} onClick={cancleAddTab}>취소</Button>
         </Paper>
         <List>
-        {defaultCategories.map((data, index) => (
+        {defaultCategories.sort((a, b) => a.order - b.order).map((data, index) => (
+          <>
+          <div className={classes.dragline + " dragline"}></div>
           <ListItem 
           key={data.id} 
           className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
           onClick={() => toggleAddBtn(data.id)} 
+          draggable='true'
+          onDragEnd={(e) => dragEnd(e, data.id, data.name, overedTabOrder, overedTabfavorite)}
+          onDragStart={dragStart}
+          onDragOver={(e) => dragOver(e, data.order , data.is_favorited)}
+          onDragLeave={dragLeave}
           >
             <CategoryTab key={data.id} text={data.name} id={data.id} selected={(data.id === selectedId)} />
           </ListItem>
+          </>
         ))}
         </List>
       </div>

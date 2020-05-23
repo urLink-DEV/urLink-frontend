@@ -43,11 +43,13 @@ export default function CategoryTab({text, id, selected}) {
       }
   }
 
+
   return (
     <div>
       <Paper 
         component="div" 
         className={classes.root} 
+        id={`${id}`}
       >
         <InputBase 
           disableUnderline={true}

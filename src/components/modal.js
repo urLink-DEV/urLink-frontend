@@ -5,15 +5,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-
-
-const useStyles = makeStyles((theme) => ({
-  alertModal: {
-    width: 320,
-    height: 216
-  }
-}))
 
 export function TermsModal({ openBool, onClose, onClick }) {
     return (
@@ -51,14 +42,12 @@ export function TermsModal({ openBool, onClose, onClick }) {
 }
 
 export function AlertModal({ btnText, modalText, openBool, onClose, onClickOk }) {
-  const classes = useStyles()
 
     return (
         <Dialog
         open={openBool}
         onClose={onClose}
         aria-describedby="alert-dialog-description"
-        // className={classes.alertModal}
         >
           <DialogContent>
             <DialogContentText id="alert-dialog-description">

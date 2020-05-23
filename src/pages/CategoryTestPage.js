@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Grid from '@material-ui/core/Grid'
 import CategoryAppBar from '../components/CategoryAppBar'
 import CategoryDrawer from '../components/CategoryDrawer'
@@ -10,8 +10,22 @@ import './Category.scss'
 export default function CategoryPage({getCategoryUrlInfoList}) {
 
   const categories = useCategoryState()
+
   const favoriteCategories = categories.filter(data => data.is_favorited === true)
   const defaultCategories = categories.filter(data => data.is_favorited === false)
+
+  
+  useEffect(() => {
+    // if(typeof categories === "object") {
+    //   favoriteCategories = categories.filter(data => data.is_favorited === true)
+    //   defaultCategories = categories.filter(data => data.is_favorited === false)
+    // } else {
+    //   console.log('error')
+    // }
+
+  },[categories])
+
+
   // const {
   //   getCategories,
   //   getFavoriteCategories,
