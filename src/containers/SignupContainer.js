@@ -3,7 +3,7 @@ import React from 'react';
 import {axios,api} from '../commons/http';
 import queryData from '../commons/queryData';
 import SignupPage from '../pages/SignupPage';
-import Auth from '../commons/auth';
+import auth from '../commons/apis/auth';
 
 export default function SignupContainer() {
   let retry = true;
@@ -42,7 +42,7 @@ export default function SignupContainer() {
             return res.json();
           }
         })
-        .then(res => Auth.setAccessToken(res.token))
+        .then(res => auth.setAccessToken(res.token))
         .catch(e => console.log(e))
     })
   }

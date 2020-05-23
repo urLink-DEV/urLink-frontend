@@ -3,14 +3,11 @@ import React, {useState, useEffect} from 'react';
 import {Link, Router} from "react-chrome-extension-router";
 import Button from '@material-ui/core/Button'
 import CategoryPage from './pages/CategoryPage';
-import LoginTest from './test/LoginTest';
-import auth from './commons/auth';
+import auth from './commons/apis/auth';
 import SignupContainer from './containers/SignupContainer';
 import LoginContainer from './containers/LoginContainer';
 import {CategoryContainer} from './containers/CategoryContainer';
 import './App.scss';
-import Auth from './commons/auth';
-import CategoryTest from './test/CategoryTest'
 
 function InitMain() {
   return (
@@ -43,18 +40,18 @@ function InitMain() {
 
 function App() {
 
-  const [auth, setAuth] = useState(false);
+  const [user, setUser] = useState(false);
 
   useEffect(() => {
-    Auth.tokenCheck()
+    auth.tokenCheck()
       .then(res => {
-        if (res) setAuth(true);
+        if (res) setUser(true);
       })
       .catch(e => console.log(e))
   }, []);
 
   return (
-    auth
+    user
       ? <Router>
           <Link component={CategoryPage}>
             <Button variant='contained' color='primary'>

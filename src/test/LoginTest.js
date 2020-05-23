@@ -1,7 +1,7 @@
 import React from 'react';
 import { axios, api } from '../commons/http';
 import queryData from '../commons/queryData';
-import auth from '../commons/auth';
+import auth from '../commons/apis/auth';
 
 export default function Login() {
     

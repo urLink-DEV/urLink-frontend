@@ -1,10 +1,10 @@
 /* global chrome */
 import React, { useState, useReducer , createContext , useContext } from 'react';
-import CategoryAPI from '../commons/CategoryAPI';
+import category from '../commons/apis/category';
 import CategoryTestPage from '../pages/CategoryTestPage';
 import {axios, api} from '../commons/http';
 import queryData from '../commons/queryData';
-import Auth from '../commons/auth';
+import auth from '../commons/apis/auth';
 
 //context API
 const CategoryStateContext = createContext(null);
@@ -26,7 +26,7 @@ export function CategoryContainer({children}) {
 
   // * 전체 카테고리 가져오기
   const getCategory = (id) => {
-    CategoryAPI.get({ id })
+    category.get({ id })
     .then((response) => {
         setcategory([...response.data])
     })
@@ -35,7 +35,7 @@ export function CategoryContainer({children}) {
 
   // * 카테고리 작성
   const writeCategory = (name, order, isFavorited) => {
-    CategoryAPI.write({ name, order, isFavorited })
+    category.write({ name, order, isFavorited })
     .then((response) => {
         setcategory(m => m.concat(response.data))
     })
@@ -44,7 +44,7 @@ export function CategoryContainer({children}) {
 
   // * 카테고리 수정
   const updateCategory = (id, name, order, isFavorited) => {
-    CategoryAPI.update({ id, name, order, isFavorited })
+    category.update({ id, name, order, isFavorited })
     .then(() => {
         // * 전체 카테고리 가져오기
         getCategory()
@@ -54,7 +54,7 @@ export function CategoryContainer({children}) {
 
   // * 카테고리 삭제
   const deleteCategory = (id) => {
-    CategoryAPI.remove({ id })
+    category.remove({ id })
     .then((response) => {
         if (response.status === 204) {
         getCategory()
