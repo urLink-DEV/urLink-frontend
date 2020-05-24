@@ -1,11 +1,11 @@
 import React from 'react'
-import CategoryTabContainer from '../../containers/category/CategoryTabContainer'
-import '../Category.scss'
+import CategoryContainer from '../../containers/category/CategoryContainer'
+import './Category.scss'
 
 export default function CategoryPage() {
 
   return (
-    <CategoryTabContainer />
+    <CategoryContainer />
   )
 }
 

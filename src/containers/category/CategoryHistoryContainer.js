@@ -1,17 +1,15 @@
 /* global chrome */
 import React from 'react'
-import CategoryHistory from '../../components/category/CategoryHistory'
+import CategoryAppBar from '../../components/category/CategoryAppBar'
 
-export default function HistoryContainer(props) {
-  const {children} = props
-  const componentsProps = {
-    urlList,
+export default function HistoryContainer() {
+
+  const props = {
+    urlList
   }
-
+  
   return (
-    <CategoryHistory {...componentsProps}>
-      {children}
-    </CategoryHistory>
+    <CategoryAppBar {...props}/>
   )
 }
 

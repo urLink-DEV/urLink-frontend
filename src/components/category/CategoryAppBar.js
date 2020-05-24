@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
-import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import alarm from '../../images/alarm.png'
 import person from '../../images/person.png'
 import history from '../../images/history.png'
-import Drawer from '@material-ui/core/Drawer'
+import CategoryHistory from './CategoryHistory'
+import CategoryHistoryList from './CategoryHistoryList'
 
 const drawerWidth = '50%'
 
@@ -75,31 +75,12 @@ const useStyles = makeStyles(theme => ({
 
 export default function CategoryAppBar(props) {
 
-  const {children} = props
   const classes = useStyles()
+  const {urlList} = props
   const [open, setOpen] = useState(false)
   const onClickHistoryDrawer = () => {
     setOpen(!open)
   }
-
-  const drawer = (
-    <Drawer className={clsx(classes.drawer, {
-      [classes.drawerOpen]: open,
-      [classes.drawerClose]: !open,
-    })}
-      variant="permanent"
-      anchor="right"
-      open={open}
-      onClose={onClickHistoryDrawer}
-    >
-      {
-        open ?
-          <div className={classes.drawerOpenSpace}>
-            {children}
-          </div> : null
-      }
-    </Drawer>
-  )
 
   return (
     <div>
@@ -116,7 +97,9 @@ export default function CategoryAppBar(props) {
           </button>
         </div>
       </div>
-      {drawer}
+      <CategoryHistory open={open} onClickHistoryDrawer={onClickHistoryDrawer}>
+        <CategoryHistoryList urlList={urlList}/>
+      </CategoryHistory>
     </div>
     
   )

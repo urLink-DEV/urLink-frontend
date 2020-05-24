@@ -21,16 +21,16 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function CategoryHistoryPage(props) {
+export default function CategoryHistoryList(props) {
   const {urlList} = props
   const classes = useStyles()
 
   return ( 
     <div className={classes.root}>
       <Typography variant='h4'>방문기록</Typography>
-      {urlList.map(url => {
-          return <div className={classes.urlDiv}>
-            {url.url}
+      {urlList.map((url, idx) => {
+          return <div key={idx} className={classes.urlDiv}>
+            <Typography variant="body2">{url.url}</Typography>
           </div>
       })}
     </div>

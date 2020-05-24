@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Input from '@material-ui/core/Input';
-import {useCategoryDispatch} from '../../containers/CategoryContainer';
+// import {useCategoryDispatch} from '../../containers/CategoryContainer';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CategoryTab({text, id}) {
   const classes = useStyles()
-  const dispatch = useCategoryDispatch()
+  // const dispatch = useCategoryDispatch()
   const [value, setValue] = useState(text);
   const [disabled, setDisabled] = useState(true);
 
@@ -31,14 +31,14 @@ export default function CategoryTab({text, id}) {
     setDisabled(!disabled)
   }
 
-  const updateText = (e) => {
-    console.log(id)
-      if (e.keyCode === 13) {
-        dispatch.updateCategory(id, value, false )
-        setDisabled(!disabled)
+  // const updateText = (e) => {
+  //   console.log(id)
+  //     if (e.keyCode === 13) {
+  //       dispatch.updateCategory(id, value, false )
+  //       setDisabled(!disabled)
 
-      }
-  }
+  //     }
+  // }
 
 
   return (
@@ -54,7 +54,7 @@ export default function CategoryTab({text, id}) {
           onDoubleClick={onDoubleClick}
           value={value}
           onChange={handleChange}
-          onKeyDown={updateText}
+          // onKeyDown={updateText}
         />
       </Paper>
     </div>

@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import CategoryAPI from '../commons/apis/category';
+import React, { useState } from 'react';
+import category from '../commons/apis/category';
 
 export default function CategoryTest() {
   const [category, setcategory] = useState([])
 
   // * 전체 카테고리 가져오기
   const getCategory = (id) => {
-    CategoryAPI.get({ id })
+    category.get({ id })
       .then((response) => {
         setcategory([...response.data])
       })
@@ -15,7 +15,7 @@ export default function CategoryTest() {
 
   // * 카테고리 작성
   const writeCategory = (name, order, isFavorited) => {
-    CategoryAPI.write({ name, order, isFavorited })
+    category.write({ name, order, isFavorited })
       .then((response) => {
         setcategory(m => m.concat(response.data))
       })
@@ -24,7 +24,7 @@ export default function CategoryTest() {
 
   // * 카테고리 수정
   const updateCategory = (id, name, order, isFavorited) => {
-    CategoryAPI.update({ id, name, order, isFavorited })
+    category.update({ id, name, order, isFavorited })
       .then(() => {
         // * 전체 카테고리 가져오기
         getCategory()
@@ -34,7 +34,7 @@ export default function CategoryTest() {
 
   // * 카테고리 삭제
   const deleteCategory = (id) => {
-    CategoryAPI.remove({ id })
+    category.remove({ id })
       .then((response) => {
         if (response.status === 204) {
           getCategory()

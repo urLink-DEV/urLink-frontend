@@ -1,107 +1,29 @@
-import React, {useState, createContext, useContext} from 'react'
-import category from '../../commons/apis/category'
+import React from 'react'
 import Grid from '@material-ui/core/Grid'
-import CategoryHistoryContainer from '../category/CategoryHistoryContainer'
 import CategoryDrawer from '../../components/category/CategoryDrawer'
-import CategoryAppBar from '../../components/category/CategoryAppBar'
 import CategoryCard from '../../components/category/CategoryCard'
 
-//context API
-const CategoryStateContext = createContext(null);
-const CategoryDispatchContext = createContext(null);
-
- //custom HOOK : 다른 컴포넌트에서 쉽게 불러와서 사용할 수 있도록 하기
-export function useCategoryState() {
-    return useContext(CategoryStateContext);
-}
-
-export function useCategoryDispatch() {
-    return useContext(CategoryDispatchContext);
-}
-
-
-export default function CategoryTabContainer() {
+export default function CategoryContainer() {
   
-  const categories = useCategoryState()
-  const favoriteCategories = categories.filter(data => data.is_favorited === true)
-  const defaultCategories = categories.filter(data => data.is_favorited === false)
-
-  const appBar = (
-    <CategoryAppBar>
-      <CategoryHistoryContainer />
-    </CategoryAppBar>
-  )
+  const favoriteCategories = ['first', 'second', 'youtube']
+  const defaultCategories = ['first favor', 'second favor', 'youtube favor']
 
   const props = {
-    appBar,
     defaultCategories,
     favoriteCategories,
     getCategoryUrlInfoList,
   }
-
-  const [categoryState, setCategory] = useState([])
-
-  // * 전체 카테고리 가져오기
-  const getCategory = (id) => {
-    category.get({ id })
-    .then((response) => {
-        setCategory([...response.data])
-    })
-    .catch((error) => console.warn("response" in error ? error.response.data.message : error))
-  }
-
-  // * 카테고리 작성
-  const writeCategory = (name, order, isFavorited) => {
-    category.write({ name, order, isFavorited })
-    .then((response) => {
-        setCategory(m => m.concat(response.data))
-    })
-    .catch((error) => console.warn("response" in error ? error.response.data.message : error))
-  }
-
-  // * 카테고리 수정
-  const updateCategory = (id, name, order, isFavorited) => {
-    category.update({ id, name, order, isFavorited })
-    .then(() => {
-        // * 전체 카테고리 가져오기
-        getCategory()
-    })
-    .catch((error) => console.warn("response" in error ? error.response.data.message : error))
-  }
-
-  // * 카테고리 삭제
-  const deleteCategory = (id) => {
-    category.remove({ id })
-    .then((response) => {
-        if (response.status === 204) {
-        getCategory()
-        }
-        else throw new Error("서버 에러")
-    })
-    .catch((error) => console.warn("response" in error ? error.response.data.message : error))
-  }
-
-  const categoryDispatch = {
-    getCategory,
-    writeCategory,
-    updateCategory,
-    deleteCategory
-  }
-
+  
   return (
-    <CategoryStateContext.Provider value={categoryState}>
-      <CategoryDispatchContext.Provider value={categoryDispatch}>
-        <CategoryDrawer {...props}>
-          <Grid container spacing={2}>
-            {getCategoryUrlInfoList.map(urlObj => 
-              <Grid item xs={2}>
-                <CategoryCard urlInfoList={urlObj} />
-              </Grid>
-            )}
+    <CategoryDrawer {...props}>
+      <Grid container spacing={2}>
+        {getCategoryUrlInfoList.map((urlObj, idx) => 
+          <Grid item xs={2} key={idx}>
+            <CategoryCard key={idx} urlInfoList={urlObj} />
           </Grid>
-        </CategoryDrawer>
-      </CategoryDispatchContext.Provider>
-    </CategoryStateContext.Provider>
+        )}
+      </Grid>
+    </CategoryDrawer>
   )
 }
 
@@ -130,3 +52,88 @@ const getCategoryUrlInfoList = [{
   title: 'poiemaweb site',
   description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
 },]
+
+// /* global chrome */
+// import React, { useState, useReducer , createContext , useContext } from 'react';
+// import category from '../commons/apis/category';
+// import CategoryTestPage from '../pages/CategoryTestPage';
+// import {axios, api} from '../commons/http';
+// import queryData from '../commons/queryData';
+// import auth from '../commons/apis/auth';
+
+// //context API
+// const CategoryStateContext = createContext(null);
+// const CategoryDispatchContext = createContext(null);
+
+//  //custom HOOK : 다른 컴포넌트에서 쉽게 불러와서 사용할 수 있도록 하기
+// export function useCategoryState() {
+//     return useContext(CategoryStateContext);
+// }
+
+// export function useCategoryDispatch() {
+//     return useContext(CategoryDispatchContext);
+// }
+
+
+// export function CategoryContainer({children}) {
+
+//   const [categoryState, setCategory] = useState([])
+
+//   // * 전체 카테고리 가져오기
+//   const getCategory = (id) => {
+//     category.get({ id })
+//     .then((response) => {
+//         setCategory([...response.data])
+//     })
+//     .catch((error) => console.warn("response" in error ? error.response.data.message : error))
+//   }
+
+//   // * 카테고리 작성
+//   const writeCategory = (name, order, isFavorited) => {
+//     category.write({ name, order, isFavorited })
+//     .then((response) => {
+//         setCategory(m => m.concat(response.data))
+//     })
+//     .catch((error) => console.warn("response" in error ? error.response.data.message : error))
+//   }
+
+//   // * 카테고리 수정
+//   const updateCategory = (id, name, order, isFavorited) => {
+//     category.update({ id, name, order, isFavorited })
+//     .then(() => {
+//         // * 전체 카테고리 가져오기
+//         getCategory()
+//     })
+//     .catch((error) => console.warn("response" in error ? error.response.data.message : error))
+//   }
+
+//   // * 카테고리 삭제
+//   const deleteCategory = (id) => {
+//     category.remove({ id })
+//     .then((response) => {
+//         if (response.status === 204) {
+//         getCategory()
+//         }
+//         else throw new Error("서버 에러")
+//     })
+//     .catch((error) => console.warn("response" in error ? error.response.data.message : error))
+//   }
+
+
+//   const categoryDispatch = {
+//     getCategory,
+//     writeCategory,
+//     updateCategory,
+//     deleteCategory
+//   }
+//   return (
+//       <CategoryStateContext.Provider value={categoryState}>
+//         <CategoryDispatchContext.Provider value={categoryDispatch}>
+//           <CategoryTestPage getCategoryUrlInfoList={getCategoryUrlInfoList}>
+//             {children}
+//           </CategoryTestPage>
+//         </CategoryDispatchContext.Provider>
+//       </CategoryStateContext.Provider>
+//   )
+
+// }

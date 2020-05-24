@@ -6,8 +6,7 @@ import Button from '@material-ui/core/Button'
 import CategoryPage from './pages/category/CategoryPage'
 import SignupContainer from './containers/SignupContainer'
 import LoginContainer from './containers/LoginContainer'
-import {CategoryContainer} from './containers/CategoryContainer'
-import './App.scss'
+import './App.scss';
 
 function InitMain() {
   return (
@@ -40,27 +39,22 @@ function InitMain() {
 
 function App() {
 
-  const [login, setLogin] = useState(false);
+  const [user, setUser] = useState(false);
 
   useEffect(() => {
     auth.tokenCheck()
       .then(res => {
-        if (res) setLogin(true);
+        if (res) setUser(true);
       })
       .catch(e => console.log(e))
   }, []);
 
   return (
-    login
+    user
       ? <Router>
           <Link component={CategoryPage}>
             <Button variant='contained' color='primary'>
-            메인화면
-            </Button>
-          </Link>
-          <Link component={CategoryContainer}>
-            <Button variant='contained' color='primary'>
-             수정중
+              메인화면
             </Button>
           </Link>
         </Router>
