@@ -1,5 +1,4 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
@@ -10,24 +9,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
 import AlarmIcon from '@material-ui/icons/Alarm'
 import Typography from '@material-ui/core/Typography'
-
-const useStyles = makeStyles({
-  divRoot: {
-    display: 'inline',
-  },
-  root: {
-    maxWidth: 345,
-  },
-  cardContent: {
-    height: 130,
-  },
-  cardActions: {
-    padding: 5
-  },
-  icons: {
-    padding: 5
-  }
-});
+import useStyles from './styles/CategoryCard'
 
 export default function CategoryCard(props) {
   const classes = useStyles()

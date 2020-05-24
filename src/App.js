@@ -3,10 +3,9 @@ import React, {useState, useEffect} from 'react'
 import {Link, Router} from 'react-chrome-extension-router'
 import auth from './commons/apis/auth'
 import Button from '@material-ui/core/Button'
-import CategoryPage from './pages/category/CategoryPage'
 import SignupContainer from './containers/SignupContainer'
 import LoginContainer from './containers/LoginContainer'
-import './App.scss';
+import CategoryPage from './pages/category/CategoryPage'
 
 function InitMain() {
   return (

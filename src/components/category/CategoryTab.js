@@ -1,21 +1,9 @@
-import React, {useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Input from '@material-ui/core/Input';
+import React, {useState} from 'react'
+import Paper from '@material-ui/core/Paper'
+import Input from '@material-ui/core/Input'
+import useStyles from './styles/CategoryTab'
 // import {useCategoryDispatch} from '../../containers/CategoryContainer';
 
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: 208,
-    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)",
-  },
-  input: {
-    padding:12,
-    fontFamily: "SpoqaHanSans",
-    fontSize: 16,
-  }
-}))
 
 export default function CategoryTab({text, id}) {
   const classes = useStyles()
@@ -39,7 +27,6 @@ export default function CategoryTab({text, id}) {
 
   //     }
   // }
-
 
   return (
     <div>
