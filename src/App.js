@@ -1,13 +1,11 @@
 /* global chrome */
-import React, {useState, useEffect} from 'react';
-import {Link, Router} from "react-chrome-extension-router";
+import React, {useState, useEffect} from 'react'
+import {Link, Router} from 'react-chrome-extension-router'
+import auth from './commons/apis/auth'
 import Button from '@material-ui/core/Button'
-import CategoryPage from './pages/CategoryPage';
-import auth from './commons/apis/auth';
-import SignupContainer from './containers/SignupContainer';
-import LoginContainer from './containers/LoginContainer';
-import {CategoryContainer} from './containers/CategoryContainer';
-import './App.scss';
+import SignupContainer from './containers/SignupContainer'
+import LoginContainer from './containers/LoginContainer'
+import CategoryPage from './pages/category/CategoryPage'
 
 function InitMain() {
   return (
@@ -28,7 +26,7 @@ function InitMain() {
       을 해주세요!
       <br/>
       로그인을 하시면,
-      <Link component={CategoryContainer}>
+      <Link component={CategoryPage}>
         <Button variant='contained' color='primary'>
           메인화면
         </Button>
@@ -55,17 +53,12 @@ function App() {
       ? <Router>
           <Link component={CategoryPage}>
             <Button variant='contained' color='primary'>
-            메인화면
-            </Button>
-          </Link>
-          <Link component={CategoryContainer}>
-            <Button variant='contained' color='primary'>
-             수정중
+              메인화면
             </Button>
           </Link>
         </Router>
       : <InitMain></InitMain>
-  );
+  )
 }
 
 export default App;

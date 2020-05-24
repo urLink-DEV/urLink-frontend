@@ -1,9 +1,9 @@
 /* global chrome */
-import React from 'react';
-import {axios,api} from '../commons/http';
-import queryData from '../commons/queryData';
-import LoginPage from '../pages/LoginPage';
-import auth from '../commons/apis/auth';
+import React from 'react'
+import {axios,api} from '../commons/http'
+import auth from '../commons/apis/auth'
+import queryData from '../commons/queryData'
+import LoginPage from '../pages/LoginPage'
 
 export default function LoginContainer() {
 

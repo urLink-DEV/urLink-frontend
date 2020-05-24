@@ -1,13 +1,16 @@
 /* global chrome */
 import React from 'react'
-import HistoryPage from '../pages/HistoryPage'
+import CategoryAppBar from '../../components/category/CategoryAppBar'
 
 export default function HistoryContainer() {
-  const props = {
-    urlList,
-  }
 
-  return <HistoryPage {...props}  />
+  const props = {
+    urlList
+  }
+  
+  return (
+    <CategoryAppBar {...props}/>
+  )
 }
 
 const urlList = [

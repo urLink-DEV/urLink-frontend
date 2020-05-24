@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '4px',
     boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.12)',
     backgroundColor: '#ffffff',
-    padding: '10px 0',
+    padding: '10px',
     margin: '10px 0'
   }
 }))
