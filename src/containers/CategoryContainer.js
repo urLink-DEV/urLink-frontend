@@ -1,5 +1,5 @@
 /* global chrome */
-import React, { useState, useReducer , createContext , useContext } from 'react';
+import React, { useState, useEffect , createContext , useContext } from 'react';
 import CategoryAPI from '../commons/CategoryAPI';
 import CategoryTestPage from '../pages/CategoryTestPage';
 import {axios, api} from '../commons/http';
@@ -71,7 +71,12 @@ export function CategoryContainer({children}) {
     updateCategory,
     deleteCategory
   }
-  
+
+  useEffect(() => {
+    getCategory()
+  },[])
+
+
   return (
       <CategoryStateContext.Provider value={categoryState}>
         <CategoryDispatchContext.Provider value={categoryDispatch}>

@@ -11,7 +11,7 @@ import {AlertModal} from '../components/modal'
 import { makeStyles } from '@material-ui/core/styles'
 import CategoryTab from '../components/CategoryTab'
 import '../pages/Category.scss'
-import {useCategoryDispatch} from '../containers/CategoryContainer'
+import {useCategoryState, useCategoryDispatch} from '../containers/CategoryContainer'
 
 const drawerWidth = 260;
 
@@ -156,7 +156,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CategoryDrawer(props) {
 
-
+  const categories = useCategoryState()
   const dispatch = useCategoryDispatch()
   /*
   dispatch.getCategory()
@@ -164,13 +164,8 @@ export default function CategoryDrawer(props) {
   이런식으로 함수 4가지 중에 하나 불러와서 사용 가능
   */
 
-  const { 
-    defaultCategories,
-    favoriteCategories,
-  } = props;
-  
-
-  console.log(defaultCategories, favoriteCategories)
+  console.log(categories.filter(data => data.is_favorited === false),
+  categories.filter(data => data.is_favorited === true))
   
   const classes = useStyles()
   const [value, setValue] = useState('')
@@ -235,9 +230,49 @@ export default function CategoryDrawer(props) {
 
   const wrapperRef = useRef(null);
 
+  const [dragged, setDragged] = useState('')
+  const [over, setOver] = useState('')
+  const [overedTabOrder, setOveredTabOrder] = useState(0)
+  const [overedTabFavorite, setOveredTabFavorite] = useState(null)
+
+
+  const dragStart = (e) => {
+    const target = e.currentTarget
+    setDragged(target);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', target);
+  }
+
+  const dragOver = (e, order, favorited) => {
+    e.stopPropagation()
+    setOver(e.currentTarget)
+    setOveredTabOrder(order)
+    setOveredTabFavorite(favorited)
+    dragged.style.display='none'
+    e.currentTarget.previousSibling.style.display = 'block'
+    console.log('over',order, favorited)
+  }
+
+  const dragLeave = (e) => {
+    e.currentTarget.previousSibling.style.display = 'none'
+  }
+
+  let dragFinishedClass
+
+  // const dragFinished = () => {
+  //   setTimeout(() => {dragFinishedClass = 'dragFinished'}, 500);
+  //   setTimeout(() => {dragFinishedClass = ''}, 2000);
+  // }
+
+  const dragEnd = (e, id, name, order, favorited) => {
+    dispatch.updateCategory(id, name, order, favorited)
+    dragged.style.display = 'block'
+
+    console.log('end',e.target, name, order, favorited)
+  }
+
 
   useEffect(() => {
-    dispatch.getCategory()
 
     //change add&delete button state if clicked on outside of element
     function handleClickOutside(event) {
@@ -257,50 +292,6 @@ export default function CategoryDrawer(props) {
   },[wrapperRef])
 
 
-  
-  const [dragged, setDragged] = useState('')
-  const [over, setOver] = useState('')
-  const [overedTabOrder, setOveredTabOrder] = useState(0)
-  const [overedTabfavorite, setOveredTabfavorite] = useState(null)
-
-
-  const dragOver = (e, order, favorited) => {
-    e.stopPropagation()
-    setOver(e.currentTarget)
-    setOveredTabOrder(order)
-    setOveredTabfavorite(favorited)
-    dragged.style.display='none'
-    e.currentTarget.previousSibling.style.display = 'block'
-    console.log('over',order, favorited)
-  }
-
-  // const listDragOver = (e) => {
-  //   e.preventDefault()
-  //   console.log(e.currentTarget.className)
-  //   if(e.currentTarget.classList.contains("dragline")) {
-  //     e.currentTarget.style.display = 'block'
-  //   }
-  // }
-
-  const dragLeave = (e) => {
-    e.currentTarget.previousSibling.style.display = 'none'
-  }
-
-  const dragStart = (e) => {
-    const target = e.currentTarget
-    setDragged(target);
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/html', target);
-  }
-
-  const dragEnd = (e, id, name, order, favorited) => {
-    e.preventDefault();
-    dragged.style.display = 'block';
-    dispatch.updateCategory(id, name, order, favorited)
-    console.log('end',name, order, favorited)
-  }
-
-
   const drawer = (
     <div>
       <div className="list-tab-layout" ref={wrapperRef}>
@@ -312,7 +303,7 @@ export default function CategoryDrawer(props) {
           Drag the category here!
         </div>
         <List>
-          {favoriteCategories.sort((a, b) => a.order - b.order).map((data, index) => (
+          {categories.filter(data => data.is_favorited === true).map((data, index) => (
             <>
             <div className={classes.dragline + " dragline"}></div>
             <ListItem 
@@ -320,12 +311,17 @@ export default function CategoryDrawer(props) {
             className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
             onClick={() => toggleAddBtn(data.id)}
             draggable='true'
-            onDragEnd={(e) => dragEnd(e, data.id, data.name, overedTabOrder, overedTabfavorite)}
+            onDragEnd={(e) => dragEnd(e, data.id, data.name, overedTabOrder, overedTabFavorite)}
             onDragStart={dragStart}
             onDragOver={(e) => dragOver(e, data.order , data.is_favorited)}
             onDragLeave={dragLeave}
             >
-              <CategoryTab key={data.id} text={data.name} id={data.id} selected={(data.id === selectedId)} />
+              <CategoryTab 
+              key={data.id} 
+              text={data.name} 
+              id={data.id} 
+              selected={(data.id === selectedId)} 
+              dragFinishedClass={dragFinishedClass} />
             </ListItem>
             </>
           ))}
@@ -364,7 +360,7 @@ export default function CategoryDrawer(props) {
             <Button className={classes.cancleBtn} onClick={cancleAddTab}>취소</Button>
         </Paper>
         <List>
-        {defaultCategories.sort((a, b) => a.order - b.order).map((data, index) => (
+        {categories.filter(data => data.is_favorited === false).map((data, index) => (
           <>
           <div className={classes.dragline + " dragline"}></div>
           <ListItem 
@@ -372,7 +368,7 @@ export default function CategoryDrawer(props) {
           className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
           onClick={() => toggleAddBtn(data.id)} 
           draggable='true'
-          onDragEnd={(e) => dragEnd(e, data.id, data.name, overedTabOrder, overedTabfavorite)}
+          onDragEnd={(e) => dragEnd(e, data.id, data.name, overedTabOrder, overedTabFavorite)}
           onDragStart={dragStart}
           onDragOver={(e) => dragOver(e, data.order , data.is_favorited)}
           onDragLeave={dragLeave}
