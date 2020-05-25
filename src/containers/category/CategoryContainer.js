@@ -7,11 +7,13 @@ export default function CategoryContainer() {
   
   const favoriteCategories = ['first', 'second', 'youtube']
   const defaultCategories = ['first favor', 'second favor', 'youtube favor']
+  const selectedCategoryTitle = favoriteCategories[0]
 
   const props = {
     defaultCategories,
     favoriteCategories,
     getCategoryUrlInfoList,
+    selectedCategoryTitle,
   }
   
   return (

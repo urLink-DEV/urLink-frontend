@@ -7,9 +7,12 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Paper from '@material-ui/core/Paper'
 import Input from '@material-ui/core/Input'
+import Typography from '@material-ui/core/Typography'
+import SearchIcon from '@material-ui/icons/Search'
 import CategoryHistoryContainer from '../../containers/category/CategoryHistoryContainer'
 import CategoryTab from './CategoryTab'
 import useStyles from './styles/CategoryDrawer'
+import CategorySearchPopOver from './CategorySearchPopOver'
 
 export default function CategoryDrawer(props) {
 
@@ -22,11 +25,10 @@ export default function CategoryDrawer(props) {
   const { 
     defaultCategories,
     favoriteCategories,
+    selectedCategoryTitle,
     children,
   } = props
 
-  console.log(defaultCategories, favoriteCategories, children, )
-  
   const classes = useStyles()
   const [value, setValue] = useState('')
   const [selectedId, setSelectedId] = useState('')
@@ -92,8 +94,6 @@ export default function CategoryDrawer(props) {
     </div>
   )
 
-  console.log('appBar', props.appBar, props)
-
   return (
     <div className={classes.root}>
       <nav className={classes.drawer} aria-label="mailbox folders">
@@ -108,7 +108,10 @@ export default function CategoryDrawer(props) {
         </Drawer>
       </nav>
       <main className={classes.content}>
-        <div className={classes.toolbar} />
+        <div className={classes.toolbar}>
+          {selectedCategoryTitle}
+          <CategorySearchPopOver onClickBtn={}/>
+        </div>
         {children}
       </main>
       <CategoryHistoryContainer />
