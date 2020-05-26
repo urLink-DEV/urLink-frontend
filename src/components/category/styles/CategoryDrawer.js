@@ -97,6 +97,20 @@ const useStyles = makeStyles((theme) => ({
   hidden: {
     display:"none"
   },
+  searchIcon: {
+    marginRight: 5,
+  },
+  popover: {
+    padding: '5px 10px',
+  },
+  popoverDiv: {
+    marginBottom: 10,
+  },
+  '@global': {
+    '.MuiFilledInput-inputMarginDense': {
+      paddingTop: '10px'
+    }
+  }
 }));
 
 export default useStyles

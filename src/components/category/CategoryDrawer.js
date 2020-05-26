@@ -7,8 +7,9 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Paper from '@material-ui/core/Paper'
 import Input from '@material-ui/core/Input'
-import Typography from '@material-ui/core/Typography'
 import SearchIcon from '@material-ui/icons/Search'
+import TextField from '@material-ui/core/TextField'
+import Grid from '@material-ui/core/Grid'
 import CategoryHistoryContainer from '../../containers/category/CategoryHistoryContainer'
 import CategoryTab from './CategoryTab'
 import useStyles from './styles/CategoryDrawer'
@@ -32,7 +33,6 @@ export default function CategoryDrawer(props) {
   const classes = useStyles()
   const [value, setValue] = useState('')
   const [selectedId, setSelectedId] = useState('')
-
 
   const handleChange = (e) => {
     setValue(e.target.value);
@@ -110,7 +110,22 @@ export default function CategoryDrawer(props) {
       <main className={classes.content}>
         <div className={classes.toolbar}>
           {selectedCategoryTitle}
-          <CategorySearchPopOver onClickBtn={}/>
+          <CategorySearchPopOver>
+            <Grid  className={classes.popover}>
+              <Grid className={classes.popoverDiv}>
+                <SearchIcon className={classes.searchIcon} fontSize="small" />
+                SEARCH
+              </Grid>
+              <Grid>
+                <TextField variant="filled" size='small'/>          
+              </Grid>
+              <Grid>
+                <Button>전체</Button>
+                <Button>도메인</Button>
+                <Button>단어</Button>
+              </Grid>
+            </Grid> 
+          </CategorySearchPopOver>
         </div>
         {children}
       </main>
