@@ -3,19 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>UrLink</title>
+  <link rel="stylesheet" href="css/default.css">
+  <link rel="stylesheet" href="css/popup.css">
 </head>
 <body>
-  
+  <div class="popup-body">
+    <div class="category">
+
+      <a class="category-card check">
+        <div class="category-card-text">stylesheet</div>
+        <div class="tab-text">탭 4개</div>
+      </a>
+
+      <a class="category-card">
+        <div class="category-card-text">stylesheet2</div>
+        <div class="tab-text">탭 4개</div>
+      </a>
+
+      <a class="category-card">
+        <div class="category-card-text">stylesheet3</div>
+        <div class="tab-text">탭 4개</div>
+      </a>
+      <a class="category-card">
+        <div class="category-card-text">stylesheet4</div>
+        <div class="tab-text">탭 4개</div>
+      </a>
+      <a class="category-card">
+        <div class="category-card-text">stylesheet5</div>
+        <div class="tab-text">탭 4개</div>
+      </a>
+      <a class="category-card">
+        <div class="category-card-text">stylesheet6</div>
+        <div class="tab-text">탭 4개</div>
+      </a>
+    </div>
+
+    <div class="tab-save-btn">
+      <div class="tab-save-btn-text">
+        탭 저장하기
+      </div>
+    </div>
+
+    <div class="urlLink-open-btn">
+      <div class="urlLink-open-btn-text">
+        유어링크 열기
+      </div>
+    </div>
+    <div class="center">
+      <img src="img/group-5.svg" class="logo">
+
+    </div>
+  </div>
+
+
+<script src="popup/index.js"></script>
+
 </body>
-<script>
-  chrome.runtime.onMessage.addListener(
-    function(request, sender, sendResponse) {
-      console.log(sender.tab ?
-                  "from a content script:" + sender.tab.url :
-                  "from the extension");
-      if (request.greeting == "hello")
-        sendResponse({farewell: "goodbye"});
-    });
-</script>
 </html>
