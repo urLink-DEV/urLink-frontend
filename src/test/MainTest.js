@@ -1,5 +1,5 @@
 import React , {useState} from "react";
-import auth from '../commons/auth';
+import auth from '../commons/apis/auth';
 import LoginTest from './LoginTest';
 
 function MainTest() {
