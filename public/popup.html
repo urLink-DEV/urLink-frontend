@@ -9,54 +9,31 @@
 </head>
 <body>
   <div class="popup-body">
-    <div class="category">
 
-      <a class="category-card check">
-        <div class="category-card-text">stylesheet</div>
-        <div class="tab-text">탭 4개</div>
-      </a>
-
-      <a class="category-card">
-        <div class="category-card-text">stylesheet2</div>
-        <div class="tab-text">탭 4개</div>
-      </a>
-
-      <a class="category-card">
-        <div class="category-card-text">stylesheet3</div>
-        <div class="tab-text">탭 4개</div>
-      </a>
-      <a class="category-card">
-        <div class="category-card-text">stylesheet4</div>
-        <div class="tab-text">탭 4개</div>
-      </a>
-      <a class="category-card">
-        <div class="category-card-text">stylesheet5</div>
-        <div class="tab-text">탭 4개</div>
-      </a>
-      <a class="category-card">
-        <div class="category-card-text">stylesheet6</div>
-        <div class="tab-text">탭 4개</div>
-      </a>
+    <div id="categoryList" class="category">
+      로그인이 필요합니다.
     </div>
-
-    <div class="tab-save-btn">
+  
+    <div id="tabSave" class="tab-save-btn">
       <div class="tab-save-btn-text">
         탭 저장하기
       </div>
     </div>
-
+  
     <div class="urlLink-open-btn">
-      <div class="urlLink-open-btn-text">
-        유어링크 열기
-      </div>
+      <a class="urlLink-open-btn-text" href="index.html" target="blank">유어링크 열기</a>
     </div>
+
     <div class="center">
       <img src="img/group-5.svg" class="logo">
-
     </div>
   </div>
 
-
+<script src="commons/Axios.js"></script>
+<script src="commons/queryData.js"></script>
+<script src="commons/http.js"></script>
+<script src="commons/api/auth.js"></script>
+<script src="commons/api/category.js"></script>
 <script src="popup/index.js"></script>
 
 </body>

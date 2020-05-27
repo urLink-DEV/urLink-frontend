@@ -51,7 +51,7 @@ body{
   position: relative;
   left: 80px;
 
-  width: 35px;
+  width: 70px;
   height: 18px;
   font-family: SpoqaHanSans;
   font-size: 12px;
@@ -113,12 +113,36 @@ a.category-card.check:hover {
   height: 40px;
   border-radius: 1.8px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
+  background-color: var(--blue-grey);
 }
-
 .tab-save-btn .tab-save-btn-text{
   width: 102px;
-  height: 14px;
+  height: 20px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.58px;
+  text-align: center;
+  color: var(--pale-grey);
+}
+.tab-save-btn.active {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  margin: 12px;
+  width: 228px;
+  height: 40px;
+  border-radius: 1.8px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+.tab-save-btn.active .tab-save-btn-text{
+  width: 102px;
+  height: 20px;
   font-family: SpoqaHanSans;
   font-size: 14px;
   font-weight: normal;
@@ -143,11 +167,10 @@ a.category-card.check:hover {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
   background-color: var(--maincolor);
 }
-
 .urlLink-open-btn .urlLink-open-btn-text{
   padding: 14px;
   width: 102px;
-  height: 14px;
+  height: 20px;
   font-family: SpoqaHanSans;
   font-size: 14px;
   font-weight: normal;
@@ -158,6 +181,9 @@ a.category-card.check:hover {
   text-align: center;
   color: #ffffff;
 }
+a.urlLink-open-btn-text:link { text-decoration: none;}
+a.urlLink-open-btn-text:visited { text-decoration: none;}
+a.urlLink-open-btn-text:hover { text-decoration: none;}
 
 /* logo */
 .center {
@@ -165,6 +191,7 @@ a.category-card.check:hover {
   display: flex;
   justify-content: center;
   margin: 12px;
+  margin-top: 23px;
 }
 .logo {
   width: 92px;
