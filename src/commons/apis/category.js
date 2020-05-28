@@ -1,5 +1,5 @@
-import { axios, api } from '../http';
-import queryData from '../queryData';
+import { axios, api } from '../http'
+import queryData from '../queryData'
 
 const category = {
   get : ({ id }) => {
@@ -12,12 +12,11 @@ const category = {
     }
   },
   
-  write : ({ name, order, isFavorited }) => {
+  write : ({ name, isFavorited }) => {
     try {
       const categoryWrite = Object.create(queryData["categoryWrite"])
       categoryWrite.name = name
-      order ? categoryWrite.order = order : delete categoryWrite.order
-      isFavorited ? categoryWrite.is_favorited = isFavorited : delete categoryWrite.is_favorited
+      categoryWrite.is_favorited = isFavorited
       return axios.post(api.WRITE_CATEGORY, categoryWrite)
     } catch (error) {
       console.warn(error)
@@ -29,8 +28,8 @@ const category = {
       id = id ? id + "/" : ""
       const categoryUpdate = Object.assign(queryData["categoryUpdate"])
       categoryUpdate.name = name
-      order ? categoryUpdate.order = order : delete categoryUpdate.order
-      isFavorited ? categoryUpdate.is_favorited = isFavorited : delete categoryUpdate.is_favorited
+      categoryUpdate.order = order
+      categoryUpdate.is_favorited = isFavorited
       return axios.patch(api.UPDATE_CATEGORY + id, categoryUpdate)
     } catch (error) {
       console.warn(error)

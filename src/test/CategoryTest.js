@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import category from '../commons/apis/category';
+import React, { useState, useEffect } from 'react';
+import categoryAPI from '../commons/apis/category';
 
 export default function CategoryTest() {
   const [category, setcategory] = useState([])
 
   // * 전체 카테고리 가져오기
   const getCategory = (id) => {
-    category.get({ id })
+    categoryAPI.get({ id })
       .then((response) => {
         setcategory([...response.data])
       })
@@ -14,8 +14,8 @@ export default function CategoryTest() {
   }
 
   // * 카테고리 작성
-  const writeCategory = (name, order, isFavorited) => {
-    category.write({ name, order, isFavorited })
+  const writeCategory = (name, isFavorited) => {
+    categoryAPI.write({ name, isFavorited })
       .then((response) => {
         setcategory(m => m.concat(response.data))
       })
@@ -24,7 +24,7 @@ export default function CategoryTest() {
 
   // * 카테고리 수정
   const updateCategory = (id, name, order, isFavorited) => {
-    category.update({ id, name, order, isFavorited })
+    categoryAPI.update({ id, name, order, isFavorited })
       .then(() => {
         // * 전체 카테고리 가져오기
         getCategory()
@@ -34,7 +34,7 @@ export default function CategoryTest() {
 
   // * 카테고리 삭제
   const deleteCategory = (id) => {
-    category.remove({ id })
+    categoryAPI.remove({ id })
       .then((response) => {
         if (response.status === 204) {
           getCategory()
@@ -44,13 +44,13 @@ export default function CategoryTest() {
       .catch((error) => console.warn("response" in error ? error.response.data.message : error))
   }
 
-  // useEffect(() => {
-  //   getCategory();
-  //   writeCategory("insta",1,true)
-  //   updateCategory(8,"update~",1)
-  //   deleteCategory(53)
+  useEffect(() => {
+    getCategory();
+    writeCategory("insta",1,false)
+    updateCategory(101,"update~",3)
+    // deleteCategory(53)
 
-  // }, []);
+  }, []);
 
   return (
     <div>
