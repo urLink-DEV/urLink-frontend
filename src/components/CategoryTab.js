@@ -14,16 +14,25 @@ const useStyles = makeStyles((theme) => ({
     padding:12,
     fontFamily: "SpoqaHanSans",
     fontSize: 16,
+    width: "70%"
   },
   selected : {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: '#2083ff'
   },
+  urlCountBox : {
+    width: "30%",
+    display: "inline-block",
+    fontSize: 12,
+    fontFamily: "SpoqaHanSans",
+    color: "#868e96",
+    textAlign: "center"
+  }
 
 }))
 
-export default function CategoryTab({text, id, order, isFavorited, selected, dragFinished}) {
+export default function CategoryTab({text, id, order, isFavorited, urlCount, selected, dragFinished}) {
   const classes = useStyles()
   const dispatch = useCategoryDispatch()
   const [value, setValue] = useState(text);
@@ -61,6 +70,7 @@ export default function CategoryTab({text, id, order, isFavorited, selected, dra
           onChange={handleChange}
           onKeyDown={updateText}
         />
+        <div className={classes.urlCountBox}>탭 {urlCount}개</div>
       </Paper>
     </div>
   )

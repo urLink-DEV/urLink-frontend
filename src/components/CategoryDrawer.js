@@ -324,8 +324,9 @@ export default function CategoryDrawer(props) {
           Favorite
         </div>
         <hr />
-        <div className={(favoritedArr.length === 0 ? 'drag-box' : 'hidden')}
-        onDragOver={firstFavoriteDragOver}
+        <div 
+          className={(favoritedArr.length === 0 ? 'drag-box' : 'hidden')}
+          onDragOver={firstFavoriteDragOver}
         >
           Drag the category here!
         </div>
@@ -350,6 +351,7 @@ export default function CategoryDrawer(props) {
                 id={data.id} 
                 order={data.order}
                 isFavorited={data.is_favorited}
+                urlCount={data.url_count}
                 selected={(data.id === selectedId)} 
                 dragFinished={(data.id === draggedId ? dragFinished : false)} 
               />
@@ -410,6 +412,7 @@ export default function CategoryDrawer(props) {
             id={data.id} 
             order={data.order}
             isFavorited={data.is_favorited}
+            urlCount={data.url_count}
             selected={(data.id === selectedId)} 
             dragFinished={(data.id === draggedId ? dragFinished : null)} 
             />
