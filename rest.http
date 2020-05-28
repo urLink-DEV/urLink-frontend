@@ -1,12 +1,12 @@
 ### get category
 GET http://15.165.198.243/api/v1/category/ HTTP/1.1
 Content-Type: application/json
-Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTkwMjUxMzE5LCJqdGkiOiJhNTE4ZDAwODk1ZjA0MmU1ODRkYjc4YmY2ODNlNjE3ZCIsInVzZXJfaWQiOjE0fQ.LMhX-8QrNXB--eES87F639FO9W3wvscG2kE9DZX2d2c
+Authorization: JWT ACCESS TOKEN
 
 ### write category
 POST http://15.165.198.243/api/v1/category/ HTTP/1.1
 Content-Type: application/json
-Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTkwMjUxMzE5LCJqdGkiOiJhNTE4ZDAwODk1ZjA0MmU1ODRkYjc4YmY2ODNlNjE3ZCIsInVzZXJfaWQiOjE0fQ.LMhX-8QrNXB--eES87F639FO9W3wvscG2kE9DZX2d2c
+Authorization: JWT ACCESS TOKEN
 
 {
   "name": "urLink",
@@ -16,7 +16,7 @@ Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNj
 ### update category
 PATCH   http://15.165.198.243/api/v1/category/83/ HTTP/1.1
 Content-Type: application/json
-Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTkwMjUxMzE5LCJqdGkiOiJhNTE4ZDAwODk1ZjA0MmU1ODRkYjc4YmY2ODNlNjE3ZCIsInVzZXJfaWQiOjE0fQ.LMhX-8QrNXB--eES87F639FO9W3wvscG2kE9DZX2d2c
+Authorization: JWT ACCESS TOKEN
 
 {
   "is_favorited": false
@@ -25,4 +25,4 @@ Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNj
 ### Delete category
 DELETE   http://15.165.198.243/api/v1/category/14/ HTTP/1.1
 Content-Type: application/json
-Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTkwMjUxMzE5LCJqdGkiOiJhNTE4ZDAwODk1ZjA0MmU1ODRkYjc4YmY2ODNlNjE3ZCIsInVzZXJfaWQiOjE0fQ.LMhX-8QrNXB--eES87F639FO9W3wvscG2kE9DZX2d2c
+Authorization: JWT ACCESS TOKEN
