@@ -2,8 +2,6 @@ import React, {useState} from 'react'
 import Button from '@material-ui/core/Button'
 import SearchIcon from '@material-ui/icons/Search'
 import Popover from '@material-ui/core/Popover'
-import TextField from '@material-ui/core/TextField'
-import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({

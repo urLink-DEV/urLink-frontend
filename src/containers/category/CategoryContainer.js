@@ -1,31 +1,52 @@
 import React from 'react'
-import Grid from '@material-ui/core/Grid'
+import authApi from '../../commons/apis/auth'
 import CategoryDrawer from '../../components/category/CategoryDrawer'
-import CategoryCard from '../../components/category/CategoryCard'
 
 export default function CategoryContainer() {
   
   const favoriteCategories = ['first', 'second', 'youtube']
   const defaultCategories = ['first favor', 'second favor', 'youtube favor']
   const selectedCategoryTitle = favoriteCategories[0]
+  const getAllUrlList = (id) => {
+    return fetch(`http://15.165.198.243/api/v1/url?category=${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${authApi.getAccessToken()}`,
+      }
+    })
+  }
+  const getDomainUrlList = (id, domain) => {
+    return fetch(`http://15.165.198.243/api/v1/url?category=${id}&path=${domain}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${authApi.getAccessToken()}`,
+      }
+    })
+  }
+  const getTitleUrlList = (id, title) => {
+    return fetch(`http://15.165.198.243/api/v1/url?category=${id}&title=${title}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${authApi.getAccessToken()}`,
+      }
+    })
+  }
 
   const props = {
     defaultCategories,
     favoriteCategories,
     getCategoryUrlInfoList,
     selectedCategoryTitle,
+    getAllUrlList,
+    getDomainUrlList,
+    getTitleUrlList,
   }
   
   return (
-    <CategoryDrawer {...props}>
-      <Grid container spacing={2}>
-        {getCategoryUrlInfoList.map((urlObj, idx) => 
-          <Grid item xs={2} key={idx}>
-            <CategoryCard key={idx} urlInfoList={urlObj} />
-          </Grid>
-        )}
-      </Grid>
-    </CategoryDrawer>
+    <CategoryDrawer {...props} />
   )
 }
 

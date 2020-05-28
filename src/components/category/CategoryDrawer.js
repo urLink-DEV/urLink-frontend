@@ -11,9 +11,10 @@ import SearchIcon from '@material-ui/icons/Search'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
 import CategoryHistoryContainer from '../../containers/category/CategoryHistoryContainer'
+import CategoryCard from '../../components/category/CategoryCard'
 import CategoryTab from './CategoryTab'
-import useStyles from './styles/CategoryDrawer'
 import CategorySearchPopOver from './CategorySearchPopOver'
+import useStyles from './styles/CategoryDrawer'
 
 export default function CategoryDrawer(props) {
 
@@ -27,18 +28,51 @@ export default function CategoryDrawer(props) {
     defaultCategories,
     favoriteCategories,
     selectedCategoryTitle,
+    getCategoryUrlInfoList,
+    getAllUrlList,
+    getDomainUrlList,
+    getTitleUrlList,
     children,
   } = props
 
   const classes = useStyles()
   const [value, setValue] = useState('')
   const [selectedId, setSelectedId] = useState('')
-
+  const [searchedUrlList, setSearchedUrlList] = useState(getCategoryUrlInfoList)
+  console.log('asdfasd', selectedId)
   const handleChange = (e) => {
     setValue(e.target.value);
   }
   const handleId = (id) => {
     setSelectedId(id);
+  }
+
+  const handleSearchAll = () => {
+    // if (!selectedId) {
+    //   console.log('no id')
+    //   return
+    // }
+    console.log('category id 1')
+    getAllUrlList(1)
+      .then(res => res.json())
+      .then(res => console.log(res))
+      .catch(e => console.error(e))
+  }
+
+  const handleSearchDomain = () => {
+    console.log('category id 1 domain')
+    getDomainUrlList(1, 'https://www.naver.com')
+      .then(res => res.json())
+      .then(res => console.log(res))
+      .catch(e => console.error(e))
+  }
+
+  const handleSearchTitle = () => {
+    console.log('category id 1 title')
+    getTitleUrlList(1, '네이버')
+      .then(res => res.json())
+      .then(res => console.log(res))
+      .catch(e => console.error(e))
   }
   
   const drawer = (
@@ -117,17 +151,51 @@ export default function CategoryDrawer(props) {
                 SEARCH
               </Grid>
               <Grid>
-                <TextField variant="filled" size='small'/>          
+                <TextField
+                  className={classes.textfield}
+                  variant='filled'
+                  size='small' 
+                />          
               </Grid>
               <Grid>
-                <Button>전체</Button>
-                <Button>도메인</Button>
-                <Button>단어</Button>
+                <Button
+                  onClick={handleSearchAll}
+                  className={classes.popoverBtn}
+                  variant='contained'
+                  color='primary' 
+                  size='small'
+                >
+                  전체
+                </Button>
+                <Button
+                  onClick={handleSearchDomain}
+                  className={classes.popoverBtn}
+                  variant='contained'
+                  color='primary' 
+                  size='small'
+                >
+                  도메인
+                </Button>
+                <Button
+                  onClick={handleSearchTitle}
+                  className={classes.popoverBtn}
+                  variant='contained'
+                  color='primary' 
+                  size='small'
+                >
+                  단어
+                </Button>
               </Grid>
             </Grid> 
           </CategorySearchPopOver>
         </div>
-        {children}
+        <Grid container spacing={2}>
+          {getCategoryUrlInfoList.map((urlObj, idx) => 
+            <Grid item xs={2} key={idx}>
+              <CategoryCard key={idx} urlInfoList={urlObj} />
+            </Grid>
+          )}
+        </Grid>
       </main>
       <CategoryHistoryContainer />
     </div>

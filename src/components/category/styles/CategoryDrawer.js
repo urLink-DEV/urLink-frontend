@@ -106,11 +106,17 @@ const useStyles = makeStyles((theme) => ({
   popoverDiv: {
     marginBottom: 10,
   },
+  popoverBtn: {
+    margin: 5,
+  },
+  textfield: {
+    width: '100%',
+  },
   '@global': {
     '.MuiFilledInput-inputMarginDense': {
       paddingTop: '10px'
     }
-  }
+  },
 }));
 
 export default useStyles
