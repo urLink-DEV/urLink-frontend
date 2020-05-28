@@ -51,20 +51,12 @@ export function TermsModal({ openBool, onClose, onClick }) {
 }
 
 export function AlertModal({ btnText, modalText, openBool, onClose, onClickOk }) {
-<<<<<<< HEAD
-=======
-  const classes = useStyles()
->>>>>>> 7113b62f0d43b9214619543c6e9edc29769dc05f
 
     return (
         <Dialog
         open={openBool}
         onClose={onClose}
         aria-describedby="alert-dialog-description"
-<<<<<<< HEAD
-=======
-        // className={classes.alertModal}
->>>>>>> 7113b62f0d43b9214619543c6e9edc29769dc05f
         >
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
