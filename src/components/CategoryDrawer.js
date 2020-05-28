@@ -145,12 +145,11 @@ const useStyles = makeStyles((theme) => ({
   },
   dragline: {
     width: 208,
-    margin: "10px 0",
-    height: 5,
+    margin: "15px 0",
+    height: 2,
     borderRadius: 2,
     display: "none",
-    backgroundColor: "#2083ff"
-    // backgroundImage: "linear-gradient(271deg, #e0f6ff 100%, #2083ff)"
+    backgroundImage: "linear-gradient(271deg, #e0f6ff, #2083ff)"
   }
 }));
 
@@ -228,49 +227,67 @@ export default function CategoryDrawer(props) {
     setEnterOpen(true)
   }
 
-  const wrapperRef = useRef(null);
+
+  /* 아래는 drag n drop 로직 */
 
   const [dragged, setDragged] = useState('')
-  const [over, setOver] = useState('')
+  const [draggedOrder, setDraggedOrder] = useState(0)
+  const [draggedId, setDraggedId] = useState(0)
   const [overedTabOrder, setOveredTabOrder] = useState(0)
   const [overedTabFavorite, setOveredTabFavorite] = useState(null)
+  const [dragFinished, setDragFinished] = useState(false)
 
-
-  const dragStart = (e) => {
+  const dragStart = (e, id, order) => {
     const target = e.currentTarget
-    setDragged(target);
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/html', target);
+    setDragged(target)
+    setDraggedId(id)
+    setDraggedOrder(order)
+    e.dataTransfer.setData('text/html', target)
   }
 
   const dragOver = (e, order, favorited) => {
-    e.stopPropagation()
-    setOver(e.currentTarget)
     setOveredTabOrder(order)
     setOveredTabFavorite(favorited)
     dragged.style.display='none'
+    e.stopPropagation()
     e.currentTarget.previousSibling.style.display = 'block'
+
     console.log('over',order, favorited)
   }
 
   const dragLeave = (e) => {
     e.currentTarget.previousSibling.style.display = 'none'
   }
-
-  let dragFinishedClass
-
-  // const dragFinished = () => {
-  //   setTimeout(() => {dragFinishedClass = 'dragFinished'}, 500);
-  //   setTimeout(() => {dragFinishedClass = ''}, 2000);
-  // }
-
+  
   const dragEnd = (e, id, name, order, favorited) => {
-    dispatch.updateCategory(id, name, order, favorited)
-    dragged.style.display = 'block'
+    if(draggedOrder === overedTabOrder) {
+      dragged.style.display = 'block'
+      setDragFinished(true)
+    } else {
+      dispatch.updateCategory(id, name, order, favorited)
+      setDragFinished(true)
+    }
 
-    console.log('end',e.target, name, order, favorited)
+    console.log('end', name, favorited)
   }
 
+
+  const listRef = useRef()
+
+  const firstFavoriteDragOver = (e) => {
+    e.stopPropagation()
+    dragged.style.display='none'
+    setOveredTabOrder(1)
+    setOveredTabFavorite(true)
+  }
+
+  const favoritedArr = categories.filter(data => data.is_favorited === true)
+
+
+  /* 아래는 외부영역 클릭시 버튼 토글 & cleartimeout */
+
+  const wrapperRef = useRef(null)
+  const timeId = useRef()
 
   useEffect(() => {
 
@@ -284,12 +301,20 @@ export default function CategoryDrawer(props) {
     }
     // Bind the event listener
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
 
-  },[wrapperRef])
+    //clearTimeout
+    if(dragFinished) {
+      timeId.current = setTimeout(() => setDragFinished(false), 800)
+    }
+
+    return () => {
+      // Unbind the event and timeout on clean up
+      document.removeEventListener("mousedown", handleClickOutside)
+      clearTimeout(timeId.current)
+    }
+
+  },[wrapperRef, dragFinished])
+
 
 
   const drawer = (
@@ -299,29 +324,35 @@ export default function CategoryDrawer(props) {
           Favorite
         </div>
         <hr />
-        <div className="drag-box">
+        <div className={(favoritedArr.length === 0 ? 'drag-box' : 'hidden')}
+        onDragOver={firstFavoriteDragOver}
+        >
           Drag the category here!
         </div>
-        <List>
+        <List 
+        ref={listRef}>
           {categories.filter(data => data.is_favorited === true).map((data, index) => (
             <>
             <div className={classes.dragline + " dragline"}></div>
             <ListItem 
-            key={data.id} 
-            className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
-            onClick={() => toggleAddBtn(data.id)}
-            draggable='true'
-            onDragEnd={(e) => dragEnd(e, data.id, data.name, overedTabOrder, overedTabFavorite)}
-            onDragStart={dragStart}
-            onDragOver={(e) => dragOver(e, data.order , data.is_favorited)}
-            onDragLeave={dragLeave}
+              key={data.id} 
+              className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
+              onClick={() => toggleAddBtn(data.id)}
+              draggable='true'
+              onDragStart={(e) => dragStart(e, data.id, data.order)}
+              onDragEnd={(e) => dragEnd(e, data.id, data.name, overedTabOrder, overedTabFavorite)}
+              onDragOver={(e) => dragOver(e, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
+              onDragLeave={dragLeave}
             >
               <CategoryTab 
-              key={data.id} 
-              text={data.name} 
-              id={data.id} 
-              selected={(data.id === selectedId)} 
-              dragFinishedClass={dragFinishedClass} />
+                key={data.id} 
+                text={data.name} 
+                id={data.id} 
+                order={data.order}
+                isFavorited={data.is_favorited}
+                selected={(data.id === selectedId)} 
+                dragFinished={(data.id === draggedId ? dragFinished : false)} 
+              />
             </ListItem>
             </>
           ))}
@@ -364,17 +395,25 @@ export default function CategoryDrawer(props) {
           <>
           <div className={classes.dragline + " dragline"}></div>
           <ListItem 
-          key={data.id} 
-          className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
-          onClick={() => toggleAddBtn(data.id)} 
-          draggable='true'
-          onDragEnd={(e) => dragEnd(e, data.id, data.name, overedTabOrder, overedTabFavorite)}
-          onDragStart={dragStart}
-          onDragOver={(e) => dragOver(e, data.order , data.is_favorited)}
-          onDragLeave={dragLeave}
+            key={data.id} 
+            className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
+            onClick={() => toggleAddBtn(data.id)}
+            draggable='true'
+            onDragStart={(e) => dragStart(e, data.id, data.order)}
+            onDragEnd={(e) => dragEnd(e, data.id, data.name, overedTabOrder, overedTabFavorite)}
+            onDragOver={(e) => dragOver(e, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
+            onDragLeave={dragLeave}
           >
-            <CategoryTab key={data.id} text={data.name} id={data.id} selected={(data.id === selectedId)} />
-          </ListItem>
+            <CategoryTab 
+            key={data.id} 
+            text={data.name} 
+            id={data.id} 
+            order={data.order}
+            isFavorited={data.is_favorited}
+            selected={(data.id === selectedId)} 
+            dragFinished={(data.id === draggedId ? dragFinished : null)} 
+            />
+            </ListItem>
           </>
         ))}
         </List>

@@ -19,10 +19,11 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#2083ff'
-  }
+  },
+
 }))
 
-export default function CategoryTab({text, id, selected}) {
+export default function CategoryTab({text, id, order, isFavorited, selected, dragFinished}) {
   const classes = useStyles()
   const dispatch = useCategoryDispatch()
   const [value, setValue] = useState(text);
@@ -38,7 +39,7 @@ export default function CategoryTab({text, id, selected}) {
 
   const updateText = (e) => {
       if (e.keyCode === 13) {
-        dispatch.updateCategory(id, value, false )
+        dispatch.updateCategory(id, value, order, isFavorited )
         setDisabled(!disabled)
       }
   }
@@ -48,7 +49,7 @@ export default function CategoryTab({text, id, selected}) {
     <div>
       <Paper 
         component="div" 
-        className={classes.root} 
+        className={classes.root + (dragFinished ? ' dragFinished' : '') } 
         id={`${id}`}
       >
         <InputBase 
