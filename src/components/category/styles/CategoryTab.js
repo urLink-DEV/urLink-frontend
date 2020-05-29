@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
     color: "#868e96",
     textAlign: "center"
   }
-
 }))
 
 export default useStyles

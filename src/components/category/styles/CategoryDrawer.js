@@ -142,5 +142,6 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
     backgroundImage: "linear-gradient(271deg, #e0f6ff, #2083ff)"
   }
-}));
+}))
+
 export default useStyles

@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/Input';
-import {useCategoryDispatch} from '../../containers/category/CategoryContainer';
+import React, {useState} from 'react'
+import Paper from '@material-ui/core/Paper'
+import InputBase from '@material-ui/core/Input'
+import {useCategoryDispatch} from '../../containers/category/CategoryContainer'
 import useStyles from './styles/CategoryTab'
 
 
@@ -9,12 +9,12 @@ export default function CategoryTab({text, id, order, isFavorited, urlCount, sel
   const classes = useStyles()
 
   const dispatch = useCategoryDispatch()
-  const [value, setValue] = useState(text);
-  const [disabled, setDisabled] = useState(true);
+  const [value, setValue] = useState(text)
+  const [disabled, setDisabled] = useState(true)
 
   const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+    setValue(event.target.value)
+  }
 
   const onDoubleClick = () => {
     setDisabled(!disabled)

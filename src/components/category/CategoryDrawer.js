@@ -23,12 +23,9 @@ export default function CategoryDrawer(props) {
   이런식으로 함수 4가지 중에 하나 불러와서 사용 가능
   */
 
-  
   const favoritedArr = categories.filter(data => data.is_favorited === true)
   const notFavoritedArr = categories.filter(data => data.is_favorited === false)
-  
-  console.log(favoritedArr, notFavoritedArr)
-  
+
   const classes = useStyles()
   const [value, setValue] = useState('')
   const [selectedId, setSelectedId] = useState('')
@@ -100,7 +97,6 @@ export default function CategoryDrawer(props) {
   const [overedTabFavorite, setOveredTabFavorite] = useState(null)
   const [dragFinished, setDragFinished] = useState(false)
 
-  
   const listRef = useRef()  
 
   const dragStart = (e, id, order) => {
@@ -117,8 +113,6 @@ export default function CategoryDrawer(props) {
     setOveredTabFavorite(favorited)
     dragged.style.display='none'
     e.currentTarget.previousSibling.style.display = 'block'
-
-    console.log('over',order, favorited)
   }
 
   const dragLeave = (e) => {
@@ -132,7 +126,6 @@ export default function CategoryDrawer(props) {
     document.querySelectorAll('.dragline').forEach(el => {
       el.style.display = 'none'
     })
-    console.log('end', name, favorited)
   }
 
   const firstFavoriteDragOver = (e) => {
@@ -155,11 +148,10 @@ export default function CategoryDrawer(props) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
         setAddOpen(true)
         setDeleteOpen(false)
-        console.log(wrapperRef.current, event.target)
       } 
     }
     // Bind the event listener
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside)
 
     //setTimeout
     if(dragFinished) {
@@ -287,11 +279,10 @@ export default function CategoryDrawer(props) {
         modalText = '카테고리를 삭제하면 안에 저장된 모든 탭이 삭제 됩니다. 그래도 삭제 하시겠습니까?'
         openBool = {deleteModalOpen} 
         onClose = {closeDeleteModal}
-        onClickOk = {deleteTab} />
-
+        onClickOk = {deleteTab} 
+      />
     </div>
   )
-
 
 
   return (
@@ -313,5 +304,5 @@ export default function CategoryDrawer(props) {
       </main>
       <CategoryHistoryContainer />
     </div>
-  );
+  )
 }
