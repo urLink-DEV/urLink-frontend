@@ -34,10 +34,14 @@ export function CategoryContainer({children}) {
   }
 
   // * 카테고리 작성
-  const writeCategory = (name, order, isFavorited) => {
-    CategoryAPI.write({ name, order, isFavorited })
+  const writeCategory = (name, isFavorited) => {
+    CategoryAPI.write({ name, isFavorited })
     .then((response) => {
-        setcategory(m => m.concat(response.data))
+        // setcategory(m => m.concat(response.data))
+        setcategory(categories => [response.data, ...categories])
+        const favoritedArrLength = categoryState.filter(data => data.is_favorited === true).length
+        const {id, name, isFavorited} = response.data
+        updateCategory(id, name, favoritedArrLength + 1, isFavorited)
     })
     .catch((error) => console.warn("response" in error ? error.response.data.message : error))
   }

@@ -163,8 +163,11 @@ export default function CategoryDrawer(props) {
   이런식으로 함수 4가지 중에 하나 불러와서 사용 가능
   */
 
-  console.log(categories.filter(data => data.is_favorited === false),
-  categories.filter(data => data.is_favorited === true))
+  
+  const favoritedArr = categories.filter(data => data.is_favorited === true)
+  const notFavoritedArr = categories.filter(data => data.is_favorited === false)
+  
+  console.log(favoritedArr, notFavoritedArr)
   
   const classes = useStyles()
   const [value, setValue] = useState('')
@@ -179,7 +182,7 @@ export default function CategoryDrawer(props) {
   }
 
   const addTab = () => {
-    dispatch.writeCategory(value,1,false)
+    dispatch.writeCategory(value, false)
     setValue('')
     setAddOpen(true)
     setEnterOpen(false)
@@ -187,7 +190,7 @@ export default function CategoryDrawer(props) {
 
   const pressEnter = (e) => {
     if (e.keyCode === 13) {
-      dispatch.writeCategory(value,1,false)
+      dispatch.writeCategory(value, false)
       setValue('')
       setAddOpen(true)
       setEnterOpen(false)
@@ -281,8 +284,6 @@ export default function CategoryDrawer(props) {
     setOveredTabFavorite(true)
   }
 
-  const favoritedArr = categories.filter(data => data.is_favorited === true)
-
 
   /* 아래는 외부영역 클릭시 버튼 토글 & cleartimeout */
 
@@ -332,7 +333,7 @@ export default function CategoryDrawer(props) {
         </div>
         <List 
         ref={listRef}>
-          {categories.filter(data => data.is_favorited === true).map((data, index) => (
+          {favoritedArr.map((data, index) => (
             <>
             <div className={classes.dragline + " dragline"}></div>
             <ListItem 
@@ -393,7 +394,7 @@ export default function CategoryDrawer(props) {
             <Button className={classes.cancleBtn} onClick={cancleAddTab}>취소</Button>
         </Paper>
         <List>
-        {categories.filter(data => data.is_favorited === false).map((data, index) => (
+        {notFavoritedArr.map((data, index) => (
           <>
           <div className={classes.dragline + " dragline"}></div>
           <ListItem 
