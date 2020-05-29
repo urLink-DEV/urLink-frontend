@@ -37,11 +37,8 @@ export function CategoryContainer({children}) {
   const writeCategory = (name, isFavorited) => {
     CategoryAPI.write({ name, isFavorited })
     .then((response) => {
-        // setcategory(m => m.concat(response.data))
         setcategory(categories => [response.data, ...categories])
-        const favoritedArrLength = categoryState.filter(data => data.is_favorited === true).length
-        const {id, name, isFavorited} = response.data
-        updateCategory(id, name, favoritedArrLength + 1, isFavorited)
+        getCategory()
     })
     .catch((error) => console.warn("response" in error ? error.response.data.message : error))
   }

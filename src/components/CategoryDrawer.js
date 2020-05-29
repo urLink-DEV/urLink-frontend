@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       flexShrink: 0,
-    },
+    }
   },
   appBar: {
     [theme.breakpoints.up('sm')]: {
@@ -42,6 +42,10 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
+    scrollbarWidth: 'none',
+    '&::-webkit-scrollbar': {
+      display: 'none'
+    }
   },
   content: {
     flexGrow: 1,
@@ -240,6 +244,9 @@ export default function CategoryDrawer(props) {
   const [overedTabFavorite, setOveredTabFavorite] = useState(null)
   const [dragFinished, setDragFinished] = useState(false)
 
+  
+  const listRef = useRef()  
+
   const dragStart = (e, id, order) => {
     const target = e.currentTarget
     setDragged(target)
@@ -249,10 +256,10 @@ export default function CategoryDrawer(props) {
   }
 
   const dragOver = (e, order, favorited) => {
+    e.preventDefault()
     setOveredTabOrder(order)
     setOveredTabFavorite(favorited)
     dragged.style.display='none'
-    e.stopPropagation()
     e.currentTarget.previousSibling.style.display = 'block'
 
     console.log('over',order, favorited)
@@ -263,24 +270,19 @@ export default function CategoryDrawer(props) {
   }
   
   const dragEnd = (e, id, name, order, favorited) => {
-    if(draggedOrder === overedTabOrder) {
-      dragged.style.display = 'block'
-      setDragFinished(true)
-    } else {
-      dispatch.updateCategory(id, name, order, favorited)
-      setDragFinished(true)
-    }
 
+    dispatch.updateCategory(id, name, order, favorited)
+    setDragFinished(true)
+    document.querySelectorAll('.dragline').forEach(el => {
+      el.style.display = 'none'
+    })
     console.log('end', name, favorited)
   }
 
-
-  const listRef = useRef()
-
   const firstFavoriteDragOver = (e) => {
-    e.stopPropagation()
+    e.preventDefault()
     dragged.style.display='none'
-    setOveredTabOrder(1)
+    setOveredTabOrder(draggedOrder)
     setOveredTabFavorite(true)
   }
 
@@ -303,7 +305,7 @@ export default function CategoryDrawer(props) {
     // Bind the event listener
     document.addEventListener("mousedown", handleClickOutside);
 
-    //clearTimeout
+    //setTimeout
     if(dragFinished) {
       timeId.current = setTimeout(() => setDragFinished(false), 800)
     }
@@ -311,6 +313,7 @@ export default function CategoryDrawer(props) {
     return () => {
       // Unbind the event and timeout on clean up
       document.removeEventListener("mousedown", handleClickOutside)
+      //clearTimeout
       clearTimeout(timeId.current)
     }
 

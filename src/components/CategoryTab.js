@@ -53,7 +53,6 @@ export default function CategoryTab({text, id, order, isFavorited, urlCount, sel
       }
   }
 
-
   return (
     <div>
       <Paper 
