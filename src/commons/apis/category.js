@@ -1,7 +1,7 @@
-import { axios, api } from './http'
-import queryData from './queryData'
+import { axios, api } from '../http'
+import queryData from '../queryData'
 
-const category = {
+const categoryAPI = {
   get : ({ id }) => {
     try {
       id = id ? id + "/" : ""
@@ -46,4 +46,4 @@ const category = {
     }
   }
 }
-export default category
+export default categoryAPI
