@@ -48,6 +48,7 @@ const queryData = {
     /**
      * * JWT 발급 POST
      * * JWT 불필요
+     * !! deprecated
      */
     getToken: {
         "email": "",
@@ -81,6 +82,7 @@ const queryData = {
      * * 회원정보 수정 PUT
      * * user/{id}/
      * * JWT 필요
+     * !! deprecated
      */
     userUpdate: {
         "sign_up_type": "",
@@ -93,6 +95,7 @@ const queryData = {
      * * 회원정보 부분 수정 PATCH
      * * user/{id}/
      * * JWT 필요
+     * !! deprecated
      */
     userPartialUpdate: {
         "email": "",
@@ -103,9 +106,11 @@ const queryData = {
      * * 회원정보 삭제 DELETE
      * * user/{id}/
      * * JWT 필요
+     * !! deprecated
      */
     userDelete: {},
 
+    // ****************** category ****************** //
     /**
      * * 카테고리 리스트 조회
      * * category/ -> list
@@ -118,33 +123,32 @@ const queryData = {
      * * 카테고리 등록
      * * category/
      * * JWT 필요
-     * !! order가 필요 없으면 delete
      */
     categoryWrite: {
         "name": "",
-        "is_favorited": false,
-        "order": 0
+        "is_favorited": false
     },
 
     /**
      * * 카테고리 수정
      * * category/{id}/
      * * JWT 필요
-     * !! order가 필요 없으면 delete
      */
     categoryUpdate: {
         "name": "",
         "is_favorited": false,
         "order": 0
     },
-    
+
     /**
      * * 카테고리 삭제
      * * category/{id}/
      * * JWT 필요
      */
     categoryDelete: {}
+    // ****************** /category ****************** //
+
 
 };
 
-export default  queryData;
+export default queryData;
