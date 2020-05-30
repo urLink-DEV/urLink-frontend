@@ -1,4 +1,4 @@
-const category = {
+const categoryAPI = {
   get : ({ id }) => {
     try {
       id = id ? id + "/" : ""

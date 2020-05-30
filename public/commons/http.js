@@ -1,19 +1,20 @@
 const api = {
 	UPDATE_TOKEN: "user/token/refresh/", // * 토큰 갱신
 	CHECK_TOKEN: "user/token/verify/", // * 토큰 검사
-	
-	READ_CATEGORY: "category/" // * 카테고리 리스트 조회
+	READ_CATEGORY: "category/", // * 카테고리 리스트 조회
+	WRITE_LINK: "url/" // * URL 등록
 }
 
 const axiosSetting = {
-    scheme: "http",
-    host: "15.165.198.243/api/v1",
-    port: "",
-    server: function() {
+	scheme: "http",
+	host: "15.165.198.243/api/v1",
+	port: "",
+	server: function () {
 		return (this.scheme ? this.scheme + ":" : "") + "//" + this.host + (this.port ? ":" + this.port : "")
 	},
 	redirectPage: () => {
-		window.location.href = "/index.html"
+		console.log("redirectPage"); // !! remove
+		window.location.href = "popup.html"
 	}
 }
 

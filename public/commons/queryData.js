@@ -21,5 +21,14 @@ const queryData = {
      * * category/{id}/ -> partical
      * * JWT 필요
      */
-    categoryRead: {}
+    categoryRead: {},
+
+        /**
+     * * URL 등록 POST
+     * * url/?category={categoryId}
+     * * JWT 필요
+     */
+    linkWrite: {
+        "path":[]
+    }
 };
