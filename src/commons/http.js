@@ -30,7 +30,11 @@ const api = {
 	READ_CATEGORY: "category/", // * 카테고리 리스트 조회
 	WRITE_CATEGORY: "category/", // * 카테고리 등록
 	UPDATE_CATEGORY: "category/", // * 카테고리 수정
-	DELETE_CATEGORY: "category/" // * 카테고리 삭제
+	DELETE_CATEGORY: "category/", // * 카테고리 삭제
+
+	READ_LINK: "url/", // * URl 리스트 조회
+	WRITE_LINK: "url/", // * URL 등록
+	DELETE_LINK: "url/" // * URL 삭제 
 	
 }
 
