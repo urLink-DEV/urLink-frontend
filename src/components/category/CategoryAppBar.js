@@ -10,9 +10,9 @@ export default function CategoryAppBar(props) {
 
   const classes = useStyles()
   const {urlList} = props
-  const [open, setOpen] = useState(false)
+  const [openDrawer, setOpenDrawer] = useState(false)
   const onClickHistoryDrawer = () => {
-    setOpen(!open)
+    setOpenDrawer(!openDrawer)
   }
 
   return (
@@ -22,15 +22,15 @@ export default function CategoryAppBar(props) {
           <button onClick={onClickHistoryDrawer}>
             <img src={history} alt="history button" />
           </button>
-          <button>
+          {/* <button onClick={onClickAlarmBtn}>
             <img src={alarm} alt="alarm button" />
           </button>
-          <button>
-            <img src={person} alt="person button" />
-          </button>
+          <button onClick={onClickProfileBtn}>
+            <img src={person} alt="person button" /> */}
+          {/* </button> */}
         </div>
       </div>
-      <CategoryHistory open={open} onClickHistoryDrawer={onClickHistoryDrawer}>
+      <CategoryHistory open={openDrawer} onClickHistoryDrawer={onClickHistoryDrawer}>
         <CategoryHistoryList urlList={urlList}/>
       </CategoryHistory>
     </div>

@@ -1,5 +1,6 @@
 import React from 'react'
 import authApi from '../../commons/apis/auth'
+import linkAPI from '../../commons/apis/link'
 import CategoryDrawer from '../../components/category/CategoryDrawer'
 
 export default function CategoryContainer() {
@@ -7,33 +8,9 @@ export default function CategoryContainer() {
   const favoriteCategories = ['first', 'second', 'youtube']
   const defaultCategories = ['first favor', 'second favor', 'youtube favor']
   const selectedCategoryTitle = favoriteCategories[0]
-  const getSearchAllUrlList = (id, path) => {
-    return fetch(`http://15.165.198.243/api/v1/url?category=${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `JWT ${authApi.getAccessToken()}`,
-      },
-    })
-  }
-  const getSearchDomainUrlList = (id, domain) => {
-    return fetch(`http://15.165.198.243/api/v1/url?category=${id}&path=${domain}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `JWT ${authApi.getAccessToken()}`,
-      },
-    })
-  }
-  const getSearchTitleUrlList = (id, title) => {
-    return fetch(`http://15.165.198.243/api/v1/url?category=${id}&title=${title}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `JWT ${authApi.getAccessToken()}`,
-      },
-    })
-  }
+  const getSearchAllUrlList = (category) => linkAPI.get({ category })
+  const getSearchDomainUrlList = (category, path) => linkAPI.get({ category, path })
+  const getSearchTitleUrlList = (category, title) => linkAPI.get({ category, title })
 
   const props = {
     defaultCategories,

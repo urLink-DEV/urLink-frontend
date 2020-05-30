@@ -1,8 +1,23 @@
 import { makeStyles } from '@material-ui/core/styles'
+import {withStyles} from '@material-ui/styles'
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
+ 
+export const StyledToggleButtonGroup = withStyles((theme) => ({
+  grouped: {
+    margin: theme.spacing(0.5),
+    border: 'none',
+    '&:not(:first-child)': {
+      borderRadius: theme.shape.borderRadius,
+    },
+    '&:first-child': {
+      borderRadius: theme.shape.borderRadius,
+    },
+  },
+}))(ToggleButtonGroup);
 
 const drawerWidth = 260;
 
-const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     height: '100vh',
@@ -115,6 +130,10 @@ const useStyles = makeStyles((theme) => ({
   '@global': {
     '.MuiFilledInput-inputMarginDense': {
       paddingTop: '10px'
+    },
+    '.MuiToggleButton-root.Mui-selected': {
+      backgroundColor: '#2083ff',
+      color: 'white',
     }
   },
 }));

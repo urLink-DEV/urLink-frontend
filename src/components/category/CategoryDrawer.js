@@ -10,11 +10,12 @@ import Input from '@material-ui/core/Input'
 import SearchIcon from '@material-ui/icons/Search'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
+import ToggleButton from '@material-ui/lab/ToggleButton'
 import CategoryHistoryContainer from '../../containers/category/CategoryHistoryContainer'
 import CategoryCard from '../../components/category/CategoryCard'
 import CategoryTab from './CategoryTab'
 import CategorySearchPopOver from './CategorySearchPopOver'
-import useStyles from './styles/CategoryDrawer'
+import {useStyles, StyledToggleButtonGroup} from './styles/CategoryDrawer'
 
 export default function CategoryDrawer(props) {
 
@@ -37,12 +38,21 @@ export default function CategoryDrawer(props) {
 
   const classes = useStyles()
   const [value, setValue] = useState('')
+  const [toggleAlignment, setToggleAlignment] = useState('left')
   const [searchValue, setSearchValue] = useState('')
   const [selectedId, setSelectedId] = useState('')
   const [searchedUrlList, setSearchedUrlList] = useState(getCategoryUrlInfoList)
-  console.log('asdfasd', selectedId)
+
   const handleChange = (e) => {
     setValue(e.target.value)
+  }
+
+  const handleClickCategoryTitle = () => {
+    setSearchedUrlList(getCategoryUrlInfoList)
+  }
+
+  const handleToggleChange = (event, newAlignment) => {
+    setToggleAlignment(newAlignment);
   }
 
   const handleId = (id) => {
@@ -59,24 +69,31 @@ export default function CategoryDrawer(props) {
     // }
     console.log('category id 1')
     getSearchAllUrlList(1, searchValue)
-      .then(res => res.json())
-      .then(res => console.log(res))
-      .catch(e => console.error(e))
+      .then(res => res.data)
+      .then(res => {
+        console.log(res)
+        setSearchedUrlList(res)
+      }).catch(e => console.error(e))
   }
 
   const handleSearchDomain = () => {
     console.log('category id 1 domain')
     getSearchDomainUrlList(1, searchValue)
-      .then(res => res.json())
-      .then(res => console.log(res))
-      .catch(e => console.error(e))
+      .then(res => res.data)
+      .then(res => {
+        console.log(res)
+        setSearchedUrlList(res)
+      }).catch(e => console.error(e))
   }
 
   const handleSearchTitle = () => {
     console.log('category id 1 title')
     getSearchTitleUrlList(1, searchValue)
-      .then(res => res.json())
-      .then(res => console.log(res))
+      .then(res => res.data)
+      .then(res => {
+        console.log(res)
+        setSearchedUrlList(res)
+      })
       .catch(e => console.error(e))
   }
   
@@ -148,7 +165,9 @@ export default function CategoryDrawer(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar}>
-          {selectedCategoryTitle}
+          <Button onClick={handleClickCategoryTitle}>
+            {selectedCategoryTitle}
+          </Button>
           <CategorySearchPopOver>
             <Grid  className={classes.popover}>
               <Grid className={classes.popoverDiv}>
@@ -165,39 +184,46 @@ export default function CategoryDrawer(props) {
                 />          
               </Grid>
               <Grid>
-                <Button
-                  onClick={handleSearchAll}
-                  className={classes.popoverBtn}
-                  variant='contained'
-                  color='primary' 
-                  size='small'
+                <StyledToggleButtonGroup 
+                  size="small"
+                  value={toggleAlignment}
+                  exclusive
+                  onChange={handleToggleChange}
                 >
-                  전체
-                </Button>
-                <Button
-                  onClick={handleSearchDomain}
-                  className={classes.popoverBtn}
-                  variant='contained'
-                  color='primary' 
-                  size='small'
-                >
-                  도메인
-                </Button>
-                <Button
-                  onClick={handleSearchTitle}
-                  className={classes.popoverBtn}
-                  variant='contained'
-                  color='primary' 
-                  size='small'
-                >
-                  단어
-                </Button>
+                  <ToggleButton
+                    value='left'
+                    onClick={handleSearchAll}
+                    className={classes.popoverBtn}
+                    variant='contained'
+                    size='small'
+                  >
+                    전체
+                  </ToggleButton>
+                  <ToggleButton
+                    value='center'
+                    onClick={handleSearchDomain}
+                    className={classes.popoverBtn}
+                    variant='contained'
+                    size='small'
+                  >
+                    도메인
+                  </ToggleButton>
+                  <ToggleButton
+                    value='right'
+                    onClick={handleSearchTitle}
+                    className={classes.popoverBtn}
+                    variant='contained'
+                    size='small'
+                  >
+                    단어
+                  </ToggleButton>
+                </StyledToggleButtonGroup>
               </Grid>
             </Grid> 
           </CategorySearchPopOver>
         </div>
         <Grid container spacing={2}>
-          {getCategoryUrlInfoList.map((urlObj, idx) => 
+          {searchedUrlList.map((urlObj, idx) => 
             <Grid item xs={2} key={idx}>
               <CategoryCard key={idx} urlInfoList={urlObj} />
             </Grid>
