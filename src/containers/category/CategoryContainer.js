@@ -7,31 +7,31 @@ export default function CategoryContainer() {
   const favoriteCategories = ['first', 'second', 'youtube']
   const defaultCategories = ['first favor', 'second favor', 'youtube favor']
   const selectedCategoryTitle = favoriteCategories[0]
-  const getAllUrlList = (id) => {
+  const getSearchAllUrlList = (id, path) => {
     return fetch(`http://15.165.198.243/api/v1/url?category=${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `JWT ${authApi.getAccessToken()}`,
-      }
+      },
     })
   }
-  const getDomainUrlList = (id, domain) => {
+  const getSearchDomainUrlList = (id, domain) => {
     return fetch(`http://15.165.198.243/api/v1/url?category=${id}&path=${domain}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `JWT ${authApi.getAccessToken()}`,
-      }
+      },
     })
   }
-  const getTitleUrlList = (id, title) => {
+  const getSearchTitleUrlList = (id, title) => {
     return fetch(`http://15.165.198.243/api/v1/url?category=${id}&title=${title}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `JWT ${authApi.getAccessToken()}`,
-      }
+      },
     })
   }
 
@@ -40,9 +40,9 @@ export default function CategoryContainer() {
     favoriteCategories,
     getCategoryUrlInfoList,
     selectedCategoryTitle,
-    getAllUrlList,
-    getDomainUrlList,
-    getTitleUrlList,
+    getSearchAllUrlList,
+    getSearchDomainUrlList,
+    getSearchTitleUrlList,
   }
   
   return (

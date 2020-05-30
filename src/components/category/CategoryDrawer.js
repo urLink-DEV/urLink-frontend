@@ -29,31 +29,36 @@ export default function CategoryDrawer(props) {
     favoriteCategories,
     selectedCategoryTitle,
     getCategoryUrlInfoList,
-    getAllUrlList,
-    getDomainUrlList,
-    getTitleUrlList,
+    getSearchAllUrlList,
+    getSearchDomainUrlList,
+    getSearchTitleUrlList,
     children,
   } = props
 
   const classes = useStyles()
   const [value, setValue] = useState('')
+  const [searchValue, setSearchValue] = useState('')
   const [selectedId, setSelectedId] = useState('')
   const [searchedUrlList, setSearchedUrlList] = useState(getCategoryUrlInfoList)
   console.log('asdfasd', selectedId)
   const handleChange = (e) => {
-    setValue(e.target.value);
-  }
-  const handleId = (id) => {
-    setSelectedId(id);
+    setValue(e.target.value)
   }
 
+  const handleId = (id) => {
+    setSelectedId(id)
+  }
+
+  const handleChangeSearchValue = e => {
+    setSearchValue(e.target.value)
+  }
   const handleSearchAll = () => {
     // if (!selectedId) {
     //   console.log('no id')
     //   return
     // }
     console.log('category id 1')
-    getAllUrlList(1)
+    getSearchAllUrlList(1, searchValue)
       .then(res => res.json())
       .then(res => console.log(res))
       .catch(e => console.error(e))
@@ -61,7 +66,7 @@ export default function CategoryDrawer(props) {
 
   const handleSearchDomain = () => {
     console.log('category id 1 domain')
-    getDomainUrlList(1, 'https://www.naver.com')
+    getSearchDomainUrlList(1, searchValue)
       .then(res => res.json())
       .then(res => console.log(res))
       .catch(e => console.error(e))
@@ -69,7 +74,7 @@ export default function CategoryDrawer(props) {
 
   const handleSearchTitle = () => {
     console.log('category id 1 title')
-    getTitleUrlList(1, '네이버')
+    getSearchTitleUrlList(1, searchValue)
       .then(res => res.json())
       .then(res => console.log(res))
       .catch(e => console.error(e))
@@ -153,6 +158,8 @@ export default function CategoryDrawer(props) {
               <Grid>
                 <TextField
                   className={classes.textfield}
+                  onChange={handleChangeSearchValue}
+                  value={searchValue}
                   variant='filled'
                   size='small' 
                 />          
