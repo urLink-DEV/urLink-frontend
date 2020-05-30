@@ -1,0 +1,213 @@
+:root {
+  --maincolor: #2083ff;
+  --lightblue: #77caff;
+  --powder-blue: #afe7ff;
+  --pale-sky-blue: #c2e8ff;
+  --maintext: #212529;
+  --battleship-grey: #737b84;
+  --blue-grey: #868e96;
+  --very-light-blue: #e9ecef;
+  --pale-grey: #f6f7f9;
+  --salmon: #ff6b6b;
+  --green-blue: #00b381;
+}
+@font-face {
+    font-family: 'SpoqaHanSans';
+    src: local('SpoqaHanSans-Bold'),
+    url('../fonts/SpoqaHanSans_original/SpoqaHanSansBold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSans';
+    src: local('SpoqaHanSans-Regular'),
+    url('../fonts/SpoqaHanSans_original/SpoqaHanSansRegular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSans';
+    src: local('SpoqaHanSans-Light'),
+    url('../fonts/SpoqaHanSans_original/SpoqaHanSansLight.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: 'SpoqaHanSans';
+    src: local('Spoq HanSans-Thin'),
+    url('../fonts/SpoqaHanSans_original/SpoqaHanSansThin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+    font-stretch: normal;
+}
+
+.Text-Style-14 {
+  font-family: AppleSDGothicNeo;
+  font-size: 40px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000000;
+}
+.Text-Style {
+  font-family: AppleSDGothicNeo;
+  font-size: 22px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -1px;
+  text-align: center;
+  color: var(--maincolor);
+}
+.Text-Style-2 {
+  font-family: AppleSDGothicNeo;
+  font-size: 22px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -1px;
+  text-align: center;
+  color: var(--maintext);
+}
+.Text-Style-7 {
+  font-family: AppleSDGothicNeo;
+  font-size: 16px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.5px;
+  color: var(--maintext);
+}
+.Text-Style-5 {
+  font-family: AppleSDGothicNeo;
+  font-size: 16px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.73px;
+  color: var(--maintext);
+}
+.Text-Style-13 {
+  font-family: AppleSDGothicNeo;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.73px;
+  text-align: center;
+  color: #ed1c24;
+}
+.Text-Style-12 {
+  font-family: AppleSDGothicNeo;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.73px;
+  color: var(--battleship-grey);
+}
+.Text-Style-11 {
+  font-family: AppleSDGothicNeo;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.73px;
+  text-align: center;
+  color: var(--battleship-grey);
+}
+.Text-Style-9 {
+  font-family: AppleSDGothicNeo;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000000;
+}
+.Text-Style-8 {
+  font-family: AppleSDGothicNeo;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.6px;
+  color: var(--battleship-grey);
+}
+.Text-Style-3 {
+  font-family: AppleSDGothicNeo;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.73px;
+  color: #191c1f;
+}
+.Text-Style-10 {
+  font-family: AppleSDGothicNeo;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.73px;
+  color: #ffffff;
+}
+.Text-Style-6 {
+  font-family: AppleSDGothicNeo;
+  font-size: 14px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: var(--blue-grey);
+}
+.Text-Style-4 {
+  font-family: AppleSDGothicNeo;
+  font-size: 14px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: -0.64px;
+  color: #191c1f;
+}
+@-webkit-keyframes CategoryFinishAnimate { 
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%} 
+} 
+@-moz-keyframes CategoryFinishAnimate { 
+  0%{background-position:0% 50%} 
+  50%{background-position:100% 50%} 
+  100%{background-position:0% 50%} 
+} 
+@-o-keyframes CategoryFinishAnimate { 
+  0%{background-position:0% 50%} 
+  50%{background-position:100% 50%} 
+  100%{background-position:0% 50%} 
+} 
+@keyframes CategoryFinishAnimate { 
+  0%{background-position:0% 50%} 
+  50%{background-position:100% 50%} 
+  100%{background-position:0% 50%} 
+} 

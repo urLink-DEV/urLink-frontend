@@ -1,18 +1,42 @@
-<!DOCTYPE HTML>
-<html>
-  <head>
-    <title>UrLink</title>
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <style>
-      body {min-width: 250px;}
-    </style>
-    <!-- <script src='popup.js'></script> -->
-  </head>
-  <body>
-    <h2>UrLink</h2>
-    <div id="typedUrl_div">
-      <h3><a href="index.html" target="_blank">main Move[test]</a></h3>
-      <ul id="history_link"></ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UrLink</title>
+  <link rel="stylesheet" href="css/default.css">
+  <link rel="stylesheet" href="css/popup.css">
+</head>
+<body>
+  <div class="popup-body">
+
+    <div id="categoryList" class="category">
     </div>
-  </body>
+  
+    <div id="tabSave" class="tab-save-btn">
+      <div class="tab-save-btn-text">
+        링크 저장하기
+      </div>
+    </div>
+  
+    <div class="urlLink-open-btn">
+      <a class="urlLink-open-btn-text" href="index.html" target="blank">유어링크 열기</a>
+    </div>
+
+    <div class="center">
+      <img src="img/group-5.svg" class="logo">
+    </div>
+    <div class="container"></div>
+  </div>
+  <div id="categoryAlert" class="category-alert-container" style="display: none;"></div>
+
+  <script src="commons/Axios.js"></script>
+  <script src="commons/queryData.js"></script>
+  <script src="commons/http.js"></script>
+  <script src="commons/api/auth.js"></script>
+  <script src="commons/api/categoryAPI.js"></script>
+  <script src="commons/api/linkAPI.js"></script>
+  <script src="popup/index.js"></script>
+
+</body>
 </html>
