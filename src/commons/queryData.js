@@ -2,6 +2,7 @@ const queryData = {
 
     /**
      * * 일반 회원가입 POST
+     * * /user/sign-up/
      * * Authorization: JWT 불필요
      */
     n_register: {
@@ -13,6 +14,7 @@ const queryData = {
 
     /**
      * * 일반 로그인 POST
+     * * /user/sign-in/
      * * Authorization: JWT 불필요
      */
     n_login: {
@@ -22,6 +24,7 @@ const queryData = {
 
     /**
      * * 구글 로그인 POST
+     * * /user/google/sign-in/
      * * Authorization: JWT 불필요
      * * email, password 불필요
      */
@@ -31,6 +34,7 @@ const queryData = {
 
     /**
      * * 구글 회원가입 POST
+     * * /user/google/sign-up/
      * * Authorization: JWT 불필요
      * * email, password 불필요
      */
@@ -40,6 +44,7 @@ const queryData = {
 
     /**
      * * 로그아웃 POST
+     * * /user/sign-out/
      * * JWT 불필요
      * * email, password 불필요
      */
@@ -47,6 +52,7 @@ const queryData = {
 
     /**
      * * JWT 발급 POST
+     * * /user/token/
      * * JWT 불필요
      * !! deprecated
      */
@@ -57,6 +63,7 @@ const queryData = {
 
     /**
      * * JWT 갱신 POST
+     * * /user/token/refresh/
      * * JWT 불필요
      */
     updateToken: {
@@ -65,6 +72,7 @@ const queryData = {
 
     /**
      * * JWT 검사 POST
+     * * /user/token/verify/
      * * JWT 불필요
      */
     checkToken: {
@@ -98,8 +106,8 @@ const queryData = {
      * !! deprecated
      */
     userPartialUpdate: {
-        "email": "",
-        "username": ""
+        "username": "",
+        "password": ""
     },
 
     /**
@@ -112,7 +120,7 @@ const queryData = {
 
     // ****************** category ****************** //
     /**
-     * * 카테고리 리스트 조회
+     * * 카테고리 리스트 조회 GET
      * * category/ -> list
      * * category/{id}/ -> partical
      * * JWT 필요
@@ -120,7 +128,7 @@ const queryData = {
     categoryRead: {},
 
     /**
-     * * 카테고리 등록
+     * * 카테고리 등록 POST
      * * category/
      * * JWT 필요
      */
@@ -130,7 +138,7 @@ const queryData = {
     },
 
     /**
-     * * 카테고리 수정
+     * * 카테고리 수정 PATCH
      * * category/{id}/
      * * JWT 필요
      */
@@ -141,13 +149,37 @@ const queryData = {
     },
 
     /**
-     * * 카테고리 삭제
+     * * 카테고리 삭제 DLETE
      * * category/{id}/
      * * JWT 필요
      */
-    categoryDelete: {}
+    categoryDelete: {},
     // ****************** /category ****************** //
 
+    // ****************** link ****************** //
+    /**
+     * * Link 리스트 조회 GET
+     * * url/?category={categoryId}&path={path}&title={title}
+     * * JWT 필요
+     */
+    linkRead: {},
+    
+    /**
+     * * URL 등록 POST
+     * * url/?category={categoryId}
+     * * JWT 필요
+     */
+    linkWrite: {
+        "path":[]
+    },
+    
+    /**
+     * * URL 삭제 DELETE
+     * * url/{id}/
+     * * JWT 필요
+     */
+    linkDelete: {}
+    // ****************** /link ****************** //
 
 };
 
