@@ -1,7 +1,7 @@
 import { axios, api } from '../http'
 import queryData from '../queryData'
 
-const urlAPI = {
+const linkAPI = {
   get : ({ category, path, title }) => {
     try {
       let queryParams = ""
@@ -40,4 +40,4 @@ const urlAPI = {
   }
 }
 
-export default urlAPI
+export default linkAPI
