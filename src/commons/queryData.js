@@ -54,6 +54,7 @@ const queryData = {
      * * JWT 발급 POST
      * * /user/token/
      * * JWT 불필요
+     * !! deprecated
      */
     getToken: {
         "email": "",
@@ -89,6 +90,7 @@ const queryData = {
      * * 회원정보 수정 PUT
      * * user/{id}/
      * * JWT 필요
+     * !! deprecated
      */
     userUpdate: {
         "sign_up_type": "",
@@ -101,6 +103,7 @@ const queryData = {
      * * 회원정보 부분 수정 PATCH
      * * user/{id}/
      * * JWT 필요
+     * !! deprecated
      */
     userPartialUpdate: {
         "username": "",
@@ -111,9 +114,11 @@ const queryData = {
      * * 회원정보 삭제 DELETE
      * * user/{id}/
      * * JWT 필요
+     * !! deprecated
      */
     userDelete: {},
 
+    // ****************** category ****************** //
     /**
      * * 카테고리 리스트 조회 GET
      * * category/ -> list
@@ -126,33 +131,32 @@ const queryData = {
      * * 카테고리 등록 POST
      * * category/
      * * JWT 필요
-     * !! order가 필요 없으면 delete
      */
     categoryWrite: {
         "name": "",
-        "is_favorited": false,
-        "order": 0
+        "is_favorited": false
     },
 
     /**
      * * 카테고리 수정 PATCH
      * * category/{id}/
      * * JWT 필요
-     * !! order가 필요 없으면 delete
      */
     categoryUpdate: {
         "name": "",
         "is_favorited": false,
         "order": 0
     },
-    
+
     /**
      * * 카테고리 삭제 DLETE
      * * category/{id}/
      * * JWT 필요
      */
     categoryDelete: {},
+    // ****************** /category ****************** //
 
+    // ****************** link ****************** //
     /**
      * * Link 리스트 조회 GET
      * * url/?category={categoryId}&path={path}&title={title}
@@ -175,7 +179,8 @@ const queryData = {
      * * JWT 필요
      */
     linkDelete: {}
+    // ****************** /link ****************** //
 
 };
 
-export default  queryData;
+export default queryData;
