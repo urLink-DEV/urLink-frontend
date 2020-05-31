@@ -10,8 +10,15 @@
     "history",
     "storage"
   ],
+  "icons": { 
+    "16": "img/logo/logo16.png",
+    "24": "img/logo/logo24.png",
+    "32": "img/logo/logo32.png",
+    "64": "img/logo/logo64.png",
+   "128": "img/logo/logo128.png" 
+  },
   "browser_action": {
-    "default_icon": "logo.png",
+    "default_icon": "img/logo/logo16.png",
     "default_popup": "popup.html"
   },
   "background" : {
