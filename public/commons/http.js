@@ -13,14 +13,13 @@ const axiosSetting = {
 		return (this.scheme ? this.scheme + ":" : "") + "//" + this.host + (this.port ? ":" + this.port : "")
 	},
 	redirectPage: () => {
-		console.log("redirectPage"); // !! remove
 		window.location.href = "popup.html"
 	}
 }
 
 axios = axios.create({
 	baseURL: axiosSetting.server(),
-	timeout: 2000
+	timeout: 10000
 })
 
 // * Add a request interceptor

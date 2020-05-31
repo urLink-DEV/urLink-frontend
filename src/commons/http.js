@@ -52,7 +52,7 @@ const axiosSetting = {
 
 const axios = Axios.create({
 	baseURL: axiosSetting.server(),
-	timeout: 2000
+	timeout: 10000
 })
 
 // * Add a request interceptor

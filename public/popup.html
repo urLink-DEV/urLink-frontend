@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" href=favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UrLink</title>
   <link rel="stylesheet" href="css/default.css">
@@ -9,26 +10,20 @@
 </head>
 <body>
   <div class="popup-body">
-
     <div id="categoryList" class="category">
     </div>
-  
     <div id="tabSave" class="tab-save-btn">
-      <div class="tab-save-btn-text">
-        링크 저장하기
-      </div>
+      링크 저장하기
     </div>
-  
     <div class="urlLink-open-btn">
       <a class="urlLink-open-btn-text" href="index.html" target="blank">유어링크 열기</a>
     </div>
-
     <div class="center">
       <img src="img/group-5.svg" class="logo">
     </div>
     <div class="container"></div>
   </div>
-  <div id="categoryAlert" class="category-alert-container" style="display: none;"></div>
+  <div id="categoryPopup" class="category-popup-container" style="display: none;"></div>
 
   <script src="commons/Axios.js"></script>
   <script src="commons/queryData.js"></script>
@@ -37,6 +32,5 @@
   <script src="commons/api/categoryAPI.js"></script>
   <script src="commons/api/linkAPI.js"></script>
   <script src="popup/index.js"></script>
-
 </body>
 </html>
