@@ -27,12 +27,6 @@ export default function MainPage() {
                 로그인
               </div>
             </Link>
-            {/* !! remove rquired*/}
-            {/* <Link component={CategoryPage}>
-              <div className="button-white">
-                TEST 메인화면
-              </div>
-            </Link> */}
           </div>
         </section>
         <section className="image-box-signup image-layout">
