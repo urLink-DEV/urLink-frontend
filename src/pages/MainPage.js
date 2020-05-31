@@ -28,11 +28,11 @@ export default function MainPage() {
               </div>
             </Link>
             {/* !! remove rquired*/}
-            <Link component={CategoryPage}>
+            {/* <Link component={CategoryPage}>
               <div className="button-white">
                 TEST 메인화면
               </div>
-            </Link>
+            </Link> */}
           </div>
         </section>
         <section className="image-box-signup image-layout">
