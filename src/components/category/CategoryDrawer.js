@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -26,10 +26,10 @@ export default function CategoryDrawer(props) {
   */
 
   const { 
-    defaultCategories,
+    categories,
+    defaultCategory,
     favoriteCategories,
-    selectedCategoryTitle,
-    getCategoryUrlInfoList,
+    getAllUrlList,
     getSearchAllUrlList,
     getSearchDomainUrlList,
     getSearchTitleUrlList,
@@ -41,14 +41,24 @@ export default function CategoryDrawer(props) {
   const [toggleAlignment, setToggleAlignment] = useState('left')
   const [searchValue, setSearchValue] = useState('')
   const [selectedId, setSelectedId] = useState('')
-  const [searchedUrlList, setSearchedUrlList] = useState(getCategoryUrlInfoList)
+  const [searchedUrlList, setSearchedUrlList] = useState([])
+
+  useEffect(() => {
+    getAllUrlList(defaultCategory.title)
+    .then(res => res.data)
+    .then(res => setSearchedUrlList(res))
+    .catch(e => console.error(e))
+  }, [])
 
   const handleChange = (e) => {
     setValue(e.target.value)
   }
 
   const handleClickCategoryTitle = () => {
-    setSearchedUrlList(getCategoryUrlInfoList)
+    getAllUrlList(defaultCategory.title)
+      .then(res => res.data)
+      .then(res => setSearchedUrlList(res))
+      .catch(e => console.error(e))
   }
 
   const handleToggleChange = (event, newAlignment) => {
@@ -138,7 +148,7 @@ export default function CategoryDrawer(props) {
             <Button className={classes.cancleBtn}>취소</Button>
         </Paper>
         <List>
-        {defaultCategories.map((data, index) => (
+        {categories.map((data, index) => (
           <ListItem key={index} 
             className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
             onClick={() => handleId(data.id)}>
@@ -166,7 +176,7 @@ export default function CategoryDrawer(props) {
       <main className={classes.content}>
         <div className={classes.toolbar}>
           <Button onClick={handleClickCategoryTitle}>
-            {selectedCategoryTitle}
+            {defaultCategory.title}
           </Button>
           <CategorySearchPopOver>
             <Grid  className={classes.popover}>

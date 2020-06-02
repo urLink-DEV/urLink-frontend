@@ -1,8 +1,10 @@
 import React, {useState} from 'react'
 import Button from '@material-ui/core/Button'
 import Popover from '@material-ui/core/Popover'
+import Badge from '@material-ui/core/Badge'
 import CategoryHistory from './CategoryHistory'
 import CategoryHistoryList from './CategoryHistoryList'
+import AlarmPopOver from '../popover/AlarmPopover'
 import useStyles from './styles/CategoryAppBar'
 import alarm from '../../images/alarm.png'
 import person from '../../images/person.png'
@@ -11,7 +13,7 @@ import history from '../../images/history.png'
 export default function CategoryAppBar(props) {
 
   const classes = useStyles()
-  const {urlList} = props
+  const {urlList, newAlarmList, newRecentNofitication, newProfileList} = props
   const [openDrawer, setOpenDrawer] = useState(false)
   const [anchorAlarm, setAnchorAlarm] = useState(null)
   const [anchorProfile, setAnchorProfile] = useState(null)
@@ -54,9 +56,19 @@ export default function CategoryAppBar(props) {
             aria-describedby={alarmId}
             onClick={handleAlarmPopOverClick}
           >
-            <img src={alarm} alt="alarm button" />
+            <Badge
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              badgeContent={newAlarmList.length}
+              max={99}
+              color='primary'
+            >
+              <img src={alarm} alt="alarm button" />
+            </Badge>
           </Button>
-          <Popover 
+          <Popover
             id={alarmId}
             open={alarmOpen}
             onClose={handleAlarmPopOverClose}
@@ -70,13 +82,23 @@ export default function CategoryAppBar(props) {
               horizontal: 'right',
             }}
           >
-            asdfasdf
+            <AlarmPopOver />
           </Popover>
           <Button
             aria-describedby={profileId}
             onClick={handleProfilePopOverClick}
           >
-            <img src={person} alt="person button" />
+            <Badge
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              badgeContent={newRecentNofitication.length}
+              color='primary'
+              variant='dot'
+            >
+              <img src={person} alt='person button' />
+            </Badge>
           </Button>
           <Popover 
             id={profileId}
