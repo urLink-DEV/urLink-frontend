@@ -65,32 +65,32 @@ const newAlarmList = [
   {
     title: '네이버 지식 검색',
     img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-    date: new Date(),
+    date: '2020-06-10',
   },
   {
     title: '네이버 지식 검색',
     img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-    date: new Date(),
+    date: '2020-06-10',
   },
   {
     title: '네이버 지식 검색',
     img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-    date: new Date(),
+    date: '2020-06-10',
   },
   {
     title: '네이버 지식 검색',
     img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-    date: new Date(),
+    date: '2020-06-10',
   },
   {
     title: '네이버 지식 검색',
     img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-    date: new Date(),
+    date: '2020-06-10',
   },
   {
     title: '네이버 지식 검색',
     img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-    date: new Date(),
+    date: '2020-06-10',
   },
 ]
 

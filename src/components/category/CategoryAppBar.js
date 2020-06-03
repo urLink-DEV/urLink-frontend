@@ -82,7 +82,7 @@ export default function CategoryAppBar(props) {
               horizontal: 'right',
             }}
           >
-            <AlarmPopOver />
+            <AlarmPopOver list={newAlarmList}/>
           </Popover>
           <Button
             aria-describedby={profileId}
