@@ -8,19 +8,24 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import Paper from '@material-ui/core/Paper'
 import Input from '@material-ui/core/Input'
 import {AlertModal} from '../../components/modal'
-import {useCategoryState, useCategoryDispatch} from '../../containers/category/CategoryContainer'
-import CategoryHistoryContainer from '../../containers/category/CategoryHistoryContainer'
+import {useLinkState, useLinkDispatch, useCategoryState, useCategoryDispatch} from '../../containers/category/CategoryContainer'
+import CategoryAppBar from './CategoryAppBar'
 import CategoryTab from './CategoryTab'
 import useStyles from './styles/CategoryDrawer'
 
 export default function CategoryDrawer(props) {
 
   const categories = useCategoryState()
-  const dispatch = useCategoryDispatch()
+  const categoryDispatch = useCategoryDispatch()
+  const links = useLinkState()
+  const linkDispatch = useLinkDispatch()
+  const {draggedHistory, setDraggedHistory} = props
   /*
-  dispatch.getCategory()
-  dispatch.writeCategory(value,1,false)
-  이런식으로 함수 4가지 중에 하나 불러와서 사용 가능
+  categoryDispatch.getCategory()
+  categoryDispatch.writeCategory(value,1,false)
+  linkDispatch.getLink(87, "trust")
+  linkDispatch.writeLink(87, ["https://trustyoo86.github.io/javascript/2019/12/27/chrome-extension-overview.html"])
+  이런식으로 불러와서 사용 가능
   */
 
   const favoritedArr = categories.filter(data => data.is_favorited === true)
@@ -39,7 +44,7 @@ export default function CategoryDrawer(props) {
   }
 
   const addTab = () => {
-    dispatch.writeCategory(value, false)
+    categoryDispatch.writeCategory(value, false)
     setValue('')
     setAddOpen(true)
     setEnterOpen(false)
@@ -47,7 +52,7 @@ export default function CategoryDrawer(props) {
 
   const pressEnter = (e) => {
     if (e.keyCode === 13) {
-      dispatch.writeCategory(value, false)
+      categoryDispatch.writeCategory(value, false)
       setValue('')
       setAddOpen(true)
       setEnterOpen(false)
@@ -71,7 +76,7 @@ export default function CategoryDrawer(props) {
   }
   
   const deleteTab = () => {
-    dispatch.deleteCategory(selectedId)
+    categoryDispatch.deleteCategory(selectedId)
     setDeleteModalOpen(false)
     setDeleteOpen(false)
     setAddOpen(true)
@@ -93,6 +98,7 @@ export default function CategoryDrawer(props) {
   const [dragged, setDragged] = useState('')
   const [draggedOrder, setDraggedOrder] = useState(0)
   const [draggedId, setDraggedId] = useState(0)
+  const [overedTabId, setOveredTabId] = useState(0)
   const [overedTabOrder, setOveredTabOrder] = useState(0)
   const [overedTabFavorite, setOveredTabFavorite] = useState(null)
   const [dragFinished, setDragFinished] = useState(false)
@@ -105,14 +111,21 @@ export default function CategoryDrawer(props) {
     setDraggedId(id)
     setDraggedOrder(order)
     e.dataTransfer.setData('text/html', target)
+    e.dataTransfer.setData("text/type", 'category')
   }
 
-  const dragOver = (e, order, favorited) => {
+  const dragOver = (e, id, order, favorited) => {
+
     e.preventDefault()
-    setOveredTabOrder(order)
-    setOveredTabFavorite(favorited)
-    dragged.style.display='none'
-    e.currentTarget.previousSibling.style.display = 'block'
+
+    if(draggedHistory !== '' && draggedHistory.dataset.type === 'link') {
+      setOveredTabId(id)
+    } else if(dragged.dataset.type === 'category') {
+      setOveredTabOrder(order)
+      setOveredTabFavorite(favorited)
+      dragged.style.display='none'
+      e.currentTarget.previousSibling.style.display = 'block'
+    }
   }
 
   const dragLeave = (e) => {
@@ -120,12 +133,24 @@ export default function CategoryDrawer(props) {
   }
   
   const dragEnd = (e, id, name, order, favorited) => {
-
-    dispatch.updateCategory(id, name, order, favorited)
+    categoryDispatch.updateCategory(id, name, order, favorited)
     setDragFinished(true)
     document.querySelectorAll('.dragline').forEach(el => {
       el.style.display = 'none'
     })
+  }
+
+  const drop = (e) => {
+    const type = e.dataTransfer.getData('text/type')
+    const path = e.dataTransfer.getData('text/link')
+
+    if(type === 'category') {
+      e.preventDefault()
+    } else if(type === 'link') {
+      e.preventDefault()
+      linkDispatch.writeLink(overedTabId, [path])
+      setDraggedHistory('')
+    }
   }
 
   const firstFavoriteDragOver = (e) => {
@@ -155,7 +180,7 @@ export default function CategoryDrawer(props) {
 
     //setTimeout
     if(dragFinished) {
-      timeId.current = setTimeout(() => setDragFinished(false), 800)
+      timeId.current = setTimeout(() => setDragFinished(false), 900)
     }
 
     return () => {
@@ -188,14 +213,16 @@ export default function CategoryDrawer(props) {
             <>
             <div className={classes.dragline + " dragline"}></div>
             <ListItem 
-              key={data.id} 
+              key={data.id}
+              data-type='category' 
               className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
               onClick={() => toggleAddBtn(data.id)}
               draggable='true'
               onDragStart={(e) => dragStart(e, data.id, data.order)}
               onDragEnd={(e) => dragEnd(e, data.id, data.name, overedTabOrder, overedTabFavorite)}
-              onDragOver={(e) => dragOver(e, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
+              onDragOver={(e) => dragOver(e, data.id, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
               onDragLeave={dragLeave}
+              onDrop={drop}
             >
               <CategoryTab 
                 key={data.id} 
@@ -250,13 +277,15 @@ export default function CategoryDrawer(props) {
           <div className={classes.dragline + " dragline"}></div>
           <ListItem 
             key={data.id} 
+            data-type='category' 
             className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
             onClick={() => toggleAddBtn(data.id)}
             draggable='true'
             onDragStart={(e) => dragStart(e, data.id, data.order)}
             onDragEnd={(e) => dragEnd(e, data.id, data.name, overedTabOrder, overedTabFavorite)}
-            onDragOver={(e) => dragOver(e, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
+            onDragOver={(e) => dragOver(e, data.id, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
             onDragLeave={dragLeave}
+            onDrop={drop}
           >
             <CategoryTab 
             key={data.id} 
@@ -283,7 +312,7 @@ export default function CategoryDrawer(props) {
       />
     </div>
   )
-
+  
 
   return (
     <div className={classes.root}>
@@ -302,7 +331,7 @@ export default function CategoryDrawer(props) {
         <div className={classes.toolbar} />
         {props.children}
       </main>
-      <CategoryHistoryContainer />
+      <CategoryAppBar {...props} />
     </div>
   )
 }

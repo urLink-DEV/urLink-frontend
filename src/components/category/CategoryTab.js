@@ -43,7 +43,7 @@ export default function CategoryTab({text, id, order, isFavorited, urlCount, sel
           onChange={handleChange}
           onKeyDown={updateText}
         />
-        <div className={classes.urlCountBox}>탭 {urlCount}개</div>
+        <div className={classes.urlCountBox}>링크 {urlCount}개</div>
       </Paper>
     </div>
   )

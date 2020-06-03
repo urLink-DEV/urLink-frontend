@@ -141,6 +141,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 2,
     display: "none",
     backgroundImage: "linear-gradient(271deg, #e0f6ff, #2083ff)"
+  },
+  hidden: {
+    display: "none"
   }
 }))
 

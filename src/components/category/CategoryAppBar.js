@@ -9,7 +9,7 @@ import history from '../../images/history.png'
 export default function CategoryAppBar(props) {
 
   const classes = useStyles()
-  const {urlList} = props
+  const {urlList, setDraggedHistory} = props          
   const [open, setOpen] = useState(false)
   const onClickHistoryDrawer = () => {
     setOpen(!open)
@@ -31,7 +31,9 @@ export default function CategoryAppBar(props) {
         </div>
       </div>
       <CategoryHistory open={open} onClickHistoryDrawer={onClickHistoryDrawer}>
-        <CategoryHistoryList urlList={urlList}/>
+        <CategoryHistoryList 
+          urlList={urlList}
+          setDraggedHistory={setDraggedHistory}/>
       </CategoryHistory>
     </div>
     
