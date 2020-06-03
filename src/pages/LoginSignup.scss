@@ -351,6 +351,11 @@ $mainTextColor: #212529;
 
 /*-----------login-----------*/
 
+
+input:-webkit-autofill {
+    transition: background-color 1000s ease-in-out 0s;
+}
+
 .logo-google {
     width: 20px;
     height: 20px;

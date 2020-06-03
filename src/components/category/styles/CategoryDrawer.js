@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       flexShrink: 0,
-    },
+    }
   },
   appBar: {
     [theme.breakpoints.up('sm')]: {
@@ -29,6 +29,10 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
+    scrollbarWidth: 'none',
+    '&::-webkit-scrollbar': {
+      display: 'none'
+    }
   },
   content: {
     flexGrow: 1,
@@ -43,9 +47,23 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#ffffff",
     '&:hover': {
       boxShadow: "0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12)"
-    }  
+    },
+    outline: 'none'
   },
-  tabButton: {
+  addButton: {
+    width: 208,
+    height: 52,
+    display: 'block',
+    borderRadius: 4,
+    margin: "10px 0",
+    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#f1f3f5",
+    '&:hover': {
+      backgroundColor: '#f7f7f7'
+    }
+  },
+  deleteButton: {
+    display: 'none',
     width: 208,
     height: 52,
     borderRadius: 4,
@@ -59,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
   enterTab: {
     width: 208,
     height: 52,
-    display: 'flex',
+    display: 'none',
     alignItems: 'center',
     justifyCntent: "space-around",
     borderRadius: 4,
@@ -68,6 +86,15 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#ffffff",
     boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
     border: "solid 1px #2083ff",
+  },
+  flex: {
+    display: 'flex'
+  },
+  block: {
+    display: 'block'
+  },
+  hidden: {
+    display: 'none'
   },
   input: {
     padding:12,
@@ -105,11 +132,16 @@ const useStyles = makeStyles((theme) => ({
   selected: {
     width:210,
     boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
-    border: "solid 1px #2083ff",
+    border: "solid 1px #2083ff"
   },
-  hidden: {
-    display:"none"
+  dragline: {
+    width: 208,
+    margin: "20px 0",
+    height: 2,
+    borderRadius: 2,
+    display: "none",
+    backgroundImage: "linear-gradient(271deg, #e0f6ff, #2083ff)"
   }
-}));
+}))
 
 export default useStyles

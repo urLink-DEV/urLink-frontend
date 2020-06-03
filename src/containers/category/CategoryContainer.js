@@ -1,29 +1,163 @@
-import React from 'react'
+/* global chrome */
+import React, { useState, useEffect , createContext , useContext } from 'react'
 import Grid from '@material-ui/core/Grid'
-import CategoryDrawer from '../../components/category/CategoryDrawer'
+import categoryAPI from '../../commons/apis/category'
+import linkAPI from '../../commons/apis/link'
 import CategoryCard from '../../components/category/CategoryCard'
+import CategoryDrawer from '../../components/category/CategoryDrawer'
+
+//Category context API
+const CategoryStateContext = createContext(null);
+const CategoryDispatchContext = createContext(null);
+
+//History context API
+const LinkStateContext = createContext(null);
+const LinkDispatchContext = createContext(null);
+
+ //custom HOOK : 다른 컴포넌트에서 쉽게 불러와서 사용할 수 있도록 하기
+export function useCategoryState() {
+    return useContext(CategoryStateContext);
+}
+export function useCategoryDispatch() {
+    return useContext(CategoryDispatchContext);
+}
+export function useLinkState() {
+  return useContext(LinkStateContext);
+}
+export function useLinkDispatch() {
+  return useContext(LinkDispatchContext);
+}
+
 
 export default function CategoryContainer() {
-  
-  const favoriteCategories = ['first', 'second', 'youtube']
-  const defaultCategories = ['first favor', 'second favor', 'youtube favor']
+
+  const [categoryState, setcategory] = useState([])
+  const [linkState, setLink] = useState([])
+
+  // * 전체 카테고리 가져오기
+  const getCategory = (id) => {
+    categoryAPI.get({ id })
+    .then((response) => {
+        setcategory([...response.data])
+    })
+    .catch((error) => console.warn("response" in error ? error.response.data.message : error))
+  }
+
+  // * 카테고리 작성
+  const writeCategory = (name, isFavorited) => {
+    categoryAPI.write({ name, isFavorited })
+    .then((response) => {
+      setcategory(categories => [response.data, ...categories])
+      getCategory()
+    })
+    .catch((error) => console.warn("response" in error ? error.response.data.message : error))
+  }
+
+  // * 카테고리 수정
+  const updateCategory = (id, name, order, isFavorited) => {
+    categoryAPI.update({ id, name, order, isFavorited })
+    .then(() => {
+        // * 전체 카테고리 가져오기
+        getCategory()
+    })
+    .catch((error) => console.warn("response" in error ? error.response.data.message : error))
+  }
+
+  // * 카테고리 삭제
+  const deleteCategory = (id) => {
+    categoryAPI.remove({ id })
+    .then((response) => {
+        if (response.status === 204) {
+        getCategory()
+        }
+        else throw new Error("서버 에러")
+    })
+    .catch((error) => console.warn("response" in error ? error.response.data.message : error))
+  }
+
+
+  // * 전체 링크 리스트 가져오기
+  const getLink = (category, path, title) => {
+    const get = linkAPI.get({ category, path, title })
+    if (get) {
+      get.then((response) => {
+        setLink([...response.data])
+      })
+        .catch((error) => console.warn("response" in error ? error.response.data.message : error))
+    }
+  }
+
+  // * 링크 작성
+  const writeLink = (category, path) => {
+    const write = linkAPI.write({ category, path })
+    if (write) {
+      write.then((response) => {
+        setLink(m => m.concat(response.data.success))
+        getCategory()
+      })
+        .catch((error) => console.warn("response" in error ? error.response.data.message : error))
+    }
+  }
+
+  // * 카테고리 삭제
+  const deleteLink = (id, category, path, title) => {
+    const remove = linkAPI.remove({ id })
+    if (remove) {
+      remove.then((response) => {
+        if (response.status === 204) {
+          getLink(category, path, title)
+        }
+        else throw new Error("서버 에러")
+      })
+        .catch((error) => console.warn("response" in error ? error.response.data.message : error))
+    }
+  }
+
+  // 드래그된 히스토리 target
+  const [draggedHistory, setDraggedHistory] = useState('')
+
+  const categoryDispatch = {
+    getCategory,
+    writeCategory,
+    updateCategory,
+    deleteCategory
+  }
+
+  const linkDispatch = {
+    getLink,
+    writeLink,
+    deleteLink
+  }
+
+  useEffect(() => {
+    getCategory()
+  },[])
 
   const props = {
-    defaultCategories,
-    favoriteCategories,
     getCategoryUrlInfoList,
+    urlList,
+    draggedHistory,
+    setDraggedHistory
   }
-  
+
   return (
-    <CategoryDrawer {...props}>
-      <Grid container spacing={2}>
-        {getCategoryUrlInfoList.map((urlObj, idx) => 
-          <Grid item xs={2} key={idx}>
-            <CategoryCard key={idx} urlInfoList={urlObj} />
-          </Grid>
-        )}
-      </Grid>
-    </CategoryDrawer>
+    <CategoryStateContext.Provider value={categoryState}>
+      <CategoryDispatchContext.Provider value={categoryDispatch}>
+        <LinkStateContext.Provider value={linkState}>
+          <LinkDispatchContext.Provider value={linkDispatch}>
+            <CategoryDrawer {...props}>
+              <Grid container spacing={2}>
+                {getCategoryUrlInfoList.map((urlObj, idx) => 
+                  <Grid item xs={2} key={idx}>
+                    <CategoryCard key={idx} urlInfoList={urlObj} />
+                  </Grid>
+                )}
+              </Grid>
+            </CategoryDrawer>
+          </LinkDispatchContext.Provider>
+        </LinkStateContext.Provider>
+      </CategoryDispatchContext.Provider>
+    </CategoryStateContext.Provider>
   )
 }
 
@@ -53,87 +187,46 @@ const getCategoryUrlInfoList = [{
   description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
 },]
 
-// /* global chrome */
-// import React, { useState, useReducer , createContext , useContext } from 'react';
-// import category from '../commons/apis/category';
-// import CategoryTestPage from '../pages/CategoryTestPage';
-// import {axios, api} from '../commons/http';
-// import queryData from '../commons/queryData';
-// import auth from '../commons/apis/auth';
 
-// //context API
-// const CategoryStateContext = createContext(null);
-// const CategoryDispatchContext = createContext(null);
-
-//  //custom HOOK : 다른 컴포넌트에서 쉽게 불러와서 사용할 수 있도록 하기
-// export function useCategoryState() {
-//     return useContext(CategoryStateContext);
-// }
-
-// export function useCategoryDispatch() {
-//     return useContext(CategoryDispatchContext);
-// }
-
-
-// export function CategoryContainer({children}) {
-
-//   const [categoryState, setCategory] = useState([])
-
-//   // * 전체 카테고리 가져오기
-//   const getCategory = (id) => {
-//     category.get({ id })
-//     .then((response) => {
-//         setCategory([...response.data])
-//     })
-//     .catch((error) => console.warn("response" in error ? error.response.data.message : error))
-//   }
-
-//   // * 카테고리 작성
-//   const writeCategory = (name, order, isFavorited) => {
-//     category.write({ name, order, isFavorited })
-//     .then((response) => {
-//         setCategory(m => m.concat(response.data))
-//     })
-//     .catch((error) => console.warn("response" in error ? error.response.data.message : error))
-//   }
-
-//   // * 카테고리 수정
-//   const updateCategory = (id, name, order, isFavorited) => {
-//     category.update({ id, name, order, isFavorited })
-//     .then(() => {
-//         // * 전체 카테고리 가져오기
-//         getCategory()
-//     })
-//     .catch((error) => console.warn("response" in error ? error.response.data.message : error))
-//   }
-
-//   // * 카테고리 삭제
-//   const deleteCategory = (id) => {
-//     category.remove({ id })
-//     .then((response) => {
-//         if (response.status === 204) {
-//         getCategory()
-//         }
-//         else throw new Error("서버 에러")
-//     })
-//     .catch((error) => console.warn("response" in error ? error.response.data.message : error))
-//   }
-
-
-//   const categoryDispatch = {
-//     getCategory,
-//     writeCategory,
-//     updateCategory,
-//     deleteCategory
-//   }
-//   return (
-//       <CategoryStateContext.Provider value={categoryState}>
-//         <CategoryDispatchContext.Provider value={categoryDispatch}>
-//           <CategoryTestPage getCategoryUrlInfoList={getCategoryUrlInfoList}>
-//             {children}
-//           </CategoryTestPage>
-//         </CategoryDispatchContext.Provider>
-//       </CategoryStateContext.Provider>
-//   )
-
-// }
+const urlList = [
+  {
+    "id": "11081",
+    "lastVisitTime": 1588933029447.23,
+    "title": "React App",
+    "typedCount": 0,
+    "path": "https://www.naver.com",
+    "visitCount": 24,
+  },
+  {
+    "id": "11081",
+    "lastVisitTime": 1588933029447.23,
+    "title": "React App",
+    "typedCount": 0,
+    "path": "https://www.naver.com",
+    "visitCount": 24,
+  },
+  {
+    "id": "11081",
+    "lastVisitTime": 1588933029447.23,
+    "title": "React App",
+    "typedCount": 0,
+    "path": "https://www.naver.com",
+    "visitCount": 24,
+  },
+  {
+    "id": "11081",
+    "lastVisitTime": 1588933029447.23,
+    "title": "React App",
+    "typedCount": 0,
+    "path": "https://www.naver.com",
+    "visitCount": 24,
+  },
+  {
+    "id": "11081",
+    "lastVisitTime": 1588933029447.23,
+    "title": "React App",
+    "typedCount": 0,
+    "path": "https://www.naver.com",
+    "visitCount": 24,
+  }
+]
