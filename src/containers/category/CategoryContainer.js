@@ -114,7 +114,7 @@ export default function CategoryContainer() {
   }
 
   // 드래그된 히스토리 target
-  const [draggedHistory, setDraggedHistory] = useState(null)
+  const [draggedHistory, setDraggedHistory] = useState('')
 
   const categoryDispatch = {
     getCategory,

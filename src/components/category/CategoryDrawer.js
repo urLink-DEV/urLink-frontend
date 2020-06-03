@@ -135,9 +135,7 @@ export default function CategoryDrawer(props) {
   const dragEnd = (e, id, name, order, favorited) => {
     categoryDispatch.updateCategory(id, name, order, favorited)
     setDragFinished(true)
-    document.querySelectorAll('.dragline').forEach(el => {
-      el.style.display = 'none'
-    })
+    setDragged('')
   }
 
   const drop = (e) => {
@@ -146,6 +144,7 @@ export default function CategoryDrawer(props) {
 
     if(type === 'category') {
       e.preventDefault()
+      e.currentTarget.previousSibling.style.display = 'none'
     } else if(type === 'link') {
       e.preventDefault()
       linkDispatch.writeLink(overedTabId, [path])
@@ -211,7 +210,7 @@ export default function CategoryDrawer(props) {
         ref={listRef}>
           {favoritedArr.map((data, index) => (
             <>
-            <div className={classes.dragline + " dragline"}></div>
+            <div className={classes.dragline}></div>
             <ListItem 
               key={data.id}
               data-type='category' 
@@ -274,7 +273,7 @@ export default function CategoryDrawer(props) {
         <List>
         {notFavoritedArr.map((data, index) => (
           <>
-          <div className={classes.dragline + " dragline"}></div>
+          <div className={classes.dragline}></div>
           <ListItem 
             key={data.id} 
             data-type='category' 

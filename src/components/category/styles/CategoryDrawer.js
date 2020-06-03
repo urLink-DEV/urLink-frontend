@@ -136,14 +136,11 @@ const useStyles = makeStyles((theme) => ({
   },
   dragline: {
     width: 208,
-    margin: "15px 0",
+    margin: "20px 0",
     height: 2,
     borderRadius: 2,
     display: "none",
     backgroundImage: "linear-gradient(271deg, #e0f6ff, #2083ff)"
-  },
-  hidden: {
-    display: "none"
   }
 }))
 
