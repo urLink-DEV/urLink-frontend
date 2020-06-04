@@ -55,6 +55,77 @@ $desktop : "only screen and (min-width: 1025px)";
     font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', sans-serif;
 }
 
+/*-----------Main-----------*/
+.title-Main {
+  width: 190px;
+  height: 108px;
+  font-family: "SpoqaHanSans";
+  font-size: 24px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000000;
+  margin-top: 32px;
+  margin-bottom: 20px;
+}
+
+.title-Main .bold {
+  font-weight: bold;
+} 
+
+.button-list {
+  margin-top: 80px;
+}
+
+.button-blue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 40px;
+  border-radius: 1.8px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+  background-color: #358eff;
+  margin-bottom: 12px;
+
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.58px;
+  color: #ffffff;
+}
+
+.button-white {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 40px;
+  border-radius: 1.8px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  margin-bottom: 12px;
+
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.58px;
+  color: #212529;
+}
+
+.button-list > a:link { text-decoration: none;}
+.button-list > a:visited { text-decoration: none;}
+.button-list > a:hover { text-decoration: none;}
+
+
 
 /*-----------login && signup-----------*/
 
@@ -77,7 +148,7 @@ $mainTextColor: #212529;
     background-color: #fff;
     display: flex;
     flex-direction: column;
-    padding: 50px 40px;
+    padding: 20px 40px;
 }
 
 .logo-URLink {
@@ -280,6 +351,11 @@ $mainTextColor: #212529;
 
 /*-----------login-----------*/
 
+
+input:-webkit-autofill {
+    transition: background-color 1000s ease-in-out 0s;
+}
+
 .logo-google {
     width: 20px;
     height: 20px;
@@ -309,7 +385,7 @@ $mainTextColor: #212529;
 
 .image-box-login {
     height: auto;
-    background-image: url("../images/background1.jpg");
+    background-image: url("../images/mainBackground.png");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -339,7 +415,7 @@ $mainTextColor: #212529;
 
 .image-box-signup {
     height: auto;
-    background-image: url("../images/background2.jpg");
+    background-image: url("../images/mainBackground.png");
     background-repeat: no-repeat;
     background-size: cover;
 }
