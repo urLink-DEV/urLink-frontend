@@ -13,7 +13,7 @@ import useStyles from './styles/CategoryCard'
 
 export default function CategoryCard(props) {
   const classes = useStyles()
-  const {img, title, description} = props.urlInfoList
+  const {image_path, title, description} = props.urlInfoList
 
   const limitedDescription = desc => {
     const limitedLength = 60
@@ -29,11 +29,11 @@ export default function CategoryCard(props) {
             component="img"
             alt="Contemplative Reptile"
             height="140"
-            image={img}
+            image={image_path}
             title="Contemplative Reptile"
           />
           <CardContent className={classes.cardContent}>
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography gutterBottom variant="h6" component="h2">
               {title}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">

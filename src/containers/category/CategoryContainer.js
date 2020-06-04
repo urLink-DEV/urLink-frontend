@@ -33,6 +33,10 @@ export default function CategoryContainer() {
   const [categoryState, setcategory] = useState([])
   const [linkState, setLink] = useState([])
 
+  useEffect(() => {
+    getCategory()
+  },[])
+
   // * 전체 카테고리 가져오기
   const getCategory = (id) => {
     categoryAPI.get({ id })
@@ -132,10 +136,6 @@ export default function CategoryContainer() {
     writeLink,
     deleteLink
   }
-
-  useEffect(() => {
-    getCategory()
-  },[])
 
   const props = {
     getCategoryUrlInfoList,
