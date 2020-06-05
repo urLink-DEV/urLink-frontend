@@ -5,7 +5,7 @@ import {useCategoryDispatch} from '../../containers/category/CategoryContainer'
 import useStyles from './styles/CategoryTab'
 
 
-export default function CategoryTab({text, id, order, isFavorited, urlCount, selected, dragFinished}) {
+export default function CategoryTab({text, id, order, isFavorited, urlCount, selected, dragFinished, historyDragFinished}) {
   const classes = useStyles()
 
   const dispatch = useCategoryDispatch()
@@ -31,7 +31,7 @@ export default function CategoryTab({text, id, order, isFavorited, urlCount, sel
     <div>
       <Paper 
         component="div" 
-        className={classes.root + (dragFinished ? ' dragFinished' : '') } 
+        className={classes.root + (dragFinished || historyDragFinished ? ' dragFinished' : '') } 
         id={`${id}`}
       >
         <InputBase 

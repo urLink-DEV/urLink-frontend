@@ -102,6 +102,8 @@ export default function CategoryDrawer(props) {
   const [overedTabOrder, setOveredTabOrder] = useState(0)
   const [overedTabFavorite, setOveredTabFavorite] = useState(null)
   const [dragFinished, setDragFinished] = useState(false)
+  const [dragHistoryFinished, setDragHistoryFinished] = useState(false)
+
 
   const listRef = useRef()  
 
@@ -147,6 +149,7 @@ export default function CategoryDrawer(props) {
       e.currentTarget.previousSibling.style.display = 'none'
     } else if(type === 'link') {
       e.preventDefault()
+      setDragHistoryFinished(true)
       linkDispatch.writeLink(overedTabId, [path])
       setDraggedHistory('')
     }
@@ -157,8 +160,7 @@ export default function CategoryDrawer(props) {
     dragged.style.display='none'
     setOveredTabOrder(draggedOrder)
     setOveredTabFavorite(true)
-  }
-
+  }  
 
   /* 아래는 외부영역 클릭시 버튼 토글 & cleartimeout */
 
@@ -179,7 +181,13 @@ export default function CategoryDrawer(props) {
 
     //setTimeout
     if(dragFinished) {
-      timeId.current = setTimeout(() => setDragFinished(false), 900)
+      timeId.current = setTimeout(() => {
+        setDragFinished(false)
+      }, 900)
+    } else {
+      timeId.current = setTimeout(() => {
+        setDragHistoryFinished(false)
+      }, 800)
     }
 
     return () => {
@@ -189,7 +197,7 @@ export default function CategoryDrawer(props) {
       clearTimeout(timeId.current)
     }
 
-  },[wrapperRef, dragFinished])
+  },[wrapperRef, dragFinished, dragHistoryFinished])
 
 
   
@@ -231,7 +239,8 @@ export default function CategoryDrawer(props) {
                 isFavorited={data.is_favorited}
                 urlCount={data.url_count}
                 selected={(data.id === selectedId)} 
-                dragFinished={(data.id === draggedId ? dragFinished : false)} 
+                dragFinished={(data.id === draggedId ? dragFinished : null)} 
+                historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : null)}
               />
             </ListItem>
             </>
@@ -295,6 +304,7 @@ export default function CategoryDrawer(props) {
             urlCount={data.url_count}
             selected={(data.id === selectedId)} 
             dragFinished={(data.id === draggedId ? dragFinished : null)} 
+            historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : null)}
             />
             </ListItem>
           </>
