@@ -34,9 +34,9 @@ export default function CategoryDrawer(props) {
   */
 
   const { 
-    getSearchAllUrlList,
-    getSearchDomainUrlList,
-    getSearchTitleUrlList,
+    getSearchLink,
+    getSearchPathLink,
+    getSearchTitleLink,
     draggedHistory,
     setDraggedHistory
   } = props
@@ -78,27 +78,9 @@ export default function CategoryDrawer(props) {
 
   const handlePressEnterSearchValue = e => {
     if (e.keyCode === 13) {
-      if (toggleAlignment === 'left') getSearchAllUrlList(categories[0].id, searchValue)
-        .then(res => res.data)
-        .then(res => {
-          console.log(res)
-          setSearchedUrlList(res)
-        }).catch(e => console.error(e))
-      
-      if (toggleAlignment === 'center') getSearchDomainUrlList(categories[0].id, searchValue)
-        .then(res => res.data)
-        .then(res => {
-          console.log(res)
-          setSearchedUrlList(res)
-        }).catch(e => console.error(e))
-      
-      if (toggleAlignment === 'right') getSearchTitleUrlList(categories[0].id, searchValue)
-        .then(res => res.data)
-        .then(res => {
-          console.log(res)
-          setSearchedUrlList(res)
-        })
-        .catch(e => console.error(e))
+      if (toggleAlignment === 'left') getSearchLink(categories[0].id, searchValue)
+      if (toggleAlignment === 'center') getSearchPathLink(categories[0].id, searchValue)
+      if (toggleAlignment === 'right') getSearchTitleLink(categories[0].id, searchValue)
     }
   }
 
