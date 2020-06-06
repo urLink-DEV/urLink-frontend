@@ -44,11 +44,10 @@ export default function CategoryDrawer(props) {
   const favoritedArr = categories.filter(data => data.is_favorited === true)
   const notFavoritedArr = categories.filter(data => data.is_favorited === false)
   const classes = useStyles()
-  const [value, setValue] = useState('')
+  const [newCategoryTitle, setNewCategoryTitle] = useState('')
   const [toggleAlignment, setToggleAlignment] = useState('left')
   const [searchValue, setSearchValue] = useState('')
-  const [selectedId, setSelectedId] = useState('')
-  const [searchedUrlList, setSearchedUrlList] = useState([])
+  const [selectedCategoryId, setSelectedCategoryId] = useState('')
 
   const [addOpen, setAddOpen] = useState(true)
   const [deleteOpen, setDeleteOpen] = useState(false)
@@ -59,16 +58,19 @@ export default function CategoryDrawer(props) {
     linkDispatch.getLink(categories[0]?.id)
   }, [categories])
 
-  const handleChange = (e) => {
-    setValue(e.target.value)
+  useEffect(() => {
+    linkDispatch.getLink(selectedCategoryId)
+  }, [selectedCategoryId])
+
+  const handleChangeNewCategoryTitle = (e) => {
+    setNewCategoryTitle(e.target.value)
   }
 
   const handleClickCategoryTitle = () => {
-    linkDispatch.getLink(categories[0]?.id)
+    linkDispatch.getLink(selectedCategoryId)
   }
 
   const handleToggleChange = (event, newAlignment) => {
-    console.log('align', newAlignment)
     setToggleAlignment(newAlignment);
   }
 
@@ -78,23 +80,23 @@ export default function CategoryDrawer(props) {
 
   const handlePressEnterSearchValue = e => {
     if (e.keyCode === 13) {
-      if (toggleAlignment === 'left') getSearchLink(categories[0].id, searchValue)
-      if (toggleAlignment === 'center') getSearchPathLink(categories[0].id, searchValue)
-      if (toggleAlignment === 'right') getSearchTitleLink(categories[0].id, searchValue)
+      if (toggleAlignment === 'left') getSearchLink(selectedCategoryId, searchValue)
+      if (toggleAlignment === 'center') getSearchPathLink(selectedCategoryId, searchValue)
+      if (toggleAlignment === 'right') getSearchTitleLink(selectedCategoryId, searchValue)
     }
   }
 
   const addTab = () => {
-    categoryDispatch.writeCategory(value, false)
-    setValue('')
+    categoryDispatch.writeCategory(newCategoryTitle, false)
+    setNewCategoryTitle('')
     setAddOpen(true)
     setEnterOpen(false)
   }
 
   const pressEnter = (e) => {
     if (e.keyCode === 13) {
-      categoryDispatch.writeCategory(value, false)
-      setValue('')
+      categoryDispatch.writeCategory(newCategoryTitle, false)
+      setNewCategoryTitle('')
       setAddOpen(true)
       setEnterOpen(false)
     }
@@ -117,7 +119,7 @@ export default function CategoryDrawer(props) {
   }
   
   const deleteTab = () => {
-    categoryDispatch.deleteCategory(selectedId)
+    categoryDispatch.deleteCategory(selectedCategoryId)
     setDeleteModalOpen(false)
     setDeleteOpen(false)
     setAddOpen(true)
@@ -125,7 +127,7 @@ export default function CategoryDrawer(props) {
   const toggleAddBtn = (id) => {
     setAddOpen(false)
     setDeleteOpen(true)
-    setSelectedId(id)
+    setSelectedCategoryId(id)
   }
 
   const toggleEnterTab = () => {
@@ -251,7 +253,7 @@ export default function CategoryDrawer(props) {
             <ListItem 
               key={data.id}
               data-type='category' 
-              className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
+              className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
               onClick={() => toggleAddBtn(data.id)}
               draggable='true'
               onDragStart={(e) => dragStart(e, data.id, data.order)}
@@ -267,7 +269,7 @@ export default function CategoryDrawer(props) {
                 order={data.order}
                 isFavorited={data.is_favorited}
                 urlCount={data.url_count}
-                selected={(data.id === selectedId)} 
+                selected={(data.id === selectedCategoryId)} 
                 dragFinished={(data.id === draggedId ? dragFinished : false)} 
               />
             </ListItem>
@@ -300,8 +302,8 @@ export default function CategoryDrawer(props) {
             disableUnderline={true}
             className={classes.input}
             placeholder="New one"
-            value={value}
-            onChange={handleChange}
+            value={newCategoryTitle}
+            onChange={handleChangeNewCategoryTitle}
             onKeyDown={pressEnter}
           />
             <Button className={classes.okBtn} onClick={addTab}>확인</Button>
@@ -314,7 +316,7 @@ export default function CategoryDrawer(props) {
               <ListItem 
                 key={data.id} 
                 data-type='category' 
-                className={classes.listItem + (data.id === selectedId ? ' '+classes.selected : '' )}
+                className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
                 onClick={() => toggleAddBtn(data.id)}
                 draggable='true'
                 onDragStart={(e) => dragStart(e, data.id, data.order)}
@@ -330,7 +332,7 @@ export default function CategoryDrawer(props) {
                 order={data.order}
                 isFavorited={data.is_favorited}
                 urlCount={data.url_count}
-                selected={(data.id === selectedId)} 
+                selected={(data.id === selectedCategoryId)} 
                 dragFinished={(data.id === draggedId ? dragFinished : null)} 
                 />
               </ListItem>
