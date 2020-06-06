@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useRef} from 'react'
-import linkAPI from '../../commons/apis/link'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -69,45 +68,38 @@ export default function CategoryDrawer(props) {
   }
 
   const handleToggleChange = (event, newAlignment) => {
+    console.log('align', newAlignment)
     setToggleAlignment(newAlignment);
   }
 
   const handleChangeSearchValue = e => {
     setSearchValue(e.target.value)
   }
-  const handleSearchAll = () => {
-    // if (!selectedId) {
-    //   console.log('no id')
-    //   return
-    // }
-    console.log('all', searchValue)
-    getSearchAllUrlList(categories[0].id, searchValue)
-      .then(res => res.data)
-      .then(res => {
-        console.log(res)
-        setSearchedUrlList(res)
-      }).catch(e => console.error(e))
-  }
 
-  const handleSearchDomain = () => {
-    console.log('domain', searchValue)
-    getSearchDomainUrlList(categories[0].id, searchValue)
-      .then(res => res.data)
-      .then(res => {
-        console.log(res)
-        setSearchedUrlList(res)
-      }).catch(e => console.error(e))
-  }
-
-  const handleSearchTitle = () => {
-    console.log('title', searchValue)
-    getSearchTitleUrlList(categories[0].id, searchValue)
-      .then(res => res.data)
-      .then(res => {
-        console.log(res)
-        setSearchedUrlList(res)
-      })
-      .catch(e => console.error(e))
+  const handlePressEnterSearchValue = e => {
+    if (e.keyCode === 13) {
+      if (toggleAlignment === 'left') getSearchAllUrlList(categories[0].id, searchValue)
+        .then(res => res.data)
+        .then(res => {
+          console.log(res)
+          setSearchedUrlList(res)
+        }).catch(e => console.error(e))
+      
+      if (toggleAlignment === 'center') getSearchDomainUrlList(categories[0].id, searchValue)
+        .then(res => res.data)
+        .then(res => {
+          console.log(res)
+          setSearchedUrlList(res)
+        }).catch(e => console.error(e))
+      
+      if (toggleAlignment === 'right') getSearchTitleUrlList(categories[0].id, searchValue)
+        .then(res => res.data)
+        .then(res => {
+          console.log(res)
+          setSearchedUrlList(res)
+        })
+        .catch(e => console.error(e))
+    }
   }
 
   const addTab = () => {
@@ -225,8 +217,6 @@ export default function CategoryDrawer(props) {
     setOveredTabOrder(draggedOrder)
     setOveredTabFavorite(true)
   }
-
-
   /* 아래는 외부영역 클릭시 버튼 토글 & cleartimeout */
 
   const wrapperRef = useRef(null)
@@ -408,6 +398,7 @@ export default function CategoryDrawer(props) {
                   value={searchValue}
                   variant='filled'
                   size='small' 
+                  onKeyDown={handlePressEnterSearchValue}
                 />          
               </Grid>
               <Grid>
@@ -419,7 +410,6 @@ export default function CategoryDrawer(props) {
                 >
                   <ToggleButton
                     value='left'
-                    onClick={handleSearchAll}
                     className={classes.popoverBtn}
                     variant='contained'
                     size='small'
@@ -428,7 +418,6 @@ export default function CategoryDrawer(props) {
                   </ToggleButton>
                   <ToggleButton
                     value='center'
-                    onClick={handleSearchDomain}
                     className={classes.popoverBtn}
                     variant='contained'
                     size='small'
@@ -437,7 +426,6 @@ export default function CategoryDrawer(props) {
                   </ToggleButton>
                   <ToggleButton
                     value='right'
-                    onClick={handleSearchTitle}
                     className={classes.popoverBtn}
                     variant='contained'
                     size='small'
