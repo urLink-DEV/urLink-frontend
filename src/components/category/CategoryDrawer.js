@@ -48,6 +48,7 @@ export default function CategoryDrawer(props) {
   const [toggleAlignment, setToggleAlignment] = useState('left')
   const [searchValue, setSearchValue] = useState('')
   const [selectedCategoryId, setSelectedCategoryId] = useState('')
+  const [selectedCategoryTitle, setSelectedCategoryTitle] = useState('')
 
   const [addOpen, setAddOpen] = useState(true)
   const [deleteOpen, setDeleteOpen] = useState(false)
@@ -56,6 +57,7 @@ export default function CategoryDrawer(props) {
 
   useEffect(() => {
     linkDispatch.getLink(categories[0]?.id)
+    setSelectedCategoryTitle(categories[0]?.name)
   }, [categories])
 
   useEffect(() => {
@@ -102,7 +104,7 @@ export default function CategoryDrawer(props) {
     }
   }
 
-  const cancleAddTab = () => {
+  const cancelAddTab = () => {
     setAddOpen(true)
     setEnterOpen(false)
   }
@@ -124,10 +126,11 @@ export default function CategoryDrawer(props) {
     setDeleteOpen(false)
     setAddOpen(true)
   }
-  const toggleAddBtn = (id) => {
+  const handleClickCategory = (id, name) => {
     setAddOpen(false)
     setDeleteOpen(true)
     setSelectedCategoryId(id)
+    setSelectedCategoryTitle(name)
   }
 
   const toggleEnterTab = () => {
@@ -254,7 +257,7 @@ export default function CategoryDrawer(props) {
               key={data.id}
               data-type='category' 
               className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
-              onClick={() => toggleAddBtn(data.id)}
+              onClick={() => handleClickCategory(data.id, data.name)}
               draggable='true'
               onDragStart={(e) => dragStart(e, data.id, data.order)}
               onDragEnd={(e) => dragEnd(e, data.id, data.name, overedTabOrder, overedTabFavorite)}
@@ -307,7 +310,7 @@ export default function CategoryDrawer(props) {
             onKeyDown={pressEnter}
           />
             <Button className={classes.okBtn} onClick={addTab}>확인</Button>
-            <Button className={classes.cancleBtn} onClick={cancleAddTab}>취소</Button>
+            <Button className={classes.cancelBtn} onClick={cancelAddTab}>취소</Button>
         </Paper>
         <List>
           {notFavoritedArr.map((data, index) => (
@@ -317,7 +320,7 @@ export default function CategoryDrawer(props) {
                 key={data.id} 
                 data-type='category' 
                 className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
-                onClick={() => toggleAddBtn(data.id)}
+                onClick={() => handleClickCategory(data.id, data.name)}
                 draggable='true'
                 onDragStart={(e) => dragStart(e, data.id, data.order)}
                 onDragEnd={(e) => dragEnd(e, data.id, data.name, overedTabOrder, overedTabFavorite)}
@@ -367,7 +370,7 @@ export default function CategoryDrawer(props) {
       <main className={classes.content}>
         <div className={classes.toolbar}>
           <Button onClick={handleClickCategoryTitle}>
-            {categories[0]?.title}
+            {selectedCategoryTitle}
           </Button>
           <CategorySearchPopOver>
             <Grid  className={classes.popover}>

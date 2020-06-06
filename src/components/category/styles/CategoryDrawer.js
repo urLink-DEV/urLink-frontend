@@ -122,7 +122,7 @@ export const useStyles = makeStyles((theme) => ({
       backgroundColor: '#2083ff'
     }
   },
-  cancleBtn: {
+  cancelBtn: {
     width: 37,
     height: 24,
     borderRadius: 4,
