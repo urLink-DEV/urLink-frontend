@@ -1,19 +1,29 @@
-import React, {useState} from 'react'
-import CategoryHistory from './CategoryHistory'
-import CategoryHistoryList from './CategoryHistoryList'
-import useStyles from './styles/CategoryAppBar'
+import React, {useState,useEffect} from 'react'
+import useStyles from 'styles/CategoryAppBar'
 import alarm from '../../images/alarm.png'
 import person from '../../images/person.png'
 import history from '../../images/history.png'
+import CategoryHistory from 'CategoryHistory'
+import CategoryHistoryList from 'CategoryHistoryList'
+
 
 export default function CategoryAppBar(props) {
-
   const classes = useStyles()
-  const {urlList, setDraggedHistory} = props          
-  const [open, setOpen] = useState(false)
+  const [historyOpen, setHistoryOpen] = useState(false)
+  const {setDraggedHistory, getHistory} = props          
+  const [urlList, setUrlList] = useState([])
+
   const onClickHistoryDrawer = () => {
-    setOpen(!open)
+    setHistoryOpen(!historyOpen)
   }
+
+  useEffect(() => {
+    if(historyOpen){
+      getHistory({text: "", callback : (historyItems) => {
+        setUrlList(historyItems)
+      }, maxResults: 100})
+    }
+  }, [historyOpen])
 
   return (
     <div>
@@ -30,10 +40,12 @@ export default function CategoryAppBar(props) {
           </button>
         </div>
       </div>
-      <CategoryHistory open={open} onClickHistoryDrawer={onClickHistoryDrawer}>
+
+      <CategoryHistory open={historyOpen} onClickHistoryDrawer={onClickHistoryDrawer}>
         <CategoryHistoryList 
           urlList={urlList}
-          setDraggedHistory={setDraggedHistory}/>
+          setDraggedHistory={setDraggedHistory}
+        />
       </CategoryHistory>
     </div>
     
