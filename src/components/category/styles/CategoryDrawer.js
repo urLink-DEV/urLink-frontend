@@ -1,8 +1,23 @@
 import { makeStyles } from '@material-ui/core/styles'
+import {withStyles} from '@material-ui/styles'
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
+ 
+export const StyledToggleButtonGroup = withStyles((theme) => ({
+  grouped: {
+    margin: theme.spacing(0.5),
+    border: 'none',
+    '&:not(:first-child)': {
+      borderRadius: theme.shape.borderRadius,
+    },
+    '&:first-child': {
+      borderRadius: theme.shape.borderRadius,
+    },
+  },
+}))(ToggleButtonGroup);
 
 const drawerWidth = 260;
 
-const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     height: '100vh',
@@ -13,19 +28,6 @@ const useStyles = makeStyles((theme) => ({
       flexShrink: 0,
     }
   },
-  appBar: {
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-    },
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
-  },
-  // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
@@ -120,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: '#2083ff'
     }
   },
-  cancleBtn: {
+  cancelBtn: {
     width: 37,
     height: 24,
     borderRadius: 4,
@@ -133,6 +135,30 @@ const useStyles = makeStyles((theme) => ({
     width:210,
     boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
     border: "solid 1px #2083ff"
+  },
+  searchIcon: {
+    marginRight: 5,
+  },
+  popover: {
+    padding: '5px 10px',
+  },
+  popoverDiv: {
+    marginBottom: 10,
+  },
+  popoverBtn: {
+    margin: 5,
+  },
+  textfield: {
+    width: '100%',
+  },
+  '@global': {
+    '.MuiFilledInput-inputMarginDense': {
+      paddingTop: '10px'
+    },
+    '.MuiToggleButton-root.Mui-selected': {
+      backgroundColor: '#2083ff',
+      color: 'white',
+    }
   },
   dragline: {
     width: 208,
