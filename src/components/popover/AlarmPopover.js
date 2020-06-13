@@ -12,16 +12,23 @@ export default function AlarmPopover(props) {
   const classes = useStyles()
   const {list} = props
 
+  const onClickAlarm = () => {
+    console.log('click Alarm')
+  }
+
   return (
     <List className={classes.root}>
-      {list.map(e => 
-        <ListItem>
+      {list.map((e, i) => 
+        <ListItem key={i} button onClick={onClickAlarm}>
         <ListItemAvatar>
-          <Avatar>
+          <Avatar className={classes.avatar}>
             {e.img ? <img className={classes.img} src={e.img}/> : <ImageIcon />}
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary={e.title} secondary={e.date} />
+        <ListItemText className={classes.text} 
+          primary={e.title} 
+          secondary={e.date}
+        />
       </ListItem>
       )}
     </List>

@@ -17,6 +17,7 @@ export default function CategoryCard(props) {
 
   const limitedDescription = desc => {
     const limitedLength = 60
+    if (!desc) return ''
     return desc.length > limitedLength 
       ? desc.substring(0, limitedLength) + ' ... '
       : desc
@@ -33,10 +34,18 @@ export default function CategoryCard(props) {
             title="Contemplative Reptile"
           />
           <CardContent className={classes.cardContent}>
-            <Typography gutterBottom variant="h6" component="h2">
+            <Typography className={classes.cardContentTitle}
+              gutterBottom 
+              variant="h6" 
+              component="h2"
+            >
               {title}
             </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography className={classes.cardContentDesc}
+              variant="body2" 
+              color="textSecondary"
+              component="p"
+            >
               {limitedDescription(description)}
             </Typography>
           </CardContent>
