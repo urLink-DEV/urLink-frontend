@@ -1,49 +1,87 @@
-import { makeStyles } from '@material-ui/core/styles'
-
-const drawerWidth = '50%'
+import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: '100vh',
   },
-  drawer: {
-    backgroundColor: '#fff',
-    position: 'absolute',
-    right: 0,
-    height: '100vh',
-    boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.1)',
+  urlTitleFont: {
+    width: '50px',
+    height: '18px',
+    fontFamily: 'SpoqaHanSans',
+    fontSize: '12px',
+    fontWeight: 'normal',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 'normal',
+    letterSpacing: 'normal',
+    color: '#868e96',
   },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+  linkDiv: {
+    '&:hover': {
+      boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12)',
+      "& $linkDivSubFont": {
+        width: "127px"
+      },
+      "& $linkIcon" : {
+        display: "inline"
+      }
+    },
+    width: '525px',
+    fontFamily: 'SpoqaHanSans',
+    borderRadius: '4px',    
+    padding: '5px 12px 5px 12px',
+    margin: '10px 0',
+    backgroundColor: '#ffffff',
+    boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.12)'
   },
-  drawerOpenSpace: {
-    width: '100%',
-    height: '100vh'
+  linkFavicon: {
+    width: '16px',
+    height: '16px',
+    fontFamily: 'simple-line-icons',
+    fontSize: '16px',
+    fontWeight: 'normal',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 'normal',
+    letterSpacing: 'normal',
+    color: '#212529',
+    marginRight: '12px'
   },
-  drawerClose: {
-    width: 30,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    backgroundColor: '#fff',
-    position: 'absolute',
-    right: 0,
-    height: '100vh',
-    boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.1)',
-    overflowX: 'hidden',
+  linkDivMainFont: {
+    display: 'inline-block',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden', 
+    textOverflow: 'ellipsis',
+
+    width: '295px',
+    height: '17px',
+    fontSize: '14px',
+    fontWeight: 'normal',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 'normal',
+    letterSpacing: '-0.44px',
+    color: '#212529',
+    marginRight: '12px'
   },
-  '@global': {
-    '.MuiDrawer-paperAnchorDockedRight': {
-      position: 'relative',
-      width: '100%',
-      height: '100vh',
-    }
+  linkDivSubFont: {
+    display: 'inline-block',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden', 
+    textOverflow: 'ellipsis',
+
+    width: '157px',
+    height: '19px',
+    fontSize: '14px',
+    fontWeight: 'normal',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 'normal',
+    letterSpacing: '-0.6px',
+    color: '#737b84',
   },
+  linkIcon: {
+    display: "none"
+  }
 }))
 
 export default useStyles

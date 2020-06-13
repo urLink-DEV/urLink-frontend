@@ -1,49 +1,56 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
+
 import Button from '@material-ui/core/Button'
 import Popover from '@material-ui/core/Popover'
 import Badge from '@material-ui/core/Badge'
-import CategoryHistory from './CategoryHistory'
-import CategoryHistoryList from './CategoryHistoryList'
-import AlarmPopOver from '../popover/AlarmPopover'
 import useStyles from './styles/CategoryAppBar'
+
 import alarm from '../../images/alarm.png'
 import person from '../../images/person.png'
 import history from '../../images/history.png'
 
-export default function CategoryAppBar(props) {
+import AlarmPopOver from '../popover/AlarmPopover'
+import CategoryHistoryDrawer from './CategoryHistoryDrawer'
 
+export default function CategoryAppBar(props) {  
   const classes = useStyles()
-  const {urlList, setDraggedHistory, newAlarmList, newRecentNofitication, newProfileList} = props
-  const [openDrawer, setOpenDrawer] = useState(false)
+  const { 
+    getHistory, 
+    draggedHistory, 
+    setDraggedHistory, 
+    newAlarmList, 
+    newRecentNofitication,
+    newProfileList 
+  } = props
+  
+  const [historyDrawerOpen, setHistoryDrawerOpen] = useState(false) // * history
   const [anchorAlarm, setAnchorAlarm] = useState(null)
   const [anchorProfile, setAnchorProfile] = useState(null)
-
-  const onClickHistoryDrawer = () => {
-    setOpenDrawer(!openDrawer)
-  }
-
-  const handleAlarmPopOverClick = (event) => {
-    console.log(event.currentTarget)
-    setAnchorAlarm(event.currentTarget)
-  };
-
-  const handleAlarmPopOverClose = () => {
-    setAnchorAlarm(null)
-  };
-
-  const handleProfilePopOverClick = (event) => {
-    console.log(event.currentTarget)
-    setAnchorProfile(event.currentTarget)
-  };
-
-  const handleProfilePopOverClose = () => {
-    setAnchorProfile(null)
-  };
 
   const alarmOpen = Boolean(anchorAlarm)
   const alarmId = alarmOpen ? 'alarm-popover' : undefined
   const profileOpen = Boolean(anchorProfile)
   const profileId = profileOpen ? 'profile-popover' : undefined
+
+  const onClickHistoryDrawer = () => { // * history
+    setHistoryDrawerOpen(!historyDrawerOpen)
+  }
+
+  const handleAlarmPopOverClick = (event) => {
+    setAnchorAlarm(event.currentTarget)
+  }
+
+  const handleAlarmPopOverClose = () => {
+    setAnchorAlarm(null)
+  }
+
+  const handleProfilePopOverClick = (event) => {
+    setAnchorProfile(event.currentTarget)
+  }
+
+  const handleProfilePopOverClose = () => {
+    setAnchorProfile(null)
+  }
 
   return (
     <div>
@@ -52,6 +59,7 @@ export default function CategoryAppBar(props) {
           <Button onClick={onClickHistoryDrawer}>
             <img src={history} alt="history button" />
           </Button>
+
           <Button
             aria-describedby={alarmId}
             onClick={handleAlarmPopOverClick}
@@ -68,6 +76,7 @@ export default function CategoryAppBar(props) {
               <img src={alarm} alt="alarm button" />
             </Badge>
           </Button>
+
           <Popover
             id={alarmId}
             open={alarmOpen}
@@ -84,6 +93,7 @@ export default function CategoryAppBar(props) {
           >
             <AlarmPopOver list={newAlarmList}/>
           </Popover>
+          
           <Button
             aria-describedby={profileId}
             onClick={handleProfilePopOverClick}
@@ -100,6 +110,7 @@ export default function CategoryAppBar(props) {
               <img src={person} alt='person button' />
             </Badge>
           </Button>
+          
           <Popover 
             id={profileId}
             open={profileOpen}
@@ -118,12 +129,14 @@ export default function CategoryAppBar(props) {
           </Popover>
         </div>
       </div>
-      <CategoryHistory open={openDrawer} onClickHistoryDrawer={onClickHistoryDrawer}>
-        <CategoryHistoryList 
-          urlList={urlList}
-          setDraggedHistory={setDraggedHistory}/>
-      </CategoryHistory>
+
+      <CategoryHistoryDrawer
+        getHistory={getHistory}
+        setDraggedHistory={setDraggedHistory}
+        draggedHistory={draggedHistory} 
+        historyDrawerOpen={historyDrawerOpen} 
+        onClickHistoryDrawer={onClickHistoryDrawer}
+      />
     </div>
-    
   )
 }

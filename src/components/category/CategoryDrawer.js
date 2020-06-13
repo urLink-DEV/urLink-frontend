@@ -1,4 +1,7 @@
+// * React
 import React, {useState, useEffect, useRef} from 'react'
+
+// * UI (CSS)
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -11,28 +14,31 @@ import SearchIcon from '@material-ui/icons/Search'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
 import ToggleButton from '@material-ui/lab/ToggleButton'
+import {useStyles, StyledToggleButtonGroup} from './styles/CategoryDrawer'
+
+// * components
 import CategoryCard from '../../components/category/CategoryCard'
 import {AlertModal} from '../../components/modal'
-import {useLinkState, useLinkDispatch, useCategoryState, useCategoryDispatch} from '../../containers/category/CategoryContainer'
 import CategoryAppBar from './CategoryAppBar'
 import CategoryTab from './CategoryTab'
 import CategorySearchPopOver from './CategorySearchPopOver'
-import {useStyles, StyledToggleButtonGroup} from './styles/CategoryDrawer'
 
+// * Hooks
+import {useLinkState, useLinkDispatch, useCategoryState, useCategoryDispatch} from '../../containers/category/CategoryContainer'
+
+/*
+  * categoryDispatch.getCategory()
+  * categoryDispatch.writeCategory(value,1,false)
+  * linkDispatch.getLink(87, "trust")
+  * linkDispatch.writeLink(87, ["https://trustyoo86.github.io/javascript/2019/12/27/chrome-extension-overview.html"])
+  * 이런식으로 불러와서 사용 가능
+*/
 export default function CategoryDrawer(props) {
 
   const categories = useCategoryState()
   const categoryDispatch = useCategoryDispatch()
   const links = useLinkState()
   const linkDispatch = useLinkDispatch()
-  /*
-  categoryDispatch.getCategory()
-  categoryDispatch.writeCategory(value,1,false)
-  linkDispatch.getLink(87, "trust")
-  linkDispatch.writeLink(87, ["https://trustyoo86.github.io/javascript/2019/12/27/chrome-extension-overview.html"])
-  이런식으로 불러와서 사용 가능
-  */
-
   const { 
     getSearchLink,
     getSearchPathLink,
@@ -139,8 +145,9 @@ export default function CategoryDrawer(props) {
   }
 
 
-  /* 아래는 drag n drop 로직 */
-
+  /*
+    * * 아래는 drag n drop 로직
+  */
   const [dragged, setDragged] = useState('')
   const [draggedOrder, setDraggedOrder] = useState(0)
   const [draggedId, setDraggedId] = useState(0)
@@ -210,22 +217,25 @@ export default function CategoryDrawer(props) {
 
   /* 아래는 외부영역 클릭시 버튼 토글 & cleartimeout */
 
+
+  /*
+    * 아래는 외부영역 클릭시 버튼 토글 & cleartimeout 
+  */
   const wrapperRef = useRef(null)
   const timeId = useRef()
 
   useEffect(() => {
-
-    //change add&delete button state if clicked on outside of element
+    // * change add&delete button state if clicked on outside of element
     function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
         setAddOpen(true)
         setDeleteOpen(false)
       } 
     }
-    // Bind the event listener
+    // * Bind the event listener
     document.addEventListener("mousedown", handleClickOutside)
 
-    //setTimeout
+    // * setTimeout
     if(dragFinished) {
       timeId.current = setTimeout(() => {
         setDragFinished(false)
@@ -237,9 +247,9 @@ export default function CategoryDrawer(props) {
     }
 
     return () => {
-      // Unbind the event and timeout on clean up
+      // * Unbind the event and timeout on clean up
       document.removeEventListener("mousedown", handleClickOutside)
-      //clearTimeout
+      // * clearTimeout
       clearTimeout(timeId.current)
     }
 
