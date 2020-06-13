@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react'
+import React, { useState } from 'react'
 
 import Button from '@material-ui/core/Button'
 import Popover from '@material-ui/core/Popover'
@@ -10,34 +10,30 @@ import person from '../../images/person.png'
 import history from '../../images/history.png'
 
 import AlarmPopOver from '../popover/AlarmPopover'
-import CategoryHistory from './CategoryHistory'
-import CategoryHistoryList from './CategoryHistoryList'
+import CategoryHistoryDrawer from './CategoryHistoryDrawer'
 
-
-export default function CategoryAppBar(props) {
+export default function CategoryAppBar(props) {  
   const classes = useStyles()
+  const { 
+    getHistory, 
+    draggedHistory, 
+    setDraggedHistory, 
+    newAlarmList, 
+    newRecentNofitication,
+    newProfileList 
+  } = props
   
-  const {getHistory, setDraggedHistory, newAlarmList, newRecentNofitication, newProfileList, urlList} = props
-  const [historyOpen, setHistoryOpen] = useState(false)
+  const [historyDrawerOpen, setHistoryDrawerOpen] = useState(false) // * history
   const [anchorAlarm, setAnchorAlarm] = useState(null)
   const [anchorProfile, setAnchorProfile] = useState(null)
-  // const [urlList, setUrlList] = useState([])
 
   const alarmOpen = Boolean(anchorAlarm)
   const alarmId = alarmOpen ? 'alarm-popover' : undefined
   const profileOpen = Boolean(anchorProfile)
   const profileId = profileOpen ? 'profile-popover' : undefined
 
-  useEffect(() => {
-    // if(historyOpen){
-    //   getHistory({text: "", callback : (historyItems) => {
-    //     setUrlList(historyItems)
-    //   }, maxResults: 100})
-    // }
-  }, [historyOpen])
-
-  const onClickHistoryDrawer = () => {
-    setHistoryOpen(!historyOpen)
+  const onClickHistoryDrawer = () => { // * history
+    setHistoryDrawerOpen(!historyDrawerOpen)
   }
 
   const handleAlarmPopOverClick = (event) => {
@@ -134,12 +130,13 @@ export default function CategoryAppBar(props) {
         </div>
       </div>
 
-      <CategoryHistory open={historyOpen} onClickHistoryDrawer={onClickHistoryDrawer}>
-        <CategoryHistoryList 
-          urlList={urlList}
-          setDraggedHistory={setDraggedHistory}
-        />
-      </CategoryHistory>
+      <CategoryHistoryDrawer
+        getHistory={getHistory}
+        setDraggedHistory={setDraggedHistory}
+        draggedHistory={draggedHistory} 
+        historyDrawerOpen={historyDrawerOpen} 
+        onClickHistoryDrawer={onClickHistoryDrawer}
+      />
     </div>
   )
 }

@@ -138,7 +138,7 @@ export default function CategoryContainer() {
   }
 
   // * 드래그된 히스토리 target
-  const [draggedHistory, setDraggedHistory] = useState('')
+  const [draggedHistory, setDraggedHistory] = useState([])
   
 
   const categoryDispatch = {
@@ -304,6 +304,7 @@ const newRecentNofitication = [
     date: new Date(),
   }
 ]
+
 const newProfileList = {
   nickName: '녹챠챠',
   email: 'isoo7510@gmail.com',
