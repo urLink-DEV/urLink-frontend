@@ -44,7 +44,9 @@ export default function CategoryDrawer(props) {
     getSearchPathLink,
     getSearchTitleLink,
     draggedHistory,
-    setDraggedHistory
+    setDraggedHistory,
+    selectedLinkList,
+    setSelectedLinkList
   } = props
 
   const favoritedArr = categories.filter(data => data.is_favorited === true)
@@ -146,8 +148,9 @@ export default function CategoryDrawer(props) {
 
 
   /*
-    * * 아래는 drag n drop 로직
+    아래는 drag n drop 로직
   */
+
   const [dragged, setDragged] = useState('')
   const [draggedOrder, setDraggedOrder] = useState(0)
   const [draggedId, setDraggedId] = useState(0)
@@ -172,8 +175,9 @@ export default function CategoryDrawer(props) {
   const dragOver = (e, id, order, favorited) => {
 
     e.preventDefault()
+    console.log('over', draggedHistory)
 
-    if(draggedHistory !== '' && draggedHistory.dataset.type === 'link') {
+    if(draggedHistory.length !== 0 && draggedHistory[0].dataset.type === 'link') {
       setOveredTabId(id)
     } else if(dragged.dataset.type === 'category') {
       setOveredTabOrder(order)
@@ -195,7 +199,10 @@ export default function CategoryDrawer(props) {
 
   const drop = (e) => {
     const type = e.dataTransfer.getData('text/type')
-    const path = e.dataTransfer.getData('text/link')
+    const filteredLinkList = [] 
+    selectedLinkList.forEach(link => filteredLinkList.push(link.path))
+
+    console.log('dropped', selectedLinkList)
 
     if(type === 'category') {
       e.preventDefault()
@@ -203,8 +210,9 @@ export default function CategoryDrawer(props) {
     } else if(type === 'link') {
       e.preventDefault()
       setDragHistoryFinished(true)
-      linkDispatch.writeLink(overedTabId, [path])
-      setDraggedHistory('')
+      linkDispatch.writeLink(overedTabId, filteredLinkList)
+      setSelectedLinkList([])
+      setDraggedHistory([])
     }
   }
 
@@ -215,12 +223,9 @@ export default function CategoryDrawer(props) {
     setOveredTabFavorite(true)
   }  
 
+
   /* 아래는 외부영역 클릭시 버튼 토글 & cleartimeout */
 
-
-  /*
-    * 아래는 외부영역 클릭시 버튼 토글 & cleartimeout 
-  */
   const wrapperRef = useRef(null)
   const timeId = useRef()
 
@@ -273,33 +278,33 @@ export default function CategoryDrawer(props) {
         <List 
         ref={listRef}>
           {favoritedArr.map((data, index) => (
-            <>
-            <div className={classes.dragline}></div>
-            <ListItem 
-              key={data.id}
-              data-type='category' 
-              className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
-              onClick={() => handleClickCategory(data.id, data.name)}
-              draggable='true'
-              onDragStart={(e) => dragStart(e, data.id, data.order)}
-              onDragEnd={(e) => dragEnd(e, data.id, data.name, overedTabOrder, overedTabFavorite)}
-              onDragOver={(e) => dragOver(e, data.id, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
-              onDragLeave={dragLeave}
-              onDrop={drop}
-            >
-              <CategoryTab 
-                key={data.id} 
-                text={data.name} 
-                id={data.id} 
-                order={data.order}
-                isFavorited={data.is_favorited}
-                urlCount={data.url_count}
-                selected={(data.id === selectedCategoryId)} 
-                dragFinished={(data.id === draggedId ? dragFinished : false)} 
-                historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : null)}
-              />
-            </ListItem>
-            </>
+            <React.Fragment key={data.id}>
+              <div className={classes.dragline}></div>
+              <ListItem 
+                key={data.id}
+                data-type='category' 
+                className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
+                onClick={() => handleClickCategory(data.id, data.name)}
+                draggable='true'
+                onDragStart={(e) => dragStart(e, data.id, data.order)}
+                onDragEnd={(e) => dragEnd(e, data.id, data.name, overedTabOrder, overedTabFavorite)}
+                onDragOver={(e) => dragOver(e, data.id, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
+                onDragLeave={dragLeave}
+                onDrop={drop}
+              >
+                <CategoryTab 
+                  key={data.id} 
+                  text={data.name} 
+                  id={data.id} 
+                  order={data.order}
+                  isFavorited={data.is_favorited}
+                  urlCount={data.url_count}
+                  selected={(data.id === selectedCategoryId)} 
+                  dragFinished={(data.id === draggedId ? dragFinished : false)} 
+                  historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : null)}
+                />
+              </ListItem>
+            </React.Fragment>
           ))}
         </List>
         <div className="category-text">
@@ -337,7 +342,7 @@ export default function CategoryDrawer(props) {
         </Paper>
         <List>
           {notFavoritedArr.map((data, index) => (
-            <>
+            <React.Fragment key={data.id}>
               <div className={classes.dragline} />
               <ListItem 
                 key={data.id} 
@@ -363,7 +368,7 @@ export default function CategoryDrawer(props) {
                 historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : null)}
                 />
               </ListItem>
-            </>
+            </React.Fragment>
           ))}
         </List>
       </div>

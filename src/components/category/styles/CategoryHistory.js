@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
         display: "inline"
       }
     },
-    width: '525px',
+    width: '527px',
     fontFamily: 'SpoqaHanSans',
     borderRadius: '4px',    
     padding: '5px 12px 5px 12px',
@@ -80,7 +80,13 @@ const useStyles = makeStyles(theme => ({
     color: '#737b84',
   },
   linkIcon: {
-    display: "none"
+    display: "none",
+    '&:hover': {
+      cursor: 'pointer'
+    }
+  },
+  selectedDiv: {
+    border: 'solid 1px #2083ff'
   }
 }))
 

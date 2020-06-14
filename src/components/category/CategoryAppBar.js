@@ -18,6 +18,8 @@ export default function CategoryAppBar(props) {
     getHistory, 
     draggedHistory, 
     setDraggedHistory, 
+    selectedLinkList,
+    setSelectedLinkList,
     newAlarmList, 
     newRecentNofitication,
     newProfileList 
@@ -132,8 +134,10 @@ export default function CategoryAppBar(props) {
 
       <CategoryHistoryDrawer
         getHistory={getHistory}
-        setDraggedHistory={setDraggedHistory}
         draggedHistory={draggedHistory} 
+        setDraggedHistory={setDraggedHistory}
+        selectedLinkList={selectedLinkList}
+        setSelectedLinkList={setSelectedLinkList}
         historyDrawerOpen={historyDrawerOpen} 
         onClickHistoryDrawer={onClickHistoryDrawer}
       />
