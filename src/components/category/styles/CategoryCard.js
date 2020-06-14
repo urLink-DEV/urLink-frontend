@@ -6,9 +6,11 @@ const useStyles = makeStyles({
   },
   root: {
     maxWidth: 345,
+    margin: 5,
   },
   cardContent: {
-    height: 100,
+    height: 80,
+    padding: 5,
   },
   cardContentTitle: {
     fontSize: 14,

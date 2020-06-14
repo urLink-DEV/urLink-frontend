@@ -28,8 +28,7 @@ export default function CategoryCard(props) {
         <CardActionArea>
           <CardMedia
             component="img"
-            alt="Contemplative Reptile"
-            height="140"
+            height="120"
             image={image_path}
             title="Contemplative Reptile"
           />
