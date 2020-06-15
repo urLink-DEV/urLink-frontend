@@ -23,6 +23,25 @@ const useStyles = makeStyles({
   },
   icons: {
     padding: 5
+  },
+  '@global': {
+    'div.MuiDialogContent-root:first-child': {
+      padding: 0
+    },
+    'div.MuiDialog-paperWidthSm': {
+      width: 310,
+      height: 460,
+    },
+    // 'input.MuiInputBase-input': {
+    //   display: 'none'
+    // },
+    '.MuiCardActions-spacing > :not(:first-child)': {
+      marginLeft: 0,
+    },
+    'div.MuiFormControl-marginNormal': {
+      marginTop: 0,
+      marginBottom: 0,
+    },
   }
 });
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
@@ -10,11 +10,13 @@ import ShareIcon from '@material-ui/icons/Share'
 import AlarmIcon from '@material-ui/icons/Alarm'
 import Typography from '@material-ui/core/Typography'
 import useStyles from './styles/CategoryCard'
+import { KeyboardDatePicker } from '@material-ui/pickers'
 
 export default function CategoryCard(props) {
   const classes = useStyles()
   const {image_path, title, description} = props.urlInfoList
-
+  const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'))
+  
   const limitedDescription = desc => {
     const limitedLength = 60
     if (!desc) return ''
@@ -22,6 +24,15 @@ export default function CategoryCard(props) {
       ? desc.substring(0, limitedLength) + ' ... '
       : desc
   }
+
+  const onClickToSetAlarm = () => {
+    console.log('set alarm')
+  }
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  }
+
   return (
     <div className={classes.divRoot}>
       <Card className={classes.root}>
@@ -56,9 +67,24 @@ export default function CategoryCard(props) {
           <IconButton className={classes.icons} aria-label="share">
             <ShareIcon fontSize="small"/>
           </IconButton>
-          <IconButton className={classes.icons} aria-label="alarm">
+          {/* <IconButton className={classes.icons} 
+            aria-label="alarm"
+            onClick={onClickToSetAlarm}
+          >
             <AlarmIcon fontSize="small"/>
-          </IconButton>
+          </IconButton> */}
+          <KeyboardDatePicker
+            margin="normal"
+            id="date-picker-dialog"
+            format="MM/dd/yyyy"
+            onChange={handleDateChange}
+            InputProps={{
+              disableUnderline: true
+            }}
+            KeyboardButtonProps={{
+              'aria-label': 'change date',
+            }}
+          />
         </CardActions>
       </Card>
     </div>
