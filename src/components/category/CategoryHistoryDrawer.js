@@ -1,9 +1,11 @@
 import React, { useState , useEffect} from 'react'
 import clsx from 'clsx'
-import useStyles from './styles/CategoryHistoryDrawer'
 
 import CategoryHistoryDateTitle from './CategoryHistoryDateTitle'
 import CategoryHistory from './CategoryHistory'
+
+import useStyles from './styles/CategoryHistoryDrawer'
+import moveLink from '../../images/move.png';
 
 export default function CategoryHistoryDrawer(props) {
   const classes = useStyles()
@@ -37,8 +39,9 @@ export default function CategoryHistoryDrawer(props) {
         setDraggedHistory(draggedHistorys => draggedHistorys.concat(target))
       }
       
-      setIsHistoryDrag(true)
+      setIsHistoryDrag(dragBoolean => !dragBoolean)
       e.dataTransfer.setData('text/type', 'link')
+      e.dataTransfer.setDragImage(document.getElementById('mouse-modal'),110,35);
     }
   }
 
@@ -46,7 +49,7 @@ export default function CategoryHistoryDrawer(props) {
     e.preventDefault()
     console.log('end')
 
-    setIsHistoryDrag(false)
+    setIsHistoryDrag(dragBoolean => !dragBoolean)
   }
 
 
@@ -80,52 +83,59 @@ export default function CategoryHistoryDrawer(props) {
   }, [historyDrawerOpen])
 
 
-
   return (
-    <div className={
+
+    <>
+      {
+        <div 
+        className={
+          clsx(classes.tabMove, {
+            [classes.dragStart]: isHistoryDrag,
+            [classes.dragEnd]: !isHistoryDrag
+          })
+        }
+        id='mouse-modal'
+        >
+          <div className={classes.circle}>
+            <img className={classes.moveIcon} src={moveLink} alt="move links" />
+          </div>
+          <span>링크 {selectedLinkList.length}개 이동</span>
+        </div>
+      }
+
+      <div className={
         clsx(classes.root, {
           [classes.drawerOpen]: historyDrawerOpen,
           [classes.drawerClose]: !historyDrawerOpen
         })
-      }
-    >
-      {
-        historyDrawerOpen ?
-          <>
-            <div 
-              className={
-                clsx(classes.tabMove, {
-                  [classes.dragStart]: isHistoryDrag,
-                  [classes.dragEnd]: !isHistoryDrag
-                })
-              }
-              id='result'
-            >
-              링크 {draggedHistory.length}개 이동
-            </div>
-
-            <div className={classes.mainFont}>방문기록</div>
-            {
-              linkList.map(link =>
-                <React.Fragment key={link.id}>
-                  <CategoryHistoryDateTitle
-                    key={link.id + link.lastVisitTime} 
-                    link={link}
-                  />
-                  <CategoryHistory
-                    key={link.id}
-                    link={link}
-                    selectedLinkList={selectedLinkList}
-                    onHistoryDragStart={onHistoryDragStart}
-                    onHistoryDragEnd={onHistoryDragEnd}
-                    onLinkClick={onLinkClick}
-                  />
-                </React.Fragment>
-              )
-            }
-          </>
+        }
+      >
+        {
+          historyDrawerOpen ?
+            <>
+              <div className={classes.mainFont}>방문기록</div>
+              {
+                linkList.map(link =>
+                  <React.Fragment key={link.id}>
+                    <CategoryHistoryDateTitle
+                      key={link.id + link.lastVisitTime} 
+                      link={link}
+                    />
+                    <CategoryHistory
+                      key={link.id}
+                      link={link}
+                      selectedLinkList={selectedLinkList}
+                      onHistoryDragStart={onHistoryDragStart}
+                      onHistoryDragEnd={onHistoryDragEnd}
+                      onLinkClick={onLinkClick}
+                    />
+                  </React.Fragment>
+                )
+              } 
+            </>
           : null
-      }
-    </div>
+        }
+      </div>
+    </>
   )
 }

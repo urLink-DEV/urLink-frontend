@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles'
-import zIndex from '@material-ui/core/styles/zIndex'
+
 const useStyles = makeStyles(theme => ({
   root: {
     overflowY: "scroll",
@@ -45,15 +45,36 @@ const useStyles = makeStyles(theme => ({
   },
   tabMove: {
     position: 'absolute',
-    width: '102px',
-    height: '32px',
+    width: '110px',
+    height: '35px',
     borderRadius: '3.2px',
     boxShadow: '0 11px 22px 0 rgba(0, 0, 0, 0.15), 0 8px 8px 0 rgba(0, 0, 0, 0.12)',
     backgroundColor: '#2083ff',
-    zIndex: 9999
+    color: '#fff',
+    fontFamily: 'SpoqaHanSans',
+    fontSize: 12,
+    zIndex: 9999,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  circle: {
+    width: 23,
+    height: 23,
+    borderRadius: '50%',
+    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: '7px'
+  },
+  moveIcon: {
+    width: 20,
+    height: 20,
+    position: 'relative',
+    left: '1px'
   },
   dragStart: {
-    display: 'inline'
+    display: 'flex'
   },
   dragEnd: {
     display: 'none'
