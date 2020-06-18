@@ -28,6 +28,17 @@ export const useStyles = makeStyles((theme) => ({
       flexShrink: 0,
     }
   },
+  coverBackground: {
+    position: 'absolute',
+    backgroundColor: '#000',
+    height: 'calc(100% - 24px)',
+    width: 700,
+    zIndex: 1,
+    opacity: 0.5,
+    display: 'none',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
@@ -38,7 +49,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    padding: theme.spacing(3)
   },
   listItem: {
     width: 208,
@@ -135,6 +146,11 @@ export const useStyles = makeStyles((theme) => ({
     width:210,
     boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
     border: "solid 1px #2083ff"
+  },
+  addLinkIcon: {
+    color: '#fff',
+    width: 50,
+    height: 50
   },
   searchIcon: {
     marginRight: 5,

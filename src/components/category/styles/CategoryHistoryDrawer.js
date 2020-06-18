@@ -30,7 +30,8 @@ const useStyles = makeStyles(theme => ({
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
-    })
+    }),
+    zIndex: 2
   },  
   drawerClose: {
     overflowX: 'hidden',

@@ -14,7 +14,9 @@ import SearchIcon from '@material-ui/icons/Search'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
 import ToggleButton from '@material-ui/lab/ToggleButton'
+import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 import {useStyles, StyledToggleButtonGroup} from './styles/CategoryDrawer'
+import clsx from 'clsx'
 
 // * components
 import CategoryCard from '../../components/category/CategoryCard'
@@ -66,6 +68,7 @@ export default function CategoryDrawer(props) {
   useEffect(() => {
     linkDispatch.getLink(categories[0]?.id)
     setSelectedCategoryTitle(categories[0]?.name)
+    setSelectedCategoryId(categories[0]?.id)
   }, [categories])
 
   useEffect(() => {
@@ -223,8 +226,31 @@ export default function CategoryDrawer(props) {
     setOveredTabFavorite(true)
   }  
 
+  const dragOverOnCardArea =(e) => {
+    e.preventDefault()
+    setOveredTabId(selectedCategoryId)
+  }
 
-  /* 아래는 외부영역 클릭시 버튼 토글 & cleartimeout */
+  const dropOnCardArea = (e) => {
+    const type = e.dataTransfer.getData('text/type')
+    const filteredLinkList = [] 
+    selectedLinkList.forEach(link => filteredLinkList.push(link.path))
+
+    console.log('dropped on card area', selectedLinkList)
+
+    if(type === 'link') {
+      e.preventDefault()
+      linkDispatch.writeLink(selectedCategoryId, filteredLinkList)
+      setDragHistoryFinished(true)
+      setSelectedLinkList([])
+      setDraggedHistory([])
+    }
+  }
+
+
+  /* 
+    아래는 외부영역 클릭시 버튼 토글 & cleartimeout 
+  */
 
   const wrapperRef = useRef(null)
   const timeId = useRef()
@@ -397,6 +423,16 @@ export default function CategoryDrawer(props) {
         </Drawer>
       </nav>
       <main className={classes.content}>
+        <div 
+          className={
+            clsx(classes.coverBackground, {
+              [classes.flex]: selectedLinkList.length !== 0
+            })
+          }
+          onDrop={dropOnCardArea}
+          onDragOver={dragOverOnCardArea}>
+            <AddToPhotosIcon className={classes.addLinkIcon} />
+        </div>
         <div className={classes.toolbar}>
           <Button onClick={handleClickCategoryTitle}>
             {selectedCategoryTitle}

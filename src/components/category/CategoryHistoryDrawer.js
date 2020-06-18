@@ -74,6 +74,7 @@ export default function CategoryHistoryDrawer(props) {
     }
   }
 
+
   useEffect(() => {
     if(historyDrawerOpen){
       getHistory({text: "", callback : (historyItems) => {
