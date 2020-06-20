@@ -58,11 +58,12 @@ export default function CategoryAppBar(props) {
     <div>
       <div className={classes.appBar}>
         <div className="drawer-btn-group">
-          <Button onClick={onClickHistoryDrawer}>
+          <Button className={classes.imgButton} onClick={onClickHistoryDrawer}>
             <img src={history} alt="history button" />
           </Button>
 
           <Button
+          className={classes.imgButton}
             aria-describedby={alarmId}
             onClick={handleAlarmPopOverClick}
           >
@@ -97,9 +98,10 @@ export default function CategoryAppBar(props) {
           </Popover>
           
           <Button
+          className={classes.imgButton}
             aria-describedby={profileId}
             onClick={handleProfilePopOverClick}
-          >
+            >
             <Badge
               anchorOrigin={{
                 vertical: 'top',
