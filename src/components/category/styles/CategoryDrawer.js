@@ -30,11 +30,11 @@ export const useStyles = makeStyles((theme) => ({
   },
   coverBackground: {
     position: 'absolute',
-    backgroundColor: '#000',
-    height: 'calc(100% - 24px)',
-    width: 700,
+    backgroundColor: 'rgba(53, 142, 255, 0.15)',
+    height: '100%',
+    width: 'calc(100% - 635px)',
+    paddingLeft: 259,
     zIndex: 1,
-    opacity: 0.5,
     display: 'none',
     justifyContent: 'center',
     alignItems: 'center'
@@ -148,7 +148,7 @@ export const useStyles = makeStyles((theme) => ({
     border: "solid 1px #2083ff"
   },
   addLinkIcon: {
-    color: '#fff',
+    color: '#358eff',
     width: 50,
     height: 50
   },

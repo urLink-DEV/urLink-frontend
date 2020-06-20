@@ -422,17 +422,17 @@ export default function CategoryDrawer(props) {
           {drawer}
         </Drawer>
       </nav>
+      <div 
+        className={
+          clsx(classes.coverBackground, {
+            [classes.flex]: selectedLinkList.length !== 0
+          })
+        }
+        onDrop={dropOnCardArea}
+        onDragOver={dragOverOnCardArea}>
+          <AddToPhotosIcon className={classes.addLinkIcon} />
+      </div>
       <main className={classes.content}>
-        <div 
-          className={
-            clsx(classes.coverBackground, {
-              [classes.flex]: selectedLinkList.length !== 0
-            })
-          }
-          onDrop={dropOnCardArea}
-          onDragOver={dragOverOnCardArea}>
-            <AddToPhotosIcon className={classes.addLinkIcon} />
-        </div>
         <div className={classes.toolbar}>
           <Button onClick={handleClickCategoryTitle}>
             {selectedCategoryTitle}
