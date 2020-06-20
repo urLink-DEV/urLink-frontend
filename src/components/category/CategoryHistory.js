@@ -1,11 +1,11 @@
 /* global chrome */
-import React, { useState, useEffect } from 'react'
-
-import logo from '../../images/logo/logo16.png';
-import linkCopy from '../../images/link-copy.svg';
-import newTab from '../../images/new-tab.svg';
-
+import React, { useState } from 'react'
 import clsx from 'clsx';
+
+import logo from '../../images/logo/logo16.png'
+import linkCopy from '../../images/link-copy.svg'
+import newTab from '../../images/new-tab.svg'
+
 import useStyles from './styles/CategoryHistory'
 
 export default function CategoryHistoryList(props) {
@@ -14,7 +14,7 @@ export default function CategoryHistoryList(props) {
     onHistoryDragEnd, 
     onLinkClick,
     selectedLinkList,
-    link, 
+    link,
     key
   } = props
 

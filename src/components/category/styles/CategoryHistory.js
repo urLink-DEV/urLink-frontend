@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
     fontStyle: 'normal',
     lineHeight: 'normal',
     letterSpacing: 'normal',
-    color: '#868e96',
+    color: '#868e96'
   },
   linkDiv: {
     '&:hover': {
@@ -77,7 +77,7 @@ const useStyles = makeStyles(theme => ({
     fontStyle: 'normal',
     lineHeight: 'normal',
     letterSpacing: '-0.6px',
-    color: '#737b84',
+    color: '#737b84'
   },
   linkIcon: {
     display: "none",

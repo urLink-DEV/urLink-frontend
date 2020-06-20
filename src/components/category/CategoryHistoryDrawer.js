@@ -1,5 +1,6 @@
-import React, { useState , useEffect} from 'react'
+import React, { useState , useEffect, Fragment} from 'react'
 import clsx from 'clsx'
+
 import useStyles from './styles/CategoryHistoryDrawer'
 
 import CategoryHistoryDateTitle from './CategoryHistoryDateTitle'
@@ -19,11 +20,13 @@ export default function CategoryHistoryDrawer(props) {
   const [linkList, setLinkList] = useState([])
   const [isHistoryDrag, setIsHistoryDrag] = useState(false)
   
+  // * history search option
+  const dayAgo  = 1000 * 60 * 60 * 24 * 1
+  const [startTime, setStartTime] = useState((new Date).getTime() - dayAgo)
+  const [endTime, setEndTime] = useState((new Date).getTime())
+  const [maxResults, setMaxResults] = useState(0)
+  // * /history search option - END
 
-  const onScroll = (e) => {
-
-  }
-  
   const onHistoryDragStart = (e, historyLink, historyLinkID) => {
     const target = e.currentTarget
     if(target.classList.contains('history-list')){
@@ -49,7 +52,6 @@ export default function CategoryHistoryDrawer(props) {
     setIsHistoryDrag(false)
   }
 
-
   const onLinkClick = (e , historyLink, historyLinkID) =>{
     e.preventDefault()
     const target = e.currentTarget
@@ -71,27 +73,56 @@ export default function CategoryHistoryDrawer(props) {
     }
   }
 
-  useEffect(() => {
-    if(historyDrawerOpen){
-      getHistory({text: "", callback : (historyItems) => {
-        setLinkList(historyItems)
-      }, maxResults: 100})
+  const onHistoryDrawerTransitionEnd = () => {
+    if (historyDrawerOpen) {
+      getHistory({
+        text: '', startTime, endTime, maxResults, callback: (historyItems) => {
+          setLinkList([...linkList, ...historyItems])
+        }
+      })
     }
-  }, [historyDrawerOpen])
+    else {
+      setLinkList([])
+      setEndTime((new Date).getTime())
+      setStartTime((new Date).getTime() - dayAgo)
+    }
+  }
+  
+  const onHistoryDrawerScroll = (e) => {
+    const scrollTop = e.currentTarget.scrollTop
+    const scrollHeight = e.currentTarget.scrollHeight
+    const clientHeight = e.currentTarget.clientHeight
 
+    if(Math.ceil(scrollTop + clientHeight) >= scrollHeight ) {
+      setEndTime(startTime)
+      setStartTime(startTime - dayAgo)
+    }
+  }
 
+  useEffect(() => {
+    if (historyDrawerOpen) {
+        getHistory({
+          text: '', startTime, endTime, maxResults, callback: (historyItems) => {
+            setLinkList([...linkList, ...historyItems])
+          }
+        })
+    }
+  },[endTime])
 
   return (
-    <div className={
+    <div 
+      className={
         clsx(classes.root, {
           [classes.drawerOpen]: historyDrawerOpen,
           [classes.drawerClose]: !historyDrawerOpen
         })
       }
+      onTransitionEnd={onHistoryDrawerTransitionEnd}
+      onScroll={onHistoryDrawerScroll}
     >
       {
         historyDrawerOpen ?
-          <>
+          <Fragment>
             <div 
               className={
                 clsx(classes.tabMove, {
@@ -105,9 +136,10 @@ export default function CategoryHistoryDrawer(props) {
             </div>
 
             <div className={classes.mainFont}>방문기록</div>
+
             {
               linkList.map(link =>
-                <React.Fragment key={link.id}>
+                <Fragment>
                   <CategoryHistoryDateTitle
                     key={link.id + link.lastVisitTime} 
                     link={link}
@@ -120,10 +152,10 @@ export default function CategoryHistoryDrawer(props) {
                     onHistoryDragEnd={onHistoryDragEnd}
                     onLinkClick={onLinkClick}
                   />
-                </React.Fragment>
+                </Fragment>
               )
             }
-          </>
+          </Fragment>
           : null
       }
     </div>
