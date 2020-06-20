@@ -18,11 +18,12 @@ export default function CategoryCard(props) {
   const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'))
   
   const limitedDescription = desc => {
+    if (!desc) return ''
     const limitedLength = 60
     if (!desc) return ''
     return desc.length > limitedLength 
-      ? desc.substring(0, limitedLength) + ' ... '
-      : desc
+    ? desc.substring(0, limitedLength) + ' ... '
+    : desc
   }
 
   const onClickToSetAlarm = () => {

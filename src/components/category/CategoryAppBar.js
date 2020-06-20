@@ -18,6 +18,8 @@ export default function CategoryAppBar(props) {
     getHistory, 
     draggedHistory, 
     setDraggedHistory, 
+    selectedLinkList,
+    setSelectedLinkList,
     newAlarmList, 
     newRecentNofitication,
     newProfileList 
@@ -56,11 +58,12 @@ export default function CategoryAppBar(props) {
     <div>
       <div className={classes.appBar}>
         <div className="drawer-btn-group">
-          <Button onClick={onClickHistoryDrawer}>
+          <Button className={classes.imgButton} onClick={onClickHistoryDrawer}>
             <img src={history} alt="history button" />
           </Button>
 
           <Button
+          className={classes.imgButton}
             aria-describedby={alarmId}
             onClick={handleAlarmPopOverClick}
           >
@@ -95,9 +98,10 @@ export default function CategoryAppBar(props) {
           </Popover>
           
           <Button
+          className={classes.imgButton}
             aria-describedby={profileId}
             onClick={handleProfilePopOverClick}
-          >
+            >
             <Badge
               anchorOrigin={{
                 vertical: 'top',
@@ -132,8 +136,10 @@ export default function CategoryAppBar(props) {
 
       <CategoryHistoryDrawer
         getHistory={getHistory}
-        setDraggedHistory={setDraggedHistory}
         draggedHistory={draggedHistory} 
+        setDraggedHistory={setDraggedHistory}
+        selectedLinkList={selectedLinkList}
+        setSelectedLinkList={setSelectedLinkList}
         historyDrawerOpen={historyDrawerOpen} 
         onClickHistoryDrawer={onClickHistoryDrawer}
       />
