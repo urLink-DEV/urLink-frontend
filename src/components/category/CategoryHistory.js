@@ -15,9 +15,7 @@ export default function CategoryHistoryList(props) {
     onLinkClick,
     selectedLinkList,
     link,
-    key
   } = props
-
   const classes = useStyles()
 
   const [favicon, setFavicon] = useState(`https://www.google.com/s2/favicons?domain=${link.hostName}`)
@@ -48,7 +46,6 @@ export default function CategoryHistoryList(props) {
         clsx(classes.linkDiv, 'history-list', {
         [classes.selectedDiv]: selectedLinkList.filter(list => list.id === link.id).length > 0
       })}
-      key={key}
       data-type='link'
       draggable='true'
       onClick={(e) => onLinkClick(e, link.url, link.id)}

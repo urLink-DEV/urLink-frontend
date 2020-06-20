@@ -3,7 +3,7 @@ import useStyles from './styles/CategoryHistoryDateTitle'
 
 export default function CategoryHistoryDateTitle(props) {
   const classes = useStyles()
-  const { key, link } = props
+  const { link } = props
 
   const curDate = new Date().toLocaleDateString()
   const linkDate = new Date(link.lastVisitTime).toLocaleDateString()
@@ -13,7 +13,7 @@ export default function CategoryHistoryDateTitle(props) {
 
   if (link.first) {
     return (
-      <div key={key} className={classes.root}>
+      <div className={classes.root}>
         <span className={classes.title}>{date}</span><span className={classes.line}></span>
       </div>
     )

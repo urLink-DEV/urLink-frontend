@@ -3,7 +3,7 @@ import clsx from 'clsx'
 
 import useStyles from './styles/CategoryHistoryDrawer'
 
-import linkListEmptyIcon from '../../images/group-19.svg'
+import linkListEmptyIcon from '../../images/group-19.png'
 import CategoryHistoryDateTitle from './CategoryHistoryDateTitle'
 import CategoryHistory from './CategoryHistory'
 
@@ -140,13 +140,9 @@ export default function CategoryHistoryDrawer(props) {
 
             {
               linkList.length ? linkList.map(link =>
-                <Fragment>
-                  <CategoryHistoryDateTitle
-                    key={link.id + link.lastVisitTime} 
-                    link={link}
-                  />
+                <Fragment key={link.id}>
+                  <CategoryHistoryDateTitle link={link}/>
                   <CategoryHistory
-                    key={link.id}
                     link={link}
                     selectedLinkList={selectedLinkList}
                     onHistoryDragStart={onHistoryDragStart}

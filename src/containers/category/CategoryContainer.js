@@ -140,7 +140,6 @@ export default function CategoryContainer() {
     setDraggedHistory,
     getHistory,
 
-    urlList,
     newAlarmList,
     newProfileList,
     newRecentNofitication
@@ -196,49 +195,6 @@ const getCategoryUrlInfoList = [{
   title: 'poiemaweb site',
   description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
 },
-]
-
-const urlList = [
-  {
-    "id": "1",
-    "lastVisitTime": 1588933029447.23,
-    "title": "React App",
-    "typedCount": 0,
-    "path": "https://www.naver.com",
-    "visitCount": 24,
-  },
-  {
-    "id": "2",
-    "lastVisitTime": 1588933029447.23,
-    "title": "React App",
-    "typedCount": 0,
-    "path": "https://www.naver.com",
-    "visitCount": 24,
-  },
-  {
-    "id": "3",
-    "lastVisitTime": 1588933029447.23,
-    "title": "React App",
-    "typedCount": 0,
-    "path": "https://www.naver.com",
-    "visitCount": 24,
-  },
-  {
-    "id": "4",
-    "lastVisitTime": 1588933029447.23,
-    "title": "React App",
-    "typedCount": 0,
-    "path": "https://www.naver.com",
-    "visitCount": 24,
-  },
-  {
-    "id": "5",
-    "lastVisitTime": 1588933029447.23,
-    "title": "React App",
-    "typedCount": 0,
-    "path": "https://www.naver.com",
-    "visitCount": 24,
-  }
 ]
 
 const newAlarmList = [

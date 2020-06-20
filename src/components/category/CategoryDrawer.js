@@ -18,8 +18,8 @@ import ToggleButton from '@material-ui/lab/ToggleButton'
 import {useStyles, StyledToggleButtonGroup} from './styles/CategoryDrawer'
 
 import SearchIcon from '../../images/search.png'
-import linkListEmptyIcon from '../../images/group-11.svg'
-import linkListSearchEmptyIcon from '../../images/group-17.svg'
+import linkListEmptyIcon from '../../images/group-11.png'
+import linkListSearchEmptyIcon from '../../images/group-17.png'
 
 // * components
 import CategoryCard from '../../components/category/CategoryCard'

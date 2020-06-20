@@ -21,34 +21,83 @@ const historyAPI = {
   get: ({ text, startTime, endTime, maxResults, callback }) => {
     startTime = startTime ? startTime : 0
     endTime = endTime ? endTime : Date.now()
-    if(!chrome.history) return;
-    chrome.history.search(
-      { text, startTime, endTime, maxResults },
-      (historyItemList) => {
-        historyItemList = historyItemList.filter(historyItem => (startTime <= historyItem.lastVisitTime && historyItem.lastVisitTime <= endTime))
-        historyItemList.sort((preHistory, curHistory) => (curHistory.lastVisitTime - preHistory.lastVisitTime))
-        let prevDate = ""
-        historyItemList.map(function (historyItem) { 
-          const url = document.createElement('a')
-          let curDate = new Date(historyItem.lastVisitTime).toLocaleDateString();
-          url.href = historyItem.url
-          historyItem.hostName = url.hostname
-          historyItem.favicon = `https://www.google.com/s2/favicons?domain=${url.hostname}`
-          if(curDate !== prevDate) {
-            historyItem.first = true
-            prevDate = curDate
-          }
-          else historyItem.first = false
-          return historyItem
-        })
-        // console.log("maxResults",maxResults)
-        // console.log("startTime",new Date(startTime))
-        // console.log("endTime",new Date(endTime))
-        // console.log("historyItemList.length",historyItemList.length)
-        if (callback && typeof (callback) === "function") callback(historyItemList)
-        else console.log(historyItemList)
-      }
-    )
+    if(!chrome.history) {
+      if (callback && typeof (callback) === "function") callback(urlTempList)
+      else return;
+    }
+    else {
+      chrome.history.search(
+        { text, startTime, endTime, maxResults },
+        (historyItemList) => {
+          historyItemList = historyItemList.filter(historyItem => (startTime <= historyItem.lastVisitTime && historyItem.lastVisitTime <= endTime))
+          historyItemList.sort((preHistory, curHistory) => (curHistory.lastVisitTime - preHistory.lastVisitTime))
+          let prevDate = ""
+          historyItemList.map(function (historyItem) {
+            const url = document.createElement('a')
+            let curDate = new Date(historyItem.lastVisitTime).toLocaleDateString();
+            url.href = historyItem.url
+            historyItem.hostName = url.hostname
+            historyItem.favicon = `https://www.google.com/s2/favicons?domain=${url.hostname}`
+            if (curDate !== prevDate) {
+              historyItem.first = true
+              prevDate = curDate
+            }
+            else historyItem.first = false
+            return historyItem
+          })
+          // console.log("maxResults",maxResults)
+          // console.log("startTime",new Date(startTime))
+          // console.log("endTime",new Date(endTime))
+          // console.log("historyItemList.length",historyItemList.length)
+          if (callback && typeof (callback) === "function") callback(historyItemList)
+          else console.log(historyItemList)
+        }
+      )
+    }
   }
 }
+
+const urlTempList = [
+  {
+    "id": "1",
+    "lastVisitTime": 1588933029447.23,
+    "title": "React App",
+    "typedCount": 0,
+    "url": "https://www.naver.com",
+    "visitCount": 24,
+  },
+  {
+    "id": "2",
+    "lastVisitTime": 1588933029447.23,
+    "title": "React App",
+    "typedCount": 0,
+    "url": "https://www.naver.com",
+    "visitCount": 24,
+  },
+  {
+    "id": "3",
+    "lastVisitTime": 1588933029447.23,
+    "title": "React App",
+    "typedCount": 0,
+    "url": "https://www.naver.com",
+    "visitCount": 24,
+  },
+  {
+    "id": "4",
+    "lastVisitTime": 1588933029447.23,
+    "title": "React App",
+    "typedCount": 0,
+    "url": "https://www.naver.com",
+    "visitCount": 24,
+  },
+  {
+    "id": "5",
+    "lastVisitTime": 1588933029447.23,
+    "title": "React App",
+    "typedCount": 0,
+    "url": "https://www.naver.com",
+    "visitCount": 24,
+  }
+]
+
 export default historyAPI
