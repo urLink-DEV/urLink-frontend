@@ -9,6 +9,15 @@ const useStyles = makeStyles(theme => ({
     height: '100vh',
     boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.1)',
   },
+  imgButton: {
+    width: '10px !important',
+    height: '40px !important',
+  },
+  '@global': {
+    '.drawer-btn-group button:hover': {
+      backgroundColor: '#d6e4f5 !important',
+    }
+  }
 }))
 
 export default useStyles

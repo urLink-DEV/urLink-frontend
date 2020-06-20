@@ -16,10 +16,11 @@ export default function CategoryCard(props) {
   const {image_path, title, description} = props.urlInfoList
 
   const limitedDescription = desc => {
+    if (!desc) return ''
     const limitedLength = 60
     return desc.length > limitedLength 
-      ? desc.substring(0, limitedLength) + ' ... '
-      : desc
+    ? desc.substring(0, limitedLength) + ' ... '
+    : desc
   }
   return (
     <div className={classes.divRoot}>
