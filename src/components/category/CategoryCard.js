@@ -9,18 +9,17 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
 import AlarmIcon from '@material-ui/icons/Alarm'
 import Typography from '@material-ui/core/Typography'
-import useStyles from './styles/CategoryCard'
-import { KeyboardDatePicker } from '@material-ui/pickers'
+import useStyles, { DatePickerWithStyles } from './styles/CategoryCard'
+// import { KeyboardDatePicker } from '@material-ui/pickers'
 
 export default function CategoryCard(props) {
   const classes = useStyles()
   const {image_path, title, description} = props.urlInfoList
-  const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'))
+  const [selectedDate, setSelectedDate] = useState(new Date())
   
   const limitedDescription = desc => {
     if (!desc) return ''
     const limitedLength = 60
-    if (!desc) return ''
     return desc.length > limitedLength 
     ? desc.substring(0, limitedLength) + ' ... '
     : desc
@@ -32,6 +31,7 @@ export default function CategoryCard(props) {
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+    console.log(date, title)
   }
 
   return (
@@ -74,13 +74,15 @@ export default function CategoryCard(props) {
           >
             <AlarmIcon fontSize="small"/>
           </IconButton> */}
-          <KeyboardDatePicker
+          <DatePickerWithStyles
+            className={classes.datePicker}
             margin="normal"
             id="date-picker-dialog"
-            format="MM/dd/yyyy"
+            format=''
             onChange={handleDateChange}
             InputProps={{
-              disableUnderline: true
+              disableUnderline: true,
+              display: 'none,'
             }}
             KeyboardButtonProps={{
               'aria-label': 'change date',
