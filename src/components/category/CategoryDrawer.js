@@ -1,5 +1,8 @@
 // * React
-import React, {useState, useEffect, useRef} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+
+// * dispatch
+import {useLinkState, useLinkDispatch, useCategoryState, useCategoryDispatch} from '../../containers/category/CategoryContainer'
 
 // * UI (CSS)
 import Drawer from '@material-ui/core/Drawer'
@@ -10,11 +13,11 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Paper from '@material-ui/core/Paper'
 import Input from '@material-ui/core/Input'
-import SearchIcon from '@material-ui/icons/Search'
-import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
 import ToggleButton from '@material-ui/lab/ToggleButton'
 import {useStyles, StyledToggleButtonGroup} from './styles/CategoryDrawer'
+
+import SearchIcon from '../../images/search.png'
 
 // * components
 import CategoryCard from '../../components/category/CategoryCard'
@@ -23,38 +26,27 @@ import CategoryAppBar from './CategoryAppBar'
 import CategoryTab from './CategoryTab'
 import CategorySearchPopOver from './CategorySearchPopOver'
 
-// * Hooks
-import {useLinkState, useLinkDispatch, useCategoryState, useCategoryDispatch} from '../../containers/category/CategoryContainer'
-
-/*
-  * categoryDispatch.getCategory()
-  * categoryDispatch.writeCategory(value,1,false)
-  * linkDispatch.getLink(87, "trust")
-  * linkDispatch.writeLink(87, ["https://trustyoo86.github.io/javascript/2019/12/27/chrome-extension-overview.html"])
-  * 이런식으로 불러와서 사용 가능
-*/
 export default function CategoryDrawer(props) {
+  // console.log("recall");
 
-  const categories = useCategoryState()
+  const classes = useStyles()
+
   const categoryDispatch = useCategoryDispatch()
-  const links = useLinkState()
-  const linkDispatch = useLinkDispatch()
+  const { getLink, writeLink, deleteLink } = useLinkDispatch()
   const { 
-    getSearchLink,
-    getSearchPathLink,
-    getSearchTitleLink,
     draggedHistory,
     setDraggedHistory,
     selectedLinkList,
     setSelectedLinkList
   } = props
-
+  
+  const links = useLinkState()
+  const categories = useCategoryState()
   const favoritedArr = categories.filter(data => data.is_favorited === true)
   const notFavoritedArr = categories.filter(data => data.is_favorited === false)
-  const classes = useStyles()
+
   const [newCategoryTitle, setNewCategoryTitle] = useState('')
   const [toggleAlignment, setToggleAlignment] = useState('left')
-  const [searchValue, setSearchValue] = useState('')
   const [selectedCategoryId, setSelectedCategoryId] = useState('')
   const [selectedCategoryTitle, setSelectedCategoryTitle] = useState('')
 
@@ -64,35 +56,34 @@ export default function CategoryDrawer(props) {
   const [enterOpen, setEnterOpen] = useState(false)
 
   useEffect(() => {
-    linkDispatch.getLink(categories[0]?.id)
-    setSelectedCategoryTitle(categories[0]?.name)
-  }, [categories])
-
-  useEffect(() => {
-    linkDispatch.getLink(selectedCategoryId)
-  }, [selectedCategoryId])
+    if(!selectedCategoryId && categories.length) handleClickCategory(categories[0]?.id, categories[0]?.name)
+    else getLink(selectedCategoryId)
+  }, [categories, selectedCategoryId])
 
   const handleChangeNewCategoryTitle = (e) => {
     setNewCategoryTitle(e.target.value)
   }
 
-  const handleClickCategoryTitle = () => {
-    linkDispatch.getLink(selectedCategoryId)
-  }
+  // const handleClickCategoryTitle = () => {
+  //   getLink(selectedCategoryId)
+  // }
 
   const handleToggleChange = (event, newAlignment) => {
     setToggleAlignment(newAlignment);
   }
 
-  const handleChangeSearchValue = e => {
-    setSearchValue(e.target.value)
-  }
-
   const handlePressEnterSearchValue = e => {
-    if (e.keyCode === 13) {
-      if (toggleAlignment === 'left') getSearchLink(selectedCategoryId, searchValue)
-      if (toggleAlignment === 'center') getSearchPathLink(selectedCategoryId, searchValue)
-      if (toggleAlignment === 'right') getSearchTitleLink(selectedCategoryId, searchValue)
+    const { keyCode } = e
+    const { value } = e.target
+    let path, title
+    if (keyCode === 13) {
+      if (toggleAlignment === 'left') {
+        path = value
+        title = value
+      }
+      else if (toggleAlignment === 'center') path = value
+      else if (toggleAlignment === 'right') title = value
+      getLink(selectedCategoryId, path, title)
     }
   }
 
@@ -134,6 +125,7 @@ export default function CategoryDrawer(props) {
     setDeleteOpen(false)
     setAddOpen(true)
   }
+
   const handleClickCategory = (id, name) => {
     setAddOpen(false)
     setDeleteOpen(true)
@@ -145,7 +137,6 @@ export default function CategoryDrawer(props) {
     setAddOpen(false)
     setEnterOpen(true)
   }
-
 
   /*
     아래는 drag n drop 로직
@@ -159,7 +150,6 @@ export default function CategoryDrawer(props) {
   const [overedTabFavorite, setOveredTabFavorite] = useState(null)
   const [dragFinished, setDragFinished] = useState(false)
   const [dragHistoryFinished, setDragHistoryFinished] = useState(false)
-
 
   const listRef = useRef()  
 
@@ -210,7 +200,7 @@ export default function CategoryDrawer(props) {
     } else if(type === 'link') {
       e.preventDefault()
       setDragHistoryFinished(true)
-      linkDispatch.writeLink(overedTabId, filteredLinkList)
+      writeLink(overedTabId, filteredLinkList)
       setSelectedLinkList([])
       setDraggedHistory([])
     }
@@ -259,8 +249,6 @@ export default function CategoryDrawer(props) {
     }
 
   },[wrapperRef, dragFinished, dragHistoryFinished])
-
-
   
   const drawer = (
     <div>
@@ -385,6 +373,7 @@ export default function CategoryDrawer(props) {
 
   return (
     <div className={classes.root}>
+
       <nav className={classes.drawer} aria-label="mailbox folders">
         <Drawer
           classes={{
@@ -396,26 +385,28 @@ export default function CategoryDrawer(props) {
           {drawer}
         </Drawer>
       </nav>
+
       <main className={classes.content}>
         <div className={classes.toolbar}>
-          <Button onClick={handleClickCategoryTitle}>
+          {/* <Button onClick={handleClickCategoryTitle}>
             {selectedCategoryTitle}
-          </Button>
+          </Button> -> button을 사용한 이유? */}
+          <span className={classes.mainFont}>
+            {selectedCategoryTitle}
+          </span>
+          {/* link card serarchTool */}
           <CategorySearchPopOver>
             <Grid  className={classes.popover}>
               <Grid className={classes.popoverDiv}>
-                <SearchIcon className={classes.searchIcon} fontSize="small" />
-                SEARCH
+                <img src={SearchIcon} className={classes.searchIcon}/>
+                <span className={classes.searchBtnText}>Search</span>
               </Grid>
               <Grid>
-                <TextField
+                <input
+                  placeholder="검색어를 입력해 주세요."
                   className={classes.textfield}
-                  onChange={handleChangeSearchValue}
-                  value={searchValue}
-                  variant='filled'
-                  size='small' 
                   onKeyDown={handlePressEnterSearchValue}
-                />          
+                />
               </Grid>
               <Grid>
                 <StyledToggleButtonGroup 
@@ -452,6 +443,7 @@ export default function CategoryDrawer(props) {
               </Grid>
             </Grid> 
           </CategorySearchPopOver>
+          {/* link card serarchTool - END */}
         </div>
         <Grid container spacing={2}>
           {links?.map((urlObj, idx) => 

@@ -85,28 +85,6 @@ export default function CategoryContainer() {
     }
   }
 
-  // * link 검색하기
-  const getSearchLink = (category, path, title) => {
-    linkAPI.get({ category, path, title })
-    .then(res => res.data)
-    .then(res => { setLink([...res]) })
-    .catch((error) => console.warn("response" in error ? error.response.data.message : error))
-  }
-
-  const getSearchPathLink = (category, path) => {
-    linkAPI.get({ category, path })
-    .then(res => res.data)
-    .then(res => { setLink([...res]) })
-    .catch((error) => console.warn("response" in error ? error.response.data.message : error))
-  }
-
-  const getSearchTitleLink = (category, title) => {
-    linkAPI.get({ category, title })
-    .then(res => res.data)
-    .then(res => { setLink([...res]) })
-    .catch((error) => console.warn("response" in error ? error.response.data.message : error))
-  }
-
   // * 링크 작성
   const writeLink = (category, path) => {
     const write = linkAPI.write({ category, path })
@@ -161,14 +139,11 @@ export default function CategoryContainer() {
     setSelectedLinkList,
     setDraggedHistory,
     getHistory,
-    getSearchLink,
-    getSearchPathLink,
-    getSearchTitleLink,
 
     urlList,
     newAlarmList,
     newProfileList,
-    newRecentNofitication,
+    newRecentNofitication
   }
 
   useEffect(() => {

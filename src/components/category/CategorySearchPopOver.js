@@ -1,29 +1,9 @@
 import React, {useState} from 'react'
-import Button from '@material-ui/core/Button'
-import SearchIcon from '@material-ui/icons/Search'
-import Popover from '@material-ui/core/Popover'
-import { makeStyles } from '@material-ui/core'
 
-const useStyles = makeStyles(theme => ({
-  searchBtn: {
-    padding: '5px 10px',
-    margin: '0 16px',
-  },
-  searchIcon: {
-    marginRight: 5,
-  },
-  popover: {
-    padding: '5px 10px',
-  },
-  popoverDiv: {
-    marginBottom: 10,
-  },
-  '@global': {
-    '.MuiFilledInput-inputMarginDense': {
-      paddingTop: '10px'
-    }
-  }
-}))
+import Popover from '@material-ui/core/Popover'
+import useStyles from './styles/CategorySearchPopOver'
+
+import SearchIcon from '../../images/search.png'
 
 export default function CategorySearchPopOver(props) {
 
@@ -32,43 +12,41 @@ export default function CategorySearchPopOver(props) {
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handlePopOverClick = (event) => {
-    console.log(event.currentTarget)
     setAnchorEl(event.currentTarget)
-  };
+  }
 
   const handlePopOverClose = () => {
     setAnchorEl(null)
-  };
+  }
 
   const open = Boolean(anchorEl)
   const id = open ? 'simple-popover' : undefined
 
   return (
     <>
-      <Button className={classes.searchBtn}
+      <button 
+        className={classes.searchBtn}
         aria-describedby={id}
-        onClick={handlePopOverClick}
-        variant="contained" >
-        <SearchIcon className={classes.searchIcon} fontSize="small" />
-        Search
-      </Button>
-      <Popover 
+        onClick={handlePopOverClick}>
+        <img src={SearchIcon} className={classes.searchIcon}/>
+        <span className={classes.searchBtnText}>Search</span>
+      </button>
+      <Popover
         id={id}
         open={open}
         onClose={handlePopOverClose}
         anchorEl={anchorEl}
         anchorOrigin={{
           vertical: 'top',
-          horizontal: 'left',
+          horizontal: 'left'
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'left',
+          horizontal: 'left'
         }}
       >
         {children}
       </Popover>
     </>
-    
   )
 }
