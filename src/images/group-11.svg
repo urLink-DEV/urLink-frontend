@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="461px" height="391px" viewBox="0 0 461 391" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>19BDABBE-FB02-42F9-BB91-931FB27D2AC8</title>
+    <defs>
+        <rect id="path-1" x="0" y="5.68434189e-14" width="460" height="389.333333" rx="32"></rect>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="460" height="389.333333" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <linearGradient x1="100%" y1="49.9768759%" x2="0%" y2="50.0231241%" id="linearGradient-3">
+            <stop stop-color="#E0F6FF" offset="0%"></stop>
+            <stop stop-color="#2083FF" offset="100%"></stop>
+        </linearGradient>
+        <rect id="path-4" x="0" y="29.6" width="258.4" height="180" rx="6.4"></rect>
+        <filter x="-2.9%" y="-4.2%" width="108.1%" height="111.7%" filterUnits="objectBoundingBox" id="filter-5">
+            <feOffset dx="3" dy="3" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.08 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter2" result="shadowBlurOuter2"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.04 0" type="matrix" in="shadowBlurOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+        <rect id="path-6" x="156" y="5.6" width="140.8" height="162.4" rx="6.4"></rect>
+        <filter x="-5.3%" y="-4.6%" width="114.9%" height="112.9%" filterUnits="objectBoundingBox" id="filter-7">
+            <feOffset dx="3" dy="3" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.08 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter2" result="shadowBlurOuter2"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.04 0" type="matrix" in="shadowBlurOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+        <rect id="path-8" x="15.2" y="46.4" width="53.6" height="61.6" rx="7.2"></rect>
+        <mask id="mask-9" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="53.6" height="61.6" fill="white">
+            <use xlink:href="#path-8"></use>
+        </mask>
+        <rect id="path-10" x="0" y="0" width="162.4" height="25.6" rx="3.2"></rect>
+        <filter x="-2.2%" y="-9.8%" width="104.3%" height="127.3%" filterUnits="objectBoundingBox" id="filter-12">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter2" result="shadowBlurOuter2"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter2" in2="SourceAlpha" operator="out" result="shadowBlurOuter2"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.12 0" type="matrix" in="shadowBlurOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+        <rect id="path-13" x="0" y="0" width="162.4" height="25.6" rx="3.2"></rect>
+        <filter x="-2.2%" y="-9.8%" width="104.3%" height="127.3%" filterUnits="objectBoundingBox" id="filter-15">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter2" result="shadowBlurOuter2"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter2" in2="SourceAlpha" operator="out" result="shadowBlurOuter2"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.12 0" type="matrix" in="shadowBlurOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+        <rect id="path-16" x="0" y="0" width="162.4" height="25.6" rx="3.2"></rect>
+        <filter x="-2.2%" y="-9.8%" width="104.3%" height="127.3%" filterUnits="objectBoundingBox" id="filter-18">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter2" result="shadowBlurOuter2"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter2" in2="SourceAlpha" operator="out" result="shadowBlurOuter2"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.12 0" type="matrix" in="shadowBlurOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+        <filter x="-63.9%" y="-58.3%" width="227.8%" height="227.8%" filterUnits="objectBoundingBox" id="filter-19">
+            <feOffset dx="0" dy="4" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.16 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <rect id="path-20" x="0" y="0" width="35.84" height="35.84" rx="4.48"></rect>
+        <filter x="-15.3%" y="-9.8%" width="130.7%" height="130.7%" filterUnits="objectBoundingBox" id="filter-21">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.04 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="347.956576%" y1="100%" x2="0%" y2="100%" id="linearGradient-22">
+            <stop stop-color="#E0F6FF" offset="0%"></stop>
+            <stop stop-color="#2083FF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-23">
+            <stop stop-color="#2083FF" offset="0%"></stop>
+            <stop stop-color="#0E6CE1" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-24" cx="11.2" cy="11.2" r="11.2"></circle>
+        <filter x="-17.9%" y="-8.9%" width="135.7%" height="135.7%" filterUnits="objectBoundingBox" id="filter-25">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <rect id="path-26" x="0" y="0" width="19.2" height="19.2"></rect>
+        <path d="M45.8952234,66.8211351 C46.0985056,66.902448 46.2595794,67.0635218 46.3408922,67.2668039 L53.1592659,84.312738 C53.3233566,84.7229648 53.1238239,85.1885412 52.7135971,85.3526319 C52.6191008,85.3904304 52.5182601,85.4098505 52.4164845,85.4098505 L47.9977373,85.4097037 L47.9981109,93.4098505 C47.9981109,93.8516783 47.6399387,94.2098505 47.1981109,94.2098505 L43.9981109,94.2098505 C43.5562831,94.2098505 43.1981109,93.8516783 43.1981109,93.4098505 L43.1977373,85.4097037 L38.7797373,85.4098505 C38.3379095,85.4098505 37.9797373,85.0516783 37.9797373,84.6098505 C37.9797373,84.508075 37.9991574,84.4072342 38.0369559,84.312738 L44.8553295,67.2668039 C45.0194203,66.8565771 45.4849966,66.6570444 45.8952234,66.8211351 Z" id="path-28"></path>
+        <filter x="-23.0%" y="-9.1%" width="145.9%" height="125.5%" filterUnits="objectBoundingBox" id="filter-29">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter2" result="shadowBlurOuter2"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter2" in2="SourceAlpha" operator="out" result="shadowBlurOuter2"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.12 0" type="matrix" in="shadowBlurOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+        <linearGradient x1="50.4487535%" y1="100%" x2="49.5512465%" y2="0%" id="linearGradient-30">
+            <stop stop-color="#E0F6FF" offset="0%"></stop>
+            <stop stop-color="#2083FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="카테고리-페이지-디폴트-이미지-" transform="translate(-481.000000, -72.000000)">
+            <g id="Group-11" transform="translate(481.000000, 72.000000)">
+                <g id="Group" transform="translate(0.000000, 0.833333)">
+                    <use id="Rectangle" stroke="#CED4DA" mask="url(#mask-2)" stroke-width="2" fill="#FFFFFF" stroke-dasharray="4" xlink:href="#path-1"></use>
+                    <text id="아직-보관한-카드가-없어요-:(-방문" font-family="SpoqaHanSans-Bold, SpoqaHanSans" font-size="16" font-weight="bold" line-spacing="32">
+                        <tspan x="135.652" y="305.166667" fill="#343A40">아직 보관한 카드가 없어요 :(</tspan>
+                        <tspan x="323.348" y="305.166667" font-family="SpoqaHanSans-Regular, SpoqaHanSans" font-weight="normal" fill="#343A40"></tspan>
+                        <tspan x="41.212" y="337.166667" font-family="SpoqaHanSans-Regular, SpoqaHanSans" font-weight="normal" fill="#868E96">방문기록을 드래그하여 URL을 카드 형태로 보관해보세요.</tspan>
+                    </text>
+                </g>
+                <line x1="368" y1="52" x2="460" y2="52" id="Path-6" stroke="url(#linearGradient-3)" stroke-width="2"></line>
+                <g id="Group-4" transform="translate(82.000000, 42.000000)">
+                    <text id="방문기록" opacity="0.699999988" font-family="SpoqaHanSans-Bold, SpoqaHanSans" font-size="12.8" font-weight="bold" fill="#000000">
+                        <tspan x="166.4" y="27.8">방문기록</tspan>
+                    </text>
+                    <g id="Group-19">
+                        <g id="Rectangle">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-5)" xlink:href="#path-4"></use>
+                            <use fill="#FAFAFA" fill-rule="evenodd" xlink:href="#path-4"></use>
+                        </g>
+                        <g id="Rectangle">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-7)" xlink:href="#path-6"></use>
+                            <use fill="#F6F6F6" fill-rule="evenodd" xlink:href="#path-6"></use>
+                        </g>
+                        <use id="Rectangle" stroke="#CED4DA" mask="url(#mask-9)" stroke-width="3.2" fill="#F1F3F5" stroke-dasharray="3.2" xlink:href="#path-8"></use>
+                        <g id="Group-10" transform="translate(122.400000, 55.200000)">
+                            <g id="Group-2">
+                                <mask id="mask-11" fill="white">
+                                    <use xlink:href="#path-10"></use>
+                                </mask>
+                                <g id="Rectangle">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-12)" xlink:href="#path-10"></use>
+                                    <rect stroke="#2083FF" stroke-width="0.8" stroke-linejoin="square" fill="#FFFFFF" fill-rule="evenodd" x="0.4" y="0.4" width="161.6" height="24.8" rx="3.2"></rect>
+                                </g>
+                            </g>
+                            <text id="나의-방문기록" font-family="AppleSDGothicNeo-Regular, Apple SD Gothic Neo" font-size="11.2" font-weight="normal" letter-spacing="-0.35" fill="#212529">
+                                <tspan x="32" y="16.4">나의 방문기록</tspan>
+                            </text>
+                            <text id="globe---simple-line-icons" font-family="simple-line-icons" font-size="12.8" font-weight="normal" fill="#ADB5BD">
+                                <tspan x="9.6" y="18.4"></tspan>
+                            </text>
+                        </g>
+                        <text id="방문기록" opacity="0.699999988" font-family="SpoqaHanSans-Bold, SpoqaHanSans" font-size="12.8" font-weight="bold" fill="#000000">
+                            <tspan x="166.4" y="27.8">방문기록</tspan>
+                        </text>
+                        <g id="Group-10" opacity="0.5" transform="translate(122.400000, 87.200000)">
+                            <g id="Group-2">
+                                <mask id="mask-14" fill="white">
+                                    <use xlink:href="#path-13"></use>
+                                </mask>
+                                <g id="Rectangle">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-15)" xlink:href="#path-13"></use>
+                                    <rect stroke="#2083FF" stroke-width="0.8" stroke-linejoin="square" fill="#FFFFFF" fill-rule="evenodd" x="0.4" y="0.4" width="161.6" height="24.8" rx="3.2"></rect>
+                                </g>
+                            </g>
+                            <text id="나의-방문기록" font-family="AppleSDGothicNeo-Regular, Apple SD Gothic Neo" font-size="11.2" font-weight="normal" letter-spacing="-0.35" fill="#212529">
+                                <tspan x="32" y="16.4">나의 방문기록</tspan>
+                            </text>
+                            <text id="globe---simple-line-icons" font-family="simple-line-icons" font-size="12.8" font-weight="normal" fill="#ADB5BD">
+                                <tspan x="9.6" y="18.4"></tspan>
+                            </text>
+                        </g>
+                        <g id="Group-10" opacity="0.5" transform="translate(122.400000, 119.200000)">
+                            <g id="Group-2">
+                                <mask id="mask-17" fill="white">
+                                    <use xlink:href="#path-16"></use>
+                                </mask>
+                                <g id="Rectangle">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-18)" xlink:href="#path-16"></use>
+                                    <rect stroke="#2083FF" stroke-width="0.8" stroke-linejoin="square" fill="#FFFFFF" fill-rule="evenodd" x="0.4" y="0.4" width="161.6" height="24.8" rx="3.2"></rect>
+                                </g>
+                            </g>
+                            <text id="나의-방문기록" font-family="AppleSDGothicNeo-Regular, Apple SD Gothic Neo" font-size="11.2" font-weight="normal" letter-spacing="-0.35" fill="#212529">
+                                <tspan x="32" y="16.4">나의 방문기록</tspan>
+                            </text>
+                            <text id="globe---simple-line-icons" font-family="simple-line-icons" font-size="12.8" font-weight="normal" fill="#ADB5BD">
+                                <tspan x="9.6" y="18.4"></tspan>
+                            </text>
+                        </g>
+                        <g id="Group-20" filter="url(#filter-19)" transform="translate(267.200000, 0.000000)">
+                            <g id="Rectangle">
+                                <use fill="black" fill-opacity="1" filter="url(#filter-21)" xlink:href="#path-20"></use>
+                                <use fill="#2083FF" fill-rule="evenodd" xlink:href="#path-20"></use>
+                            </g>
+                            <g id="icon/history" transform="translate(6.400000, 5.280000)" fill="#FFFFFF">
+                                <path d="M12.6088889,3.68 C18.3944102,3.68 22.72,7.30256079 22.72,12.7333333 C22.72,18.3175458 18.1931014,22.8444444 12.6088889,22.8444444 C7.02467642,22.8444444 2.49777778,18.3175458 2.49777778,12.7333333 C2.49777778,12.1147744 2.99921886,11.6133333 3.61777778,11.6133333 C4.2363367,11.6133333 4.73777778,12.1147744 4.73777778,12.7333333 C4.73777778,17.080428 8.26179426,20.6044444 12.6088889,20.6044444 C16.9559835,20.6044444 20.48,17.080428 20.48,12.7333333 C20.48,8.72539274 17.3760042,6.03875369 12.9087092,5.9238374 L12.6088889,5.92 L2.56,5.92 C1.94144108,5.92 1.44,5.41855892 1.44,4.8 C1.44,4.22562386 1.87236501,3.75223198 2.42938434,3.68753506 L2.56,3.68 L12.6088889,3.68 Z" id="Path" fill-rule="nonzero"></path>
+                                <path d="M7.04,1.44 C7.65855892,1.44 8.16,1.94144108 8.16,2.56 C8.16,3.13437614 7.72763499,3.60776802 7.17061566,3.67246494 L7.04,3.68 L3.68,3.68 L3.68,7.04 C3.68,7.61437614 3.24763499,8.08776802 2.69061566,8.15246494 L2.56,8.16 C1.98562386,8.16 1.51223198,7.72763499 1.44753506,7.17061566 L1.44,7.04 L1.44,1.44 L7.04,1.44 Z" id="Path" fill-rule="nonzero" transform="translate(4.800000, 4.800000) rotate(-45.000000) translate(-4.800000, -4.800000) "></path>
+                                <rect id="Rectangle" x="12.08" y="8.16" width="2.24" height="6.72" rx="1.12"></rect>
+                                <path d="M11.24,11.24 C11.8585589,11.24 12.36,11.7414411 12.36,12.36 L12.36,17.4 L12.36,17.4 L10.12,17.4 L10.12,12.36 C10.12,11.7414411 10.6214411,11.24 11.24,11.24 Z" id="Rectangle" transform="translate(11.240000, 14.320000) rotate(-90.000000) translate(-11.240000, -14.320000) "></path>
+                            </g>
+                        </g>
+                        <line x1="62.8" y1="88.4" x2="112" y2="88.8270341" id="Path-6" stroke="url(#linearGradient-22)" stroke-width="0.8"></line>
+                        <g id="button/small/drag" transform="translate(55.198111, 77.409851)">
+                            <g id="Group">
+                                <g id="Oval">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-25)" xlink:href="#path-24"></use>
+                                    <use fill="url(#linearGradient-23)" fill-rule="evenodd" xlink:href="#path-24"></use>
+                                </g>
+                                <g id="icon/drag/white" transform="translate(1.600000, 1.600000)">
+                                    <mask id="mask-27" fill="white">
+                                        <use xlink:href="#path-26"></use>
+                                    </mask>
+                                    <g id="Background"></g>
+                                    <path d="M12.8,2.4 L6.4,2.4 C4.190861,2.4 2.4,4.190861 2.4,6.4 L2.4,12.8 C2.4,15.009139 4.190861,16.8 6.4,16.8 L12.8,16.8 C15.009139,16.8 16.8,15.009139 16.8,12.8 L16.8,6.4 C16.8,4.190861 15.009139,2.4 12.8,2.4 Z M6.4,4 L12.8,4 C14.1254834,4 15.2,5.0745166 15.2,6.4 L15.2,12.8 C15.2,14.1254834 14.1254834,15.2 12.8,15.2 L6.4,15.2 C5.0745166,15.2 4,14.1254834 4,12.8 L4,6.4 C4,5.0745166 5.0745166,4 6.4,4 Z" id="Rectangle" fill="#FFFFFF" fill-rule="nonzero" mask="url(#mask-27)"></path>
+                                    <rect id="Rectangle" fill="#FFFFFF" mask="url(#mask-27)" x="5.6" y="8.8" width="8" height="1.6" rx="0.8"></rect>
+                                    <path d="M6.4,8.8 L12.8,8.8 C13.2418278,8.8 13.6,9.1581722 13.6,9.6 C13.6,10.0418278 13.2418278,10.4 12.8,10.4 L6.4,10.4 C5.9581722,10.4 5.6,10.0418278 5.6,9.6 C5.6,9.1581722 5.9581722,8.8 6.4,8.8 Z" id="Rectangle" fill="#FFFFFF" mask="url(#mask-27)" transform="translate(9.600000, 9.600000) rotate(-270.000000) translate(-9.600000, -9.600000) "></path>
+                                </g>
+                            </g>
+                        </g>
+                        <g id="Combined-Shape" transform="translate(45.598217, 80.486777) rotate(-31.000000) translate(-45.598217, -80.486777) ">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-29)" xlink:href="#path-28"></use>
+                            <path stroke="#2083FF" stroke-width="0.8" d="M45.4405432,67.1962585 C45.3464513,67.2365836 45.2677429,67.3128035 45.2267202,67.4153602 L38.3847785,84.6735314 C38.3983696,84.7584863 38.4387116,84.8345103 38.4968945,84.8926933 C38.5692803,84.965079 38.6692803,85.0098505 38.7797373,85.0098505 L43.5977186,85.0096904 L43.5981109,93.4098319 C43.5981109,93.5203075 43.6428824,93.6203075 43.7152682,93.6926933 C43.7876539,93.765079 43.8876539,93.8098505 43.9981109,93.8098505 L47.1981109,93.8098505 C47.3085678,93.8098505 47.4085678,93.765079 47.4809536,93.6926933 C47.5533394,93.6203075 47.5981109,93.5203075 47.5981109,93.4098505 L47.5977188,85.0145154 L52.6209278,84.9537241 C52.6954397,84.9095488 52.7515299,84.8435144 52.7841425,84.7674183 C52.8244676,84.6733264 52.8288979,84.563851 52.7878752,84.4612943 L45.9695016,67.4153602 C45.9288451,67.3137191 45.8483082,67.2331822 45.4405432,67.1962585 Z" stroke-linejoin="square" fill="#FFFFFF" fill-rule="evenodd"></path>
+                        </g>
+                        <path d="M119.2,137.6 L116.8,137.6 C114.149033,137.6 112,135.450967 112,132.8 L112,66.4 C112,63.7490332 114.149033,61.6 116.8,61.6 L119.2,61.6 L119.2,61.6" id="Path" stroke="url(#linearGradient-30)" stroke-width="0.8"></path>
+                        <text id="DRAG!" font-family="SpoqaHanSans-Bold, SpoqaHanSans" font-size="12.8" font-weight="bold" fill="#2083FF">
+                            <tspan x="46.4" y="67">DRAG!</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

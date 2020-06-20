@@ -18,6 +18,8 @@ import ToggleButton from '@material-ui/lab/ToggleButton'
 import {useStyles, StyledToggleButtonGroup} from './styles/CategoryDrawer'
 
 import SearchIcon from '../../images/search.png'
+import linkListEmptyIcon from '../../images/group-11.svg'
+import linkListSearchEmptyIcon from '../../images/group-17.svg'
 
 // * components
 import CategoryCard from '../../components/category/CategoryCard'
@@ -47,6 +49,7 @@ export default function CategoryDrawer(props) {
 
   const [newCategoryTitle, setNewCategoryTitle] = useState('')
   const [toggleAlignment, setToggleAlignment] = useState('left')
+  const [searchValue, setSearchValue] = useState('')
   const [selectedCategoryId, setSelectedCategoryId] = useState('')
   const [selectedCategoryTitle, setSelectedCategoryTitle] = useState('')
 
@@ -83,6 +86,7 @@ export default function CategoryDrawer(props) {
       }
       else if (toggleAlignment === 'center') path = value
       else if (toggleAlignment === 'right') title = value
+      setSearchValue(value)
       getLink(selectedCategoryId, path, title)
     }
   }
@@ -446,11 +450,22 @@ export default function CategoryDrawer(props) {
           {/* link card serarchTool - END */}
         </div>
         <Grid container spacing={2}>
-          {links?.map((urlObj, idx) => 
+          {
+          links.length ? links?.map((urlObj, idx) => 
             <Grid item xs={2} key={idx}>
               <CategoryCard key={idx} urlInfoList={urlObj} />
             </Grid>
-          )}
+          ) 
+          :
+          searchValue ? 
+          (<div className={classes.imgCenter}>
+            <img src={linkListSearchEmptyIcon}></img>
+          </div>)
+          :
+          (<div className={classes.imgCenter}>
+            <img src={linkListEmptyIcon}></img>
+          </div>) 
+          }
         </Grid>
       </main>
       <CategoryAppBar {...props} />

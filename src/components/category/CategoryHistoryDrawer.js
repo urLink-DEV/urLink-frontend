@@ -3,6 +3,7 @@ import clsx from 'clsx'
 
 import useStyles from './styles/CategoryHistoryDrawer'
 
+import linkListEmptyIcon from '../../images/group-19.svg'
 import CategoryHistoryDateTitle from './CategoryHistoryDateTitle'
 import CategoryHistory from './CategoryHistory'
 
@@ -138,7 +139,7 @@ export default function CategoryHistoryDrawer(props) {
             <div className={classes.mainFont}>방문기록</div>
 
             {
-              linkList.map(link =>
+              linkList.length ? linkList.map(link =>
                 <Fragment>
                   <CategoryHistoryDateTitle
                     key={link.id + link.lastVisitTime} 
@@ -154,6 +155,10 @@ export default function CategoryHistoryDrawer(props) {
                   />
                 </Fragment>
               )
+              : 
+              (<div className={classes.imgCenter}>
+                <img src={linkListEmptyIcon}></img>
+              </div>)
             }
           </Fragment>
           : null

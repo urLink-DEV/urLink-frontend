@@ -141,6 +141,15 @@ export const useStyles = makeStyles((theme) => ({
     boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
     border: "solid 1px #2083ff"
   },
+  imgCenter: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    width: '80%',
+    height: '70%',
+    objectFit: 'contain'
+  },
   mainFont: {
     height: '36px',
     fontFamily: 'SpoqaHanSans',
