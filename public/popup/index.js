@@ -93,7 +93,7 @@ const Template = {
       <a class="category-card" data-categoryId=${element.id} id="category${element.id}">
         <div class="category-card-text">${element.name}</div>
         <div class="tab-text">${element.url_count ? element.url_count + " 링크" : "링크 없음"}</div>
-        ${element.is_favorited ? '<img src="img/group-27.svg">' : ""}
+        ${element.is_favorited ? '<img src="images/group-27.svg">' : ""}
       </a>
     `);
   },
@@ -101,7 +101,7 @@ const Template = {
   categoryEmptyPopup: (element) => {
     return (`
       <div class="category-empty-contanier">
-        <img class="category-empty" src="img/group-26.svg">
+        <img class="category-empty" src="images/group-26.svg">
       </div>
     `);
   },
@@ -109,7 +109,7 @@ const Template = {
   loginRequiredPopup: (element) => {
     return (`
       <div class="login-required-container">
-        <img src="img/group-25.svg">
+        <img src="images/group-25.svg">
       </div>
     `);
   },
@@ -117,7 +117,7 @@ const Template = {
   popup: (element) => {
     return (`
       <div class="category-popup">
-        <img src="img/white.svg" class="category-popup-img">
+        <img src="images/white.svg" class="category-popup-img">
         <div class="category-popup-text">
           ${element.message}
         </div>
