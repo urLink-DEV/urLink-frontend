@@ -21,6 +21,7 @@ const historyAPI = {
   get: ({ text, startTime, endTime, maxResults, callback }) => {
     startTime = startTime ? startTime : 0
     endTime = endTime ? endTime : Date.now()
+    if(!chrome.history) return;
     chrome.history.search(
       { text, startTime, endTime, maxResults },
       (historyItemList) => {
