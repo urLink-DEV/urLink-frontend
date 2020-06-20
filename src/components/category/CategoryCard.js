@@ -7,14 +7,13 @@ import CardMedia from '@material-ui/core/CardMedia'
 import IconButton from '@material-ui/core/IconButton'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
-import AlarmIcon from '@material-ui/icons/Alarm'
+import AddAlertIcon from '@material-ui/icons/AddAlert'
 import Typography from '@material-ui/core/Typography'
 import useStyles, { DatePickerWithStyles } from './styles/CategoryCard'
-// import { KeyboardDatePicker } from '@material-ui/pickers'
 
 export default function CategoryCard(props) {
   const classes = useStyles()
-  const {image_path, title, description} = props.urlInfoList
+  const {image_path, title, description, key} = props.urlInfoList
   const [selectedDate, setSelectedDate] = useState(new Date())
   
   const limitedDescription = desc => {
@@ -25,12 +24,9 @@ export default function CategoryCard(props) {
     : desc
   }
 
-  const onClickToSetAlarm = () => {
-    console.log('set alarm')
-  }
-
-  const handleDateChange = (date) => {
+  const handleSetAlarm = (date) => {
     setSelectedDate(date);
+    console.log('set snooze')
     console.log(date, title)
   }
 
@@ -68,22 +64,14 @@ export default function CategoryCard(props) {
           <IconButton className={classes.icons} aria-label="share">
             <ShareIcon fontSize="small"/>
           </IconButton>
-          {/* <IconButton className={classes.icons} 
-            aria-label="alarm"
-            onClick={onClickToSetAlarm}
-          >
-            <AlarmIcon fontSize="small"/>
-          </IconButton> */}
-          <DatePickerWithStyles
+          <DatePickerWithStyles key={key}
             className={classes.datePicker}
             margin="normal"
-            id="date-picker-dialog"
-            format=''
-            onChange={handleDateChange}
+            onChange={handleSetAlarm}
             InputProps={{
               disableUnderline: true,
-              display: 'none,'
             }}
+            keyboardIcon={<AddAlertIcon />}
             KeyboardButtonProps={{
               'aria-label': 'change date',
             }}

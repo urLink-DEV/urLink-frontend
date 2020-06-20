@@ -392,9 +392,6 @@ export default function CategoryDrawer(props) {
 
       <main className={classes.content}>
         <div className={classes.toolbar}>
-          {/* <Button onClick={handleClickCategoryTitle}>
-            {selectedCategoryTitle}
-          </Button> -> button을 사용한 이유? */}
           <span className={classes.mainFont}>
             {selectedCategoryTitle}
           </span>
