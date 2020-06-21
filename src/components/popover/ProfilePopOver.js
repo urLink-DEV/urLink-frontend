@@ -23,6 +23,10 @@ export default function ProfilePopOver() {
     setBadgeInvisible(!badgeInvisible);
   };
 
+  const onClickLogout = () => {
+    console.log('logout')
+  }
+
   return (
       <Card className={classes.root}>
         <CardContent>
@@ -30,33 +34,38 @@ export default function ProfilePopOver() {
             내 정보
           </Typography>
           <Box className={classes.content}>
-          <Grid container>
-            <Avatar className={classes.profileImg} src={profile.img}/>
-            <Grid className={classes.profileInfoGrid}>
-              <Typography className={classes.profileName}>
-                {profile.name}
-              </Typography>
-              <Typography className={classes.profileEmail} color="textSecondary">
-                {profile.email}
-              </Typography>
-              <Grid>
-                <Button className={classes.profileBtn}
-                  size="small">
-                  약관보기
-                </Button>
-                <StyledBadge color="primary" variant="dot" invisible={badgeInvisible}>
+            <Grid container>
+              <Avatar className={classes.profileImg} src={profile.img}/>
+              <Grid className={classes.profileInfoGrid}>
+                <Typography className={classes.profileName}>
+                  {profile.name}
+                </Typography>
+                <Typography className={classes.profileEmail} color="textSecondary">
+                  {profile.email}
+                </Typography>
+                <Grid>
                   <Button className={classes.profileBtn}
                     size="small">
-                    공지보기
+                    약관보기
                   </Button>
-                </StyledBadge>
+                  <StyledBadge color="primary" variant="dot" invisible={badgeInvisible}>
+                    <Button className={classes.profileBtn}
+                      size="small">
+                      공지보기
+                    </Button>
+                  </StyledBadge>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
           </Box>
         </CardContent>
         <CardActions>
-          <Button className={classes.logoutBtn} variant="contained">로그아웃</Button>
+          <Button className={classes.logoutBtn} 
+            variant="contained"
+            onClick={onClickLogout}
+          >
+            로그아웃
+          </Button>
         </CardActions>
       </Card>
   )
