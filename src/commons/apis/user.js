@@ -1,6 +1,6 @@
 import { axios, api } from '../http'
 import queryData from '../queryData'
-import { getDashQueryParams } from './queryParams'
+import { getDashQueryParams } from '../queryParam'
 
 const userAPI = {
   get : ({ id }) => {

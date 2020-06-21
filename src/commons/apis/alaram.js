@@ -1,12 +1,12 @@
 import { axios, api } from '../http'
 import queryData from '../queryData'
-import { getQueryParams } from './queryParams'
+import { getQueryParams, getDashQueryParams } from '../quryParam'
 
 const alarmAPI = {
   get : ({ }) => {
     try {
       const alarmRead = queryData["alarmRead"]
-      return axios.get(api.READ_CATEGORY, alarmRead)
+      return axios.get(api.READ_ALARAM, alarmRead)
     } catch (error) {
       console.warn(error)
     }

@@ -218,8 +218,29 @@ const queryData = {
    * * alarm/{alarmId}/ (Required)
    * * JWT 필요
    */
-  alarmDelete: {}
+  alarmDelete: {},
   // ****************** ALRAM - END ************************ //
+
+  // ****************** ALRAM - SOCKET ************************ //
+  /**
+   * * alarm Read
+   * * 알람 봤다고 요청
+   */
+  alarmReadMessage: {
+    "alarm_id": "",
+    "action": "read"
+  },
+
+  /**
+   * * alarm No message return
+   * * 알람에 노출하지 않기로 요청
+   */
+  alarmNoReturnMessage: {
+    "alarm_id": "",
+    "action": "done"
+  }
+  
+  // ****************** ALRAM - - SOCKET - END *****************//
 }
 
 export default queryData
