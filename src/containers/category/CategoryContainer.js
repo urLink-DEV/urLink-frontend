@@ -157,7 +157,7 @@ export default function CategoryContainer() {
             <CategoryDrawer {...props}>
               <Grid container spacing={2}>
                 {getCategoryUrlInfoList.map((urlObj, idx) => 
-                  <Grid item xs={2} key={idx}>
+                  <Grid item xs={3} key={idx}>
                     <CategoryCard key={idx} urlInfoList={urlObj} />
                   </Grid>
                 )}
