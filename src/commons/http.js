@@ -34,8 +34,11 @@ const api = {
 
 	READ_LINK: "url/", // * URl 리스트 조회
 	WRITE_LINK: "url/", // * URL 등록
-	DELETE_LINK: "url/" // * URL 삭제 
-	
+	DELETE_LINK: "url/", // * URL 삭제 
+
+	READ_ALARAM: "alarm/", // * ALARAM 리스트 조회 
+	WRITE_ALARAM: "alarm/", // * ALARAM 등록 
+	DELETE_ALARAM: "alarm/" // * ALARAM 삭제 
 }
 
 const axiosSetting = {

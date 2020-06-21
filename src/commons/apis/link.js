@@ -1,15 +1,11 @@
 import { axios, api } from '../http'
 import queryData from '../queryData'
+import { getQueryParams, getDashQueryParams } from '../quryParam'
 
 const linkAPI = {
   get : ({ category, path, title }) => {
     try {
-      let queryParams = ""
-      for (const [key, value] of Object.entries({category,path,title})) {
-        if(!value) continue
-        else queryParams += `&${key}=${encodeURI(value)}`
-      }
-      if(queryParams) queryParams = queryParams.replace("&","?")
+      const queryParams = getQueryParams({ category, path, title })
       const linkRead = queryData["linkRead"]
       return axios.get(api.READ_LINK + queryParams, linkRead)
     } catch (error) {
@@ -19,8 +15,8 @@ const linkAPI = {
   
   write : ({ category, path }) => {
     try {
-      let queryParams = category ? `?category=${category}` : ""
       if(!Array.isArray(path)) throw new Error("path는 Array type이 필수 입니다.")
+      let queryParams = getQueryParams({ category })
       const linkWrite = Object.create(queryData["linkWrite"])
       linkWrite.path = path
       return axios.post(api.WRITE_LINK + queryParams, linkWrite)
@@ -31,9 +27,10 @@ const linkAPI = {
   
   remove : ({ id }) => {
     try {
-      let queryParams = id ? `${id}/` : ""
+      let dashQueryParams = getDashQueryParams([id])
+      if(!dashQueryParams) throw new Error(`link : ${id} Id는 필수 입니다.`)
       const linkDelete = Object.assign(queryData["linkDelete"])
-      return axios.delete(api.DELETE_LINK + queryParams, linkDelete)
+      return axios.delete(api.DELETE_LINK + dashQueryParams, linkDelete)
     } catch (error) {
       console.warn(error)
     }
