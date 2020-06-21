@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     display: 'inline',
   },
   root: {
-    width: 218,
+    width: 200,
     margin: 10,
   },
   cardContent: {
