@@ -67,10 +67,6 @@ export default function CategoryDrawer(props) {
     setNewCategoryTitle(e.target.value)
   }
 
-  // const handleClickCategoryTitle = () => {
-  //   getLink(selectedCategoryId)
-  // }
-
   const handleToggleChange = (event, newAlignment) => {
     setToggleAlignment(newAlignment);
   }
@@ -267,11 +263,10 @@ export default function CategoryDrawer(props) {
         >
           Drag the category here!
         </div>
-        <List 
-        ref={listRef}>
+        <List ref={listRef}>
           {favoritedArr.map((data, index) => (
             <React.Fragment key={data.id}>
-              <div className={classes.dragline}></div>
+              <div className={classes.dragline} />
               <ListItem 
                 key={data.id}
                 data-type='category' 
@@ -392,9 +387,6 @@ export default function CategoryDrawer(props) {
 
       <main className={classes.content}>
         <div className={classes.toolbar}>
-          {/* <Button onClick={handleClickCategoryTitle}>
-            {selectedCategoryTitle}
-          </Button> -> button을 사용한 이유? */}
           <span className={classes.mainFont}>
             {selectedCategoryTitle}
           </span>

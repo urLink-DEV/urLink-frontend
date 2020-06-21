@@ -24,7 +24,8 @@ export const useStyles = makeStyles((theme) => ({
     },
     overflow: 'scroll',
     display: 'flex',
-    height: '100vh'
+    height: '100vh',
+    backgroundColor: '#fafafa',
   },
   drawer: {
     [theme.breakpoints.up('sm')]: {
@@ -216,6 +217,15 @@ export const useStyles = makeStyles((theme) => ({
     '.MuiToggleButton-root.Mui-selected': {
       backgroundColor: '#2083ff',
       color: 'white',
+    },
+    '.MuiButton-root': {
+      minWidth: 50,
+    },
+    'div.makeStyles-root-283': {
+      right: 0
+    },
+    'div.makeStyles-drawerOpen-285': {
+      right: 50
     }
   }
 }))

@@ -10,7 +10,9 @@ import person from '../../images/person.png'
 import history from '../../images/history.png'
 
 import AlarmPopOver from '../popover/AlarmPopover'
+import ProfilePopOver from '../popover/ProfilePopOver'
 import CategoryHistoryDrawer from './CategoryHistoryDrawer'
+import ProfileContext from '../../contexts/ProfileContext'
 
 export default function CategoryAppBar(props) {  
   const classes = useStyles()
@@ -22,7 +24,6 @@ export default function CategoryAppBar(props) {
     setSelectedLinkList,
     newAlarmList, 
     newRecentNofitication,
-    newProfileList 
   } = props
   
   const [historyDrawerOpen, setHistoryDrawerOpen] = useState(false) // * history
@@ -53,6 +54,8 @@ export default function CategoryAppBar(props) {
   const handleProfilePopOverClose = () => {
     setAnchorProfile(null)
   }
+
+
 
   return (
     <div>
@@ -129,7 +132,9 @@ export default function CategoryAppBar(props) {
               horizontal: 'right',
             }}
           >
-            asdfasdf
+            <ProfileContext>
+              <ProfilePopOver />
+            </ProfileContext>
           </Popover>
         </div>
       </div>

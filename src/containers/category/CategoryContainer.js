@@ -1,5 +1,5 @@
 /* global chrome */
-import React, { useState, useEffect , createContext , useContext } from 'react'
+import React, { useState, useEffect, createContext, useContext } from 'react'
 
 import Grid from '@material-ui/core/Grid'
 
@@ -141,8 +141,8 @@ export default function CategoryContainer() {
     getHistory,
 
     newAlarmList,
-    newProfileList,
-    newRecentNofitication
+    getProfileData,
+    newRecentNofitication,
   }
 
   useEffect(() => {
@@ -238,7 +238,7 @@ const newRecentNofitication = [
   }
 ]
 
-const newProfileList = {
+const getProfileData = {
   nickName: '녹챠챠',
   email: 'isoo7510@gmail.com',
   profileImg: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',

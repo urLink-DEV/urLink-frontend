@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import categoryAPI from '../commons/apis/category';
+import React, { useState, useEffect } from 'react'
+import categoryAPI from '../commons/apis/category'
 
 export default function CategoryTest() {
   const [category, setcategory] = useState([])
