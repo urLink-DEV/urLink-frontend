@@ -8,7 +8,7 @@ import newTab from '../../images/new-tab.svg'
 
 import useStyles from './styles/CategoryHistory'
 
-export default function CategoryHistoryList(props) {
+export default function CategoryHistory(props) {
   const { 
     onHistoryDragStart, 
     onHistoryDragEnd, 

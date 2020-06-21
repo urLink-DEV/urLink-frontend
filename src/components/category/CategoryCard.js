@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
@@ -18,7 +19,7 @@ export default function CategoryCard(props) {
   
   const limitedDescription = desc => {
     if (!desc) return ''
-    const limitedLength = 60
+    const limitedLength = 30
     return desc.length > limitedLength 
     ? desc.substring(0, limitedLength) + ' ... '
     : desc
@@ -41,28 +42,30 @@ export default function CategoryCard(props) {
             title="Contemplative Reptile"
           />
           <CardContent className={classes.cardContent}>
-            <Typography className={classes.cardContentTitle}
-              gutterBottom 
-              variant="h6" 
-              component="h2"
-            >
-              {title}
-            </Typography>
-            <Typography className={classes.cardContentDesc}
-              variant="body2" 
-              color="textSecondary"
-              component="p"
-            >
-              {limitedDescription(description)}
-            </Typography>
+            <Grid item zeroMinWidth>
+              <Typography className={classes.cardContentTitle}
+                gutterBottom 
+                variant="h6" 
+                component="h2"
+              >
+                {title}
+              </Typography>
+              <Typography className={classes.cardContentDesc}
+                variant="body2" 
+                color="textSecondary"
+                component="p"
+              >
+                {limitedDescription(description)}
+              </Typography>
+            </Grid>
           </CardContent>
         </CardActionArea>
         <CardActions className={classes.cardActions}>
-          <IconButton className={classes.icons} aria-label="favorites">
-            <FavoriteIcon fontSize="small"/>
+          <IconButton aria-label="favorites">
+            <FavoriteIcon fontSize="small" />
           </IconButton>
-          <IconButton className={classes.icons} aria-label="share">
-            <ShareIcon fontSize="small"/>
+          <IconButton aria-label="share">
+            <ShareIcon fontSize="small" />
           </IconButton>
           <DatePickerWithStyles key={key}
             className={classes.datePicker}
