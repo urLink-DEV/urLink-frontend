@@ -1,3 +1,13 @@
+/**
+ * 	* Basic
+ * 	* Security scheme type:	HTTP
+ * 	* HTTP Authorization Scheme	basic
+ 
+ * * JWT
+ * * Security scheme type: API Key
+ * * Header parameter name: Authorization
+*/
+
 const api = {
 	UPDATE_TOKEN: "user/token/refresh/", // * 토큰 갱신
 	CHECK_TOKEN: "user/token/verify/", // * 토큰 검사
