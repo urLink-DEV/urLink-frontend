@@ -1,61 +1,12 @@
 window.addEventListener('DOMContentLoaded', () => {
   auth.tokenCheck()
     .then(res => {
-      if(res) categoryLoad();
-      else document.getElementById("categoryList").innerHTML= Template.loginRequiredPopup();
-      tabSaveEventSetting();
+      if(res) APILoad.categoryLoad();
+      else document.getElementById("categoryList").innerHTML= Template.loginRequired();
+      EventListener.linkSaveEventSetting();
     })
     .catch(e => console.warn(e))
 });
-
-function categoryLoad(){
-  const categoryListElement = document.getElementById("categoryList");
-  const get = categoryAPI.get({});
-
-  if(get) {
-    get.then(res => {
-      let categoryElement = "";
-      if(Array.isArray(res.data) && res.data.length) {
-        res.data.map(element => categoryElement += Template.category(element));
-        categoryListElement.innerHTML = categoryElement;
-        res.data.map(element => categoryEventSetting(element));
-      }
-      else categoryListElement.innerHTML = Template.categoryEmptyPopup();
-    })
-    .catch(e => console.log(e))
-  }
-}
-
-function linkWrite(category, path) {
-  const categoryCardElement = document.getElementById(`category${category}`);
-  const write = linkAPI.write({ category, path });
-  if (write) {
-    write.then((response) => {
-      if(Array.isArray(response.data.success) && response.data.success.length) {
-        categoryCardElement.classList.add("upload-finish");
-        popupMessage({message: "링크가 이동 되었습니다."});
-      }
-    })
-    .then(res => categoryLoad())
-    .catch(error => {
-      categoryCardElement.classList.remove("check");
-      if(error.response.status === 500) popupMessage({message: "유효하지 않은 링크 입니다."});
-      else if(error && error.response.data.message) popupMessage({message: error.response.data.message});
-    })
-  }
-}
-
-function categoryEventSetting(element){
-  const categoryCardElement = document.getElementById(`category${element.id}`);
-  categoryCardElement.removeEventListener("click", EventListener.categoryEventListener);
-  categoryCardElement.addEventListener("click", EventListener.categoryEventListener.bind(this, element), false);
-}
-
-function tabSaveEventSetting() {
-  const tabSaveElement = document.getElementById("tabSave");
-  tabSaveElement.removeEventListener("click", EventListener.tabSaveEventListener);
-  tabSaveElement.addEventListener("click", EventListener.tabSaveEventListener);
-}
 
 function popupMessage(element){
   const categoryPopupElement = document.getElementById("categoryPopup");
@@ -67,23 +18,75 @@ function popupMessage(element){
   },1000);
 }
 
-const EventListener = {
-  categoryEventListener: function (element, e) {
-    const tabSaveElement = document.getElementById("tabSave");
-    const categoryListElement = document.getElementsByClassName("category-card");
-    Array.prototype.map.call(categoryListElement, (category) => category.classList.remove("check"));
-    e.currentTarget.classList.add("check");
-    if (tabSaveElement && !tabSaveElement.classList.contains("active")) tabSaveElement.classList.add("active");
-    tabSaveElement.dataset.categoryId = element.id;
+const APILoad = {
+  categoryLoad: function(){
+    const categoryListElement = document.getElementById("categoryList");
+    const get = categoryAPI.get({});
+    if(get) {
+      get.then(res => {
+        let categoryElement = "";
+        if(Array.isArray(res.data) && res.data.length) {
+          res.data.map(element => categoryElement += Template.category(element));
+          categoryListElement.innerHTML = categoryElement;
+          res.data.map(element => EventListener.categoryEventSetting(element));
+        }
+        else categoryListElement.innerHTML = Template.categoryEmpty();
+      })
+      .catch(e => console.log(e))
+    }
   },
 
-  tabSaveEventListener: function (e) {
-    e.preventDefault();
-    if(e.target.classList.contains("active")){
-      const category = e.currentTarget.dataset.categoryId;
-      chrome.tabs.query({ 'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT }, tabs => linkWrite(category, [tabs[0].url]));
-      e.target.classList.remove("active");
+  linkWrite: function(category, path) {
+    const categoryCardElement = document.getElementById(`category${category}`);
+    const write = linkAPI.write({ category, path });
+    if (write) {
+      write.then((response) => {
+        if(Array.isArray(response.data) && response.data.length) {
+          categoryCardElement.classList.add("upload-finish");
+          popupMessage({message: "링크가 이동 되었습니다."});
+        }
+      })
+      .then(res => APILoad.categoryLoad())
+      .catch(error => {
+        categoryCardElement.classList.remove("check");
+        if(error.response.status === 500) popupMessage({message: "유효하지 않은 링크 입니다."});
+        else if(error && error.response.data.message) popupMessage({message: error.response.data.message});
+      })
     }
+  }
+}
+
+const EventListener = {
+  categoryEventListener: function (element, e) {
+    const currentCategoryElement = e.currentTarget;
+    const linkSaveElement = document.getElementById("linkSave");
+    const categoryListElement = document.getElementsByClassName("category-card");
+    Array.prototype.map.call(categoryListElement, (category) => category.classList.remove("check"));
+    currentCategoryElement.classList.add("check");
+    if (linkSaveElement && !linkSaveElement.classList.contains("active")) linkSaveElement.classList.add("active");
+    linkSaveElement.dataset.categoryId = element.id;
+  },
+
+  linkSaveEventListener: function (e) {
+    e.preventDefault();
+    const linkSaveElement = document.getElementById("linkSave");
+    if(linkSaveElement.classList.contains("active")){
+      const category = linkSaveElement.dataset.categoryId;
+      chrome.tabs.query({ 'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT }, tabs => APILoad.linkWrite(category, [tabs[0].url]));
+      linkSaveElement.classList.toggle("active");
+    }
+  },
+
+  categoryEventSetting: function (element){
+    const categoryCardElement = document.getElementById(`category${element.id}`);
+    categoryCardElement.removeEventListener("click", EventListener.categoryEventListener);
+    categoryCardElement.addEventListener("click", EventListener.categoryEventListener.bind(null, element), false);
+  },
+  
+  linkSaveEventSetting: function () {
+    const linkSaveElement = document.getElementById("linkSave");
+    linkSaveElement.removeEventListener("click", EventListener.linkSaveEventListener);
+    linkSaveElement.addEventListener("click", EventListener.linkSaveEventListener, false);
   }
 }
 
@@ -98,7 +101,7 @@ const Template = {
     `);
   },
 
-  categoryEmptyPopup: (element) => {
+  categoryEmpty: (element) => {
     return (`
       <div class="category-empty-contanier">
         <img class="category-empty" src="images/group-26.svg">
@@ -106,7 +109,7 @@ const Template = {
     `);
   },
 
-  loginRequiredPopup: (element) => {
+  loginRequired: (element) => {
     return (`
       <div class="login-required-container">
         <img src="images/group-25.svg">

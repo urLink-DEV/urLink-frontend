@@ -10,17 +10,22 @@
 </head>
 <body>
   <div class="popup-body">
-    <div id="categoryList" class="category">
+    <div id="categoryList" class="category"></div>
+
+    <div class="btn-group">
+      <div id="linkSave" class="link-save-btn">
+        <span>링크 저장하기</span>
+      </div>
+
+      <div class="urlLink-open-btn">
+        <a class="urlLink-open-btn-text" href="index.html" target="blank">유어링크 열기</a>
+      </div>
+      
+      <div class="center">
+        <img src="images/group-5.svg" class="logo">
+      </div>
     </div>
-    <div id="tabSave" class="tab-save-btn">
-      링크 저장하기
-    </div>
-    <div class="urlLink-open-btn">
-      <a class="urlLink-open-btn-text" href="index.html" target="blank">유어링크 열기</a>
-    </div>
-    <div class="center">
-      <img src="images/group-5.svg" class="logo">
-    </div>
+
     <div class="container"></div>
   </div>
   <div id="categoryPopup" class="category-popup-container" style="display: none;"></div>
@@ -28,9 +33,11 @@
   <script src="commons/Axios.js"></script>
   <script src="commons/queryData.js"></script>
   <script src="commons/http.js"></script>
+
   <script src="commons/api/auth.js"></script>
-  <script src="commons/api/categoryAPI.js"></script>
-  <script src="commons/api/linkAPI.js"></script>
+  <script src="commons/api/category.js"></script>
+  <script src="commons/api/link.js"></script>
+  
   <script src="popup/index.js"></script>
 </body>
 </html>
