@@ -44,6 +44,15 @@ const useStyles = makeStyles(theme => ({
       duration: theme.transitions.duration.leavingScreen
     }),
   },
+  imgCenter: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    width: '100%',
+    height: '50%',
+    objectFit: 'contain'
+  },
   tabMove: {
     position: 'absolute',
     width: '110px',

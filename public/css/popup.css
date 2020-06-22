@@ -32,6 +32,7 @@ body{
   background-color: #fafafa;
 }
 .category .category-card {
+  cursor: pointer;
   display: flex;
   align-items: center;
   align-content: center;
@@ -138,8 +139,21 @@ a.category-card.check:hover {
   border: solid 1px var(--maincolor);
   background-color: #ffffff;
 }
-/* tab save Btn-active-none */
-.tab-save-btn {
+
+/* btn-group */
+.btn-group {
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.58px;
+  text-align: center;
+  color: var(--pale-grey);
+}
+/* link save Btn-active-none */
+.link-save-btn {
   cursor: pointer;
 
   align-items: center;
@@ -152,20 +166,8 @@ a.category-card.check:hover {
   border-radius: 1.8px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
   background-color: var(--blue-grey);
-  
-  font-family: SpoqaHanSans;
-  font-size: 14px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: -0.58px;
-  text-align: center;
-  color: var(--pale-grey);
-  color: var(--pale-grey);
-
 }
-/* .tab-save-btn .tab-save-btn-text{
+/* .link-save-btn .link-save-btn-text{
   cursor: pointer;
   width: 102px;
   height: 20px;
@@ -179,8 +181,8 @@ a.category-card.check:hover {
   text-align: center;
   color: var(--pale-grey);
 } */
-/* tab save Btn-active */
-.tab-save-btn.active {
+/* link save Btn-active */
+.link-save-btn.active {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -191,15 +193,6 @@ a.category-card.check:hover {
   border-radius: 1.8px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
-
-  font-family: SpoqaHanSans;
-  font-size: 14px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: -0.58px;
-  text-align: center;
   color: var(--maintext);
 }
 /* urlLink open */
@@ -217,16 +210,8 @@ a.category-card.check:hover {
 }
 .urlLink-open-btn .urlLink-open-btn-text{
   padding: 14px;
-  width: 102px;
+  width: 100%;
   height: 20px;
-  font-family: SpoqaHanSans;
-  font-size: 14px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: -0.58px;
-  text-align: center;
   color: #ffffff;
 }
 a.urlLink-open-btn-text:link { text-decoration: none;}

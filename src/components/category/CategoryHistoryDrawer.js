@@ -1,6 +1,7 @@
-import React, { useState , useEffect} from 'react'
+import React, { useState , useEffect, Fragment} from 'react'
 import clsx from 'clsx'
 
+import linkListEmptyIcon from '../../images/group-19.png'
 import CategoryHistoryDateTitle from './CategoryHistoryDateTitle'
 import CategoryHistory from './CategoryHistory'
 
@@ -21,11 +22,13 @@ export default function CategoryHistoryDrawer(props) {
   const [linkList, setLinkList] = useState([])
   const [isHistoryDrag, setIsHistoryDrag] = useState(false)
   
+  // * history search option
+  const dayAgo  = 1000 * 60 * 60 * 24 * 1
+  const [startTime, setStartTime] = useState((new Date).getTime() - dayAgo)
+  const [endTime, setEndTime] = useState((new Date).getTime())
+  const [maxResults, setMaxResults] = useState(0)
+  // * /history search option - END
 
-  const onScroll = (e) => {
-
-  }
-  
   const onHistoryDragStart = (e, historyLink, historyLinkID) => {
     const target = e.currentTarget
     if(target.classList.contains('history-list')){
@@ -52,7 +55,6 @@ export default function CategoryHistoryDrawer(props) {
     setIsHistoryDrag(false)
   }
 
-
   const onLinkClick = (e , historyLink, historyLinkID) =>{
     e.preventDefault()
     const target = e.currentTarget
@@ -74,21 +76,45 @@ export default function CategoryHistoryDrawer(props) {
     }
   }
 
+  const onHistoryDrawerTransitionEnd = () => {
+    if (historyDrawerOpen) {
+      getHistory({
+        text: '', startTime, endTime, maxResults, callback: (historyItems) => {
+          setLinkList([...linkList, ...historyItems])
+        }
+      })
+    }
+    else {
+      setLinkList([])
+      setEndTime((new Date).getTime())
+      setStartTime((new Date).getTime() - dayAgo)
+    }
+  }
+  
+  const onHistoryDrawerScroll = (e) => {
+    const scrollTop = e.currentTarget.scrollTop
+    const scrollHeight = e.currentTarget.scrollHeight
+    const clientHeight = e.currentTarget.clientHeight
+
+    if(Math.ceil(scrollTop + clientHeight) >= scrollHeight ) {
+      setEndTime(startTime)
+      setStartTime(startTime - dayAgo)
+    }
+  }
 
   useEffect(() => {
-    if(historyDrawerOpen){
-      getHistory({text: "", callback : (historyItems) => {
-        setLinkList(historyItems)
-      }, maxResults: 100})
+    if (historyDrawerOpen) {
+        getHistory({
+          text: '', startTime, endTime, maxResults, callback: (historyItems) => {
+            setLinkList([...linkList, ...historyItems])
+          }
+        })
     }
-  }, [historyDrawerOpen])
-
+  },[endTime])
 
   return (
-
     <>
-      {
-        <div 
+      <div 
         className={
           clsx(classes.tabMove, {
             [classes.dragStart]: isHistoryDrag,
@@ -96,32 +122,32 @@ export default function CategoryHistoryDrawer(props) {
           })
         }
         id='mouse-modal'
-        >
-          <div className={classes.circle}>
-            <img className={classes.moveIcon} src={moveLink} alt="move links" />
-          </div>
-          <span>링크 {selectedLinkList.length}개 이동</span>
+      >
+        <div className={classes.circle}>
+          <img className={classes.moveIcon} src={moveLink} alt="move links" />
         </div>
-      }
+        <span>링크 {selectedLinkList.length}개 이동</span>
+      </div>
 
-      <div className={
-        clsx(classes.root, {
-          [classes.drawerOpen]: historyDrawerOpen,
-          [classes.drawerClose]: !historyDrawerOpen
-        })
+      <div 
+        className={
+          clsx(classes.root, {
+            [classes.drawerOpen]: historyDrawerOpen,
+            [classes.drawerClose]: !historyDrawerOpen
+          })
         }
+        onTransitionEnd={onHistoryDrawerTransitionEnd}
+        onScroll={onHistoryDrawerScroll}
       >
         {
           historyDrawerOpen ?
-            <>
+            <Fragment>
               <div className={classes.mainFont}>방문기록</div>
+
               {
-                linkList.map(link =>
-                  <React.Fragment key={link.id}>
-                    <CategoryHistoryDateTitle
-                      key={link.id + link.lastVisitTime} 
-                      link={link}
-                    />
+                linkList.length ? linkList.map(link =>
+                  <Fragment key={link.id}>
+                    <CategoryHistoryDateTitle link={link}/>
                     <CategoryHistory
                       key={link.id}
                       link={link}
@@ -130,14 +156,19 @@ export default function CategoryHistoryDrawer(props) {
                       onHistoryDragStart={onHistoryDragStart}
                       onHistoryDragEnd={onHistoryDragEnd}
                       onLinkClick={onLinkClick}
+                      onLinkClick={onLinkClick}
                     />
-                  </React.Fragment>
+                  </Fragment>
                 )
-              } 
-            </>
-          : null
-        }
-      </div>
+                : 
+                (<div className={classes.imgCenter}>
+                  <img src={linkListEmptyIcon}></img>
+                </div>)
+              }
+            </Fragment>
+            : null
+          }
+        </div>
     </>
   )
 }

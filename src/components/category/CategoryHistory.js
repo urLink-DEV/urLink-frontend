@@ -1,14 +1,14 @@
 /* global chrome */
 import React, { useState, useEffect } from 'react'
-
-import logo from '../../images/logo/logo16.png';
-import linkCopy from '../../images/link-copy.svg';
-import newTab from '../../images/new-tab.svg';
-
 import clsx from 'clsx';
+
+import logo from '../../images/logo/logo16.png'
+import linkCopy from '../../images/link-copy.svg'
+import newTab from '../../images/new-tab.svg'
+
 import useStyles from './styles/CategoryHistory'
 
-export default function CategoryHistoryList(props) {
+export default function CategoryHistory(props) {
   const { 
     onHistoryDragStart, 
     onHistoryDragEnd, 
@@ -18,7 +18,6 @@ export default function CategoryHistoryList(props) {
     link, 
     key
   } = props
-
   const classes = useStyles()
 
   const [favicon, setFavicon] = useState(`https://www.google.com/s2/favicons?domain=${link.hostName}`)
@@ -56,7 +55,6 @@ export default function CategoryHistoryList(props) {
         [classes.selectedDiv]: selectedLinkList.filter(list => list.id === link.id).length > 0,
         dragFinished : filteredLinkList.includes(link.id) && isHistoryDrag === false
       })}
-      key={key}
       data-type='link'
       draggable='true'
       onClick={(e) => onLinkClick(e, link.url, link.id)}

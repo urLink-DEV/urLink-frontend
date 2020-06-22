@@ -19,8 +19,13 @@ const drawerWidth = 260;
 
 export const useStyles = makeStyles((theme) => ({
   root: {
+    '&::-webkit-scrollbar': {
+      display: 'none'
+    },
+    overflow: 'scroll',
     display: 'flex',
     height: '100vh',
+    backgroundColor: '#fafafa',
   },
   drawer: {
     [theme.breakpoints.up('sm')]: {
@@ -49,7 +54,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
+    margin: '0 63px 0 0',
   },
   listItem: {
     width: 208,
@@ -151,30 +157,67 @@ export const useStyles = makeStyles((theme) => ({
     color: '#358eff',
     width: 50,
     height: 50
+  }, 
+  imgCenter: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    width: '80%',
+    height: '70%',
+    objectFit: 'contain'
+  },
+  mainFont: {
+    width: 200,
+    height: '36px',
+    fontFamily: 'SpoqaHanSans',
+    fontSize: '20pt',
+    fontWeight: 'bold',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 'normal',
+    letterSpacing: 'normal',
+    color: '#000000'
   },
   searchIcon: {
     marginRight: 5,
   },
+  searchBtnText: {
+    width: '34px',
+    height: '15px',
+    fontFamily: 'SpoqaHanSans',
+    fontSize: '12pt',
+    fontWeight: '300',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 'normal',
+    letterSpacing: 'normal',
+    textAlign: 'center',
+    color: '#868e96',
+  },
   popover: {
+    width: '220px',
+    borderRadius: '4px',
+    boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12)',
+    backgroundColor: '#ffffff',
+    fontFamily: "SpoqaHanSans",
     padding: '5px 10px',
   },
   popoverDiv: {
     marginBottom: 10,
   },
   popoverBtn: {
-    margin: 5,
+    height: 30,
+    marginTop: 3
   },
   textfield: {
+    '&:focus' : {border: '1px solid #2083ff'},
+    outline: 'none',
+    borderRadius: '4px',
+    border: 'solid 1px #e9ecef',
+    backgroundColor: '#f1f3f5',
     width: '100%',
-  },
-  '@global': {
-    '.MuiFilledInput-inputMarginDense': {
-      paddingTop: '10px'
-    },
-    '.MuiToggleButton-root.Mui-selected': {
-      backgroundColor: '#2083ff',
-      color: 'white',
-    }
+    height: '28px'
   },
   dragline: {
     width: 208,
@@ -183,6 +226,24 @@ export const useStyles = makeStyles((theme) => ({
     borderRadius: 2,
     display: "none",
     backgroundImage: "linear-gradient(271deg, #e0f6ff, #2083ff)"
+  },
+  '@global': {
+    '.MuiFilledInput-inputMarginDense': {
+      paddingTop: '10px'
+    },
+    '.MuiToggleButton-root.Mui-selected': {
+      backgroundColor: '#2083ff',
+      color: 'white',
+    },
+    '.MuiButton-root': {
+      minWidth: 50,
+    },
+    'div.makeStyles-root-283': {
+      right: 0
+    },
+    'div.makeStyles-drawerOpen-285': {
+      right: 50
+    }
   }
 }))
 

@@ -10,7 +10,9 @@ import person from '../../images/person.png'
 import history from '../../images/history.png'
 
 import AlarmPopOver from '../popover/AlarmPopover'
+import ProfilePopOver from '../popover/ProfilePopOver'
 import CategoryHistoryDrawer from './CategoryHistoryDrawer'
+import ProfileContext from '../../contexts/ProfileContext'
 
 export default function CategoryAppBar(props) {  
   const classes = useStyles()
@@ -22,7 +24,6 @@ export default function CategoryAppBar(props) {
     setSelectedLinkList,
     newAlarmList, 
     newRecentNofitication,
-    newProfileList 
   } = props
   
   const [historyDrawerOpen, setHistoryDrawerOpen] = useState(false) // * history
@@ -54,15 +55,18 @@ export default function CategoryAppBar(props) {
     setAnchorProfile(null)
   }
 
+
+
   return (
     <div>
       <div className={classes.appBar}>
         <div className="drawer-btn-group">
-          <Button onClick={onClickHistoryDrawer}>
+          <Button className={classes.imgButton} onClick={onClickHistoryDrawer}>
             <img src={history} alt="history button" />
           </Button>
 
           <Button
+          className={classes.imgButton}
             aria-describedby={alarmId}
             onClick={handleAlarmPopOverClick}
           >
@@ -97,9 +101,10 @@ export default function CategoryAppBar(props) {
           </Popover>
           
           <Button
+          className={classes.imgButton}
             aria-describedby={profileId}
             onClick={handleProfilePopOverClick}
-          >
+            >
             <Badge
               anchorOrigin={{
                 vertical: 'top',
@@ -127,7 +132,9 @@ export default function CategoryAppBar(props) {
               horizontal: 'right',
             }}
           >
-            asdfasdf
+            <ProfileContext>
+              <ProfilePopOver />
+            </ProfileContext>
           </Popover>
         </div>
       </div>

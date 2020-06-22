@@ -1,5 +1,5 @@
 /* global chrome */
-import React, { useState, useEffect , createContext , useContext } from 'react'
+import React, { useState, useEffect, createContext, useContext } from 'react'
 
 import Grid from '@material-ui/core/Grid'
 
@@ -85,28 +85,6 @@ export default function CategoryContainer() {
     }
   }
 
-  // * link 검색하기
-  const getSearchLink = (category, path, title) => {
-    linkAPI.get({ category, path, title })
-    .then(res => res.data)
-    .then(res => { setLink([...res]) })
-    .catch((error) => console.warn("response" in error ? error.response.data.message : error))
-  }
-
-  const getSearchPathLink = (category, path) => {
-    linkAPI.get({ category, path })
-    .then(res => res.data)
-    .then(res => { setLink([...res]) })
-    .catch((error) => console.warn("response" in error ? error.response.data.message : error))
-  }
-
-  const getSearchTitleLink = (category, title) => {
-    linkAPI.get({ category, title })
-    .then(res => res.data)
-    .then(res => { setLink([...res]) })
-    .catch((error) => console.warn("response" in error ? error.response.data.message : error))
-  }
-
   // * 링크 작성
   const writeLink = (category, path) => {
     const write = linkAPI.write({ category, path })
@@ -161,13 +139,9 @@ export default function CategoryContainer() {
     setSelectedLinkList,
     setDraggedHistory,
     getHistory,
-    getSearchLink,
-    getSearchPathLink,
-    getSearchTitleLink,
 
-    urlList,
     newAlarmList,
-    newProfileList,
+    getProfileData,
     newRecentNofitication,
   }
 
@@ -183,7 +157,7 @@ export default function CategoryContainer() {
             <CategoryDrawer {...props}>
               <Grid container spacing={2}>
                 {getCategoryUrlInfoList.map((urlObj, idx) => 
-                  <Grid item xs={2} key={idx}>
+                  <Grid item xs={3} key={idx}>
                     <CategoryCard key={idx} urlInfoList={urlObj} />
                   </Grid>
                 )}
@@ -221,49 +195,6 @@ const getCategoryUrlInfoList = [{
   title: 'poiemaweb site',
   description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
 },
-]
-
-const urlList = [
-  {
-    "id": "1",
-    "lastVisitTime": 1588933029447.23,
-    "title": "React App",
-    "typedCount": 0,
-    "path": "https://www.naver.com",
-    "visitCount": 24,
-  },
-  {
-    "id": "2",
-    "lastVisitTime": 1588933029447.23,
-    "title": "React App",
-    "typedCount": 0,
-    "path": "https://www.naver.com",
-    "visitCount": 24,
-  },
-  {
-    "id": "3",
-    "lastVisitTime": 1588933029447.23,
-    "title": "React App",
-    "typedCount": 0,
-    "path": "https://www.naver.com",
-    "visitCount": 24,
-  },
-  {
-    "id": "4",
-    "lastVisitTime": 1588933029447.23,
-    "title": "React App",
-    "typedCount": 0,
-    "path": "https://www.naver.com",
-    "visitCount": 24,
-  },
-  {
-    "id": "5",
-    "lastVisitTime": 1588933029447.23,
-    "title": "React App",
-    "typedCount": 0,
-    "path": "https://www.naver.com",
-    "visitCount": 24,
-  }
 ]
 
 const newAlarmList = [
@@ -307,7 +238,7 @@ const newRecentNofitication = [
   }
 ]
 
-const newProfileList = {
+const getProfileData = {
   nickName: '녹챠챠',
   email: 'isoo7510@gmail.com',
   profileImg: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',

@@ -1,5 +1,8 @@
 // * React
-import React, {useState, useEffect, useRef} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+
+// * dispatch
+import {useLinkState, useLinkDispatch, useCategoryState, useCategoryDispatch} from '../../containers/category/CategoryContainer'
 
 // * UI (CSS)
 import Drawer from '@material-ui/core/Drawer'
@@ -10,13 +13,16 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Paper from '@material-ui/core/Paper'
 import Input from '@material-ui/core/Input'
-import SearchIcon from '@material-ui/icons/Search'
-import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
+import Box from '@material-ui/core/Box'
 import ToggleButton from '@material-ui/lab/ToggleButton'
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 import {useStyles, StyledToggleButtonGroup} from './styles/CategoryDrawer'
 import clsx from 'clsx'
+
+import SearchIcon from '../../images/search.png'
+import linkListEmptyIcon from '../../images/group-11.png'
+import linkListSearchEmptyIcon from '../../images/group-17.png'
 
 // * components
 import CategoryCard from '../../components/category/CategoryCard'
@@ -25,35 +31,25 @@ import CategoryAppBar from './CategoryAppBar'
 import CategoryTab from './CategoryTab'
 import CategorySearchPopOver from './CategorySearchPopOver'
 
-// * Hooks
-import {useLinkState, useLinkDispatch, useCategoryState, useCategoryDispatch} from '../../containers/category/CategoryContainer'
-
-/*
-  * categoryDispatch.getCategory()
-  * categoryDispatch.writeCategory(value,1,false)
-  * linkDispatch.getLink(87, "trust")
-  * linkDispatch.writeLink(87, ["https://trustyoo86.github.io/javascript/2019/12/27/chrome-extension-overview.html"])
-  * 이런식으로 불러와서 사용 가능
-*/
 export default function CategoryDrawer(props) {
+  // console.log("recall");
 
-  const categories = useCategoryState()
+  const classes = useStyles()
+
   const categoryDispatch = useCategoryDispatch()
-  const links = useLinkState()
-  const linkDispatch = useLinkDispatch()
+  const { getLink, writeLink, deleteLink } = useLinkDispatch()
   const { 
-    getSearchLink,
-    getSearchPathLink,
-    getSearchTitleLink,
     draggedHistory,
     setDraggedHistory,
     selectedLinkList,
     setSelectedLinkList
   } = props
-
+  
+  const links = useLinkState()
+  const categories = useCategoryState()
   const favoritedArr = categories.filter(data => data.is_favorited === true)
   const notFavoritedArr = categories.filter(data => data.is_favorited === false)
-  const classes = useStyles()
+
   const [newCategoryTitle, setNewCategoryTitle] = useState('')
   const [toggleAlignment, setToggleAlignment] = useState('left')
   const [searchValue, setSearchValue] = useState('')
@@ -66,36 +62,34 @@ export default function CategoryDrawer(props) {
   const [enterOpen, setEnterOpen] = useState(false)
 
   useEffect(() => {
-    linkDispatch.getLink(categories[0]?.id)
-    setSelectedCategoryTitle(categories[0]?.name)
-    setSelectedCategoryId(categories[0]?.id)
-  }, [categories])
-
-  useEffect(() => {
-    linkDispatch.getLink(selectedCategoryId)
-  }, [selectedCategoryId])
+    if(!selectedCategoryId && categories.length) handleClickCategory(categories[0]?.id, categories[0]?.name)
+    else getLink(selectedCategoryId)
+  }, [categories, selectedCategoryId])
 
   const handleChangeNewCategoryTitle = (e) => {
+    if (e.target.value.length >= 15) {
+      return 
+    }
     setNewCategoryTitle(e.target.value)
-  }
-
-  const handleClickCategoryTitle = () => {
-    linkDispatch.getLink(selectedCategoryId)
   }
 
   const handleToggleChange = (event, newAlignment) => {
     setToggleAlignment(newAlignment);
   }
 
-  const handleChangeSearchValue = e => {
-    setSearchValue(e.target.value)
-  }
-
   const handlePressEnterSearchValue = e => {
-    if (e.keyCode === 13) {
-      if (toggleAlignment === 'left') getSearchLink(selectedCategoryId, searchValue)
-      if (toggleAlignment === 'center') getSearchPathLink(selectedCategoryId, searchValue)
-      if (toggleAlignment === 'right') getSearchTitleLink(selectedCategoryId, searchValue)
+    const { keyCode } = e
+    const { value } = e.target
+    let path, title
+    if (keyCode === 13) {
+      if (toggleAlignment === 'left') {
+        path = value
+        title = value
+      }
+      else if (toggleAlignment === 'center') path = value
+      else if (toggleAlignment === 'right') title = value
+      setSearchValue(value)
+      getLink(selectedCategoryId, path, title)
     }
   }
 
@@ -118,6 +112,7 @@ export default function CategoryDrawer(props) {
   const cancelAddTab = () => {
     setAddOpen(true)
     setEnterOpen(false)
+    setNewCategoryTitle('')
   }
 
   const openDeleteModal = (e) => {
@@ -137,6 +132,7 @@ export default function CategoryDrawer(props) {
     setDeleteOpen(false)
     setAddOpen(true)
   }
+
   const handleClickCategory = (id, name) => {
     setAddOpen(false)
     setDeleteOpen(true)
@@ -148,7 +144,6 @@ export default function CategoryDrawer(props) {
     setAddOpen(false)
     setEnterOpen(true)
   }
-
 
   /*
     아래는 drag n drop 로직
@@ -162,7 +157,6 @@ export default function CategoryDrawer(props) {
   const [overedTabFavorite, setOveredTabFavorite] = useState(null)
   const [dragFinished, setDragFinished] = useState(false)
   const [dragHistoryFinished, setDragHistoryFinished] = useState(false)
-
 
   const listRef = useRef()  
 
@@ -213,7 +207,7 @@ export default function CategoryDrawer(props) {
     } else if(type === 'link') {
       e.preventDefault()
       setDragHistoryFinished(true)
-      linkDispatch.writeLink(overedTabId, filteredLinkList)
+      writeLink(overedTabId, filteredLinkList)
       setSelectedLinkList([])
       setDraggedHistory([])
     }
@@ -240,7 +234,7 @@ export default function CategoryDrawer(props) {
 
     if(type === 'link') {
       e.preventDefault()
-      linkDispatch.writeLink(selectedCategoryId, filteredLinkList)
+      writeLink(selectedCategoryId, filteredLinkList)
       setDragHistoryFinished(true)
       setSelectedLinkList([])
       setDraggedHistory([])
@@ -285,9 +279,7 @@ export default function CategoryDrawer(props) {
       clearTimeout(timeId.current)
     }
 
-  },[wrapperRef, categories, dragFinished, dragHistoryFinished])
-
-
+  },[wrapperRef, dragFinished, dragHistoryFinished])
   
   const drawer = (
     <div>
@@ -302,11 +294,10 @@ export default function CategoryDrawer(props) {
         >
           Drag the category here!
         </div>
-        <List 
-        ref={listRef}>
+        <List ref={listRef}>
           {favoritedArr.map((data, index) => (
             <React.Fragment key={data.id}>
-              <div className={classes.dragline}></div>
+              <div className={classes.dragline} />
               <ListItem 
                 key={data.id}
                 data-type='category' 
@@ -338,27 +329,23 @@ export default function CategoryDrawer(props) {
           Category
         </div>
         <hr />
-        <Button 
-          className={classes.addButton + (addOpen ? '' : ' '+classes.hidden)} 
+        <Button className={classes.addButton + (addOpen ? '' : ' '+classes.hidden)} 
           variant="contained"
           onClick={toggleEnterTab}
         >
           <AddCircleOutlineIcon style={{color: "#cccccc"}} />
         </Button>
-        <Button 
-          className={classes.deleteButton + (deleteOpen ? ' '+classes.block : '')} 
+        <Button className={classes.deleteButton + (deleteOpen ? ' '+classes.block : '')} 
           variant="contained" 
           onClick={openDeleteModal}
         >
           <DeleteIcon style={{color: "#cccccc"}} />
         </Button>
-        <Paper 
+        <Paper className={classes.enterTab + (enterOpen ? ' '+classes.flex : '')}
           component="div" 
-          className={classes.enterTab + (enterOpen ? ' '+classes.flex : '')}
         >
-          <Input
+          <Input className={classes.input}
             disableUnderline={true}
-            className={classes.input}
             placeholder="New one"
             value={newCategoryTitle}
             onChange={handleChangeNewCategoryTitle}
@@ -412,6 +399,7 @@ export default function CategoryDrawer(props) {
 
   return (
     <div className={classes.root}>
+
       <nav className={classes.drawer} aria-label="mailbox folders">
         <Drawer
           classes={{
@@ -434,68 +422,82 @@ export default function CategoryDrawer(props) {
           <AddToPhotosIcon className={classes.addLinkIcon} />
       </div>
       <main className={classes.content}>
-        <div className={classes.toolbar}>
-          <Button onClick={handleClickCategoryTitle}>
-            {selectedCategoryTitle}
-          </Button>
-          <CategorySearchPopOver>
-            <Grid  className={classes.popover}>
-              <Grid className={classes.popoverDiv}>
-                <SearchIcon className={classes.searchIcon} fontSize="small" />
-                SEARCH
-              </Grid>
-              <Grid>
-                <TextField
-                  className={classes.textfield}
-                  onChange={handleChangeSearchValue}
-                  value={searchValue}
-                  variant='filled'
-                  size='small' 
-                  onKeyDown={handlePressEnterSearchValue}
-                />          
-              </Grid>
-              <Grid>
-                <StyledToggleButtonGroup 
-                  size="small"
-                  value={toggleAlignment}
-                  exclusive
-                  onChange={handleToggleChange}
-                >
-                  <ToggleButton
-                    value='left'
-                    className={classes.popoverBtn}
-                    variant='contained'
-                    size='small'
+        <Grid container className={classes.toolbar}>
+          <Grid item>
+            <div className={classes.mainFont}>
+              {selectedCategoryTitle}
+            </div>
+          </Grid>
+          <Grid item>
+            {/* link card serarchTool */}
+            <CategorySearchPopOver>
+              <Grid  className={classes.popover}>
+                <Grid className={classes.popoverDiv}>
+                  <img src={SearchIcon} className={classes.searchIcon}/>
+                  <span className={classes.searchBtnText}>Search</span>
+                </Grid>
+                <Grid>
+                  <input
+                    placeholder="검색어를 입력해 주세요."
+                    className={classes.textfield}
+                    onKeyDown={handlePressEnterSearchValue}
+                  />
+                </Grid>
+                <Grid>
+                  <StyledToggleButtonGroup 
+                    size="small"
+                    value={toggleAlignment}
+                    exclusive
+                    onChange={handleToggleChange}
                   >
-                    전체
-                  </ToggleButton>
-                  <ToggleButton
-                    value='center'
-                    className={classes.popoverBtn}
-                    variant='contained'
-                    size='small'
-                  >
-                    도메인
-                  </ToggleButton>
-                  <ToggleButton
-                    value='right'
-                    className={classes.popoverBtn}
-                    variant='contained'
-                    size='small'
-                  >
-                    단어
-                  </ToggleButton>
-                </StyledToggleButtonGroup>
-              </Grid>
-            </Grid> 
-          </CategorySearchPopOver>
-        </div>
+                    <ToggleButton
+                      value='left'
+                      className={classes.popoverBtn}
+                      variant='contained'
+                      size='small'
+                    >
+                      전체
+                    </ToggleButton>
+                    <ToggleButton
+                      value='center'
+                      className={classes.popoverBtn}
+                      variant='contained'
+                      size='small'
+                    >
+                      도메인
+                    </ToggleButton>
+                    <ToggleButton
+                      value='right'
+                      className={classes.popoverBtn}
+                      variant='contained'
+                      size='small'
+                    >
+                      단어
+                    </ToggleButton>
+                  </StyledToggleButtonGroup>
+                </Grid>
+              </Grid> 
+            </CategorySearchPopOver>
+            {/* link card serarchTool - END */}
+          </Grid>
+        </Grid>
         <Grid container spacing={2}>
-          {links?.map((urlObj, idx) => 
+          {
+          links.length ? links?.map((urlObj, idx) => 
             <Grid item xs={2} key={idx}>
               <CategoryCard key={idx} urlInfoList={urlObj} />
             </Grid>
-          )}
+          ) 
+          :
+          searchValue ? 
+          (<div className={classes.imgCenter}>
+            <img src={linkListSearchEmptyIcon}></img>
+          </div>)
+          :
+          (<div className={classes.imgCenter}>
+            <img src={linkListEmptyIcon}></img>
+          </div>) 
+          }
         </Grid>
       </main>
       <CategoryAppBar {...props} />
