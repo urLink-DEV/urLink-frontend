@@ -1,11 +1,12 @@
 import React, { useState , useEffect, Fragment} from 'react'
 import clsx from 'clsx'
 
-import useStyles from './styles/CategoryHistoryDrawer'
-
 import linkListEmptyIcon from '../../images/group-19.png'
 import CategoryHistoryDateTitle from './CategoryHistoryDateTitle'
 import CategoryHistory from './CategoryHistory'
+
+import useStyles from './styles/CategoryHistoryDrawer'
+import moveLink from '../../images/move.png';
 
 export default function CategoryHistoryDrawer(props) {
   const classes = useStyles()
@@ -43,6 +44,7 @@ export default function CategoryHistoryDrawer(props) {
       
       setIsHistoryDrag(true)
       e.dataTransfer.setData('text/type', 'link')
+      e.dataTransfer.setDragImage(document.getElementById('mouse-modal'),110,35);
     }
   }
 
@@ -111,54 +113,61 @@ export default function CategoryHistoryDrawer(props) {
   },[endTime])
 
   return (
-    <div 
-      className={
-        clsx(classes.root, {
-          [classes.drawerOpen]: historyDrawerOpen,
-          [classes.drawerClose]: !historyDrawerOpen
-        })
-      }
-      onTransitionEnd={onHistoryDrawerTransitionEnd}
-      onScroll={onHistoryDrawerScroll}
-    >
-      {
-        historyDrawerOpen ?
-          <Fragment>
-            <div 
-              className={
-                clsx(classes.tabMove, {
-                  [classes.dragStart]: isHistoryDrag,
-                  [classes.dragEnd]: !isHistoryDrag
-                })
+    <>
+      <div 
+        className={
+          clsx(classes.tabMove, {
+            [classes.dragStart]: isHistoryDrag,
+            [classes.dragEnd]: !isHistoryDrag,
+          })
+        }
+        id='mouse-modal'
+      >
+        <div className={classes.circle}>
+          <img className={classes.moveIcon} src={moveLink} alt="move links" />
+        </div>
+        <span>링크 {selectedLinkList.length}개 이동</span>
+      </div>
+
+      <div 
+        className={
+          clsx(classes.root, {
+            [classes.drawerOpen]: historyDrawerOpen,
+            [classes.drawerClose]: !historyDrawerOpen
+          })
+        }
+        onTransitionEnd={onHistoryDrawerTransitionEnd}
+        onScroll={onHistoryDrawerScroll}
+      >
+        {
+          historyDrawerOpen ?
+            <Fragment>
+              <div className={classes.mainFont}>방문기록</div>
+
+              {
+                linkList.length ? linkList.map(link =>
+                  <Fragment key={link.id}>
+                    <CategoryHistoryDateTitle link={link}/>
+                    <CategoryHistory
+                      key={link.id}
+                      link={link}
+                      isHistoryDrag={isHistoryDrag}
+                      selectedLinkList={selectedLinkList}
+                      onHistoryDragStart={onHistoryDragStart}
+                      onHistoryDragEnd={onHistoryDragEnd}
+                      onLinkClick={onLinkClick}
+                    />
+                  </Fragment>
+                )
+                : 
+                (<div className={classes.imgCenter}>
+                  <img src={linkListEmptyIcon} alt="link list is empty"></img>
+                </div>)
               }
-              id='result'
-            >
-              링크 {draggedHistory.length}개 이동
-            </div>
-
-            <div className={classes.mainFont}>방문기록</div>
-
-            {
-              linkList.length ? linkList.map(link =>
-                <Fragment key={link.id}>
-                  <CategoryHistoryDateTitle link={link}/>
-                  <CategoryHistory
-                    link={link}
-                    selectedLinkList={selectedLinkList}
-                    onHistoryDragStart={onHistoryDragStart}
-                    onHistoryDragEnd={onHistoryDragEnd}
-                    onLinkClick={onLinkClick}
-                  />
-                </Fragment>
-              )
-              : 
-              (<div className={classes.imgCenter}>
-                <img src={linkListEmptyIcon}></img>
-              </div>)
-            }
-          </Fragment>
-          : null
-      }
-    </div>
+            </Fragment>
+            : null
+          }
+        </div>
+    </>
   )
 }
