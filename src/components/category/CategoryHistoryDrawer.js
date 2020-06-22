@@ -156,13 +156,12 @@ export default function CategoryHistoryDrawer(props) {
                       onHistoryDragStart={onHistoryDragStart}
                       onHistoryDragEnd={onHistoryDragEnd}
                       onLinkClick={onLinkClick}
-                      onLinkClick={onLinkClick}
                     />
                   </Fragment>
                 )
                 : 
                 (<div className={classes.imgCenter}>
-                  <img src={linkListEmptyIcon}></img>
+                  <img src={linkListEmptyIcon} alt="link list is empty"></img>
                 </div>)
               }
             </Fragment>
