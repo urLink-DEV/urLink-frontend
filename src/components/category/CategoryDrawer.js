@@ -36,7 +36,12 @@ export default function CategoryDrawer(props) {
 
   const classes = useStyles()
 
-  const categoryDispatch = useCategoryDispatch()
+  const {
+    getCategory,
+    writeCategory,
+    updateCategory,
+    deleteCategory
+  } = useCategoryDispatch()
   const { getLink, writeLink, deleteLink } = useLinkDispatch()
   const { 
     draggedHistory,
@@ -62,8 +67,13 @@ export default function CategoryDrawer(props) {
   const [enterOpen, setEnterOpen] = useState(false)
 
   useEffect(() => {
-    if(!selectedCategoryId && categories.length) handleClickCategory(categories[0]?.id, categories[0]?.name)
-    else getLink(selectedCategoryId)
+    if(!selectedCategoryId && categories.length) {
+      setAddOpen(true)
+      setDeleteOpen(false)
+      setSelectedCategoryId(categories[0]?.id)
+      setSelectedCategoryTitle(categories[0]?.name)
+    } else getLink(selectedCategoryId)
+
   }, [categories, selectedCategoryId])
 
   const handleChangeNewCategoryTitle = (e) => {
@@ -94,7 +104,7 @@ export default function CategoryDrawer(props) {
   }
 
   const addTab = () => {
-    categoryDispatch.writeCategory(newCategoryTitle, false)
+    writeCategory(newCategoryTitle, false)
     setNewCategoryTitle('')
     setAddOpen(true)
     setEnterOpen(false)
@@ -102,7 +112,7 @@ export default function CategoryDrawer(props) {
 
   const pressEnter = (e) => {
     if (e.keyCode === 13) {
-      categoryDispatch.writeCategory(newCategoryTitle, false)
+      writeCategory(newCategoryTitle, false)
       setNewCategoryTitle('')
       setAddOpen(true)
       setEnterOpen(false)
@@ -127,7 +137,7 @@ export default function CategoryDrawer(props) {
   }
   
   const deleteTab = () => {
-    categoryDispatch.deleteCategory(selectedCategoryId)
+    deleteCategory(selectedCategoryId)
     setDeleteModalOpen(false)
     setDeleteOpen(false)
     setAddOpen(true)
@@ -189,7 +199,7 @@ export default function CategoryDrawer(props) {
   }
   
   const dragEnd = (e, id, name, order, favorited) => {
-    categoryDispatch.updateCategory(id, name, order, favorited)
+    updateCategory(id, name, order, favorited)
     setDragFinished(true)
     setDragged('')
   }
