@@ -6,12 +6,23 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import alertIcon from '../images/logo/group-2.svg'
 
 
 const useStyles = makeStyles((theme) => ({
   alertModal: {
-    width: 320,
-    height: 216
+    lignItems: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    fontWeight:'bold'
+  },
+  alertIcon: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
+  alertModalBtn: {
+    width:'100%'
   }
 }))
 
@@ -51,7 +62,8 @@ export function TermsModal({ openBool, onClose, onClick }) {
 }
 
 export function AlertModal({ btnText, modalText, openBool, onClose, onClickOk }) {
-
+    const btnCreate = btnText ? true : false
+    const classes = useStyles()
     return (
         <Dialog
         open={openBool}
@@ -59,17 +71,20 @@ export function AlertModal({ btnText, modalText, openBool, onClose, onClickOk })
         aria-describedby="alert-dialog-description"
         >
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">
+            <DialogContentText id="alert-dialog-description" className={classes.alertModal}>
+              <img className={classes.alertIcon} src={alertIcon}></img>
               {modalText}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={onClose} color="primary">
-              취소
+            <Button onClick={onClose} color="primary" className={classes.alertModalBtn}>
+              닫기
             </Button>
-            <Button onClick={onClickOk} color="primary" autoFocus>
+          {btnCreate ?
+            <Button onClick={onClickOk} color="primary" className={classes.alertModalBtn} autoFocus >
               {btnText}
             </Button>
+            : ""}
           </DialogActions>
         </Dialog>
     )
