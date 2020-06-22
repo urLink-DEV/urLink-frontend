@@ -58,6 +58,7 @@ export const useStyles = makeStyles((theme) => ({
     margin: '0 63px 0 0',
   },
   listItem: {
+    display: 'block',
     width: 208,
     borderRadius: 4,
     padding: 0,
