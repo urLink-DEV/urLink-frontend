@@ -330,6 +330,7 @@ export default function CategoryDrawer(props) {
                   selected={(data.id === selectedCategoryId)} 
                   dragFinished={(data.id === draggedId ? dragFinished : false)} 
                   historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : null)}
+                  setSelectedCategoryTitle={setSelectedCategoryTitle}
                 />
               </ListItem>
             </React.Fragment>
@@ -390,6 +391,7 @@ export default function CategoryDrawer(props) {
                 selected={(data.id === selectedCategoryId)} 
                 dragFinished={(data.id === draggedId ? dragFinished : null)} 
                 historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : null)}
+                setSelectedCategoryTitle={setSelectedCategoryTitle}
                 />
               </ListItem>
             </React.Fragment>
@@ -443,7 +445,7 @@ export default function CategoryDrawer(props) {
             <CategorySearchPopOver>
               <Grid  className={classes.popover}>
                 <Grid className={classes.popoverDiv}>
-                  <img src={SearchIcon} className={classes.searchIcon}/>
+                  <img src={SearchIcon} className={classes.searchIcon} alt='search Icon'/>
                   <span className={classes.searchBtnText}>Search</span>
                 </Grid>
                 <Grid>
