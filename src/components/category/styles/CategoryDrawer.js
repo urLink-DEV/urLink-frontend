@@ -152,6 +152,7 @@ export const useStyles = makeStyles((theme) => ({
     objectFit: 'contain'
   },
   mainFont: {
+    width: 200,
     height: '36px',
     fontFamily: 'SpoqaHanSans',
     fontSize: '20pt',

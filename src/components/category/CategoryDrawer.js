@@ -14,6 +14,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import Paper from '@material-ui/core/Paper'
 import Input from '@material-ui/core/Input'
 import Grid from '@material-ui/core/Grid'
+import Box from '@material-ui/core/Box'
 import ToggleButton from '@material-ui/lab/ToggleButton'
 import {useStyles, StyledToggleButtonGroup} from './styles/CategoryDrawer'
 
@@ -64,6 +65,9 @@ export default function CategoryDrawer(props) {
   }, [categories, selectedCategoryId])
 
   const handleChangeNewCategoryTitle = (e) => {
+    if (e.target.value.length >= 15) {
+      return 
+    }
     setNewCategoryTitle(e.target.value)
   }
 
@@ -106,6 +110,7 @@ export default function CategoryDrawer(props) {
   const cancelAddTab = () => {
     setAddOpen(true)
     setEnterOpen(false)
+    setNewCategoryTitle('')
   }
 
   const openDeleteModal = (e) => {
@@ -213,9 +218,7 @@ export default function CategoryDrawer(props) {
     setOveredTabFavorite(true)
   }  
 
-
   /* 아래는 외부영역 클릭시 버튼 토글 & cleartimeout */
-
   const wrapperRef = useRef(null)
   const timeId = useRef()
 
@@ -298,27 +301,23 @@ export default function CategoryDrawer(props) {
           Category
         </div>
         <hr />
-        <Button 
-          className={classes.addButton + (addOpen ? '' : ' '+classes.hidden)} 
+        <Button className={classes.addButton + (addOpen ? '' : ' '+classes.hidden)} 
           variant="contained"
           onClick={toggleEnterTab}
         >
           <AddCircleOutlineIcon style={{color: "#cccccc"}} />
         </Button>
-        <Button 
-          className={classes.deleteButton + (deleteOpen ? ' '+classes.block : '')} 
+        <Button className={classes.deleteButton + (deleteOpen ? ' '+classes.block : '')} 
           variant="contained" 
           onClick={openDeleteModal}
         >
           <DeleteIcon style={{color: "#cccccc"}} />
         </Button>
-        <Paper 
+        <Paper className={classes.enterTab + (enterOpen ? ' '+classes.flex : '')}
           component="div" 
-          className={classes.enterTab + (enterOpen ? ' '+classes.flex : '')}
         >
-          <Input
+          <Input className={classes.input}
             disableUnderline={true}
-            className={classes.input}
             placeholder="New one"
             value={newCategoryTitle}
             onChange={handleChangeNewCategoryTitle}
@@ -386,61 +385,65 @@ export default function CategoryDrawer(props) {
       </nav>
 
       <main className={classes.content}>
-        <div className={classes.toolbar}>
-          <span className={classes.mainFont}>
-            {selectedCategoryTitle}
-          </span>
-          {/* link card serarchTool */}
-          <CategorySearchPopOver>
-            <Grid  className={classes.popover}>
-              <Grid className={classes.popoverDiv}>
-                <img src={SearchIcon} className={classes.searchIcon}/>
-                <span className={classes.searchBtnText}>Search</span>
-              </Grid>
-              <Grid>
-                <input
-                  placeholder="검색어를 입력해 주세요."
-                  className={classes.textfield}
-                  onKeyDown={handlePressEnterSearchValue}
-                />
-              </Grid>
-              <Grid>
-                <StyledToggleButtonGroup 
-                  size="small"
-                  value={toggleAlignment}
-                  exclusive
-                  onChange={handleToggleChange}
-                >
-                  <ToggleButton
-                    value='left'
-                    className={classes.popoverBtn}
-                    variant='contained'
-                    size='small'
+        <Grid container className={classes.toolbar}>
+          <Grid item>
+            <div className={classes.mainFont}>
+              {selectedCategoryTitle}
+            </div>
+          </Grid>
+          <Grid item>
+            {/* link card serarchTool */}
+            <CategorySearchPopOver>
+              <Grid  className={classes.popover}>
+                <Grid className={classes.popoverDiv}>
+                  <img src={SearchIcon} className={classes.searchIcon}/>
+                  <span className={classes.searchBtnText}>Search</span>
+                </Grid>
+                <Grid>
+                  <input
+                    placeholder="검색어를 입력해 주세요."
+                    className={classes.textfield}
+                    onKeyDown={handlePressEnterSearchValue}
+                  />
+                </Grid>
+                <Grid>
+                  <StyledToggleButtonGroup 
+                    size="small"
+                    value={toggleAlignment}
+                    exclusive
+                    onChange={handleToggleChange}
                   >
-                    전체
-                  </ToggleButton>
-                  <ToggleButton
-                    value='center'
-                    className={classes.popoverBtn}
-                    variant='contained'
-                    size='small'
-                  >
-                    도메인
-                  </ToggleButton>
-                  <ToggleButton
-                    value='right'
-                    className={classes.popoverBtn}
-                    variant='contained'
-                    size='small'
-                  >
-                    단어
-                  </ToggleButton>
-                </StyledToggleButtonGroup>
-              </Grid>
-            </Grid> 
-          </CategorySearchPopOver>
-          {/* link card serarchTool - END */}
-        </div>
+                    <ToggleButton
+                      value='left'
+                      className={classes.popoverBtn}
+                      variant='contained'
+                      size='small'
+                    >
+                      전체
+                    </ToggleButton>
+                    <ToggleButton
+                      value='center'
+                      className={classes.popoverBtn}
+                      variant='contained'
+                      size='small'
+                    >
+                      도메인
+                    </ToggleButton>
+                    <ToggleButton
+                      value='right'
+                      className={classes.popoverBtn}
+                      variant='contained'
+                      size='small'
+                    >
+                      단어
+                    </ToggleButton>
+                  </StyledToggleButtonGroup>
+                </Grid>
+              </Grid> 
+            </CategorySearchPopOver>
+            {/* link card serarchTool - END */}
+          </Grid>
+        </Grid>
         <Grid container spacing={2}>
           {
           links.length ? links?.map((urlObj, idx) => 
