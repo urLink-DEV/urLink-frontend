@@ -39,7 +39,7 @@ export default function CategoryHistoryDrawer(props) {
         setDraggedHistory(draggedHistorys => draggedHistorys.concat(target))
       }
       
-      setIsHistoryDrag(dragBoolean => !dragBoolean)
+      setIsHistoryDrag(true)
       e.dataTransfer.setData('text/type', 'link')
       e.dataTransfer.setDragImage(document.getElementById('mouse-modal'),110,35);
     }
@@ -49,7 +49,7 @@ export default function CategoryHistoryDrawer(props) {
     e.preventDefault()
     console.log('end')
 
-    setIsHistoryDrag(dragBoolean => !dragBoolean)
+    setIsHistoryDrag(false)
   }
 
 
@@ -92,7 +92,7 @@ export default function CategoryHistoryDrawer(props) {
         className={
           clsx(classes.tabMove, {
             [classes.dragStart]: isHistoryDrag,
-            [classes.dragEnd]: !isHistoryDrag
+            [classes.dragEnd]: !isHistoryDrag,
           })
         }
         id='mouse-modal'
@@ -125,6 +125,7 @@ export default function CategoryHistoryDrawer(props) {
                     <CategoryHistory
                       key={link.id}
                       link={link}
+                      isHistoryDrag={isHistoryDrag}
                       selectedLinkList={selectedLinkList}
                       onHistoryDragStart={onHistoryDragStart}
                       onHistoryDragEnd={onHistoryDragEnd}

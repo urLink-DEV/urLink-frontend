@@ -14,6 +14,7 @@ export default function CategoryHistoryList(props) {
     onHistoryDragEnd, 
     onLinkClick,
     selectedLinkList,
+    isHistoryDrag,
     link, 
     key
   } = props
@@ -42,11 +43,18 @@ export default function CategoryHistoryList(props) {
     document.body.removeChild(copyElement)
   }
 
+  const filteredLinkList = [] 
+
+  useEffect(() => {
+    selectedLinkList.forEach(link => filteredLinkList.push(link.id))
+  },[selectedLinkList])
+
   return (
     <div
       className={
         clsx(classes.linkDiv, 'history-list', {
-        [classes.selectedDiv]: selectedLinkList.filter(list => list.id === link.id).length > 0
+        [classes.selectedDiv]: selectedLinkList.filter(list => list.id === link.id).length > 0,
+        dragFinished : filteredLinkList.includes(link.id) && isHistoryDrag === false
       })}
       key={key}
       data-type='link'

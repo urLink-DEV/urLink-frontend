@@ -249,7 +249,7 @@ export default function CategoryDrawer(props) {
 
 
   /* 
-    아래는 외부영역 클릭시 버튼 토글 & cleartimeout 
+    아래는 외부영역 클릭시 버튼 토글 & 드래그 시작/끝날 때 애니메이션 css 토글
   */
 
   const wrapperRef = useRef(null)
@@ -277,6 +277,7 @@ export default function CategoryDrawer(props) {
       }, 800)
     }
 
+
     return () => {
       // * Unbind the event and timeout on clean up
       document.removeEventListener("mousedown", handleClickOutside)
@@ -284,7 +285,7 @@ export default function CategoryDrawer(props) {
       clearTimeout(timeId.current)
     }
 
-  },[wrapperRef, dragFinished, dragHistoryFinished])
+  },[wrapperRef, categories, dragFinished, dragHistoryFinished])
 
 
   
