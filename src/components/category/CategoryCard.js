@@ -1,3 +1,4 @@
+/* global chrome */
 import React, {useState} from 'react'
 import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
@@ -5,6 +6,7 @@ import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
+import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
@@ -14,9 +16,29 @@ import useStyles, { DatePickerWithStyles } from './styles/CategoryCard'
 
 export default function CategoryCard(props) {
   const classes = useStyles()
-  const {image_path, title, description, key} = props.urlInfoList
+  const {path, image_path, title, description, key} = props.linkInfo
   const [selectedDate, setSelectedDate] = useState(new Date())
-  
+  const [hover, setHover] = useState(false)
+  const [isSelected, setIsSelected] = useState(false)
+
+  const handleClickCard = () => {
+    console.log('select tab')
+    setIsSelected(true)
+  }
+  const handleMouseEnterCard = () => {
+    setHover(true)
+  }
+
+  const handleMouseLeaveCard = () => {
+    setHover(false)
+  }
+
+  const handleClickHoverBtn = e => {
+    e.stopPropagation()
+    console.log('open tab')
+    window.open(path)
+  }
+
   const limitedDescription = desc => {
     if (!desc) return ''
     const limitedLength = 30
@@ -33,7 +55,11 @@ export default function CategoryCard(props) {
 
   return (
     <div className={classes.divRoot}>
-      <Card className={classes.root}>
+      <Card className={classes.root} 
+        onClick={handleClickCard}
+        onMouseEnter={handleMouseEnterCard}
+        onMouseLeave={handleMouseLeaveCard}
+      >
         <CardActionArea>
           <CardMedia
             component="img"
@@ -41,6 +67,17 @@ export default function CategoryCard(props) {
             image={image_path}
             title="Contemplative Reptile"
           />
+          {
+            hover ? 
+            <Button className={classes.cardOpenBtn} 
+              size="small"
+              variant="contained"
+              onClick={handleClickHoverBtn}
+            >
+              open
+            </Button> 
+            : null
+          }
           <CardContent className={classes.cardContent}>
             <Grid item zeroMinWidth>
               <Typography className={classes.cardContentTitle}

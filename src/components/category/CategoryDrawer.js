@@ -260,8 +260,7 @@ export default function CategoryDrawer(props) {
           Favorite
         </div>
         <hr />
-        <div 
-          className={(favoritedArr.length === 0 ? 'drag-box' : 'hidden')}
+        <div className={(favoritedArr.length === 0 ? 'drag-box' : 'hidden')}
           onDragOver={firstFavoriteDragOver}
         >
           Drag the category here!
@@ -270,10 +269,9 @@ export default function CategoryDrawer(props) {
           {favoritedArr.map((data, index) => (
             <React.Fragment key={data.id}>
               <div className={classes.dragline} />
-              <ListItem 
+              <ListItem className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
                 key={data.id}
                 data-type='category' 
-                className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
                 onClick={() => handleClickCategory(data.id, data.name)}
                 draggable='true'
                 onDragStart={(e) => dragStart(e, data.id, data.order)}
@@ -323,17 +321,20 @@ export default function CategoryDrawer(props) {
             onChange={handleChangeNewCategoryTitle}
             onKeyDown={pressEnter}
           />
-            <Button className={classes.okBtn} onClick={addTab}>확인</Button>
-            <Button className={classes.cancelBtn} onClick={cancelAddTab}>취소</Button>
+            <Button className={classes.okBtn} onClick={addTab}>
+              확인
+            </Button>
+            <Button className={classes.cancelBtn} onClick={cancelAddTab}>
+              취소
+            </Button>
         </Paper>
         <List>
           {notFavoritedArr.map((data, index) => (
             <React.Fragment key={data.id}>
               <div className={classes.dragline} />
-              <ListItem 
+              <ListItem className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
                 key={data.id} 
                 data-type='category' 
-                className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
                 onClick={() => handleClickCategory(data.id, data.name)}
                 draggable='true'
                 onDragStart={(e) => dragStart(e, data.id, data.order)}
@@ -368,7 +369,7 @@ export default function CategoryDrawer(props) {
       />
     </div>
   )
-
+  
   return (
     <div className={classes.root}>
 
@@ -396,13 +397,17 @@ export default function CategoryDrawer(props) {
             <CategorySearchPopOver>
               <Grid  className={classes.popover}>
                 <Grid className={classes.popoverDiv}>
-                  <img src={SearchIcon} className={classes.searchIcon}/>
-                  <span className={classes.searchBtnText}>Search</span>
+                  <img  className={classes.searchIcon}
+                    alt='search icon'
+                    src={SearchIcon}
+                   />
+                  <span className={classes.searchBtnText}>
+                    Search
+                  </span>
                 </Grid>
                 <Grid>
-                  <input
+                  <input className={classes.textfield}
                     placeholder="검색어를 입력해 주세요."
-                    className={classes.textfield}
                     onKeyDown={handlePressEnterSearchValue}
                   />
                 </Grid>
@@ -413,25 +418,22 @@ export default function CategoryDrawer(props) {
                     exclusive
                     onChange={handleToggleChange}
                   >
-                    <ToggleButton
+                    <ToggleButton className={classes.popoverBtn}
                       value='left'
-                      className={classes.popoverBtn}
                       variant='contained'
                       size='small'
                     >
                       전체
                     </ToggleButton>
-                    <ToggleButton
+                    <ToggleButton className={classes.popoverBtn}
                       value='center'
-                      className={classes.popoverBtn}
                       variant='contained'
                       size='small'
                     >
                       도메인
                     </ToggleButton>
-                    <ToggleButton
+                    <ToggleButton className={classes.popoverBtn}
                       value='right'
-                      className={classes.popoverBtn}
                       variant='contained'
                       size='small'
                     >
@@ -446,19 +448,23 @@ export default function CategoryDrawer(props) {
         </Grid>
         <Grid container spacing={2}>
           {
-          links.length ? links?.map((urlObj, idx) => 
+          links.length ? links?.map((linkObj, idx) => 
             <Grid item xs={2} key={idx}>
-              <CategoryCard key={idx} urlInfoList={urlObj} />
+              <CategoryCard key={idx} linkInfo={linkObj} />
             </Grid>
           ) 
           :
           searchValue ? 
           (<div className={classes.imgCenter}>
-            <img src={linkListSearchEmptyIcon}></img>
+            <img src={linkListSearchEmptyIcon} 
+              alt='link list search empty'
+            />
           </div>)
           :
           (<div className={classes.imgCenter}>
-            <img src={linkListEmptyIcon}></img>
+            <img src={linkListEmptyIcon} 
+              alt='link list empty'
+            />
           </div>) 
           }
         </Grid>

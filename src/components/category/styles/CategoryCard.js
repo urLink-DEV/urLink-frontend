@@ -21,8 +21,15 @@ const useStyles = makeStyles({
     display: 'inline',
   },
   root: {
+    position: 'relative',
     width: 200,
     margin: 10,
+  },
+  cardOpenBtn: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    padding: 0,
   },
   cardContent: {
     height: 80,
