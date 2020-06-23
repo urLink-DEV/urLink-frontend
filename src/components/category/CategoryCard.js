@@ -1,5 +1,5 @@
 /* global chrome */
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -16,6 +16,7 @@ import useStyles, { DatePickerWithStyles } from './styles/CategoryCard'
 
 export default function CategoryCard(props) {
   const classes = useStyles()
+  const {handleSelectedCard, isReset, setIsReset} = props
   const {path, image_path, title, description, key} = props.linkInfo
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [hover, setHover] = useState(false)
@@ -23,8 +24,18 @@ export default function CategoryCard(props) {
 
   const handleClickCard = () => {
     console.log('select tab')
-    setIsSelected(true)
+    setIsSelected(!isSelected)
+    handleSelectedCard()
+    
   }
+
+  useEffect(() => {
+    if (isReset) {
+      setIsSelected(false)
+      setIsReset(false)
+    }
+  })
+
   const handleMouseEnterCard = () => {
     setHover(true)
   }
@@ -55,7 +66,7 @@ export default function CategoryCard(props) {
 
   return (
     <div className={classes.divRoot}>
-      <Card className={classes.root} 
+      <Card className={isSelected ? classes.selectedRoot : classes.root} 
         onClick={handleClickCard}
         onMouseEnter={handleMouseEnterCard}
         onMouseLeave={handleMouseLeaveCard}

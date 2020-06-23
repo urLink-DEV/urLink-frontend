@@ -44,7 +44,9 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  toolbar: theme.mixins.toolbar,
+  toolbar: {
+    height: 40,
+  },
   drawerPaper: {
     width: drawerWidth,
     scrollbarWidth: 'none',

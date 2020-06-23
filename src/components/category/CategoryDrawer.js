@@ -1,3 +1,4 @@
+/* global chrome */
 // * React
 import React, { useState, useEffect, useRef } from 'react'
 
@@ -14,9 +15,8 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import Paper from '@material-ui/core/Paper'
 import Input from '@material-ui/core/Input'
 import Grid from '@material-ui/core/Grid'
-import Box from '@material-ui/core/Box'
 import ToggleButton from '@material-ui/lab/ToggleButton'
-import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
+import AddToPhotosIcon from '@material-ui/icons/AddToPhotos'
 import {useStyles, StyledToggleButtonGroup} from './styles/CategoryDrawer'
 import clsx from 'clsx'
 
@@ -414,11 +414,92 @@ export default function CategoryDrawer(props) {
       />
     </div>
   )
+
+  const searchPopOverBtn = (
+    <CategorySearchPopOver>
+      <Grid  className={classes.popover}>
+        <Grid className={classes.popoverDiv}>
+          <img  className={classes.searchIcon}
+            alt='search icon'
+            src={SearchIcon}
+            />
+          <span className={classes.searchBtnText}>
+            Search
+          </span>
+        </Grid>
+        <Grid>
+          <input className={classes.textfield}
+            placeholder="검색어를 입력해 주세요."
+            onKeyDown={handlePressEnterSearchValue}
+          />
+        </Grid>
+        <Grid>
+          <StyledToggleButtonGroup 
+            size="small"
+            value={toggleAlignment}
+            exclusive
+            onChange={handleToggleChange}
+          >
+            <ToggleButton className={classes.popoverBtn}
+              value='left'
+              variant='contained'
+              size='small'
+            >
+              전체
+            </ToggleButton>
+            <ToggleButton className={classes.popoverBtn}
+              value='center'
+              variant='contained'
+              size='small'
+            >
+              도메인
+            </ToggleButton>
+            <ToggleButton className={classes.popoverBtn}
+              value='right'
+              variant='contained'
+              size='small'
+            >
+              단어
+            </ToggleButton>
+          </StyledToggleButtonGroup>
+        </Grid>
+      </Grid> 
+    </CategorySearchPopOver>
+  )
   
+  // TODO Refactoring
+  // Category Cards List Business Logic
+  const [selectedCardList, setSelectedCardList] = useState([])
+  const [isReset, setIsReset] = useState(false)
+
+  const handleSelectedCard = linkObj => e => {
+    console.log(linkObj, e)
+    if (selectedCardList.indexOf(linkObj) !== -1) {
+      console.log('selectedCards', selectedCardList.indexOf(linkObj))
+      selectedCardList.splice(selectedCardList.indexOf(linkObj), 1)
+      setSelectedCardList([...selectedCardList])
+      return
+    }
+    setSelectedCardList([...selectedCardList, linkObj])
+  }
+  console.log(selectedCardList)
+
+  const handleClickOpenSelectedCardList = () => {
+    selectedCardList.forEach((card, idx) => {
+      chrome.tabs.create({url: card.path})
+    })
+    setIsReset(true)
+  }
+
+  const handleClickDeleteSelectedCardList = () => {
+    selectedCardList.forEach(card => deleteLink(card.id, selectedCategoryId))
+    setSelectedCardList([])
+    setIsReset(true)
+  }
+
   return (
     <div className={classes.root}>
-
-      <nav className={classes.drawer} aria-label="mailbox folders">
+      <nav className={classes.drawer}>
         <Drawer
           classes={{
             paper: classes.drawerPaper,
@@ -429,15 +510,12 @@ export default function CategoryDrawer(props) {
           {drawer}
         </Drawer>
       </nav>
-      <div 
-        className={
-          clsx(classes.coverBackground, {
-            [classes.flex]: selectedLinkList.length !== 0
-          })
-        }
+      <div className={clsx(classes.coverBackground, {
+          [classes.flex]: selectedLinkList.length !== 0
+        })}
         onDrop={dropOnCardArea}
         onDragOver={dragOverOnCardArea}>
-          <AddToPhotosIcon className={classes.addLinkIcon} />
+        <AddToPhotosIcon className={classes.addLinkIcon} />
       </div>
       <main className={classes.content}>
         <Grid container className={classes.toolbar}>
@@ -447,64 +525,32 @@ export default function CategoryDrawer(props) {
             </div>
           </Grid>
           <Grid item>
-            {/* link card serarchTool */}
-            <CategorySearchPopOver>
-              <Grid  className={classes.popover}>
-                <Grid className={classes.popoverDiv}>
-                  <img  className={classes.searchIcon}
-                    alt='search icon'
-                    src={SearchIcon}
-                   />
-                  <span className={classes.searchBtnText}>
-                    Search
-                  </span>
-                </Grid>
-                <Grid>
-                  <input className={classes.textfield}
-                    placeholder="검색어를 입력해 주세요."
-                    onKeyDown={handlePressEnterSearchValue}
-                  />
-                </Grid>
-                <Grid>
-                  <StyledToggleButtonGroup 
-                    size="small"
-                    value={toggleAlignment}
-                    exclusive
-                    onChange={handleToggleChange}
-                  >
-                    <ToggleButton className={classes.popoverBtn}
-                      value='left'
-                      variant='contained'
-                      size='small'
-                    >
-                      전체
-                    </ToggleButton>
-                    <ToggleButton className={classes.popoverBtn}
-                      value='center'
-                      variant='contained'
-                      size='small'
-                    >
-                      도메인
-                    </ToggleButton>
-                    <ToggleButton className={classes.popoverBtn}
-                      value='right'
-                      variant='contained'
-                      size='small'
-                    >
-                      단어
-                    </ToggleButton>
-                  </StyledToggleButtonGroup>
-                </Grid>
-              </Grid> 
-            </CategorySearchPopOver>
-            {/* link card serarchTool - END */}
+            {searchPopOverBtn}
           </Grid>
+          {
+            (selectedCardList.length > 0) ? 
+              <Grid>
+                <Button onClick={handleClickOpenSelectedCardList}>
+                  탭 열기
+                </Button>
+                <Button color="secondary" 
+                  onClick={handleClickDeleteSelectedCardList}
+                >
+                  탭 삭제
+                </Button>
+              </Grid> : null
+          }
         </Grid>
         <Grid container spacing={2}>
           {
           links.length ? links?.map((linkObj, idx) => 
             <Grid item xs={2} key={idx}>
-              <CategoryCard key={idx} linkInfo={linkObj} />
+              <CategoryCard key={idx} 
+                linkInfo={linkObj}
+                handleSelectedCard={handleSelectedCard(linkObj)}
+                isReset={isReset}
+                setIsReset={setIsReset}
+              />
             </Grid>
           ) 
           :

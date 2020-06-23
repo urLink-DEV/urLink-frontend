@@ -25,6 +25,12 @@ const useStyles = makeStyles({
     width: 200,
     margin: 10,
   },
+  selectedRoot: {
+    position: 'relative',
+    width: 200,
+    margin: 10,
+    border: '1px solid #2083ff'
+  },
   cardOpenBtn: {
     position: 'absolute',
     top: 5,
