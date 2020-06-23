@@ -1,5 +1,5 @@
 /* global chrome */
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import clsx from 'clsx';
 
 import logo from '../../images/logo/logo16.png'
@@ -14,13 +14,13 @@ export default function CategoryHistory(props) {
     onHistoryDragEnd, 
     onLinkClick,
     selectedLinkList,
-    link,
-    setModalText
+    isHistoryDrag,
+    link, 
+    key
   } = props
   const classes = useStyles()
 
   const [favicon, setFavicon] = useState(`https://www.google.com/s2/favicons?domain=${link.hostName}`)
-  const copyTextAreaRef = useRef(null);
 
   const onError = () => { setFavicon(logo) }
 
@@ -45,15 +45,23 @@ export default function CategoryHistory(props) {
     copyElement.select()
     document.execCommand("copy")
     document.body.removeChild(copyElement)
-    setModalText("링크가 복사되었습니다.")
   }
+
+  // const filteredLinkList = [] 
+
+  // useEffect(() => {
+  //   selectedLinkList.forEach(link => filteredLinkList.push(link.id))
+  //   console.log('filtered link', filteredLinkList, 'link.id', link.id, 'isHistoryDrag', isHistoryDrag)
+  // },[selectedLinkList])
 
   return (
     <div
       className={
         clsx(classes.linkDiv, 'history-list', {
-        [classes.selectedDiv]: selectedLinkList.filter(list => list.id === link.id).length > 0
-      })}
+        [classes.selectedDiv]: selectedLinkList.filter(list => list.id === link.id).length > 0,
+        // dragFinished : filteredLinkList.includes(link.id) && isHistoryDrag === false
+        }
+      )}
       data-type='link'
       draggable='true'
       onClick={(e) => onLinkClick(e, link.url, link.id)}

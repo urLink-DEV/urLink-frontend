@@ -7,6 +7,7 @@ import useStyles from './styles/CategoryHistoryDrawer'
 import SearchIcon from '../../images/search.png'
 import linkListSearchEmptyIcon from '../../images/group-17.png'
 import linkListEmptyIcon from '../../images/group-19.png'
+import moveLink from '../../images/move.png';
 
 import CategorySearchPopOver from './CategorySearchPopOver'
 import CategoryHistoryDateTitle from './CategoryHistoryDateTitle'
@@ -53,6 +54,7 @@ export default function CategoryHistoryDrawer(props) {
       
       setIsHistoryDrag(true)
       e.dataTransfer.setData('text/type', 'link')
+      e.dataTransfer.setDragImage(document.getElementById('mouse-modal'),110,35);
     }
   }
 
@@ -183,78 +185,84 @@ export default function CategoryHistoryDrawer(props) {
   },[modalText])
 
   return (
-    <div 
-      className={
-        clsx(classes.root, {
-          [classes.drawerOpen]: historyDrawerOpen,
-          [classes.drawerClose]: !historyDrawerOpen
-        })
-      }
-      onTransitionEnd={onHistoryDrawerTransitionEnd}
-      onScroll={onHistoryDrawerScroll}
-    >
-      {
-        historyDrawerOpen ?
-          <Fragment>
-            <div 
-              className={
-                clsx(classes.tabMove, {
-                  [classes.dragStart]: isHistoryDrag,
-                  [classes.dragEnd]: !isHistoryDrag
-                })
+    <>
+      <div 
+        className={
+          clsx(classes.tabMove, {
+            [classes.dragStart]: isHistoryDrag,
+            [classes.dragEnd]: !isHistoryDrag,
+          })
+        }
+        id='mouse-modal'
+      >
+        <div className={classes.circle}>
+          <img className={classes.moveIcon} src={moveLink} alt="move links" />
+        </div>
+        <span>링크 {selectedLinkList.length}개 이동</span>
+      </div>
+
+      <div 
+        className={
+          clsx(classes.root, {
+            [classes.drawerOpen]: historyDrawerOpen,
+            [classes.drawerClose]: !historyDrawerOpen
+          })
+        }
+        onTransitionEnd={onHistoryDrawerTransitionEnd}
+        onScroll={onHistoryDrawerScroll}
+      >
+        {
+          historyDrawerOpen ?
+            <Fragment>
+              <span className={classes.mainFont}>방문기록</span>
+              {/* history serarchTool */}
+              <CategorySearchPopOver>
+                <div className={classes.popover}>
+                  <div className={classes.popoverDiv}>
+                    <img src={SearchIcon} className={classes.searchIcon} />
+                    <span className={classes.searchBtnText}>Search</span>
+                  </div>
+                  <div>
+                    <input
+                      placeholder="검색어를 입력해 주세요."
+                      className={classes.textfield}
+                      onKeyDown={onPressEnterSearchHistory}
+                    />
+                  </div>
+                </div>
+              </CategorySearchPopOver>
+              {/* history serarchTool - END */}
+              {selectedLinkList.length ?
+              <button className={classes.tabOpenText} onClick={onTabOpenClick}>탭 열기 ({selectedLinkList.length})</button> : ""
               }
-              id='result'
-            >
-              링크 {draggedHistory.length}개 이동
-            </div>
-            <span className={classes.mainFont}>방문기록</span>
-            {/* history serarchTool */}
-            <CategorySearchPopOver>
-              <div className={classes.popover}>
-                <div className={classes.popoverDiv}>
-                  <img src={SearchIcon} className={classes.searchIcon} />
-                  <span className={classes.searchBtnText}>Search</span>
-                </div>
-                <div>
-                  <input
-                    placeholder="검색어를 입력해 주세요."
-                    className={classes.textfield}
-                    onKeyDown={onPressEnterSearchHistory}
-                  />
-                </div>
-              </div>
-            </CategorySearchPopOver>
-            {/* history serarchTool - END */}
-            {selectedLinkList.length ?
-            <button className={classes.tabOpenText} onClick={onTabOpenClick}>탭 열기 ({selectedLinkList.length})</button> : ""
-            }
-            {
-              linkList.length ? linkList.map(link =>
-                <Fragment key={link.id}>
-                  <CategoryHistoryDateTitle link={link}/>
-                  <CategoryHistory
-                    link={link}
-                    selectedLinkList={selectedLinkList}
-                    onHistoryDragStart={onHistoryDragStart}
-                    onHistoryDragEnd={onHistoryDragEnd}
-                    onLinkClick={onLinkClick}
-                    setModalText={setModalText}
-                  />
-                </Fragment>
-              )
-              :
-              historySearch.text ? 
-              (<div className={classes.imgCenter}>
-                <img src={linkListSearchEmptyIcon}></img>
-              </div>)
-              :
-              (<div className={classes.imgCenter}>
-                <img src={linkListEmptyIcon}></img>
-              </div>) 
-            }
+              {
+                linkList.length ? linkList.map(link =>
+                  <Fragment key={link.id}>
+                    <CategoryHistoryDateTitle link={link}/>
+                    <CategoryHistory
+                      link={link}
+                      selectedLinkList={selectedLinkList}
+                      onHistoryDragStart={onHistoryDragStart}
+                      onHistoryDragEnd={onHistoryDragEnd}
+                      onLinkClick={onLinkClick}
+                      setModalText={setModalText}
+                    />
+                  </Fragment>
+                )
+                :
+                historySearch.text ? 
+                (<div className={classes.imgCenter}>
+                  <img src={linkListSearchEmptyIcon} alt="link search list is empty"></img>
+                </div>)
+                :
+                (<div className={classes.imgCenter}>
+                  <img src={linkListEmptyIcon} alt="link list is empty"></img>
+                </div>) 
+              }
           </Fragment>
         : null
       }
     </div>
+    </>
   )
 }
