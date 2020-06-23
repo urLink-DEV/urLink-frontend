@@ -1,5 +1,5 @@
 /* global chrome */
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import clsx from 'clsx';
 
 import logo from '../../images/logo/logo16.png'
@@ -15,29 +15,37 @@ export default function CategoryHistory(props) {
     onLinkClick,
     selectedLinkList,
     link,
+    setModalText
   } = props
   const classes = useStyles()
 
   const [favicon, setFavicon] = useState(`https://www.google.com/s2/favicons?domain=${link.hostName}`)
-  
+  const copyTextAreaRef = useRef(null);
+
   const onError = () => { setFavicon(logo) }
 
   const onAnchorClick = (e) => {
     e.preventDefault()
-    chrome.tabs.create({
-      selected: true,
-      url: link.url
-    })
+    if(!chrome.tabs){
+      window.open(link.url)
+    }
+    else {
+      chrome.tabs.create({
+        selected: true,
+        url: link.url
+      })
+    }
   }
 
   const onLinkCopy = (e) => {
     e.preventDefault()
-    var copyElement = document.createElement('textarea')
+    const copyElement = document.createElement('textarea')
     copyElement.value = link.url
     document.body.appendChild(copyElement)
     copyElement.select()
     document.execCommand("copy")
     document.body.removeChild(copyElement)
+    setModalText("링크가 복사되었습니다.")
   }
 
   return (
