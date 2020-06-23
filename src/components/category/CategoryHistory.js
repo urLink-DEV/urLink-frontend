@@ -21,20 +21,25 @@ export default function CategoryHistory(props) {
   const classes = useStyles()
 
   const [favicon, setFavicon] = useState(`https://www.google.com/s2/favicons?domain=${link.hostName}`)
-  
+
   const onError = () => { setFavicon(logo) }
 
   const onAnchorClick = (e) => {
     e.preventDefault()
-    chrome.tabs.create({
-      selected: true,
-      url: link.url
-    })
+    if(!chrome.tabs){
+      window.open(link.url)
+    }
+    else {
+      chrome.tabs.create({
+        selected: true,
+        url: link.url
+      })
+    }
   }
 
   const onLinkCopy = (e) => {
     e.preventDefault()
-    var copyElement = document.createElement('textarea')
+    const copyElement = document.createElement('textarea')
     copyElement.value = link.url
     document.body.appendChild(copyElement)
     copyElement.select()
