@@ -1,16 +1,18 @@
-import React, {useState} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import Paper from '@material-ui/core/Paper'
 import InputBase from '@material-ui/core/Input'
 import {useCategoryDispatch} from '../../containers/category/CategoryContainer'
 import useStyles from './styles/CategoryTab'
 
 
-export default function CategoryTab({text, id, order, isFavorited, urlCount, selected, dragFinished, historyDragFinished}) {
+export default function CategoryTab({text, id, order, isFavorited, urlCount, selected, dragFinished, historyDragFinished, setSelectedCategoryTitle}) {
   const classes = useStyles()
 
   const dispatch = useCategoryDispatch()
   const [value, setValue] = useState(text)
   const [disabled, setDisabled] = useState(true)
+
+  const inputRef = useRef()
 
   const handleChange = (event) => {
     setValue(event.target.value)
@@ -24,8 +26,13 @@ export default function CategoryTab({text, id, order, isFavorited, urlCount, sel
       if (e.keyCode === 13) {
         dispatch.updateCategory(id, value, order, isFavorited )
         setDisabled(!disabled)
+        setSelectedCategoryTitle(value)
       }
   }
+
+  useEffect(() => {
+    if(disabled === false) inputRef.current.children[0].focus()
+  },[disabled])
 
   return (
     <div>
@@ -36,6 +43,7 @@ export default function CategoryTab({text, id, order, isFavorited, urlCount, sel
       >
         <InputBase 
           disableUnderline={true}
+          ref={inputRef}
           className={classes.input + (selected ? ' selected': '')}
           disabled={disabled}
           onDoubleClick={onDoubleClick}

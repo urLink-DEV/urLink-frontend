@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="32px" viewBox="0 0 30 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>4CDB8F08-2A66-450E-B56D-C4345AAE6B4E</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="14" height="16" rx="5"></rect>
+        <filter x="-85.7%" y="-68.8%" width="285.7%" height="262.5%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="1" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="4" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.24 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="1" dy="2" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter2" result="shadowBlurOuter2"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.24 0" type="matrix" in="shadowBlurOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="파비콘-16px-최종" transform="translate(6.000000, 6.000000)">
+            <g id="Group-2" transform="translate(1.000000, 0.000000)">
+                <g id="Rectangle">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+                <path d="M6.9512846,14.7869507 C4.21426777,14.7869507 2,12.9443795 2,10.3597546 L2,5.67987732 C2,3.09525244 4.21879054,1 6.95580738,1 C9.69282422,1 11.9116148,3.09525244 11.9116148,5.67987732 L11.9116148,10.3597546 C11.9116148,12.9443795 9.68830144,14.7869507 6.9512846,14.7869507 Z M6.94528305,12.0741028 C7.85318658,12.0741028 8.59292482,11.3893334 8.62465829,10.5332181 L8.62571903,10.4758956 L8.62571903,5.68127376 C8.62571903,4.79860826 7.87336222,4.0830665 6.94528305,4.0830665 C6.03737951,4.0830665 5.29764127,4.76783591 5.2659078,5.6239512 L5.26484706,5.68127376 L5.26484706,10.4758956 C5.26484706,11.3585611 6.01720388,12.0741028 6.94528305,12.0741028 Z" id="Shape" fill="#191D20" transform="translate(6.955807, 7.893475) rotate(-360.000000) translate(-6.955807, -7.893475) "></path>
+                <path d="M10.259679,4.11707091 C11.1521845,4.11707091 11.8793767,4.78545248 11.910572,5.62107929 L11.9116148,5.67703001 L11.9116148,10.3569073 C11.9116148,12.9415322 9.69282422,15.0367846 6.95580738,15.0367846 C4.21879054,15.0367846 2,12.9415322 2,10.3569073 L2,5.67703001 L2.00104275,5.62107929 C2.03223802,4.78545248 2.7594303,4.11707091 3.65193579,4.11707091 C4.54444128,4.11707091 5.27163356,4.78545248 5.30282883,5.62107929 L5.30387159,5.67703001 L5.30387159,10.3569073 C5.30387159,11.218449 6.04346843,11.9168664 6.95580738,11.9168664 C7.84831287,11.9168664 8.57550515,11.2484849 8.60670042,10.4128581 L8.60774317,10.3569073 L8.60774317,5.67703001 L8.60878592,5.62107929 C8.63998119,4.78545248 9.36717347,4.11707091 10.259679,4.11707091 Z" id="Path-Copy" fill="#2083FF" transform="translate(6.955807, 9.576928) rotate(-360.000000) translate(-6.955807, -9.576928) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

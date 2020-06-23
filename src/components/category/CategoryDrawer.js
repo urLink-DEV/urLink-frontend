@@ -14,8 +14,11 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import Paper from '@material-ui/core/Paper'
 import Input from '@material-ui/core/Input'
 import Grid from '@material-ui/core/Grid'
+import Box from '@material-ui/core/Box'
 import ToggleButton from '@material-ui/lab/ToggleButton'
+import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 import {useStyles, StyledToggleButtonGroup} from './styles/CategoryDrawer'
+import clsx from 'clsx'
 
 import SearchIcon from '../../images/search.png'
 import linkListEmptyIcon from '../../images/group-11.png'
@@ -33,8 +36,17 @@ export default function CategoryDrawer(props) {
 
   const classes = useStyles()
 
-  const categoryDispatch = useCategoryDispatch()
-  const { getLink, writeLink, deleteLink } = useLinkDispatch()
+  const {
+    getCategory,
+    writeCategory,
+    updateCategory,
+    deleteCategory
+  } = useCategoryDispatch()
+  const { 
+    getLink, 
+    writeLink, 
+    deleteLink 
+  } = useLinkDispatch()
   const { 
     draggedHistory,
     setDraggedHistory,
@@ -59,11 +71,19 @@ export default function CategoryDrawer(props) {
   const [enterOpen, setEnterOpen] = useState(false)
 
   useEffect(() => {
-    if(!selectedCategoryId && categories.length) handleClickCategory(categories[0]?.id, categories[0]?.name)
-    else getLink(selectedCategoryId)
+    if(!selectedCategoryId && categories.length) {
+      setAddOpen(true)
+      setDeleteOpen(false)
+      setSelectedCategoryId(categories[0]?.id)
+      setSelectedCategoryTitle(categories[0]?.name)
+    } else getLink(selectedCategoryId)
+
   }, [categories, selectedCategoryId])
 
   const handleChangeNewCategoryTitle = (e) => {
+    if (e.target.value.length >= 15) {
+      return 
+    }
     setNewCategoryTitle(e.target.value)
   }
 
@@ -88,7 +108,7 @@ export default function CategoryDrawer(props) {
   }
 
   const addTab = () => {
-    categoryDispatch.writeCategory(newCategoryTitle, false)
+    writeCategory(newCategoryTitle, false)
     setNewCategoryTitle('')
     setAddOpen(true)
     setEnterOpen(false)
@@ -96,7 +116,7 @@ export default function CategoryDrawer(props) {
 
   const pressEnter = (e) => {
     if (e.keyCode === 13) {
-      categoryDispatch.writeCategory(newCategoryTitle, false)
+      writeCategory(newCategoryTitle, false)
       setNewCategoryTitle('')
       setAddOpen(true)
       setEnterOpen(false)
@@ -106,6 +126,7 @@ export default function CategoryDrawer(props) {
   const cancelAddTab = () => {
     setAddOpen(true)
     setEnterOpen(false)
+    setNewCategoryTitle('')
   }
 
   const openDeleteModal = (e) => {
@@ -120,7 +141,7 @@ export default function CategoryDrawer(props) {
   }
   
   const deleteTab = () => {
-    categoryDispatch.deleteCategory(selectedCategoryId)
+    deleteCategory(selectedCategoryId)
     setDeleteModalOpen(false)
     setDeleteOpen(false)
     setAddOpen(true)
@@ -143,8 +164,9 @@ export default function CategoryDrawer(props) {
   */
 
   const [dragged, setDragged] = useState('')
-  const [draggedOrder, setDraggedOrder] = useState(0)
   const [draggedId, setDraggedId] = useState(0)
+  const [draggedName, setDraggedName] = useState('')
+  const [draggedOrder, setDraggedOrder] = useState(0)
   const [overedTabId, setOveredTabId] = useState(0)
   const [overedTabOrder, setOveredTabOrder] = useState(0)
   const [overedTabFavorite, setOveredTabFavorite] = useState(null)
@@ -153,10 +175,11 @@ export default function CategoryDrawer(props) {
 
   const listRef = useRef()  
 
-  const dragStart = (e, id, order) => {
+  const dragStart = (e, id, name, order) => {
     const target = e.currentTarget
     setDragged(target)
     setDraggedId(id)
+    setDraggedName(name)
     setDraggedOrder(order)
     e.dataTransfer.setData('text/html', target)
     e.dataTransfer.setData("text/type", 'category')
@@ -165,7 +188,7 @@ export default function CategoryDrawer(props) {
   const dragOver = (e, id, order, favorited) => {
 
     e.preventDefault()
-    console.log('over', draggedHistory)
+    console.log('over', dragged)
 
     if(draggedHistory.length !== 0 && draggedHistory[0].dataset.type === 'link') {
       setOveredTabId(id)
@@ -181,13 +204,14 @@ export default function CategoryDrawer(props) {
     e.currentTarget.previousSibling.style.display = 'none'
   }
   
-  const dragEnd = (e, id, name, order, favorited) => {
-    categoryDispatch.updateCategory(id, name, order, favorited)
-    setDragFinished(true)
+  const dragEnd = (e) => {
+    e.preventDefault()
+    dragged.style.display='block'
     setDragged('')
+    getCategory()
   }
 
-  const drop = (e) => {
+  const drop = (e, id, name, order, favorited) => {
     const type = e.dataTransfer.getData('text/type')
     const filteredLinkList = [] 
     selectedLinkList.forEach(link => filteredLinkList.push(link.path))
@@ -197,6 +221,9 @@ export default function CategoryDrawer(props) {
     if(type === 'category') {
       e.preventDefault()
       e.currentTarget.previousSibling.style.display = 'none'
+      updateCategory(id, name, order, favorited)    
+      dragged.style.display='block'
+      setDragFinished(true)
     } else if(type === 'link') {
       e.preventDefault()
       setDragHistoryFinished(true)
@@ -213,8 +240,31 @@ export default function CategoryDrawer(props) {
     setOveredTabFavorite(true)
   }  
 
+  const dragOverOnCardArea =(e) => {
+    e.preventDefault()
+    setOveredTabId(selectedCategoryId)
+  }
 
-  /* 아래는 외부영역 클릭시 버튼 토글 & cleartimeout */
+  const dropOnCardArea = (e) => {
+    const type = e.dataTransfer.getData('text/type')
+    const filteredLinkList = [] 
+    selectedLinkList.forEach(link => filteredLinkList.push(link.path))
+
+    console.log('dropped on card area', selectedLinkList)
+
+    if(type === 'link') {
+      e.preventDefault()
+      writeLink(selectedCategoryId, filteredLinkList)
+      setDragHistoryFinished(true)
+      setSelectedLinkList([])
+      setDraggedHistory([])
+    }
+  }
+
+
+  /* 
+    아래는 외부영역 클릭시 버튼 토글 & 드래그 시작/끝날 때 애니메이션 css 토글
+  */
 
   const wrapperRef = useRef(null)
   const timeId = useRef()
@@ -227,10 +277,8 @@ export default function CategoryDrawer(props) {
         setDeleteOpen(false)
       } 
     }
-    // * Bind the event listener
     document.addEventListener("mousedown", handleClickOutside)
 
-    // * setTimeout
     if(dragFinished) {
       timeId.current = setTimeout(() => {
         setDragFinished(false)
@@ -242,13 +290,11 @@ export default function CategoryDrawer(props) {
     }
 
     return () => {
-      // * Unbind the event and timeout on clean up
       document.removeEventListener("mousedown", handleClickOutside)
-      // * clearTimeout
       clearTimeout(timeId.current)
     }
 
-  },[wrapperRef, dragFinished, dragHistoryFinished])
+  },[wrapperRef, dragFinished, dragHistoryFinished, categories])
   
   const drawer = (
     <div>
@@ -273,11 +319,11 @@ export default function CategoryDrawer(props) {
                 className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
                 onClick={() => handleClickCategory(data.id, data.name)}
                 draggable='true'
-                onDragStart={(e) => dragStart(e, data.id, data.order)}
-                onDragEnd={(e) => dragEnd(e, data.id, data.name, overedTabOrder, overedTabFavorite)}
+                onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
+                onDragEnd={dragEnd}
                 onDragOver={(e) => dragOver(e, data.id, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
                 onDragLeave={dragLeave}
-                onDrop={drop}
+                onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
               >
                 <CategoryTab 
                   key={data.id} 
@@ -289,6 +335,7 @@ export default function CategoryDrawer(props) {
                   selected={(data.id === selectedCategoryId)} 
                   dragFinished={(data.id === draggedId ? dragFinished : false)} 
                   historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : null)}
+                  setSelectedCategoryTitle={setSelectedCategoryTitle}
                 />
               </ListItem>
             </React.Fragment>
@@ -298,27 +345,23 @@ export default function CategoryDrawer(props) {
           Category
         </div>
         <hr />
-        <Button 
-          className={classes.addButton + (addOpen ? '' : ' '+classes.hidden)} 
+        <Button className={classes.addButton + (addOpen ? '' : ' '+classes.hidden)} 
           variant="contained"
           onClick={toggleEnterTab}
         >
           <AddCircleOutlineIcon style={{color: "#cccccc"}} />
         </Button>
-        <Button 
-          className={classes.deleteButton + (deleteOpen ? ' '+classes.block : '')} 
+        <Button className={classes.deleteButton + (deleteOpen ? ' '+classes.block : '')} 
           variant="contained" 
           onClick={openDeleteModal}
         >
           <DeleteIcon style={{color: "#cccccc"}} />
         </Button>
-        <Paper 
+        <Paper className={classes.enterTab + (enterOpen ? ' '+classes.flex : '')}
           component="div" 
-          className={classes.enterTab + (enterOpen ? ' '+classes.flex : '')}
         >
-          <Input
+          <Input className={classes.input}
             disableUnderline={true}
-            className={classes.input}
             placeholder="New one"
             value={newCategoryTitle}
             onChange={handleChangeNewCategoryTitle}
@@ -337,11 +380,11 @@ export default function CategoryDrawer(props) {
                 className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
                 onClick={() => handleClickCategory(data.id, data.name)}
                 draggable='true'
-                onDragStart={(e) => dragStart(e, data.id, data.order)}
-                onDragEnd={(e) => dragEnd(e, data.id, data.name, overedTabOrder, overedTabFavorite)}
+                onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
+                onDragEnd={dragEnd}
                 onDragOver={(e) => dragOver(e, data.id, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
                 onDragLeave={dragLeave}
-                onDrop={drop}
+                onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
               >
                 <CategoryTab 
                 key={data.id} 
@@ -353,6 +396,7 @@ export default function CategoryDrawer(props) {
                 selected={(data.id === selectedCategoryId)} 
                 dragFinished={(data.id === draggedId ? dragFinished : null)} 
                 historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : null)}
+                setSelectedCategoryTitle={setSelectedCategoryTitle}
                 />
               </ListItem>
             </React.Fragment>
@@ -384,63 +428,76 @@ export default function CategoryDrawer(props) {
           {drawer}
         </Drawer>
       </nav>
-
+      <div 
+        className={
+          clsx(classes.coverBackground, {
+            [classes.flex]: selectedLinkList.length !== 0
+          })
+        }
+        onDrop={dropOnCardArea}
+        onDragOver={dragOverOnCardArea}>
+          <AddToPhotosIcon className={classes.addLinkIcon} />
+      </div>
       <main className={classes.content}>
-        <div className={classes.toolbar}>
-          <span className={classes.mainFont}>
-            {selectedCategoryTitle}
-          </span>
-          {/* link card serarchTool */}
-          <CategorySearchPopOver>
-            <Grid  className={classes.popover}>
-              <Grid className={classes.popoverDiv}>
-                <img src={SearchIcon} className={classes.searchIcon}/>
-                <span className={classes.searchBtnText}>Search</span>
-              </Grid>
-              <Grid>
-                <input
-                  placeholder="검색어를 입력해 주세요."
-                  className={classes.textfield}
-                  onKeyDown={handlePressEnterSearchValue}
-                />
-              </Grid>
-              <Grid>
-                <StyledToggleButtonGroup 
-                  size="small"
-                  value={toggleAlignment}
-                  exclusive
-                  onChange={handleToggleChange}
-                >
-                  <ToggleButton
-                    value='left'
-                    className={classes.popoverBtn}
-                    variant='contained'
-                    size='small'
+        <Grid container className={classes.toolbar}>
+          <Grid item>
+            <div className={classes.mainFont}>
+              {selectedCategoryTitle}
+            </div>
+          </Grid>
+          <Grid item>
+            {/* link card serarchTool */}
+            <CategorySearchPopOver>
+              <Grid  className={classes.popover}>
+                <Grid className={classes.popoverDiv}>
+                  <img src={SearchIcon} className={classes.searchIcon} alt='search Icon'/>
+                  <span className={classes.searchBtnText}>Search</span>
+                </Grid>
+                <Grid>
+                  <input
+                    placeholder="검색어를 입력해 주세요."
+                    className={classes.textfield}
+                    onKeyDown={handlePressEnterSearchValue}
+                  />
+                </Grid>
+                <Grid>
+                  <StyledToggleButtonGroup 
+                    size="small"
+                    value={toggleAlignment}
+                    exclusive
+                    onChange={handleToggleChange}
                   >
-                    전체
-                  </ToggleButton>
-                  <ToggleButton
-                    value='center'
-                    className={classes.popoverBtn}
-                    variant='contained'
-                    size='small'
-                  >
-                    도메인
-                  </ToggleButton>
-                  <ToggleButton
-                    value='right'
-                    className={classes.popoverBtn}
-                    variant='contained'
-                    size='small'
-                  >
-                    단어
-                  </ToggleButton>
-                </StyledToggleButtonGroup>
-              </Grid>
-            </Grid> 
-          </CategorySearchPopOver>
-          {/* link card serarchTool - END */}
-        </div>
+                    <ToggleButton
+                      value='left'
+                      className={classes.popoverBtn}
+                      variant='contained'
+                      size='small'
+                    >
+                      전체
+                    </ToggleButton>
+                    <ToggleButton
+                      value='center'
+                      className={classes.popoverBtn}
+                      variant='contained'
+                      size='small'
+                    >
+                      도메인
+                    </ToggleButton>
+                    <ToggleButton
+                      value='right'
+                      className={classes.popoverBtn}
+                      variant='contained'
+                      size='small'
+                    >
+                      단어
+                    </ToggleButton>
+                  </StyledToggleButtonGroup>
+                </Grid>
+              </Grid> 
+            </CategorySearchPopOver>
+            {/* link card serarchTool - END */}
+          </Grid>
+        </Grid>
         <Grid container spacing={2}>
           {
           links.length ? links?.map((urlObj, idx) => 
