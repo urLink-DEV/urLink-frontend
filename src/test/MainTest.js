@@ -1,6 +1,11 @@
 import React , {useState} from "react";
 import auth from '../commons/apis/auth';
 import LoginTest from './LoginTest';
+import WebSocketTest from './test/WebSocketTest'
+import HistoryTest from './test/HistoryTest'
+import CategoryTest from './test/CategoryTest'
+import LinkTest from './test/LinkTest'
+import AlarmTest from './test/AlarmTest'
 
 function MainTest() {
     const [login, setLogin] = useState(false);

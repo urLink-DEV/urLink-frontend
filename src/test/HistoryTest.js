@@ -1,55 +1,66 @@
 /* global chrome */
 import React, { useState } from 'react';
-import { getHistory } from '../commons/history'
+import historyAPI from '../commons/chromeApis/history'
 import logo from '../images/logo.png';
 
+/*
+ * favicon: "https://www.google.com/s2/favicons?domain=mcpfkbednblokhkopibdoagbkmdpcapp"
+ * first: true
+ * hostName: "mcpfkbednblokhkopibdoagbkmdpcapp"
+ * id: "16335"
+ * lastVisitTime: 1592753162380.488
+ * title: "UrLink"
+ * typedCount: 0
+ * url: "chrome-extension://mcpfkbednblokhkopibdoagbkmdpcapp/index.html"
+ * visitCount: 27
+*/
+
 export default function CategoryPage() {
-  const [history, sethistory] = useState([])
-  const [text, settext] = useState('')
-  const [startTime, setstartTime] = useState(0)
-  const [endTime, setendTime] = useState(0)
-  const [maxResults, setmaxResults] = useState(0)
+  const [historyList, setHistoryList] = useState([])
+  const [text, setText] = useState('')
+  const dayAgo  = 1000 * 60 * 60 * 24 * 1
+  const [startTime, setStartTime] = useState((new Date).getTime() - dayAgo)
+  const [endTime, setEndTime] = useState((new Date).getTime())
+  const [maxResults, setMaxResults] = useState(0)
 
   const onClick = (e) => {
     e.preventDefault()
-    const today = new Date()
-    const aWeekAgo = today.setDate(today.getDate() - 7)
-    getHistory({
-      // text, startTime: aWeekAgo, endTime: Date.now(), maxResults:parseInt(maxResults), 
-      text, startTime, endTime, maxResults:parseInt(maxResults), 
-      callback:(historyItems) => {
-        sethistory(historyItems)
+    historyAPI.get({
+      text, startTime, endTime, maxResults, callback: (historyItems) => {
+        console.log(historyItems)
+        setHistoryList([...historyItems])
       }
     })
   }
   const onTextChange = (e) => {
-    settext(e.target.value)
+    setText(e.target.value)
   }
   const onMaxResultsChange = (e) => {
-    setmaxResults(e.target.value)
+    setMaxResults(e.target.value)
   }
   return (
     <div>
-      this is History TEST PAGE
+      <h1>This is History TEST PAGE</h1>
       <input value={text} onChange={onTextChange} placeholder="text" />
       <input value={maxResults} type="number" onChange={onMaxResultsChange} laceholder="maxResults"/>
       <button onClick={onClick}>serach</button>
-      {history.length ? HistoryList(history) : ""}
+      {
+        historyList.length ?
+          <ul>
+            {
+              historyList.map((history) =>
+                <History
+                  key={history.id}
+                  url={history.url}
+                  title={history.title}
+                  visitCount={history.visitCount}
+                  lastVisitTime={history.lastVisitTime} />
+              )
+            }
+          </ul>
+        : ""
+      }
     </div>
-  )
-}
-
-const HistoryList = (history) => {
-  const historyItems = history.map((history) =>
-    <History
-      key={history.id}
-      url={history.url}
-      title={history.title}
-      visitCount={history.visitCount}
-      lastVisitTime={history.lastVisitTime} />
-  )
-  return (
-    <ul>{historyItems}</ul>
   )
 }
 
@@ -65,10 +76,10 @@ const History = ({ url, title, visitCount, lastVisitTime }) => {
       url: event.target.href
     })
   }
-  const [src, setsrc] = useState(`https://www.google.com/s2/favicons?domain=${url}`)
+  const [src, setSrc] = useState(`https://www.google.com/s2/favicons?domain=${url}`)
   lastVisitTime = new Date(lastVisitTime)
   const onError = () => {
-    setsrc(logo)
+    setSrc(logo)
   }
   return (
     <li>
