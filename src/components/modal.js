@@ -72,7 +72,7 @@ export function AlertModal({ btnText, modalText, openBool, onClose, onClickOk })
         >
           <DialogContent>
             <DialogContentText id="alert-dialog-description" className={classes.alertModal}>
-              <img className={classes.alertIcon} src={alertIcon}></img>
+              <img className={classes.alertIcon} src={alertIcon} alt='alert-icon'></img>
               {modalText}
             </DialogContentText>
           </DialogContent>
