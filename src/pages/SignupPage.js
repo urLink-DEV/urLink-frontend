@@ -120,7 +120,7 @@ function SignupPage(props) {
           {email && emailAlert ? singupAlert.EmailFalse(emailAlertMsg) : (email ? singupAlert.EmailTrue(emailAlertMsg) : "")}
 
           <div className="subtitle">비밀번호</div>
-          <PasswordInput name="password" onChange={onChange} placeholder="영문 + 숫자 + 특수문자 조합 6자리 이상" />
+          <PasswordInput name="password" onChange={onChange} placeholder="영문 + 숫자 + 특수문자 조합 8자리 이상" />
           {password && passwordAlert ? singupAlert.PasswordFalse(passwordAlertMsg) : (password ? singupAlert.PasswordTrue(passwordAlertMsg) : "")}
 
           <PasswordInput name="rePassword" onChange={onChange} placeholder="비밀번호 확인" />
