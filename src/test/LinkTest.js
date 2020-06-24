@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import linkAPI from '../commons/apis/link';
 
 /*
- * category: 92
+ * category: 90
  * created_at: "2020-06-21T22:34:59.898609+09:00"
  * description: "개발을 진행하거나, 웹브라우저를 이용하여 업무를 하다보면, 의외로 크롬에 있는 웹스토어에서 extension을 다운받아 진행하는 경우들이 많습니다. 웹브라우저내의 스크린샷을 찍는다"
  * favicon_path: "https://trustyoo86.github.io/assets/icons/android-icon-192x192.png"
@@ -13,6 +13,7 @@ import linkAPI from '../commons/apis/link';
  * title: "Chrome extension 만들기 (1)"
  * updated_at: "2020-06-21T22:34:59.898645+09:00"
  * user: 8
+ * is_favorited: false
 */
 export default function UrlTabTest() {
   const [urlLink, setUrlLink] = useState([])
@@ -44,7 +45,19 @@ export default function UrlTabTest() {
     }
   }
 
-  // * 카테고리 삭제
+  // * 링크 수정
+  const updateLink = (category, id, title, description, isFavorited) => {
+    console.log(isFavorited)
+    const update = linkAPI.update({ id, title, description, isFavorited })
+    if (update) {
+      update.then((response) => {
+        getLink(category)
+      })
+        .catch((error) => console.warn("response" in error ? error.response.data.message : error))
+    }
+  }
+
+  // * 링크 삭제
   const deleteLink = (id, category) => {
     const remove = linkAPI.remove({ id })
     if (remove) {
@@ -59,16 +72,16 @@ export default function UrlTabTest() {
   }
 
   useEffect(() => {
-    getLink(92);
-    // writeLink(92, "https://trustyoo86.github.io/javascript/2019/12/27/chrome-extension-overview.html"); // * Error required Array Type
-    // writeLink(92, ["https://trustyoo86.github.io/javascript/2019/12/27/chrome-extension-overview.html"]);
-    // deleteLink(39, 92, "trust");
+    getLink(90);
+    // writeLink(90, "https://trustyoo86.github.io/javascript/2019/12/27/chrome-extension-overview.html"); // * Error required Array Type
+    // writeLink(90, ["https://trustyoo86.github.io/javascript/2019/12/27/chrome-extension-overview.html"]);
+    // deleteLink(39, 90, "trust");
   }, []);
 
   return (
     <div>
       <h1>This is urlLink TEST PAGE</h1>
-      <button style={{"marginRight":"3px", backgroundColor:"#bebeec", width: 150, height: 50,}} onClick={() => writeLink(92,["https://trustyoo86.github.io/javascript/2019/12/27/chrome-extension-overview.html"])}>
+      <button style={{"marginRight":"3px", backgroundColor:"#bebeec", width: 150, height: 50,}} onClick={() => writeLink(90,["https://trustyoo86.github.io/javascript/2019/12/27/chrome-extension-overview.html"])}>
         writeLink
       </button>
       <div style={{ display: "flex",flexWrap:"wrap", justifyContent: "space-around", textAlign: "center" }}>
@@ -91,7 +104,8 @@ export default function UrlTabTest() {
                 {url.description}
               </div>
               <div style={{margin: "6px", display:"flex", alignContent:"center", justifyContent:"center"}}>
-                <button style={{"marginRight":"3px", backgroundColor:"#ecbee2"}} onClick={() => deleteLink(url.id,92)}>DELETE</button>
+                <button style={{"marginRight":"3px", backgroundColor:"#ecbee2"}} onClick={() => updateLink(90, url.id, "ss", "description", !url.is_favorited)}>UPDATE</button>
+                <button style={{"marginRight":"3px", backgroundColor:"#ecbee2"}} onClick={() => deleteLink(url.id,90)}>DELETE</button>
               </div>
             </div>
           )
