@@ -1,5 +1,5 @@
 /* global chrome */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import clsx from 'clsx';
 
 import logo from '../../images/logo/logo16.png'
@@ -8,31 +8,38 @@ import newTab from '../../images/new-tab.svg'
 
 import useStyles from './styles/CategoryHistory'
 
-export default function CategoryHistoryList(props) {
+export default function CategoryHistory(props) {
   const { 
     onHistoryDragStart, 
     onHistoryDragEnd, 
     onLinkClick,
     selectedLinkList,
-    link,
+    isHistoryDrag,
+    link, 
+    key
   } = props
   const classes = useStyles()
 
   const [favicon, setFavicon] = useState(`https://www.google.com/s2/favicons?domain=${link.hostName}`)
-  
+
   const onError = () => { setFavicon(logo) }
 
   const onAnchorClick = (e) => {
     e.preventDefault()
-    chrome.tabs.create({
-      selected: true,
-      url: link.url
-    })
+    if(!chrome.tabs){
+      window.open(link.url)
+    }
+    else {
+      chrome.tabs.create({
+        selected: true,
+        url: link.url
+      })
+    }
   }
 
   const onLinkCopy = (e) => {
     e.preventDefault()
-    var copyElement = document.createElement('textarea')
+    const copyElement = document.createElement('textarea')
     copyElement.value = link.url
     document.body.appendChild(copyElement)
     copyElement.select()
@@ -40,12 +47,21 @@ export default function CategoryHistoryList(props) {
     document.body.removeChild(copyElement)
   }
 
+  // const filteredLinkList = [] 
+
+  // useEffect(() => {
+  //   selectedLinkList.forEach(link => filteredLinkList.push(link.id))
+  //   console.log('filtered link', filteredLinkList, 'link.id', link.id, 'isHistoryDrag', isHistoryDrag)
+  // },[selectedLinkList])
+
   return (
     <div
       className={
         clsx(classes.linkDiv, 'history-list', {
-        [classes.selectedDiv]: selectedLinkList.filter(list => list.id === link.id).length > 0
-      })}
+        [classes.selectedDiv]: selectedLinkList.filter(list => list.id === link.id).length > 0,
+        // dragFinished : filteredLinkList.includes(link.id) && isHistoryDrag === false
+        }
+      )}
       data-type='link'
       draggable='true'
       onClick={(e) => onLinkClick(e, link.url, link.id)}

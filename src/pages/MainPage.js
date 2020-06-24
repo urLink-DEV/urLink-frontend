@@ -2,14 +2,13 @@ import React from 'react'
 import {Link, Router} from 'react-chrome-extension-router'
 
 import URLinkLogo from '../images/logo-urlink-full.png'
-import './LoginSignup.scss';
+import './LoginSignup.scss'
 
 import SignupContainer from '../containers/SignupContainer'
 import LoginContainer from '../containers/LoginContainer'
-import CategoryContainer from '../containers/category/CategoryContainer';
-import CategoryPage from './category/CategoryPage';
 
 export default function MainPage() {
+  
   return (
     <Router>
       <div className="container container-layout">
