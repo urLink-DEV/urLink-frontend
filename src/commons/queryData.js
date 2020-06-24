@@ -57,27 +57,15 @@ const queryData = {
    * * JWT 필요
    */
   userRead: {},
-  
-  /**
-   * * 회원정보 수정 PUT
-   * * user/{id}/
-   * * JWT 필요
-   */
-  // !! deprecated
-  userUpdate: {
-    "sign_up_type": "",
-    "email": "",
-    "username": "",
-    "password": ""
-  },
 
   /**
    * * 회원정보 부분 수정 PATCH
    * * user/{id}/
    * * JWT 필요
    */
-  // !! deprecated
-  userPartialUpdate: {
+  userUpdate: {
+    // "sign_up_type": "",
+    // "email": "",
     "username": "",
     "password": ""
   },
@@ -87,7 +75,6 @@ const queryData = {
    * * user/{id}/
    * * JWT 필요
    */
-  // !! deprecated
   userDelete: {},
   // ****************** USER - END ************************ //
   
@@ -140,7 +127,7 @@ const queryData = {
  */
   categoryWrite: {
     "name": "",
-    "is_favorited": false
+    "is_favorited": ""
   },
   
   /**
@@ -150,8 +137,8 @@ const queryData = {
  */
   categoryUpdate: {
     "name": "",
-    "is_favorited": false,
-    "order": 0
+    "is_favorited": "",
+    "order": ""
   },
   
   /**
@@ -179,7 +166,18 @@ const queryData = {
   linkWrite: {
     "path": []
   },
-  
+
+  /**
+   * * URL 등록 PATCH
+   * * /url/{urlId}/
+   * * JWT 필요
+   */
+  linkUpdate: {
+    "title": "",
+    "description": "",
+    "is_favorited": ""
+  },
+
   /**
    * * URL 삭제 DELETE
    * * url/{id}/

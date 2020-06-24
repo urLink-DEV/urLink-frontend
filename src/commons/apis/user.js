@@ -1,38 +1,35 @@
 import { axios, api } from '../http'
 import queryData from '../queryData'
-import { getDashQueryParams } from '../quryParam'
 
 const userAPI = {
-  get : ({ id }) => {
+  get : ({}) => {
     try {
-      const dashQueryParams = getDashQueryParams([id])
-      if(!dashQueryParams) throw new Error(`user : ${id} Id는 필수 입니다.`)
       const userRead = queryData["userRead"]
-      return axios.get(api.READ_CATEGORY + dashQueryParams, userRead)
+      return axios.get(api.MEMBER, userRead)
     } catch (error) {
       console.warn(error)
     }
   },
 
+  update: ({ username, password }) => {
+    try {
+      const userUpdate = queryData["userUpdate"]
+      userUpdate.username = username
+      userUpdate.password = password
+      return axios.patch(api.MEMBER, userUpdate)
+    } catch (error) {
+      console.warn(error)
+    }
+  },
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  remove : ({}) => {
+    try {
+      const userDelete = queryData["userDelete"]
+      return axios.delete(api.MEMBER, userDelete)
+    } catch (error) {
+      console.warn(error)
+    }
+  },
 
   nRegister: ({ email, username, password }) => {
     try {
