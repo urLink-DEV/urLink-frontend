@@ -30,6 +30,7 @@ import {AlertModal} from '../../components/modal'
 import CategoryAppBar from './CategoryAppBar'
 import CategoryTab from './CategoryTab'
 import CategorySearchPopOver from './CategorySearchPopOver'
+import Snackbar from '../Snackbar'
 
 export default function CategoryDrawer(props) {
   // console.log("recall");
@@ -470,6 +471,7 @@ export default function CategoryDrawer(props) {
   // TODO Refactoring
   // Category Cards List Business Logic
   const [selectedCardList, setSelectedCardList] = useState([])
+  const [deleteSuccessAlert, setDeleteSuccessAlert] = useState(false)
   const [isReset, setIsReset] = useState(false)
 
   const handleSelectedCard = linkObj => e => {
@@ -494,8 +496,13 @@ export default function CategoryDrawer(props) {
   const handleClickDeleteSelectedCardList = () => {
     selectedCardList.forEach(card => deleteLink(card.id, selectedCategoryId))
     setSelectedCardList([])
+    setDeleteSuccessAlert(true)
     setIsReset(true)
   }
+
+  const handleDeleteSuccessAlertClose = e => {
+    setDeleteSuccessAlert(false);
+  };
 
   return (
     <div className={classes.root}>
@@ -542,32 +549,33 @@ export default function CategoryDrawer(props) {
           }
         </Grid>
         <Grid container spacing={2}>
-          {
-          links.length ? links?.map((linkObj, idx) => 
-            <Grid item xs={2} key={idx}>
-              <CategoryCard key={idx} 
-                linkInfo={linkObj}
-                handleSelectedCard={handleSelectedCard(linkObj)}
-                isReset={isReset}
-                setIsReset={setIsReset}
+          { 
+            links.length ? links?.map((linkObj, idx) => 
+              <Grid item xs={2} key={idx}>
+                <CategoryCard key={idx} 
+                  linkInfo={linkObj}
+                  handleSelectedCard={handleSelectedCard(linkObj)}
+                  isReset={isReset}
+                  setIsReset={setIsReset}
+                />
+              </Grid>) 
+            : searchValue ? 
+              (<div className={classes.imgCenter}>
+                <img src={linkListSearchEmptyIcon} 
+                  alt='link list search empty'
+                />
+              </div>)
+          : (<div className={classes.imgCenter}>
+              <img src={linkListEmptyIcon} 
+                alt='link list empty'
               />
-            </Grid>
-          ) 
-          :
-          searchValue ? 
-          (<div className={classes.imgCenter}>
-            <img src={linkListSearchEmptyIcon} 
-              alt='link list search empty'
-            />
-          </div>)
-          :
-          (<div className={classes.imgCenter}>
-            <img src={linkListEmptyIcon} 
-              alt='link list empty'
-            />
-          </div>) 
+            </div>) 
           }
         </Grid>
+        <Snackbar open={deleteSuccessAlert}
+          alertText="선택하신 카드가 삭제되었습니다."
+          handleClose={handleDeleteSuccessAlertClose}
+        />
       </main>
       <CategoryAppBar {...props} />
     </div>
