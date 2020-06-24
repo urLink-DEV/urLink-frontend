@@ -6,13 +6,14 @@ import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
-import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
 import AddAlertIcon from '@material-ui/icons/AddAlert'
 import Typography from '@material-ui/core/Typography'
 import useStyles, { DatePickerWithStyles } from './styles/CategoryCard'
+import newTab from '../../images/new-tab.svg'
+import Snackbar from '../Snackbar'
 
 export default function CategoryCard(props) {
   const classes = useStyles()
@@ -21,6 +22,7 @@ export default function CategoryCard(props) {
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [hover, setHover] = useState(false)
   const [isSelected, setIsSelected] = useState(false)
+  const [copySuccessAlert, setCopySuccessAlert] = useState(false)
 
   const handleClickCard = () => {
     console.log('select tab')
@@ -58,7 +60,27 @@ export default function CategoryCard(props) {
     : desc
   }
 
-  const handleSetAlarm = (date) => {
+  const handleClickFavorite = e => {
+    console.log('favorite')
+  }
+
+  const handleClickCopy = e => {
+    e.stopPropagation()
+    var copyElement = document.createElement('textarea')
+    copyElement.value = path
+    document.body.appendChild(copyElement)
+    copyElement.select()
+    document.execCommand("copy")
+    document.body.removeChild(copyElement)
+    setCopySuccessAlert(true)
+  }
+
+  const handleCopySuccessAlert = e => {
+    setCopySuccessAlert(false)
+  }
+
+  const handleSetAlarm = date => e => {
+    e.stopPropagation()
     setSelectedDate(date);
     console.log('set snooze')
     console.log(date, title)
@@ -66,7 +88,7 @@ export default function CategoryCard(props) {
 
   return (
     <div className={classes.divRoot}>
-      <Card className={isSelected ? classes.selectedRoot : classes.root} 
+      <Card className={isSelected ? classes.selectedRoot : classes.root}
         onClick={handleClickCard}
         onMouseEnter={handleMouseEnterCard}
         onMouseLeave={handleMouseLeaveCard}
@@ -80,14 +102,12 @@ export default function CategoryCard(props) {
           />
           {
             hover ? 
-            <Button className={classes.cardOpenBtn} 
-              size="small"
-              variant="contained"
-              onClick={handleClickHoverBtn}
-            >
-              open
-            </Button> 
-            : null
+            <img className={classes.cardOpenBtn} 
+              src={newTab} 
+              onClick={handleClickHoverBtn} 
+              alt="새 창으로 열기" 
+              title="새 창으로 열기"
+            /> : null
           }
           <CardContent className={classes.cardContent}>
             <Grid item zeroMinWidth>
@@ -109,10 +129,14 @@ export default function CategoryCard(props) {
           </CardContent>
         </CardActionArea>
         <CardActions className={classes.cardActions}>
-          <IconButton aria-label="favorites">
+          <IconButton aria-label="favorites"
+            onClick={handleClickFavorite}
+          >
             <FavoriteIcon fontSize="small" />
           </IconButton>
-          <IconButton aria-label="share">
+          <IconButton aria-label="share"
+            onClick={handleClickCopy}
+          >
             <ShareIcon fontSize="small" />
           </IconButton>
           <DatePickerWithStyles key={key}
@@ -129,6 +153,10 @@ export default function CategoryCard(props) {
           />
         </CardActions>
       </Card>
+      <Snackbar open={copySuccessAlert}
+        alertText="링크 복사가 완료되었습니다."
+        handleClose={handleCopySuccessAlert}
+      />
     </div>
   )
 }

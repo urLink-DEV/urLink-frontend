@@ -501,7 +501,7 @@ export default function CategoryDrawer(props) {
   }
 
   const handleDeleteSuccessAlertClose = e => {
-    setDeleteSuccessAlert(false);
+    setDeleteSuccessAlert(false)
   };
 
   return (
