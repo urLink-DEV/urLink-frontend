@@ -48,8 +48,8 @@ export default function CategoryDrawer(props) {
     deleteLink 
   } = useLinkDispatch()
   const { 
-    draggedHistory,
-    setDraggedHistory,
+    draggedHistoryList,
+    setDraggedHistoryList,
     selectedLinkList,
     setSelectedLinkList
   } = props
@@ -186,11 +186,10 @@ export default function CategoryDrawer(props) {
   }
 
   const dragOver = (e, id, order, favorited) => {
-
     e.preventDefault()
     console.log('over', dragged)
 
-    if(draggedHistory.length !== 0 && draggedHistory[0].dataset.type === 'link') {
+    if(draggedHistoryList.length && draggedHistoryList[0].dataset.type === 'link') {
       setOveredTabId(id)
     } else if(dragged.dataset.type === 'category') {
       setOveredTabOrder(order)
@@ -229,7 +228,7 @@ export default function CategoryDrawer(props) {
       setDragHistoryFinished(true)
       writeLink(overedTabId, filteredLinkList)
       setSelectedLinkList([])
-      setDraggedHistory([])
+      setDraggedHistoryList([])
     }
   }
 
@@ -257,7 +256,7 @@ export default function CategoryDrawer(props) {
       writeLink(selectedCategoryId, filteredLinkList)
       setDragHistoryFinished(true)
       setSelectedLinkList([])
-      setDraggedHistory([])
+      setDraggedHistoryList([])
     }
   }
 

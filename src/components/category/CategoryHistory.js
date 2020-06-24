@@ -1,5 +1,5 @@
 /* global chrome */
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import clsx from 'clsx';
 
 import logo from '../../images/logo/logo16.png'
@@ -14,10 +14,9 @@ export default function CategoryHistory(props) {
     onHistoryDragEnd, 
     onLinkClick,
     selectedLinkList,
-    isHistoryDrag,
-    link, 
-    key
+    link
   } = props
+
   const classes = useStyles()
 
   const [favicon, setFavicon] = useState(`https://www.google.com/s2/favicons?domain=${link.hostName}`)
@@ -47,26 +46,18 @@ export default function CategoryHistory(props) {
     document.body.removeChild(copyElement)
   }
 
-  // const filteredLinkList = [] 
-
-  // useEffect(() => {
-  //   selectedLinkList.forEach(link => filteredLinkList.push(link.id))
-  //   console.log('filtered link', filteredLinkList, 'link.id', link.id, 'isHistoryDrag', isHistoryDrag)
-  // },[selectedLinkList])
-
   return (
     <div
       className={
         clsx(classes.linkDiv, 'history-list', {
-        [classes.selectedDiv]: selectedLinkList.filter(list => list.id === link.id).length > 0,
-        // dragFinished : filteredLinkList.includes(link.id) && isHistoryDrag === false
+        [classes.selectedDiv]: selectedLinkList.filter(list => list.id === link.id).length
         }
       )}
       data-type='link'
       draggable='true'
-      onClick={(e) => onLinkClick(e, link.url, link.id)}
-      onDragStart={(e) => onHistoryDragStart(e, link.url, link.id)}
-      onDragEnd={(e) => onHistoryDragEnd(e, link.id)}
+      onClick={(e) => onLinkClick(e, link)}
+      onDragStart={(e) => onHistoryDragStart(e, link)}
+      onDragEnd={(e) => onHistoryDragEnd(e, link)}
     >
       <img className={classes.linkFavicon} onError={onError} src={favicon} alt={link.title} title={link.title}></img>
       <span className={classes.linkDivMainFont} title={link.title + ` (${link.visitCount})`}>{link.title + ` (${link.visitCount})`}</span>

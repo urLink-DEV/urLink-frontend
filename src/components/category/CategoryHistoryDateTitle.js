@@ -7,9 +7,8 @@ export default function CategoryHistoryDateTitle(props) {
 
   const curDate = new Date().toLocaleDateString()
   const linkDate = new Date(link.lastVisitTime).toLocaleDateString()
-  let date = ""
+  let date = linkDate
   if (curDate === linkDate) date = "오늘"
-  else date = linkDate
 
   if (link.first) {
     return (

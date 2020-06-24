@@ -116,7 +116,7 @@ export default function CategoryContainer() {
   }
 
   // * 드래그된 히스토리 target
-  const [draggedHistory, setDraggedHistory] = useState([])
+  const [draggedHistoryList, setDraggedHistoryList] = useState([])
   const [selectedLinkList, setSelectedLinkList] = useState([])
 
   const categoryDispatch = {
@@ -134,10 +134,10 @@ export default function CategoryContainer() {
 
   const props = {
     getCategoryUrlInfoList,
-    draggedHistory,
+    draggedHistoryList,
     selectedLinkList,
     setSelectedLinkList,
-    setDraggedHistory,
+    setDraggedHistoryList,
     getHistory,
 
     newAlarmList,
