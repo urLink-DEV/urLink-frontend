@@ -87,6 +87,9 @@ const useStyles = makeStyles(theme => ({
   },
   selectedDiv: {
     border: 'solid 1px #2083ff'
+  },
+  copyTextArea: {
+    display: 'none'
   }
 }))
 
