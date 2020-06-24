@@ -23,6 +23,12 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "SpoqaHanSans",
     color: "#868e96",
     textAlign: "center"
+  },
+  block: {
+    display: 'block'
+  },
+  hidden: {
+    display: 'none'
   }
 }))
 

@@ -32,7 +32,6 @@ import CategoryTab from './CategoryTab'
 import CategorySearchPopOver from './CategorySearchPopOver'
 
 export default function CategoryDrawer(props) {
-  // console.log("recall");
 
   const classes = useStyles()
 
@@ -152,6 +151,7 @@ export default function CategoryDrawer(props) {
     setDeleteOpen(true)
     setSelectedCategoryId(id)
     setSelectedCategoryTitle(name)
+    // getLink(selectedCategoryId)
   }
 
   const toggleEnterTab = () => {
@@ -163,39 +163,44 @@ export default function CategoryDrawer(props) {
     아래는 drag n drop 로직
   */
 
-  const [dragged, setDragged] = useState('')
-  const [draggedId, setDraggedId] = useState(0)
-  const [draggedName, setDraggedName] = useState('')
-  const [draggedOrder, setDraggedOrder] = useState(0)
+  const [draggedCategoryData, setDraggedTargetData] = useState({
+    draggedCategory : '',
+    draggedId: 0,
+    draggedName: '',
+    draggedOrder: 0,
+    dragFinished: false
+  })
+  const {draggedCategory, draggedId, draggedName, draggedOrder, dragFinished} = draggedCategoryData
   const [overedTabId, setOveredTabId] = useState(0)
   const [overedTabOrder, setOveredTabOrder] = useState(0)
   const [overedTabFavorite, setOveredTabFavorite] = useState(null)
-  const [dragFinished, setDragFinished] = useState(false)
   const [dragHistoryFinished, setDragHistoryFinished] = useState(false)
 
   const listRef = useRef()  
 
   const dragStart = (e, id, name, order) => {
     const target = e.currentTarget
-    setDragged(target)
-    setDraggedId(id)
-    setDraggedName(name)
-    setDraggedOrder(order)
+    setDraggedTargetData({
+      ...draggedCategoryData,
+      draggedCategory: target,
+      draggedId: id,
+      draggedName: name,
+      draggedOrder: order
+    })
+
     e.dataTransfer.setData('text/html', target)
     e.dataTransfer.setData("text/type", 'category')
   }
 
   const dragOver = (e, id, order, favorited) => {
-
     e.preventDefault()
-    console.log('over', dragged)
 
     if(draggedHistory.length !== 0 && draggedHistory[0].dataset.type === 'link') {
       setOveredTabId(id)
-    } else if(dragged.dataset.type === 'category') {
+    } else if(draggedCategory.dataset.type === 'category') {
       setOveredTabOrder(order)
       setOveredTabFavorite(favorited)
-      dragged.style.display='none'
+      draggedCategory.style.display='none'
       e.currentTarget.previousSibling.style.display = 'block'
     }
   }
@@ -206,9 +211,13 @@ export default function CategoryDrawer(props) {
   
   const dragEnd = (e) => {
     e.preventDefault()
-    dragged.style.display='block'
-    setDragged('')
-    getCategory()
+    setDraggedTargetData({
+      ...draggedCategoryData,
+      draggedCategory : '',
+      draggedId: 0,
+      draggedName: '',
+      draggedOrder: 0,
+    })
   }
 
   const drop = (e, id, name, order, favorited) => {
@@ -216,14 +225,14 @@ export default function CategoryDrawer(props) {
     const filteredLinkList = [] 
     selectedLinkList.forEach(link => filteredLinkList.push(link.path))
 
-    console.log('dropped', selectedLinkList)
-
     if(type === 'category') {
       e.preventDefault()
       e.currentTarget.previousSibling.style.display = 'none'
-      updateCategory(id, name, order, favorited)    
-      dragged.style.display='block'
-      setDragFinished(true)
+      updateCategory(id, name, order, favorited)
+      .then(() =>  setDraggedTargetData({
+        ...draggedCategoryData,
+        dragFinished: true
+      }))
     } else if(type === 'link') {
       e.preventDefault()
       setDragHistoryFinished(true)
@@ -235,7 +244,7 @@ export default function CategoryDrawer(props) {
 
   const firstFavoriteDragOver = (e) => {
     e.preventDefault()
-    dragged.style.display='none'
+    draggedCategory.style.display='none'
     setOveredTabOrder(draggedOrder)
     setOveredTabFavorite(true)
   }  
@@ -249,8 +258,6 @@ export default function CategoryDrawer(props) {
     const type = e.dataTransfer.getData('text/type')
     const filteredLinkList = [] 
     selectedLinkList.forEach(link => filteredLinkList.push(link.path))
-
-    console.log('dropped on card area', selectedLinkList)
 
     if(type === 'link') {
       e.preventDefault()
@@ -270,6 +277,7 @@ export default function CategoryDrawer(props) {
   const timeId = useRef()
 
   useEffect(() => {
+
     // * change add&delete button state if clicked on outside of element
     function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -279,10 +287,18 @@ export default function CategoryDrawer(props) {
     }
     document.addEventListener("mousedown", handleClickOutside)
 
+    // add Animation when finished dragging
     if(dragFinished) {
+      getCategory()
+      .then(() => draggedCategory.style.display='block')
+   
       timeId.current = setTimeout(() => {
-        setDragFinished(false)
-      }, 900)
+        setDraggedTargetData({
+          ...draggedCategoryData,
+          dragFinished: false
+        })
+      }, 800)  
+
     } else {
       timeId.current = setTimeout(() => {
         setDragHistoryFinished(false)
@@ -294,7 +310,7 @@ export default function CategoryDrawer(props) {
       clearTimeout(timeId.current)
     }
 
-  },[wrapperRef, dragFinished, dragHistoryFinished, categories])
+  },[wrapperRef, draggedCategory, dragFinished])
   
   const drawer = (
     <div>
@@ -394,7 +410,7 @@ export default function CategoryDrawer(props) {
                 isFavorited={data.is_favorited}
                 urlCount={data.url_count}
                 selected={(data.id === selectedCategoryId)} 
-                dragFinished={(data.id === draggedId ? dragFinished : null)} 
+                dragFinished={(data.id === draggedId ? dragFinished : false)} 
                 historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : null)}
                 setSelectedCategoryTitle={setSelectedCategoryTitle}
                 />

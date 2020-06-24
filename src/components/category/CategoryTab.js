@@ -34,24 +34,25 @@ export default function CategoryTab({text, id, order, isFavorited, urlCount, sel
     if(disabled === false) inputRef.current.children[0].focus()
   },[disabled])
 
+
   return (
-    <div>
+    <div >
       <Paper 
         component="div" 
         className={classes.root + (dragFinished || historyDragFinished ? ' dragFinished' : '') } 
         id={`${id}`}
       >
-        <InputBase 
-          disableUnderline={true}
-          ref={inputRef}
-          className={classes.input + (selected ? ' selected': '')}
-          disabled={disabled}
-          onDoubleClick={onDoubleClick}
-          value={value}
-          onChange={handleChange}
-          onKeyDown={updateText}
-        />
-        <div className={classes.urlCountBox}>링크 {urlCount}개</div>
+      <InputBase 
+        disableUnderline={true}
+        ref={inputRef}
+        className={classes.input + (selected ? ' selected': '')}
+        disabled={disabled}
+        onDoubleClick={onDoubleClick}
+        value={value}
+        onChange={handleChange}
+        onKeyDown={updateText}
+      />
+      <div className={classes.urlCountBox}>링크 {urlCount}개</div>
       </Paper>
     </div>
   )
