@@ -26,7 +26,8 @@ export default function CategoryTest() {
   const writeCategory = (name, isFavorited) => {
     categoryAPI.write({ name, isFavorited })
       .then((response) => {
-        setCategoryList(m => m.concat(response.data))
+        // * 전체 카테고리 가져오기
+        getCategory()
       })
       .catch((error) => console.warn("response" in error ? error.response.data.message : error))
   }
@@ -70,7 +71,7 @@ export default function CategoryTest() {
             <div key={category.id} style={{border:"1px solid", width: 250, height: 100, margin:3}}>            
               {category.order} | {category.name} | {category.url_count} | {category.id} | {category.is_favorited ? "Favorited" : "noFavorited"}
               <div style={{margin: "6px", display:"flex", alignContent:"center", justifyContent:"center"}}>
-                <button style={{"marginRight":"3px", backgroundColor:"#ecbee2"}} onClick={() => updateCategory(category.id,"updateTest")}>UPDATE name -> updateTest</button>
+                <button style={{"marginRight":"3px", backgroundColor:"#ecbee2"}} onClick={() => updateCategory(category.id,"updateTest")}>UPDATE name -&gt; updateTest</button>
                 <button style={{"marginRight":"3px", backgroundColor:"#ecbee2"}} onClick={() => updateCategory(category.id,category.name,category.order,!category.is_favorited)}>UPDATE isFavorit toggle</button>
                 <button style={{"marginRight":"3px", backgroundColor:"#ecbee2"}} onClick={() => deleteCategory(category.id)}>DELETE</button>
               </div>

@@ -96,21 +96,14 @@ const api = {
 	
 	MEMBER_LOGOUT: "user/sign-out/", // * 로그아웃
 
-	MEMBER: "user/", // * 회원정보 관련
+	MEMBER: "user/",
 
-	READ_CATEGORY: "category/", // * 카테고리 리스트 조회
-	WRITE_CATEGORY: "category/", // * 카테고리 등록
-	UPDATE_CATEGORY: "category/", // * 카테고리 수정
-	DELETE_CATEGORY: "category/", // * 카테고리 삭제
+	CATEGORY: "category/",
 
-	READ_LINK: "url/", // * URl 리스트 조회
-	WRITE_LINK: "url/", // * URL 등록
-	DELETE_LINK: "url/", // * URL 삭제 
+	LINK: "url/",
 
-	READ_ALARAM: "alarm/", // * ALARAM 리스트 조회 
-	WRITE_ALARAM: "alarm/", // * ALARAM 등록 
-	DELETE_ALARAM: "alarm/", // * ALARAM 삭제 
-
+	ALARAM: "alarm/",
+	
 	SOCKET_ALARAM: `ws://${axiosSetting.host}/ws/connection/`
 }
 export { axios , api }
