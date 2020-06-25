@@ -68,9 +68,6 @@ export default function CategoryDrawer(props) {
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [enterOpen, setEnterOpen] = useState(false)
-  const [categoryIsUpdated, setCategoryIsUpdated] = useState(false)
-  const [categoryIsDeleted, setCategoryIsDeleted] = useState(false)
-
 
   useEffect(() => {
       if (!selectedCategoryId && categories.length) {
@@ -200,16 +197,18 @@ export default function CategoryDrawer(props) {
     draggedOrder: 0,
     dragFinished: false
   })
-  const {draggedCategory, draggedId, draggedName, draggedOrder, dragFinished} = draggedCategoryData
+  const {draggedCategory, draggedId, draggedName, draggedOrder, dragFinished} = draggedCategoryData  
   const [overedTabId, setOveredTabId] = useState(0)
   const [overedTabOrder, setOveredTabOrder] = useState(0)
   const [overedTabFavorite, setOveredTabFavorite] = useState(null)
   const [dragHistoryFinished, setDragHistoryFinished] = useState(false)
+  const [dropeffectTarget, setDropeffectTarget] = useState('')
 
   const listRef = useRef()  
 
   const dragStart = (e, id, name, order) => {
     const target = e.currentTarget
+    setDropeffectTarget(e)
     setDraggedTargetData({
       ...draggedCategoryData,
       draggedCategory: target,
@@ -220,6 +219,7 @@ export default function CategoryDrawer(props) {
 
     e.dataTransfer.setData('text/html', target)
     e.dataTransfer.setData("text/type", 'category')
+    e.dataTransfer.effectAllowed = 'move'
   }
 
   const dragOver = (e, id, order, favorited) => {
@@ -227,11 +227,13 @@ export default function CategoryDrawer(props) {
 
     if(draggedHistory.length !== 0 && draggedHistory[0].dataset.type === 'link') {
       setOveredTabId(id)
+      e.dataTransfer.dropEffect = "move"
     } else if(draggedCategory.dataset.type === 'category') {
       setOveredTabOrder(order)
       setOveredTabFavorite(favorited)
       draggedCategory.style.display='none'
       e.currentTarget.previousSibling.style.display = 'block'
+      e.dataTransfer.dropEffect = "move"
     }
   }
 
@@ -248,6 +250,10 @@ export default function CategoryDrawer(props) {
       draggedName: '',
       draggedOrder: 0,
     })
+
+    if (e.dataTransfer.dropEffect === 'none') {
+      draggedCategory.style.display='block'
+    }
   }
 
   const drop = (e, id, name, order, favorited) => {
@@ -327,7 +333,7 @@ export default function CategoryDrawer(props) {
           ...draggedCategoryData,
           dragFinished: false
         })
-      }, 800)  
+      }, 900)  
 
     } else {
       timeId.current = setTimeout(() => {
