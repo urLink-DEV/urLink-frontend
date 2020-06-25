@@ -109,18 +109,24 @@ export default function CategoryDrawer(props) {
   }
 
   const addTab = () => {
-    writeCategory(newCategoryTitle, false)
-    .then((res) => {
-      setSelectedCategoryId(res.data.id)
-      setSelectedCategoryTitle(res.data.name)
-      getLink(res.data.id)
-      return getCategory()
-    })
-    .then(() => {
-      setNewCategoryTitle('')
+    if (newCategoryTitle === '') {
       setAddOpen(true)
       setEnterOpen(false)
-    })
+      setNewCategoryTitle('')
+    } else {
+      writeCategory(newCategoryTitle, false)
+      .then((res) => {
+        setSelectedCategoryId(res.data.id)
+        setSelectedCategoryTitle(res.data.name)
+        getLink(res.data.id)
+        return getCategory()
+      })
+      .then(() => {
+        setNewCategoryTitle('')
+        setAddOpen(true)
+        setEnterOpen(false)
+      })
+    }
   }
 
   const pressEnter = (e) => {
@@ -175,7 +181,7 @@ export default function CategoryDrawer(props) {
 
   const handleClickCategory = (id, name) => {
     setAddOpen(false)
-    setDeleteOpen(true)
+    if(addOpen) setDeleteOpen(true)
     setSelectedCategoryId(id)
     setSelectedCategoryTitle(name)
     // getLink(selectedCategoryId)
@@ -202,13 +208,11 @@ export default function CategoryDrawer(props) {
   const [overedTabOrder, setOveredTabOrder] = useState(0)
   const [overedTabFavorite, setOveredTabFavorite] = useState(null)
   const [dragHistoryFinished, setDragHistoryFinished] = useState(false)
-  const [dropeffectTarget, setDropeffectTarget] = useState('')
 
   const listRef = useRef()  
 
   const dragStart = (e, id, name, order) => {
     const target = e.currentTarget
-    setDropeffectTarget(e)
     setDraggedTargetData({
       ...draggedCategoryData,
       draggedCategory: target,
@@ -335,7 +339,7 @@ export default function CategoryDrawer(props) {
         })
       }, 900)  
 
-    } else {
+    } else if(dragHistoryFinished) {
       timeId.current = setTimeout(() => {
         setDragHistoryFinished(false)
       }, 800)
@@ -346,7 +350,7 @@ export default function CategoryDrawer(props) {
       clearTimeout(timeId.current)
     }
 
-  },[wrapperRef, draggedCategory, dragFinished])
+  },[wrapperRef, draggedCategory, dragFinished, dragHistoryFinished])
   
   const drawer = (
     <div>
@@ -358,6 +362,7 @@ export default function CategoryDrawer(props) {
         <div 
           className={(favoritedArr.length === 0 ? 'drag-box' : 'hidden')}
           onDragOver={firstFavoriteDragOver}
+          onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
         >
           Drag the category here!
         </div>
@@ -447,7 +452,7 @@ export default function CategoryDrawer(props) {
                 urlCount={data.url_count}
                 selected={(data.id === selectedCategoryId)} 
                 dragFinished={(data.id === draggedId ? dragFinished : false)} 
-                historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : null)}
+                historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : false)}
                 setSelectedCategoryTitle={setSelectedCategoryTitle}
                 />
               </ListItem>

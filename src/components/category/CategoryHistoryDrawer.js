@@ -50,8 +50,6 @@ export default function CategoryHistoryDrawer(props) {
 
   const onHistoryDragEnd = (e, historyLinkID) => {
     e.preventDefault()
-    console.log('end')
-
     setIsHistoryDrag(false)
   }
 
@@ -85,6 +83,7 @@ export default function CategoryHistoryDrawer(props) {
       })
     }
     else {
+      setSelectedLinkList([])
       setLinkList([])
       setEndTime((new Date).getTime())
       setStartTime((new Date).getTime() - dayAgo)
@@ -109,6 +108,8 @@ export default function CategoryHistoryDrawer(props) {
             setLinkList([...linkList, ...historyItems])
           }
         })
+    } else {
+      setLinkList([])
     }
   },[endTime])
 

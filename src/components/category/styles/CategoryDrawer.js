@@ -62,7 +62,7 @@ export const useStyles = makeStyles((theme) => ({
     width: 208,
     borderRadius: 4,
     padding: 0,
-    marginTop: 10,
+    margin: '10px 0 20px 0',
     boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)",
     backgroundColor: "#ffffff",
     '&:hover': {
