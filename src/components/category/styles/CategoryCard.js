@@ -42,13 +42,26 @@ const useStyles = makeStyles({
     padding: 5,
   },
   cardContentTitle: {
+    height: 20,
     fontSize: 14,
   },
   cardContentDesc: {
+    height: 45,
+    fontSize: 12,
+  },
+  edittingCardContentTitle: {
+    height: 20,
+    fontSize: 14,
+  },
+  edittingCardContentDesc: {
+    maxHeight: 45,
     fontSize: 12,
   },
   cardActions: {
     padding: 5
+  },
+  settingsIcon: {
+    marginLeft: 'auto'
   },
   '@global': {
     'div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-2': {
@@ -70,6 +83,12 @@ const useStyles = makeStyles({
       marginTop: 0,
       marginBottom: 0,
     },
+    'button.MuiButtonBase-root.MuiIconButton-root.makeStyles-settingsIcon-347': {
+      marginLeft: 'auto',
+    },
+    'textarea.MuiInputBase-input.MuiInputBase-inputMultiline': {
+      maxHeight: 45
+    }
   }
 });
 

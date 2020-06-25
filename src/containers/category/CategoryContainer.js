@@ -56,8 +56,9 @@ export default function CategoryContainer() {
   }
 
   // * 카테고리 수정
-  const updateCategory = (id, name, order, isFavorited) => {
-    const update = categoryAPI.update({ id, name, order, isFavorited })
+  // linkInfo : Object { id, name, order, isFavorited }
+  const updateCategory = (linkInfo) => {
+    const update = categoryAPI.update(linkInfo)
     if(update) {
       update.then(() => getCategory())
         .catch((error) => console.warn("response" in error ? error.response.data.message : error))
@@ -98,7 +99,18 @@ export default function CategoryContainer() {
     }
   }
 
-  // * 카테고리 삭제
+  // * 링크 정보, 페보릿 수정
+  const updateLink = (id, category, title, description, isFavorited) => {
+    const update = linkAPI.update({id, category, title, description, isFavorited})
+    if (update) {
+      update.then(response => {
+        console.log('status value', response.status)
+        getLink(category)
+      }).catch((error) => console.warn("response" in error ? error.response.data.message : error))
+    }
+  }
+
+  // * 링크 삭제
   const deleteLink = (id, category, path, title) => {
     const remove = linkAPI.remove({ id })
     if (remove) {

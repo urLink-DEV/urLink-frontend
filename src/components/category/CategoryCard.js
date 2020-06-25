@@ -10,10 +10,13 @@ import IconButton from '@material-ui/core/IconButton'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
 import AddAlertIcon from '@material-ui/icons/AddAlert'
+import CreateIcon from '@material-ui/icons/Create'
+import DoneIcon from '@material-ui/icons/Done'
 import Typography from '@material-ui/core/Typography'
 import useStyles, { DatePickerWithStyles } from './styles/CategoryCard'
 import newTab from '../../images/new-tab.svg'
 import Snackbar from '../Snackbar'
+import InputBase from '@material-ui/core/InputBase'
 
 export default function CategoryCard(props) {
   const classes = useStyles()
@@ -23,16 +26,19 @@ export default function CategoryCard(props) {
   const [hover, setHover] = useState(false)
   const [isSelected, setIsSelected] = useState(false)
   const [copySuccessAlert, setCopySuccessAlert] = useState(false)
+  const [isEditable, setIsEditable] = useState(false)
+  const [editableTitle, setEditableTitle] = useState(title)
+  const [editableDesc, setEditableDesc] = useState(description)
 
   const handleClickCard = () => {
-    console.log('select tab')
+    console.log('isEditable', isEditable)
+    if (isEditable) return
     setIsSelected(!isSelected)
     handleSelectedCard()
-    
   }
 
   useEffect(() => {
-    if (isReset) {
+    if (isReset || isEditable) {
       setIsSelected(false)
       setIsReset(false)
     }
@@ -48,7 +54,6 @@ export default function CategoryCard(props) {
 
   const handleClickHoverBtn = e => {
     e.stopPropagation()
-    console.log('open tab')
     window.open(path)
   }
 
@@ -86,6 +91,25 @@ export default function CategoryCard(props) {
     console.log(date, title)
   }
 
+  const handleClickEdit = e => {
+    e.stopPropagation()
+    setIsEditable(true)
+  }
+
+  const handleChangeTitle = e => {
+    setEditableTitle(e.target.value)
+  }
+
+  const handleChangeDesc = e => {
+    setEditableDesc(e.target.value)
+  }
+
+  const handleClickEditDone = e => {
+    e.stopPropagation()
+    console.log(editableTitle, editableDesc, 'done')
+    setIsEditable(false)
+  }
+
   return (
     <div className={classes.divRoot}>
       <Card className={isSelected ? classes.selectedRoot : classes.root}
@@ -109,7 +133,23 @@ export default function CategoryCard(props) {
               title="새 창으로 열기"
             /> : null
           }
-          <CardContent className={classes.cardContent}>
+          {
+            isEditable 
+            ? <CardContent className={classes.cardContent}>
+            <Grid item zeroMinWidth>
+              <InputBase className={classes.edittingCardContentTitle}
+                value={editableTitle}
+                onChange={handleChangeTitle}
+                fontSize="medium"
+              />
+              <InputBase className={classes.edittingCardContentDesc}
+                value={editableDesc}
+                onChange={handleChangeDesc}
+                multiline
+              />
+            </Grid>
+          </CardContent>
+            : <CardContent className={classes.cardContent}>
             <Grid item zeroMinWidth>
               <Typography className={classes.cardContentTitle}
                 gutterBottom 
@@ -127,6 +167,7 @@ export default function CategoryCard(props) {
               </Typography>
             </Grid>
           </CardContent>
+          }
         </CardActionArea>
         <CardActions className={classes.cardActions}>
           <IconButton aria-label="favorites"
@@ -151,6 +192,21 @@ export default function CategoryCard(props) {
               'aria-label': 'change date',
             }}
           />
+          {
+            isEditable
+            ? <IconButton className={classes.settingsIcon}
+                aria-label="setting"
+                onClick={handleClickEditDone}
+              >
+                <DoneIcon fontSize="small" />
+              </IconButton>
+            : <IconButton className={classes.settingsIcon}
+                aria-label="setting"
+                onClick={handleClickEdit}
+                >
+                <CreateIcon fontSize="small" />
+              </IconButton>
+          }
         </CardActions>
       </Card>
       <Snackbar open={copySuccessAlert}
