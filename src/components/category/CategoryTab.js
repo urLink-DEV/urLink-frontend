@@ -5,17 +5,28 @@ import {useCategoryDispatch} from '../../containers/category/CategoryContainer'
 import useStyles from './styles/CategoryTab'
 
 
-export default function CategoryTab({text, id, order, isFavorited, urlCount, selected, dragFinished, historyDragFinished, setSelectedCategoryTitle}) {
+export default function CategoryTab({
+  text, 
+  id, 
+  order, 
+  isFavorited, 
+  urlCount, 
+  selected, 
+  dragFinished, 
+  historyDragFinished, 
+  setSelectedCategoryTitle}) {
+
   const classes = useStyles()
 
   const dispatch = useCategoryDispatch()
-  const [value, setValue] = useState(text)
+  const [categoryTitle, setCategoryTitle] = useState(text)
+  const [prevCategoryTitle, setPrevCategoryTitle] = useState(text)
   const [disabled, setDisabled] = useState(true)
 
   const inputRef = useRef()
 
   const handleChange = (event) => {
-    setValue(event.target.value)
+    setCategoryTitle(event.target.value)
   }
 
   const onDoubleClick = () => {
@@ -24,15 +35,31 @@ export default function CategoryTab({text, id, order, isFavorited, urlCount, sel
 
   const updateText = (e) => {
       if (e.keyCode === 13) {
-        dispatch.updateCategory(id, value, order, isFavorited )
-        setDisabled(!disabled)
-        setSelectedCategoryTitle(value)
+        if (e.target.value === '') {
+          dispatch.updateCategory(id, prevCategoryTitle, order, isFavorited)
+          .then(() => dispatch.getCategory())
+          setDisabled(!disabled)
+          setSelectedCategoryTitle(prevCategoryTitle)
+          setCategoryTitle(prevCategoryTitle)
+        } else {
+          dispatch.updateCategory(id, categoryTitle, order, isFavorited)
+          .then(() => dispatch.getCategory())
+          setDisabled(!disabled)
+          setSelectedCategoryTitle(categoryTitle)
+        }
       }
   }
 
   useEffect(() => {
-    if(disabled === false) inputRef.current.children[0].focus()
-  },[disabled])
+    if (!disabled) inputRef.current.children[0].focus()
+
+    if (!selected && !disabled) {
+      dispatch.updateCategory(id, categoryTitle, order, isFavorited)
+      .then(() => dispatch.getCategory())
+      setDisabled(!disabled)
+    }
+
+  },[disabled, categoryTitle, selected])
 
 
   return (
@@ -48,11 +75,11 @@ export default function CategoryTab({text, id, order, isFavorited, urlCount, sel
         className={classes.input + (selected ? ' selected': '')}
         disabled={disabled}
         onDoubleClick={onDoubleClick}
-        value={value}
+        value={categoryTitle}
         onChange={handleChange}
         onKeyDown={updateText}
       />
-      <div className={classes.urlCountBox}>링크 {urlCount}개</div>
+      <div className={classes.urlCountBox}>{urlCount} 링크</div>
       </Paper>
     </div>
   )
