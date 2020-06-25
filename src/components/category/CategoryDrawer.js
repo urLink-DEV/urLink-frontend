@@ -68,14 +68,19 @@ export default function CategoryDrawer(props) {
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [enterOpen, setEnterOpen] = useState(false)
+  const [categoryIsUpdated, setCategoryIsUpdated] = useState(false)
+  const [categoryIsDeleted, setCategoryIsDeleted] = useState(false)
+
 
   useEffect(() => {
-    if(!selectedCategoryId && categories.length) {
-      setAddOpen(true)
-      setDeleteOpen(false)
-      setSelectedCategoryId(categories[0]?.id)
-      setSelectedCategoryTitle(categories[0]?.name)
-    } else getLink(selectedCategoryId)
+      if (!selectedCategoryId && categories.length) {
+        setAddOpen(true)
+        setDeleteOpen(false)
+        setSelectedCategoryId(categories[0]?.id)
+        setSelectedCategoryTitle(categories[0]?.name)
+      } else  {
+        getLink(selectedCategoryId)
+      }
 
   }, [categories, selectedCategoryId])
 
@@ -108,17 +113,33 @@ export default function CategoryDrawer(props) {
 
   const addTab = () => {
     writeCategory(newCategoryTitle, false)
-    setNewCategoryTitle('')
-    setAddOpen(true)
-    setEnterOpen(false)
+    .then((res) => {
+      setSelectedCategoryId(res.data.id)
+      setSelectedCategoryTitle(res.data.name)
+      getLink(res.data.id)
+      return getCategory()
+    })
+    .then(() => {
+      setNewCategoryTitle('')
+      setAddOpen(true)
+      setEnterOpen(false)
+    })
   }
 
   const pressEnter = (e) => {
     if (e.keyCode === 13) {
       writeCategory(newCategoryTitle, false)
-      setNewCategoryTitle('')
-      setAddOpen(true)
-      setEnterOpen(false)
+      .then((res) => {
+        setSelectedCategoryId(res.data.id)
+        setSelectedCategoryTitle(res.data.name)
+        getLink(res.data.id)
+        return getCategory()
+      })
+      .then(() => {
+        setNewCategoryTitle('')
+        setAddOpen(true)
+        setEnterOpen(false)
+      })
     }
   }
 
@@ -141,9 +162,18 @@ export default function CategoryDrawer(props) {
   
   const deleteTab = () => {
     deleteCategory(selectedCategoryId)
-    setDeleteModalOpen(false)
-    setDeleteOpen(false)
-    setAddOpen(true)
+    .then(() => {
+      setDeleteModalOpen(false)
+      setDeleteOpen(false)
+      setAddOpen(true)
+      return getCategory()
+    })
+    .then((res) => {
+      console.log(res)
+      setSelectedCategoryId(res.data[0].id)
+      setSelectedCategoryTitle(res.data[0].name)
+      getLink(res.data[0].id)
+    })
   }
 
   const handleClickCategory = (id, name) => {

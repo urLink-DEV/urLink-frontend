@@ -41,7 +41,8 @@ export default function CategoryContainer() {
   const getCategory = (id) => {
     const get = categoryAPI.get({ id })
     if (get) {
-      return get.then((response) => setCategory([...response.data]))
+      get.then((response) => setCategory([...response.data]))
+      return get.then((response) => response)
         .catch((error) => console.warn("response" in error ? error.response.data.message : error))
     }
   }
@@ -82,7 +83,7 @@ export default function CategoryContainer() {
   const getLink = (category, path, title) => {
     const get = linkAPI.get({ category, path, title })
     if (get) {
-      get.then((response) => setLink([...response.data]))
+      return get.then((response) => setLink([...response.data]))
         .catch((error) => console.warn("response" in error ? error.response.data.message : error))
     }
   }
