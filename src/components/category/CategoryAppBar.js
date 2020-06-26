@@ -22,7 +22,9 @@ export default function CategoryAppBar(props) {
     setDraggedHistory, 
     selectedLinkList,
     setSelectedLinkList,
-    newAlarmList, 
+    onalarmRead,
+    onNoReturnAlarm,
+    alarmList, 
     newRecentNofitication,
   } = props
   
@@ -75,7 +77,7 @@ export default function CategoryAppBar(props) {
                 vertical: 'top',
                 horizontal: 'left',
               }}
-              badgeContent={newAlarmList.length}
+              badgeContent={alarmList.length}
               max={99}
               color='primary'
             >
@@ -97,7 +99,7 @@ export default function CategoryAppBar(props) {
               horizontal: 'right',
             }}
           >
-            <AlarmPopOver list={newAlarmList}/>
+            <AlarmPopOver alarmList={alarmList} onalarmRead={onalarmRead} onNoReturnAlarm={onNoReturnAlarm} />
           </Popover>
           
           <Button
