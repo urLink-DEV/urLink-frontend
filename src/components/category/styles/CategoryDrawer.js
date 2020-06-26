@@ -225,7 +225,8 @@ export const useStyles = makeStyles((theme) => ({
       right: 50
     },
     '.MuiListItem-gutters' : {
-      padding: 0
+      padding: 0,
+      margin: '20px 0'
     }
   }
 }))

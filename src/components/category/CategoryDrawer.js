@@ -277,6 +277,8 @@ export default function CategoryDrawer(props) {
       writeLink(overedTabId, filteredLinkList)
       setSelectedLinkList([])
       setDraggedHistory([])
+    } else {
+      draggedCategory.style.display='block'
     }
   }
 
