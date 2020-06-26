@@ -112,7 +112,7 @@ export default function CategoryCard(props) {
 
   return (
     <div className={classes.divRoot}>
-      <Card className={isSelected ? classes.selectedRoot : classes.root}
+      <Card className={!isSelected ? isEditable ? classes.editableRoot : classes.root : classes.selectedRoot}
         onClick={handleClickCard}
         onMouseEnter={handleMouseEnterCard}
         onMouseLeave={handleMouseLeaveCard}
@@ -169,7 +169,7 @@ export default function CategoryCard(props) {
           </CardContent>
           }
         </CardActionArea>
-        <CardActions className={classes.cardActions}>
+        <CardActions className={classes.cardActions} disableSpacing>
           <IconButton aria-label="favorites"
             onClick={handleClickFavorite}
           >

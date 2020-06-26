@@ -31,6 +31,12 @@ const useStyles = makeStyles({
     margin: 10,
     border: '1px solid #2083ff'
   },
+  editableRoot: {
+    position: 'relative',
+    width: 200,
+    margin: 10,
+    border: '1px solid #3cb043'
+  },
   cardOpenBtn: {
     position: 'absolute',
     top: 5,
@@ -76,15 +82,9 @@ const useStyles = makeStyles({
     'div.MuiDialogContent-root.MuiPickersModal-dialog': {
       padding: 0
     },
-    '.MuiCardActions-spacing > :not(:first-child)': {
-      marginLeft: 0,
-    },
     'div.MuiFormControl-marginNormal': {
       marginTop: 0,
       marginBottom: 0,
-    },
-    'button.MuiButtonBase-root.MuiIconButton-root.makeStyles-settingsIcon-347': {
-      marginLeft: 'auto',
     },
     'textarea.MuiInputBase-input.MuiInputBase-inputMultiline': {
       maxHeight: 45
