@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles'
+import mainBackground from '../../images/mainBackground2.png'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -12,8 +13,10 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundImage: 'linear-gradient(to top, #0260d8, #157cff 68%)'
-  },
+    backgroundImage: `url(${mainBackground}), linear-gradient(to top, #0260d8, #157cff 68%)`,
+    backgroundSize: '100%',
+  },    
+
   titleCenter: {
     // paddingTop: '100px',
     display: 'flex',

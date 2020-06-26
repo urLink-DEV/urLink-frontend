@@ -2,7 +2,7 @@ import { axios, api } from '../http'
 import queryData from '../queryData'
 
 const userAPI = {
-  get : ({}) => {
+  get : () => {
     try {
       const userRead = queryData["userRead"]
       return axios.get(api.MEMBER, userRead)
@@ -22,7 +22,7 @@ const userAPI = {
     }
   },
 
-  remove : ({}) => {
+  remove : () => {
     try {
       const userDelete = queryData["userDelete"]
       return axios.delete(api.MEMBER, userDelete)

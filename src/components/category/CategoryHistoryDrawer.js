@@ -12,6 +12,7 @@ import moveLink from '../../images/move.png';
 import CategorySearchPopOver from './CategorySearchPopOver'
 import CategoryHistoryDateTitle from './CategoryHistoryDateTitle'
 import CategoryHistory from './CategoryHistory'
+import Snackbar from '../Snackbar'
 
 export default function CategoryHistoryDrawer(props) {
   const classes = useStyles()
@@ -33,14 +34,14 @@ export default function CategoryHistoryDrawer(props) {
   const minTime = Date.now() - (dayAgo * 365) 
   const [historySearch, setHisotrySearch] = useState({
     text: '',
-    startTime: (new Date).getTime() - dayAgo,
-    endTime: (new Date).getTime(),
+    startTime: new Date().getTime() - dayAgo,
+    endTime: new Date().getTime(),
     maxResults: 0,
     scroll: true
   })
 
-  const [modalText, setModalText] = useState('')
-  const [modalOpen, setModalOpen] = useState(false)
+  const [alertText, setAlertText] = useState('')
+  const [alertOpen, setAlertOpen] = useState(false)
 
   const onHistoryDragStart = (e, link) => {
     const target = e.currentTarget
@@ -108,8 +109,8 @@ export default function CategoryHistoryDrawer(props) {
       setHisotrySearch({
         ...historySearch,
         text: '',
-        startTime: (new Date).getTime() - dayAgo,
-        endTime: (new Date).getTime(),
+        startTime: new Date().getTime() - dayAgo,
+        endTime: new Date().getTime(),
         maxResults: 0,
         scroll: true
       })
@@ -123,8 +124,8 @@ export default function CategoryHistoryDrawer(props) {
     setHisotrySearch({
       ...historySearch,
       text: '',
-      startTime: (new Date).getTime() - dayAgo,
-      endTime: (new Date).getTime(),
+      startTime: new Date().getTime() - dayAgo,
+      endTime: new Date().getTime(),
       maxResults: 0,
       scroll: true
     }) 
@@ -133,7 +134,7 @@ export default function CategoryHistoryDrawer(props) {
   const onPressEnterSearchHistory = (e) => {
     const { keyCode } = e
     const { value } = e.target
-    let startTime = (new Date).getTime() - dayAgo
+    let startTime = new Date().getTime() - dayAgo
     let scroll = true
     if (keyCode === 13) {
       if(value) startTime = 0
@@ -144,7 +145,7 @@ export default function CategoryHistoryDrawer(props) {
         ...historySearch,
         text: value,
         startTime,
-        endTime: (new Date).getTime(),
+        endTime: new Date().getTime(),
         scroll
       })
     }
@@ -164,10 +165,9 @@ export default function CategoryHistoryDrawer(props) {
     }
   }
 
-  const onCloseModal = (e) => {
-    e.preventDefault()
-    setModalText('')
-    setModalOpen(false)
+  const onCloseAlert = () => {
+    setAlertText('')
+    setAlertOpen(false)
   }
 
   useEffect(() => {
@@ -193,8 +193,8 @@ export default function CategoryHistoryDrawer(props) {
   }, [historySearch])
 
   useEffect(() => {
-    if(modalText) setModalOpen(!modalOpen)
-  },[modalText])
+    if(alertText) setAlertOpen(!alertOpen)
+  },[alertText])
 
   return (
     <>
@@ -261,7 +261,7 @@ export default function CategoryHistoryDrawer(props) {
                       onHistoryDragStart={onHistoryDragStart}
                       onHistoryDragEnd={onHistoryDragEnd}
                       onLinkClick={onLinkClick}
-                      setModalText={setModalText}
+                      setAlertText={setAlertText}
                     />
                   </Fragment>
                 )
@@ -279,6 +279,11 @@ export default function CategoryHistoryDrawer(props) {
             : null
         }
       </div>
+      <Snackbar
+        alertText={alertText}
+        open={alertOpen}
+        handleClose={onCloseAlert}
+      />
     </>
   )
 }
