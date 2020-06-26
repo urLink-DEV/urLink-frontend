@@ -22,10 +22,11 @@ export default function CategoryAppBar(props) {
     setDraggedHistoryList, 
     selectedLinkList,
     setSelectedLinkList,
-    onalarmRead,
+    onAlarmRead,
     onNoReturnAlarm,
     alarmList, 
     newRecentNofitication,
+    getUser,
   } = props
   
   const [historyDrawerOpen, setHistoryDrawerOpen] = useState(false) // * history
@@ -99,7 +100,10 @@ export default function CategoryAppBar(props) {
               horizontal: 'right',
             }}
           >
-            <AlarmPopOver alarmList={alarmList} onalarmRead={onalarmRead} onNoReturnAlarm={onNoReturnAlarm} />
+            <AlarmPopOver alarmList={alarmList} 
+              onAlarmRead={onAlarmRead} 
+              onNoReturnAlarm={onNoReturnAlarm} 
+            />
           </Popover>
           
           <Button
@@ -134,7 +138,7 @@ export default function CategoryAppBar(props) {
               horizontal: 'right',
             }}
           >
-            <ProfileContext>
+            <ProfileContext getUser={getUser}>
               <ProfilePopOver />
             </ProfileContext>
           </Popover>

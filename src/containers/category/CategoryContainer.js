@@ -11,6 +11,7 @@ import linkAPI from '../../commons/apis/link'
 import historyAPI from '../../commons/chromeApis/history'
 import alarmSocket from '../../commons/apis/alarmSocket'
 import alarmAPI from '../../commons/apis/alarm'
+import userAPI from '../../commons/apis/user'
 
 // * Category context API
 const CategoryStateContext = createContext(null)
@@ -170,6 +171,18 @@ export default function CategoryContainer() {
     }
   }
 
+  // * 유저 정보
+  const getUser = () => {
+    const get = userAPI.get({})
+    if (get) {
+      return get.then((response) => {
+        
+        return response
+      })
+        .catch((error) => console.warn("response" in error ? error.response.data.message : error))
+    }
+  }
+
   // * 드래그된 히스토리 target
   const [draggedHistoryList, setDraggedHistoryList] = useState([])
   const [selectedLinkList, setSelectedLinkList] = useState([])
@@ -202,6 +215,8 @@ export default function CategoryContainer() {
     alarmList,
     getProfileData,
     newRecentNofitication,
+
+    getUser,
   }
 
   useEffect(() => {

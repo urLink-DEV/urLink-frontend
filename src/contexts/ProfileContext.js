@@ -1,18 +1,23 @@
 import React, { useState, useEffect, createContext, useContext } from 'react'
+import DefaultImg from '../images/logo/profileImg.png'
 
 const ProfileContext = createContext({})
 export const useProfileContext = () => useContext(ProfileContext)
 
 const Profile = (props) => {
 
+  const {getUser} = props
+  
   const [profile, setProfile] = useState({name: '', email: '', img: ''})
-  console.log(profile)
   useEffect(() => {
-    setProfile({
-      name: '녹챠챠',
-      email: 'isoo7510@gmail.com',
-      img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-    })
+    getUser()
+      .then(res => res.data)
+      .then(res => setProfile({
+        name: res.username,
+        email: res.email,
+        img: DefaultImg,
+      }))
+    
   }, [])
   
   return (
