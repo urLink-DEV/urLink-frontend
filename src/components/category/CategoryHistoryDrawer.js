@@ -72,7 +72,7 @@ export default function CategoryHistoryDrawer(props) {
       setSelectedLinkList(selectedLinkList => selectedLinkList.filter(selectedLink => selectedLink.id !== id))
       setDraggedHistoryList(draggedHistoryList => draggedHistoryList.filter(historyDOM => historyDOM !== target))
     }
-    else {
+    else {  
       setSelectedLinkList(selectedLinkList => selectedLinkList.concat({ id, path }))
       setDraggedHistoryList(draggedHistoryList => draggedHistoryList.concat(target))
     }
