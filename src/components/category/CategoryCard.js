@@ -113,7 +113,6 @@ export default function CategoryCard(props) {
 
   const handleClickEditDone = e => {
     e.stopPropagation()
-    console.log(editableTitle, editableDesc, 'done')
     updateLink({id, category, title: editableTitle, description: editableDesc})
     setIsEditable(false)
   }

@@ -537,10 +537,9 @@ export default function CategoryDrawer(props) {
   const [isReset, setIsReset] = useState(false)
 
   const handleClickExceptCard = useCallback((ref) => {
-    if (ref.current === ref.target) {
-      console.log("You clicked just me!")
+      console.log(ref, "You clicked just me!")
+      setIsReset(true)
       return
-    }
   })
 
   useEventListener('click', handleClickExceptCard)
