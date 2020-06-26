@@ -1,5 +1,5 @@
 /* global chrome */
-import React, { useState , useEffect, Fragment, useRef} from 'react'
+import React, { useState , useEffect, Fragment, useRef, useCallback} from 'react'
 import clsx from 'clsx'
 
 import useStyles from './styles/CategoryHistoryDrawer'
@@ -12,6 +12,7 @@ import moveLink from '../../images/move.png';
 import CategorySearchPopOver from './CategorySearchPopOver'
 import CategoryHistoryDateTitle from './CategoryHistoryDateTitle'
 import CategoryHistory from './CategoryHistory'
+import useEventListener from '../../hooks/useEventListener'
 
 export default function CategoryHistoryDrawer(props) {
   const classes = useStyles()
@@ -43,6 +44,7 @@ export default function CategoryHistoryDrawer(props) {
   const [modalOpen, setModalOpen] = useState(false)
 
   const onHistoryDragStart = (e, link) => {
+    e.stopPropagation()
     const target = e.currentTarget
     const { id, url: path } = link
     if(target.classList.contains('history-list')){
@@ -58,11 +60,13 @@ export default function CategoryHistoryDrawer(props) {
 
   const onHistoryDragEnd = (e, _link) => {
     e.preventDefault()
+    e.stopPropagation()
     setIsHistoryDrag(false)
   }
 
   const onLinkClick = (e, link) => {
     e.preventDefault()
+    e.stopPropagation()
     const { id, url: path } = link
     const target = e.currentTarget
     // const isSelectedHistoryDOM = (history) => draggedHistory.includes(history)
@@ -80,6 +84,7 @@ export default function CategoryHistoryDrawer(props) {
 
   const onTabOpenClick = (e) => {
     e.preventDefault()
+    e.stopPropagation()
     if(!chrome.tabs){
       selectedLinkList.forEach(link =>  window.open(link.url)) // * not working multiple new Tab
     }
@@ -92,6 +97,7 @@ export default function CategoryHistoryDrawer(props) {
   }
 
   const onHistoryDrawerTransitionEnd = (e) => {
+    e.stopPropagation()
     if(e.currentTarget !== e.target) return
     if (historyDrawerOpen) {
       const {text, startTime, endTime, maxResults} = historySearch;
@@ -102,7 +108,6 @@ export default function CategoryHistoryDrawer(props) {
       })
     }
     else {
-      setSelectedLinkList([])
       setLinkList([])
       setSelectedLinkList([])
       setHisotrySearch({
@@ -118,6 +123,7 @@ export default function CategoryHistoryDrawer(props) {
 
   const onInintClik = (e) => {
     e.preventDefault()
+    e.stopPropagation()
     setLinkList([])
     setSelectedLinkList([])
     setHisotrySearch({
@@ -131,6 +137,7 @@ export default function CategoryHistoryDrawer(props) {
   }
   
   const onPressEnterSearchHistory = (e) => {
+    e.stopPropagation()
     const { keyCode } = e
     const { value } = e.target
     let startTime = (new Date).getTime() - dayAgo
@@ -151,6 +158,7 @@ export default function CategoryHistoryDrawer(props) {
   } 
 
   const onHistoryDrawerScroll = (e) => {
+    e.stopPropagation()
     const scrollTop = e.currentTarget.scrollTop
     const scrollHeight = e.currentTarget.scrollHeight
     const clientHeight = e.currentTarget.clientHeight
@@ -166,9 +174,17 @@ export default function CategoryHistoryDrawer(props) {
 
   const onCloseModal = (e) => {
     e.preventDefault()
+    e.stopPropagation()
     setModalText('')
     setModalOpen(false)
   }
+
+  const handleClickExceptHistory = useCallback(() => {
+    setSelectedLinkList([])
+    return 
+  })
+
+  useEventListener('click', handleClickExceptHistory)
 
   useEffect(() => {
     if (historyDrawerOpen && (minTime < historySearch.startTime || !historySearch.startTime)) {

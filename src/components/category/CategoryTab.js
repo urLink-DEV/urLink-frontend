@@ -32,11 +32,13 @@ export default function CategoryTab(props) {
     setCategoryTitle(event.target.value)
   }
 
-  const onDoubleClick = () => {
+  const onDoubleClick = (e) => {
+    e.stopPropagation()
     setDisabled(!disabled)
   }
 
   const updateText = (e) => {
+    e.stopPropagation()
       if (e.keyCode === 13) {
         if (!e.target.value) {
           dispatch.updateCategory(id, prevCategoryTitle, order, isFavorited)
