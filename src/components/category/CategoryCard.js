@@ -25,7 +25,6 @@ export default function CategoryCard(props) {
   const {updateLink} = useLinkDispatch()
   const {handleSelectedCard, isReset, setIsReset, writeAlarm} = props
   const {id, category, path, image_path, title, description, is_favorited, has_alarms, key} = props.linkInfo
-  const [selectedDate, setSelectedDate] = useState(new Date())
   const [hover, setHover] = useState(false)
   const [isSelected, setIsSelected] = useState(false)
   const [copySuccessAlert, setCopySuccessAlert] = useState(false)
@@ -69,6 +68,7 @@ export default function CategoryCard(props) {
   }
 
   const handleClickFavorite = e => {
+    setIsReset(true)
     updateLink({id, category, is_favorited: !Boolean(is_favorited)})
   }
 
@@ -87,7 +87,6 @@ export default function CategoryCard(props) {
   }
 
   const handleSetAlarm = date => {
-    setSelectedDate(date)
     writeAlarm(`${category}-${id}`,
       category,
       id, 
