@@ -209,8 +209,6 @@ export default function CategoryDrawer(props) {
   const [overedTabFavorite, setOveredTabFavorite] = useState(null)
   const [dragHistoryFinished, setDragHistoryFinished] = useState(false)
 
-  const listRef = useRef()  
-
   const dragStart = (e, id, name, order) => {
     const target = e.currentTarget
     setDraggedTargetData({
@@ -313,6 +311,8 @@ export default function CategoryDrawer(props) {
     아래는 외부영역 클릭시 버튼 토글 & 드래그 시작/끝날 때 애니메이션 css 토글
   */
 
+  
+  const listRef = useRef()  
   const wrapperRef = useRef(null)
   const timeId = useRef()
 
@@ -321,6 +321,9 @@ export default function CategoryDrawer(props) {
     // * change add&delete button state if clicked on outside of element
     function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setAddOpen(true)
+        setDeleteOpen(false)
+      } else if (listRef.current && !listRef.current.contains(event.target)) {
         setAddOpen(true)
         setDeleteOpen(false)
       } 
