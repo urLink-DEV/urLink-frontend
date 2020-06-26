@@ -3,19 +3,30 @@ import Paper from '@material-ui/core/Paper'
 import InputBase from '@material-ui/core/Input'
 import {useCategoryDispatch} from '../../containers/category/CategoryContainer'
 import useStyles from './styles/CategoryTab'
+import star from '../../images/star.svg'
 
+export default function CategoryTab({
+  text, 
+  id, 
+  order, 
+  isFavorited, 
+  urlCount, 
+  selected, 
+  dragFinished, 
+  historyDragFinished, 
+  setSelectedCategoryTitle}) {
 
-export default function CategoryTab({text, id, order, isFavorited, urlCount, selected, dragFinished, historyDragFinished, setSelectedCategoryTitle}) {
   const classes = useStyles()
 
   const dispatch = useCategoryDispatch()
-  const [value, setValue] = useState(text)
+  const [categoryTitle, setCategoryTitle] = useState(text)
+  const [prevCategoryTitle, setPrevCategoryTitle] = useState(text)
   const [disabled, setDisabled] = useState(true)
 
   const inputRef = useRef()
 
   const handleChange = (event) => {
-    setValue(event.target.value)
+    setCategoryTitle(event.target.value)
   }
 
   const onDoubleClick = () => {
@@ -24,34 +35,57 @@ export default function CategoryTab({text, id, order, isFavorited, urlCount, sel
 
   const updateText = (e) => {
       if (e.keyCode === 13) {
-        dispatch.updateCategory(id, value, order, isFavorited )
-        setDisabled(!disabled)
-        setSelectedCategoryTitle(value)
+        if (e.target.value === '') {
+          dispatch.updateCategory(id, prevCategoryTitle, order, isFavorited)
+          .then(() => dispatch.getCategory())
+          setDisabled(!disabled)
+          setSelectedCategoryTitle(prevCategoryTitle)
+          setCategoryTitle(prevCategoryTitle)
+        } else {
+          dispatch.updateCategory(id, categoryTitle, order, isFavorited)
+          .then(() => dispatch.getCategory())
+          setDisabled(!disabled)
+          setSelectedCategoryTitle(categoryTitle)
+        }
       }
   }
 
   useEffect(() => {
-    if(disabled === false) inputRef.current.children[0].focus()
-  },[disabled])
+    if (!disabled) inputRef.current.children[0].focus()
+
+    if (!selected && !disabled) {
+      dispatch.updateCategory(id, prevCategoryTitle, order, isFavorited)
+      .then(() => dispatch.getCategory())
+      setDisabled(!disabled)
+      setCategoryTitle(prevCategoryTitle)
+    }
+
+  },[disabled, categoryTitle, selected, prevCategoryTitle])
+
 
   return (
-    <div>
+    <div className={
+      classes.listItem
+      + (selected ? ' ' + classes.selected : '')
+      + (!disabled && selected ? ' ' + classes.modifying : '')}>
       <Paper 
         component="div" 
-        className={classes.root + (dragFinished || historyDragFinished ? ' dragFinished' : '') } 
+        className={classes.root + (dragFinished || historyDragFinished ? ' dragFinished' : '')
+} 
         id={`${id}`}
       >
-        <InputBase 
-          disableUnderline={true}
-          ref={inputRef}
-          className={classes.input + (selected ? ' selected': '')}
-          disabled={disabled}
-          onDoubleClick={onDoubleClick}
-          value={value}
-          onChange={handleChange}
-          onKeyDown={updateText}
-        />
-        <div className={classes.urlCountBox}>링크 {urlCount}개</div>
+      <InputBase 
+        disableUnderline={true}
+        ref={inputRef}
+        className={classes.input + (selected ? ' selected': '')}
+        disabled={disabled}
+        onDoubleClick={onDoubleClick}
+        value={categoryTitle}
+        onChange={handleChange}
+        onKeyDown={updateText}
+      />
+      <div className={classes.urlCountBox}>{urlCount} 링크</div>
+      {isFavorited ? <img className="favorite-star" alt="favorite-star" src={star} /> : ''}
       </Paper>
     </div>
   )

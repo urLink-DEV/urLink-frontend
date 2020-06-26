@@ -68,7 +68,7 @@ button {
 }
 
 .list-tab-layout hr {
-    display: inline-block;
+    display: inline-block !important;
     width: 100%;
     position: relative;
     top: 4px;
@@ -289,9 +289,8 @@ button {
     border-top: 1px solid rgba(0, 0, 0, 0.15);
 }
 
-
 .dragFinished {
-    position: relative;
+    position: relative
 }
 
 .dragFinished:before {
@@ -359,6 +358,59 @@ button {
     color: #fff !important;
     font-weight: bold;
 }
+
+// .dragFinished {
+//     color: #fff;
+//     background: linear-gradient(271deg, #e0f6ff, #2083ff);
+//     background-size: 100% 100%;
+//     -webkit-animation: CategoryFinishAnimate 17s ease infinite;
+//     -moz-animation: CategoryFinishAnimate 17s ease infinite;
+//     animation: CategoryFinishAnimate 17s ease infinite;
+// }
+
+// @-webkit-keyframes CategoryFinishAnimate {
+//     0% {
+//         background-position: 0% 50%
+//     }
+
+//     50% {
+//         background-position: 100% 50%
+//     }
+
+//     100% {
+//         background-position: 0% 50%
+//     }
+// }
+
+// @-moz-keyframes CategoryFinishAnimate {
+//     0% {
+//         background-position: 0% 50%
+//     }
+
+//     50% {
+//         background-position: 100% 50%
+//     }
+
+//     100% {
+//         background-position: 0% 50%
+//     }
+// }
+
+// @keyframes CategoryFinishAnimate {
+//     0% {
+//         background-position: 0% 50%
+//     }
+
+//     50% {
+//         background-position: 100% 50%
+//     }
+
+//     100% {
+//         background-position: 0% 50%
+//     }
+// }
+
+
 
 
 .MuiDialogContentText-root {

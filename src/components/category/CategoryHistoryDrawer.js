@@ -60,8 +60,6 @@ export default function CategoryHistoryDrawer(props) {
 
   const onHistoryDragEnd = (e, historyLinkID) => {
     e.preventDefault()
-    console.log('end')
-
     setIsHistoryDrag(false)
   }
 
@@ -110,6 +108,7 @@ export default function CategoryHistoryDrawer(props) {
       })
     }
     else {
+      setSelectedLinkList([])
       setLinkList([])
       setHisotrySearch({
         ...historySearch,
@@ -177,6 +176,8 @@ export default function CategoryHistoryDrawer(props) {
             }
           }
         })
+    } else {
+      setLinkList([])
     }
   },[historySearch])
 
