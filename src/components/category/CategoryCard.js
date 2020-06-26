@@ -87,6 +87,7 @@ export default function CategoryCard(props) {
   }
 
   const handleSetAlarm = date => {
+    setIsReset(true)
     writeAlarm(`${category}-${id}`,
       category,
       id, 
