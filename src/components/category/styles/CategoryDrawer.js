@@ -37,7 +37,7 @@ export const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     backgroundColor: 'rgba(53, 142, 255, 0.15)',
     height: '100%',
-    width: 'calc(100% - 630px)',
+    width: 'calc(100% - 600px)',
     paddingLeft: 259,
     zIndex: 1,
     display: 'none',
