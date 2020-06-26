@@ -163,7 +163,8 @@ export default function CategoryDrawer(props) {
     setAddOpen(true)
   }
   
-  const deleteTab = () => {
+  const deleteTab = (e) => {
+    e.preventDefault()
     deleteCategory(selectedCategoryId)
     .then(() => {
       setDeleteModalOpen(false)
@@ -187,7 +188,7 @@ export default function CategoryDrawer(props) {
     // getLink(selectedCategoryId)
   }
 
-  const toggleEnterTab = () => {
+  const openEnterTab = () => {
     setAddOpen(false)
     setEnterOpen(true)
   }
@@ -321,11 +322,10 @@ export default function CategoryDrawer(props) {
     // * change add&delete button state if clicked on outside of element
     function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        setAddOpen(true)
-        setDeleteOpen(false)
-      } else if (listRef.current && !listRef.current.contains(event.target)) {
-        setAddOpen(true)
-        setDeleteOpen(false)
+        if(enterOpen) {
+          setAddOpen(true)
+          setDeleteOpen(false)
+        }
       } 
     }
     document.addEventListener("mousedown", handleClickOutside)
@@ -406,7 +406,7 @@ export default function CategoryDrawer(props) {
         <hr />
         <Button className={classes.addButton + (addOpen ? '' : ' '+classes.hidden)} 
           variant="contained"
-          onClick={toggleEnterTab}
+          onClick={openEnterTab}
         >
           <AddCircleOutlineIcon style={{color: "#cccccc"}} />
         </Button>
@@ -489,7 +489,7 @@ export default function CategoryDrawer(props) {
       <div 
         className={
           clsx(classes.coverBackground, {
-            [classes.flex]: selectedLinkList.length !== 0
+            [classes.flex]: selectedLinkList.length
           })
         }
         onDrop={dropOnCardArea}

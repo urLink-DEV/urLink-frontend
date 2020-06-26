@@ -84,8 +84,12 @@ export default function CategoryTab({
         onChange={handleChange}
         onKeyDown={updateText}
       />
-      <div className={classes.urlCountBox}>{urlCount} 링크</div>
-      {isFavorited ? <img className="favorite-star" alt="favorite-star" src={star} /> : ''}
+      <div className={classes.linkBox}>
+        <div className={classes.urlCountBox + (!isFavorited ? ' ' + classes.marginRight : '')}>
+          {urlCount === 0 ? '링크 없음' : urlCount + ' 링크'} 
+        </div>
+        {isFavorited ? <img className={classes.favoriteStar} alt="favorite-star" src={star} /> : ''}
+      </div>
       </Paper>
     </div>
   )

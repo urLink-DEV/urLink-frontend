@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)",
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'space-between'
   },
   listItem: {
     display: 'block',
@@ -42,18 +43,27 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '4px'
   },
   urlCountBox : {
-    width: "25%",
     display: "inline-block",
     fontSize: 12,
     fontFamily: "SpoqaHanSans",
     color: "#868e96",
     textAlign: "center"
   },
+  favoriteStar: {
+    marginRight: '8px'
+  },
   block: {
     display: 'block'
   },
   hidden: {
     display: 'none'
+  },
+  marginRight: {
+    marginRight: '8px'
+  },
+  linkBox: {
+    display: 'flex',
+    alignItems: 'center'
   }
 }))
 
