@@ -60,14 +60,18 @@ export default function CategoryTab({
       setCategoryTitle(prevCategoryTitle)
     }
 
-  },[disabled, categoryTitle, selected])
+  },[disabled, categoryTitle, selected, prevCategoryTitle])
 
 
   return (
-    <div >
+    <div className={
+      classes.listItem
+      + (selected ? ' ' + classes.selected : '')
+      + (!disabled && selected ? ' ' + classes.modifying : '')}>
       <Paper 
         component="div" 
-        className={classes.root + (dragFinished || historyDragFinished ? ' dragFinished' : '') } 
+        className={classes.root + (dragFinished || historyDragFinished ? ' dragFinished' : '')
+} 
         id={`${id}`}
       >
       <InputBase 

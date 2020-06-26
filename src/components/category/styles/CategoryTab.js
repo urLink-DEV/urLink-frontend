@@ -7,6 +7,19 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
+  listItem: {
+    display: 'block',
+    width: 208,
+    borderRadius: 4,
+    padding: '0 !important',
+    margin: '10px 0 10px 0',
+    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#ffffff",
+    '&:hover': {
+      boxShadow: "0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12)"
+    },
+    outline: 'none'
+  },
   input: {
     padding:12,
     fontFamily: "SpoqaHanSans",
@@ -16,7 +29,17 @@ const useStyles = makeStyles((theme) => ({
   selected : {
     fontSize: 16,
     fontWeight: "bold",
-    color: '#2083ff'
+    color: '#2083ff',
+    width:210,
+    boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
+    border: "solid 1px #2083ff",
+    borderRadius: '4px'
+  },
+  modifying : {
+    width:210,
+    boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
+    border: 'solid 1px #3cb043',
+    borderRadius: '4px'
   },
   urlCountBox : {
     width: "25%",

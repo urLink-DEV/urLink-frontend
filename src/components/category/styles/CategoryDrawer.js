@@ -57,19 +57,6 @@ export const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
     margin: '0 63px 0 0',
   },
-  listItem: {
-    display: 'block',
-    width: 208,
-    borderRadius: 4,
-    padding: 0,
-    margin: '10px 0 20px 0',
-    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)",
-    backgroundColor: "#ffffff",
-    '&:hover': {
-      boxShadow: "0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12)"
-    },
-    outline: 'none'
-  },
   addButton: {
     width: 208,
     height: 52,
@@ -149,11 +136,6 @@ export const useStyles = makeStyles((theme) => ({
     fontFamily: "SpoqaHanSans",
     fontSize: 12
   },
-  selected: {
-    width:210,
-    boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
-    border: "solid 1px #2083ff"
-  },
   addLinkIcon: {
     color: '#358eff',
     width: 50,
@@ -222,7 +204,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   dragline: {
     width: 208,
-    margin: "20px 0",
+    margin: "10px 0",
     height: 2,
     borderRadius: 2,
     display: "none",
@@ -244,6 +226,9 @@ export const useStyles = makeStyles((theme) => ({
     },
     'div.makeStyles-drawerOpen-285': {
       right: 50
+    },
+    '.MuiListItem-gutters' : {
+      padding: 0
     }
   }
 }))

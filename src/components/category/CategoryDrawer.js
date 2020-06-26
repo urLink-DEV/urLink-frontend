@@ -373,7 +373,6 @@ export default function CategoryDrawer(props) {
               <ListItem 
                 key={data.id}
                 data-type='category' 
-                className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
                 onClick={() => handleClickCategory(data.id, data.name)}
                 draggable='true'
                 onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
@@ -434,7 +433,6 @@ export default function CategoryDrawer(props) {
               <ListItem 
                 key={data.id} 
                 data-type='category' 
-                className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
                 onClick={() => handleClickCategory(data.id, data.name)}
                 draggable='true'
                 onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
