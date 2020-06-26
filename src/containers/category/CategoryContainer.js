@@ -61,7 +61,7 @@ export default function CategoryContainer() {
 
   // * 카테고리 수정
   const updateCategory = (id, name, order, isFavorited) => {
-    const update = categoryAPI.update(id, name, order, isFavorited)
+    const update = categoryAPI.update({id, name, order, isFavorited})
     if(update) {
       return update.then(res => res) 
         .catch((error) => console.warn("response" in error ? error.response.data.message : error))

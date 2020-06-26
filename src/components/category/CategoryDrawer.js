@@ -135,18 +135,24 @@ export default function CategoryDrawer(props) {
 
   const pressEnter = (e) => {
     if (e.keyCode === 13) {
-      writeCategory(newCategoryTitle, false)
-      .then((res) => {
-        setSelectedCategoryId(res.data.id)
-        setSelectedCategoryTitle(res.data.name)
-        getLink(res.data.id)
-        return getCategory()
-      })
-      .then(() => {
-        setNewCategoryTitle('')
+      if (!newCategoryTitle) {
         setAddOpen(true)
         setEnterOpen(false)
-      })
+        setNewCategoryTitle('')
+      } else {
+        writeCategory(newCategoryTitle, false)
+        .then((res) => {
+          setSelectedCategoryId(res.data.id)
+          setSelectedCategoryTitle(res.data.name)
+          getLink(res.data.id)
+          return getCategory()
+        })
+        .then(() => {
+          setNewCategoryTitle('')
+          setAddOpen(true)
+          setEnterOpen(false)
+        })
+      }
     }
   }
 
@@ -325,17 +331,17 @@ export default function CategoryDrawer(props) {
   useEffect(() => {
 
     // * change add&delete button state if clicked on outside of element
-    function handleClickOutside(event) {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        if(enterOpen) {
-          setAddOpen(false)
-        } else {
-          setAddOpen(true)
-          setDeleteOpen(false) 
-        }
-      } 
-    }
-    document.addEventListener("mousedown", handleClickOutside)
+    // function handleClickOutside(event) {
+    //   if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+    //     if(enterOpen) {
+    //       setAddOpen(false)
+    //     } else {
+    //       setAddOpen(true)
+    //       setDeleteOpen(false) 
+    //     }
+    //   } 
+    // }
+    // document.addEventListener("mousedown", handleClickOutside)
 
     // add Animation when finished dragging
     if(dragFinished) {
@@ -347,7 +353,7 @@ export default function CategoryDrawer(props) {
           ...draggedCategoryData,
           dragFinished: false
         })
-      }, 900)  
+      }, 1000)  
 
     } else if(dragHistoryFinished) {
       timeId.current = setTimeout(() => {
@@ -356,7 +362,7 @@ export default function CategoryDrawer(props) {
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
+      // document.removeEventListener("mousedown", handleClickOutside)
       clearTimeout(timeId.current)
     }
 
@@ -539,7 +545,6 @@ export default function CategoryDrawer(props) {
   const [selectedCardList, setSelectedCardList] = useState([])
   const [deleteSuccessAlert, setDeleteSuccessAlert] = useState(false)
   const [isReset, setIsReset] = useState(false)
-  console.log('selectedCardList', selectedCardList)
 
   useEffect(() => {
     if (isReset) {
@@ -553,7 +558,19 @@ export default function CategoryDrawer(props) {
       return
   })
 
+  const handleClickChangeDeleteTabBtn = useCallback((e) => {
+    e.stopPropagtion()
+    if(enterOpen) {
+      setAddOpen(false)
+    } else {
+      setAddOpen(true)
+      setDeleteOpen(false) 
+    }
+    return 
+  })
+
   useEventListener('click', handleClickExceptCard)
+  useEventListener('click', handleClickChangeDeleteTabBtn)
 
   const handleSelectedCard = linkObj => e => {
     if (selectedCardList.indexOf(linkObj) !== -1) {
