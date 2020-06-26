@@ -44,7 +44,9 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  toolbar: theme.mixins.toolbar,
+  toolbar: {
+    height: 40,
+  },
   drawerPaper: {
     width: drawerWidth,
     scrollbarWidth: 'none',
@@ -209,6 +211,10 @@ export const useStyles = makeStyles((theme) => ({
     borderRadius: 2,
     display: "none",
     backgroundImage: "linear-gradient(271deg, #e0f6ff, #2083ff)"
+  },
+  gridCard: {
+    padding: 0,
+    margin: 20,
   },
   '@global': {
     '.MuiFilledInput-inputMarginDense': {

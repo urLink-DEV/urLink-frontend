@@ -17,7 +17,7 @@ const linkAPI = {
     try {
       if(!Array.isArray(path)) throw new Error("path는 Array type이 필수 입니다.")
       let queryParams = getQueryParams({ category })
-      const linkWrite = Object.create(queryData["linkWrite"])
+      const linkWrite = Object.assign(queryData["linkWrite"])
       linkWrite.path = path
       return axios.post(api.LINK + queryParams, linkWrite)
     } catch (error) {
@@ -25,14 +25,17 @@ const linkAPI = {
     }
   },
   
-  update : ({ id, title, description, isFavorited }) => {
+  // linkInfo : Object { id, name, order, isFavorited }
+  update : (linkInfo) => {
     try {
+      const { id } = linkInfo
       let dashQueryParams = getDashQueryParams([id])
       if(!dashQueryParams) throw new Error(`link : ${id} Id는 필수 입니다.`)
-      const linkUpdate = Object.create(queryData["linkUpdate"])
-      linkUpdate.title = title
-      linkUpdate.description = description
-      linkUpdate.is_favorited = isFavorited
+      const linkUpdateKeys = Object.assign(queryData["linkUpdate"])
+      const linkUpdate = {}
+      Object.entries(linkInfo).forEach(([key, value]) => {
+        if (Object.getOwnPropertyNames(linkUpdateKeys).indexOf(key) > -1) linkUpdate[key] = value
+      })
       return axios.patch(api.LINK + dashQueryParams, linkUpdate)
     } catch (error) {
       console.warn(error)

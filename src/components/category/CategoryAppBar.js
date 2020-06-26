@@ -18,11 +18,13 @@ export default function CategoryAppBar(props) {
   const classes = useStyles()
   const { 
     getHistory, 
-    draggedHistory, 
-    setDraggedHistory, 
+    draggedHistoryList, 
+    setDraggedHistoryList, 
     selectedLinkList,
     setSelectedLinkList,
-    newAlarmList, 
+    onalarmRead,
+    onNoReturnAlarm,
+    alarmList, 
     newRecentNofitication,
   } = props
   
@@ -75,7 +77,7 @@ export default function CategoryAppBar(props) {
                 vertical: 'top',
                 horizontal: 'left',
               }}
-              badgeContent={newAlarmList.length}
+              badgeContent={alarmList.length}
               max={99}
               color='primary'
             >
@@ -97,7 +99,7 @@ export default function CategoryAppBar(props) {
               horizontal: 'right',
             }}
           >
-            <AlarmPopOver list={newAlarmList}/>
+            <AlarmPopOver alarmList={alarmList} onalarmRead={onalarmRead} onNoReturnAlarm={onNoReturnAlarm} />
           </Popover>
           
           <Button
@@ -141,8 +143,8 @@ export default function CategoryAppBar(props) {
 
       <CategoryHistoryDrawer
         getHistory={getHistory}
-        draggedHistory={draggedHistory} 
-        setDraggedHistory={setDraggedHistory}
+        draggedHistoryList={draggedHistoryList} 
+        setDraggedHistoryList={setDraggedHistoryList}
         selectedLinkList={selectedLinkList}
         setSelectedLinkList={setSelectedLinkList}
         historyDrawerOpen={historyDrawerOpen} 

@@ -16,26 +16,56 @@ export const DatePickerWithStyles = withStyles((theme) => ({
   },
 }))(KeyboardDateTimePicker);
 
+
 const useStyles = makeStyles({
   divRoot: {
     display: 'inline',
   },
   root: {
+    position: 'relative',
     width: 200,
-    margin: 10,
+  },
+  selectedRoot: {
+    position: 'relative',
+    width: 200,
+    border: '1px solid #2083ff'
+  },
+  editableRoot: {
+    position: 'relative',
+    width: 200,
+    border: '1px solid #3cb043'
+  },
+  cardOpenBtn: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    padding: 0,
   },
   cardContent: {
     height: 80,
     padding: 5,
   },
   cardContentTitle: {
+    height: 20,
     fontSize: 14,
   },
   cardContentDesc: {
+    height: 45,
+    fontSize: 12,
+  },
+  edittingCardContentTitle: {
+    height: 20,
+    fontSize: 14,
+  },
+  edittingCardContentDesc: {
+    maxHeight: 45,
     fontSize: 12,
   },
   cardActions: {
     padding: 5
+  },
+  settingsIcon: {
+    marginLeft: 'auto'
   },
   '@global': {
     'div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-2': {
@@ -50,13 +80,13 @@ const useStyles = makeStyles({
     'div.MuiDialogContent-root.MuiPickersModal-dialog': {
       padding: 0
     },
-    '.MuiCardActions-spacing > :not(:first-child)': {
-      marginLeft: 0,
-    },
     'div.MuiFormControl-marginNormal': {
       marginTop: 0,
       marginBottom: 0,
     },
+    'textarea.MuiInputBase-input.MuiInputBase-inputMultiline': {
+      maxHeight: 45
+    }
   }
 });
 

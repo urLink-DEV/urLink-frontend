@@ -55,15 +55,25 @@ const userAPI = {
   },
 
   gRegister: ({ token }) => {
-    const gRegister = queryData['g_register']
-    gRegister.token = token
-    return axios.post(api.G_MEMBER_REGISTER, gRegister)
+    try {
+      if (!token) throw new Error(` token: ${token}은 필수 값 입니다.`)
+      const gRegister = queryData['g_register']
+      gRegister.token = token
+      return axios.post(api.G_MEMBER_REGISTER, gRegister)
+    } catch (error) {
+      console.warn(error);
+    }
   },
 
   gLogin: ({ token }) => {
-    const gLogin = queryData['g_login']
-    gLogin.token = token
-    return axios.post(api.G_MEMBER_LOGIN, gLogin)
+    try {
+      if(!token) throw new Error(` token: ${token}은 필수 값 입니다.`)
+      const login = queryData['g_login']
+      login.token = token
+      return axios.post(api.G_MEMBER_LOGIN, login)
+    } catch (error) {
+      console.warn(error);
+    }
   }
 }
 export default userAPI

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import alaramAPI from '../commons/apis/alaram';
+import alarmAPI from '../commons/apis/alarm';
 /*
  * category: 225
  * created_at: "2020-06-21T14:59:01.162445+09:00"
@@ -27,7 +27,7 @@ export default function UrlTabTest() {
 
   // * 전체 알람 리스트 가져오기
   const getAlarm = () => {
-    const get = alaramAPI.get({  })
+    const get = alarmAPI.get({  })
     if (get) {
       get.then((response) => {
         setAlarmLink([...response.data])
@@ -38,7 +38,7 @@ export default function UrlTabTest() {
 
   // * 알람 작성
   const writeAlarm = (name, category, url, year, month, day, hour, minute) => {
-    const write = alaramAPI.write({ name, category, url, year, month, day, hour, minute })
+    const write = alarmAPI.write({ name, category, url, year, month, day, hour, minute })
     if (write) {
       write.then((response) => {
         getAlarm()
@@ -49,7 +49,7 @@ export default function UrlTabTest() {
 
   // * 알람 삭제
   const deleteAlarm = (id) => {
-    const remove = alaramAPI.remove({ id })
+    const remove = alarmAPI.remove({ id })
     if (remove) {
       remove.then((response) => {
         if (response.status === 204) {

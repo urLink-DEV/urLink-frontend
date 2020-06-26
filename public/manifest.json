@@ -2,6 +2,7 @@
   "name": "urLink",
   "version": "1.0",
   "manifest_version": 2,
+  "description": "url collection",
   "permissions": [
     "tabs", 
     "activeTab",
@@ -22,7 +23,8 @@
     "default_popup": "popup.html"
   },
   "background" : {
-    "scripts" : ["background.js"]
+    "scripts" : ["background.js"],
+    "persistent": false
   },
   "oauth2": {
     "client_id": "683415540436-aimi7aksc043mre0pdj2nejtr08fkchs.apps.googleusercontent.com",
@@ -31,9 +33,6 @@
       "profile",
       "email"
     ]
-  },
-  "chrome_url_overrides" : {
-    // "newtab": "index.html"
   },
   "content_security_policy": "script-src 'self' https://apis.google.com 'sha256-34M3HxxCd7web+UMuTvWUlRtVdx6QrTGItv3k4d183Y='; object-src 'self'"
 }

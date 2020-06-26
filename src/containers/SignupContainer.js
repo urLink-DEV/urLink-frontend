@@ -28,21 +28,22 @@ export default function SignupContainer() {
 
   const onClickGoogleSignup = e => {
     chrome.identity.getAuthToken({interactive: true}, token => {
-      userAPI.gRegister(token)
-        .then(res => {
-          if (res.status >= 400 && retry) {
-            retry = false
-            return chrome.identity.removeCachedAuthToken({token}, onClickGoogleSignup)
-          }
-          else {
-            auth.setAccessToken(res.data.token)
-            setModalText("성공적으로 가입되었습니다!")
-            window.location.href = "/index.html"
-          }
+      const gRegister = userAPI.gRegister({token})
+      if(gRegister){
+        gRegister.then(res => {
+          auth.setAccessToken(res.data.token)
+          setModalText("성공적으로 가입되었습니다!")
+          window.location.href = "/index.html"
         })
         .catch(error => {
-          setModalText(error.response.data.message)
+	        const status = error.response && (error.response.status || "")
+          if (status >= 400 && retry) {
+            retry = false;
+            chrome.identity.removeCachedAuthToken({token}, onClickGoogleSignup);
+          }
+          else setModalText(error.response.data.message)
         })
+      }
     })
   }
 
