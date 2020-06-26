@@ -28,7 +28,7 @@ export default function CategorySearchPopOver(props) {
         className={classes.searchBtn}
         aria-describedby={id}
         onClick={handlePopOverClick}>
-        <img src={SearchIcon} className={classes.searchIcon}/>
+        <img src={SearchIcon} className={classes.searchIcon} alt="search icon"/>
         <span className={classes.searchBtnText}>Search</span>
       </button>
       <Popover

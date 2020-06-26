@@ -102,11 +102,7 @@ export default function CategoryDrawer(props) {
     const { value } = e.target
     let path, title
     if (keyCode === 13) {
-      if (toggleAlignment === 'left') {
-        path = value
-        title = value
-      }
-      else if (toggleAlignment === 'center') path = value
+      if (toggleAlignment === 'left') path = value
       else if (toggleAlignment === 'right') title = value
       setSearchValue(value)
       getLink(selectedCategoryId, path, title)
@@ -510,13 +506,6 @@ export default function CategoryDrawer(props) {
           >
             <ToggleButton className={classes.popoverBtn}
               value='left'
-              variant='contained'
-              size='small'
-            >
-              전체
-            </ToggleButton>
-            <ToggleButton className={classes.popoverBtn}
-              value='center'
               variant='contained'
               size='small'
             >

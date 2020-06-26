@@ -7,14 +7,14 @@ import linkCopy from '../../images/link-copy.svg'
 import newTab from '../../images/new-tab.svg'
 
 import useStyles from './styles/CategoryHistory'
-
 export default function CategoryHistory(props) {
   const { 
     onHistoryDragStart, 
     onHistoryDragEnd, 
     onLinkClick,
     selectedLinkList,
-    link
+    link,
+    setAlertText
   } = props
 
   const classes = useStyles()
@@ -37,12 +37,14 @@ export default function CategoryHistory(props) {
 
   const onLinkCopy = (e) => {
     e.preventDefault()
+    e.stopPropagation()
     const copyElement = document.createElement('textarea')
     copyElement.value = link.url
     document.body.appendChild(copyElement)
     copyElement.select()
     document.execCommand("copy")
     document.body.removeChild(copyElement)
+    setAlertText("링크가 복사 되었습니다.")
   }
 
   return (
