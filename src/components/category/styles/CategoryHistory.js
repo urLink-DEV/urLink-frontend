@@ -18,20 +18,21 @@ const useStyles = makeStyles(theme => ({
   linkDiv: {
     '&:hover': {
       boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12)',
-      "& $linkDivSubFont": {
-        width: "127px"
-      },
+      // "& $linkDivSubFont": {
+      //   width: "127px"
+      // },
       "& $linkIcon" : {
-        display: "inline"
+      visibility: "visible",
       }
     },
     width: '527px',
     fontFamily: 'SpoqaHanSans',
     borderRadius: '4px',    
     padding: '5px 12px 5px 12px',
-    margin: '10px 0',
+    margin: '13px 0',
     backgroundColor: '#ffffff',
-    boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.12)'
+    boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.12)', 
+    border: 'solid 1px rgba(32, 131, 255, 0)'
   },
   linkFavicon: {
     width: '16px',
@@ -69,7 +70,8 @@ const useStyles = makeStyles(theme => ({
     overflow: 'hidden', 
     textOverflow: 'ellipsis',
 
-    width: '157px',
+    width: '127px',
+    
     height: '19px',
     fontSize: '14px',
     fontWeight: 'normal',
@@ -80,13 +82,13 @@ const useStyles = makeStyles(theme => ({
     color: '#737b84'
   },
   linkIcon: {
-    display: "none",
+    visibility: "hidden",
     '&:hover': {
       cursor: 'pointer'
     }
   },
   selectedDiv: {
-    border: 'solid 1px #2083ff'
+    border: 'solid 1px rgba(32, 131, 255, 1)'
   },
   copyTextArea: {
     display: 'none'
