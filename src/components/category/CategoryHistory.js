@@ -14,28 +14,29 @@ export default function CategoryHistory(props) {
     onHistoryDragEnd, 
     onLinkClick,
     selectedLinkList,
-    isHistoryDrag,
-    link, 
-    key
+    link
   } = props
   const classes = useStyles()
 
   const [favicon, setFavicon] = useState(`https://www.google.com/s2/favicons?domain=${link.hostName}`)
-  const [historyDragFinished, setHistoryDragFinished] = useState(false)
-  
   const onError = () => { setFavicon(logo) }
 
   const onAnchorClick = (e) => {
     e.preventDefault()
-    chrome.tabs.create({
-      selected: true,
-      url: link.url
-    })
+    if(!chrome.tabs){
+      window.open(link.url)
+    }
+    else {
+      chrome.tabs.create({
+        selected: true,
+        url: link.url
+      })
+    }
   }
 
   const onLinkCopy = (e) => {
     e.preventDefault()
-    var copyElement = document.createElement('textarea')
+    const copyElement = document.createElement('textarea')
     copyElement.value = link.url
     document.body.appendChild(copyElement)
     copyElement.select()
@@ -48,7 +49,6 @@ export default function CategoryHistory(props) {
       className={
         clsx(classes.linkDiv, 'history-list', {
         [classes.selectedDiv]: selectedLinkList.filter(list => list.id === link.id).length > 0,
-        [historyDragFinished]: 'dragFinished'
         }
       )}
       data-type='link'
@@ -57,7 +57,6 @@ export default function CategoryHistory(props) {
       onDragStart={(e) => onHistoryDragStart(e, link.url, link.id)}
       onDragEnd={(e) => {
         onHistoryDragEnd(e, link.id)
-        setHistoryDragFinished(true)
       }}
     >
       <img className={classes.linkFavicon} onError={onError} src={favicon} alt={link.title} title={link.title}></img>

@@ -93,7 +93,7 @@ const EventListener = {
 const Template = {
   category: (element) => {
     return (`
-      <a class="category-card" data-categoryId=${element.id} id="category${element.id}">
+      <a class="category-card" data-categoryId=${element.id} id="category${element.id}" title="${element.name}" alt="${element.name}">
         <div class="category-card-text">${element.name}</div>
         <div class="tab-text">${element.url_count ? element.url_count + " 링크" : "링크 없음"}</div>
         ${element.is_favorited ? '<img src="images/group-27.svg">' : ""}

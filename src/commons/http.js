@@ -12,38 +12,13 @@ import queryData from './queryData'
  * * Header parameter name: Authorization
 */
 
-const api = {
-	GET_TOKEN: "user/token/", // * 토근 생성
-	UPDATE_TOKEN: "user/token/refresh/", // * 토큰 갱신
-	CHECK_TOKEN: "user/token/verify/", // * 토큰 검사
-
-	G_MEMBER_REGISTER: "user/google/sign-up/", // * 구글 회원가입
-	G_MEMBER_LOGIN: "user/google/sign-in/", // * 구글 로그인
-
-	N_MEMBER_REGISTER: "user/sign-up/", // * 일반 회원가입
-	N_MEMBER_LOGIN: "user/sign-in/", // * 일반 로그인
-	
-	MEMBER_LOGOUT: "user/sign-out/", // * 로그아웃
-
-	MEMBER: "user/", // * 회원정보 관련
-
-	READ_CATEGORY: "category/", // * 카테고리 리스트 조회
-	WRITE_CATEGORY: "category/", // * 카테고리 등록
-	UPDATE_CATEGORY: "category/", // * 카테고리 수정
-	DELETE_CATEGORY: "category/", // * 카테고리 삭제
-
-	READ_LINK: "url/", // * URl 리스트 조회
-	WRITE_LINK: "url/", // * URL 등록
-	DELETE_LINK: "url/" // * URL 삭제 
-	
-}
-
 const axiosSetting = {
     scheme: "http",
-    host: "15.165.198.243/api/v1",
+		host: "15.165.198.243",
+		api: "/api/v1",
     port: "",
     server: function() {
-		return (this.scheme ? this.scheme + ":" : "") + "//" + this.host + (this.port ? ":" + this.port : "")
+			return (this.scheme ? this.scheme + ":" : "") + "//" + this.host + this.api + (this.port ? ":" + this.port : "")
 	},
 	redirectPage: () => {
 		window.location.href = "/index.html"
@@ -108,4 +83,27 @@ axios.interceptors.response.use(function(response)  {
 	else return Promise.reject(error)
 })
 
+const api = {
+	GET_TOKEN: "user/token/", // * 토근 생성
+	UPDATE_TOKEN: "user/token/refresh/", // * 토큰 갱신
+	CHECK_TOKEN: "user/token/verify/", // * 토큰 검사
+
+	G_MEMBER_REGISTER: "user/google/sign-up/", // * 구글 회원가입
+	G_MEMBER_LOGIN: "user/google/sign-in/", // * 구글 로그인
+
+	N_MEMBER_REGISTER: "user/sign-up/", // * 일반 회원가입
+	N_MEMBER_LOGIN: "user/sign-in/", // * 일반 로그인
+	
+	MEMBER_LOGOUT: "user/sign-out/", // * 로그아웃
+
+	MEMBER: "user/",
+
+	CATEGORY: "category/",
+
+	LINK: "url/",
+
+	ALARAM: "alarm/",
+	
+	SOCKET_ALARAM: `ws://${axiosSetting.host}/ws/connection/`
+}
 export { axios , api }
