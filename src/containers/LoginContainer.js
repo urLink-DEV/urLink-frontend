@@ -26,20 +26,23 @@ export default function LoginContainer() {
 
   const onClickGoogleLogin = e => {
     chrome.identity.getAuthToken({interactive: true}, token => {
-      userAPI.gLogin(token)
-        .then(res => {
-          if (res.status >= 400 && retry) {
+      const gLogin = userAPI.gLogin({token})
+      if(gLogin) {
+        gLogin.then(res => {
+          console.log("ss", res)
+          auth.setAccessToken(res.data.token)
+          window.location.href = "/index.html"
+        })
+        .catch(error => {
+	        const status = error.response && (error.response.status || "")
+          if (status >= 400 && retry) {
             retry = false;
             chrome.identity.removeCachedAuthToken({token}, onClickGoogleLogin);
           }
-          else {
-            auth.setAccessToken(res.data.token)
-            window.location.href = "/index.html"
-          }
+          else setModalText(error.response.data.message)
         })
-        .catch(error => {
-          setModalText(error.response.data.message)
-        })
+      }
+
     })
   }
 
