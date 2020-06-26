@@ -164,7 +164,6 @@ export default function CategoryDrawer(props) {
   }
   
   const deleteTab = (e) => {
-    e.preventDefault()
     deleteCategory(selectedCategoryId)
     .then(() => {
       setDeleteModalOpen(false)
@@ -278,6 +277,8 @@ export default function CategoryDrawer(props) {
       writeLink(overedTabId, filteredLinkList)
       setSelectedLinkList([])
       setDraggedHistoryList([])
+    } else {
+      draggedCategory.style.display='block'
     }
   }
 
@@ -323,8 +324,10 @@ export default function CategoryDrawer(props) {
     function handleClickOutside(event) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
         if(enterOpen) {
+          setAddOpen(false)
+        } else {
           setAddOpen(true)
-          setDeleteOpen(false)
+          setDeleteOpen(false) 
         }
       } 
     }
@@ -353,7 +356,7 @@ export default function CategoryDrawer(props) {
       clearTimeout(timeId.current)
     }
 
-  },[wrapperRef, draggedCategory, dragFinished, dragHistoryFinished])
+  },[wrapperRef, enterOpen, draggedCategory, dragFinished, dragHistoryFinished])
   
   const drawer = (
     <div>
