@@ -10,6 +10,7 @@ import categoryAPI from '../../commons/apis/category'
 import linkAPI from '../../commons/apis/link'
 import historyAPI from '../../commons/chromeApis/history'
 import alarmSocket from '../../commons/apis/alarmSocket'
+import alarmAPI from '../../commons/apis/alarm'
 
 // * Category context API
 const CategoryStateContext = createContext(null)
@@ -60,7 +61,7 @@ export default function CategoryContainer() {
 
   // * 카테고리 수정
   const updateCategory = (id, name, order, isFavorited) => {
-    const update = categoryAPI.update({ id, name, order, isFavorited })
+    const update = categoryAPI.update(id, name, order, isFavorited)
     if(update) {
       return update.then(res => res) 
         .catch((error) => console.warn("response" in error ? error.response.data.message : error))
@@ -103,7 +104,19 @@ export default function CategoryContainer() {
     }
   }
 
-  // * 카테고리 삭제
+  // * 링크 정보, 페보릿 수정
+  // linkInfo {id, category, title, description, isFavorited}
+  const updateLink = (linkInfo) => {
+    const update = linkAPI.update(linkInfo)
+    if (update) {
+      update.then(response => {
+        console.log('status value', response.status)
+        getLink(linkInfo.category)
+      }).catch((error) => console.warn("response" in error ? error.response.data.message : error))
+    }
+  }
+
+  // * 링크 삭제
   const deleteLink = (id, category, path, title) => {
     const remove = linkAPI.remove({ id })
     if (remove) {
@@ -121,7 +134,7 @@ export default function CategoryContainer() {
   }
 
   // * 알람 읽음
-  const onalarmRead = (id) => {
+  const onAlarmRead = (id) => {
     alarmSocket.alarmRead({id})
   }
   
@@ -130,6 +143,33 @@ export default function CategoryContainer() {
     alarmSocket.alarmNoReturn({id})
   }
   
+  // * 전체 알람 리스트 가져오기
+  // const getAlarm = () => {
+  //   const get = alarmAPI.get({  })
+  //   if (get) {
+  //     get.then((response) => {
+  //       setAlarmList([...response.data])
+  //     })
+  //       .catch((error) => console.warn("response" in error ? error.response.data.message : error))
+  //   }
+  // }
+
+  // * 알람 등록 하기
+  const writeAlarm = (name, category, url, year, month, day, hour, minute) => {
+    const write = alarmAPI.write({ name, category, url, year, month, day, hour, minute })
+    if (write) {
+      write.then((response) => {
+        // getAlarm()
+        if (response.status !== 201) {
+          console.error(response.message)
+          return
+        }
+        getLink(category)
+      })
+      .catch((error) => console.warn("response" in error ? error.response.data.message : error))
+    }
+  }
+
   // * 드래그된 히스토리 target
   const [draggedHistoryList, setDraggedHistoryList] = useState([])
   const [selectedLinkList, setSelectedLinkList] = useState([])
@@ -144,7 +184,8 @@ export default function CategoryContainer() {
   const linkDispatch = {
     getLink,
     writeLink,
-    deleteLink
+    deleteLink,
+    updateLink,
   }
 
   const props = {
@@ -154,7 +195,8 @@ export default function CategoryContainer() {
     setSelectedLinkList,
     setDraggedHistoryList,
     getHistory,
-    onalarmRead,
+    onAlarmRead,
+    writeAlarm,
     onNoReturnAlarm,
 
     alarmList,

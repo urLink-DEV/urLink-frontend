@@ -9,7 +9,7 @@ let server = null
 const alarmSocket = {
   onmessage: (callback) => {
     try{
-      server = new WebSocket(api.SOCKET_ALARAM+queryParams)
+      server = new WebSocket(api.SOCKET_ALARM+queryParams)
       if(callback && typeof callback === "function") server.onmessage = callback
       else {
         server.onmessage = function(e) {

@@ -44,9 +44,9 @@ const api = {
 
 	LINK: "url/",
 
-	ALARAM: "alarm/",
+	ALARM: "alarm/",
 	
-	SOCKET_ALARAM: `ws://${axiosSetting.host}/ws/connection/`
+	SOCKET_ALARM: `ws://${axiosSetting.host}/ws/connection/`
 }
 
 const axios = Axios.create({
