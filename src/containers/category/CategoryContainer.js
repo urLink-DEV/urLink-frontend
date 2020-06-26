@@ -42,6 +42,7 @@ export default function CategoryContainer() {
     const get = categoryAPI.get({ id })
     if (get) {
       get.then((response) => setCategory([...response.data]))
+      return get.then((response) => response)
         .catch((error) => console.warn("response" in error ? error.response.data.message : error))
     }
   }
@@ -50,7 +51,7 @@ export default function CategoryContainer() {
   const writeCategory = (name, isFavorited) => {
     const write = categoryAPI.write({ name, isFavorited })
     if (write) {
-      write.then((_response) => getCategory())
+      return write.then(res => res) 
         .catch((error) => console.warn("response" in error ? error.response.data.message : error))
     }
   }
@@ -60,7 +61,7 @@ export default function CategoryContainer() {
   const updateCategory = (linkInfo) => {
     const update = categoryAPI.update(linkInfo)
     if(update) {
-      update.then(() => getCategory())
+      return update.then(res => res) 
         .catch((error) => console.warn("response" in error ? error.response.data.message : error))
     }
   }
@@ -69,8 +70,10 @@ export default function CategoryContainer() {
   const deleteCategory = (id) => {
     const remove = categoryAPI.remove({ id })
     if(remove) {
-      remove.then((response) => {
-        if (response.status === 204) getCategory()
+      return remove.then((response) => {
+        if (response.status === 204) {
+          return response
+        }
         else throw new Error("서버 에러")
       })
         .catch((error) => console.warn("response" in error ? error.response.data.message : error))
@@ -81,7 +84,7 @@ export default function CategoryContainer() {
   const getLink = (category, path, title) => {
     const get = linkAPI.get({ category, path, title })
     if (get) {
-      get.then((response) => setLink([...response.data]))
+      return get.then((response) => setLink([...response.data]))
         .catch((error) => console.warn("response" in error ? error.response.data.message : error))
     }
   }
