@@ -24,7 +24,7 @@ export default function CategoryCard(props) {
   const classes = useStyles()
   const {updateLink} = useLinkDispatch()
   const {handleSelectedCard, isReset, setIsReset} = props
-  const {id, category, path, image_path, title, description, key} = props.linkInfo
+  const {id, category, path, image_path, title, description, is_favorited, key} = props.linkInfo
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [hover, setHover] = useState(false)
   const [isSelected, setIsSelected] = useState(false)
@@ -69,7 +69,7 @@ export default function CategoryCard(props) {
   }
 
   const handleClickFavorite = e => {
-    console.log('favorite')
+    updateLink({id, category, is_favorited: !Boolean(is_favorited)})
   }
 
   const handleClickCopy = e => {
@@ -156,6 +156,7 @@ export default function CategoryCard(props) {
               <InputBase className={classes.edittingCardContentDesc}
                 value={editableDesc}
                 onChange={handleChangeDesc}
+                rowsMin={3}
                 multiline
               />
             </Grid>
@@ -163,7 +164,7 @@ export default function CategoryCard(props) {
             : <CardContent className={classes.cardContent}>
             <Grid item zeroMinWidth>
               <Typography className={classes.cardContentTitle}
-                gutterBottom 
+                gutterBottom noWrap
                 variant="h6" 
                 component="h2"
               >
@@ -184,7 +185,9 @@ export default function CategoryCard(props) {
           <IconButton aria-label="favorites"
             onClick={handleClickFavorite}
           >
-            <FavoriteIcon fontSize="small" />
+            <FavoriteIcon fontSize="small" 
+              color={is_favorited ? "secondary" : "action"}
+            />
           </IconButton>
           <IconButton aria-label="share"
             onClick={handleClickCopy}
