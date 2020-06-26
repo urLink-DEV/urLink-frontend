@@ -44,7 +44,7 @@ export default function GetStartPage() {
     <Router>
       <div className={classes.root}>
         <div className={classes.titleCenter}>
-          <img src={mainLogo}></img>
+          <img src={mainLogo} alt="main logo"></img>
           <Link component={SignupContainer} className={classes.getStartBtn}>
             <div className={classes.getStartText}>
               <span className={classes.getStart_1}>Get</span> <span className={classes.getStart_2}>Started!</span>
@@ -64,7 +64,7 @@ export default function GetStartPage() {
                 <span className={classes.text}>방문기록을 내가 만든 탭과 페이지로 끌어다놓기만 하면 정리 끝!</span>
               </div>
               <div className={classes.imgCenter}>
-                <img className={classes.imgSize} src={main1}></img>
+                <img className={classes.imgSize} src={main1} alt="main-1"></img>
               </div>
             </div>
 
@@ -76,7 +76,7 @@ export default function GetStartPage() {
                 <span className={classes.text}>내가 보관했던 정보가 무엇인지 쉽게 기억할 수 있도록 도와줍니다.</span>
               </div>
               <div className={classes.imgCenter}>
-                <img className={classes.imgSize} src={main2}></img>
+                <img className={classes.imgSize} src={main2} alt="main-2"></img>
               </div>
             </div>
 
@@ -88,7 +88,7 @@ export default function GetStartPage() {
                 <span className={classes.text}><span className={classes.textBold}>“언젠가는 읽겠지…”</span>하며 쌓여갔던 URL을 유어링크가 배달해드릴게요.</span>
               </div>
               <div className={classes.imgCenter}>
-                <img className={classes.imgSize} src={main3}></img>
+                <img className={classes.imgSize} src={main3} alt="main-3"></img>
               </div>
             </div>
 
@@ -100,13 +100,13 @@ export default function GetStartPage() {
                 <span className={classes.text}>검색기능으로 정보를 꼼꼼히 찾을 수 있고, 카테고리 별 우선순위도 정할 수 있어요.</span>
               </div>
               <div className={classes.imgCenter}>
-                <img className={classes.imgSize} src={main4}></img>
+                <img className={classes.imgSize} src={main4} alt="main-4"></img>
               </div>
             </div>
 
             <div className={classes.textGrp}>
               <div className={classes.imgCenter}>
-                <img className={classes.imgSize} src={main5}></img>
+                <img className={classes.imgSize} src={main5} alt="main-5"></img>
               </div>
             </div>
           </Swiper>
