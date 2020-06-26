@@ -109,7 +109,7 @@ export default function CategoryDrawer(props) {
   }
 
   const addTab = () => {
-    if (newCategoryTitle === '') {
+    if (!newCategoryTitle) {
       setAddOpen(true)
       setEnterOpen(false)
       setNewCategoryTitle('')

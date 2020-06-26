@@ -83,7 +83,8 @@ export default function CategoryContainer() {
   const getLink = (category, path, title) => {
     const get = linkAPI.get({ category, path, title })
     if (get) {
-      return get.then((response) => setLink([...response.data]))
+      get.then((response) => setLink([...response.data]))
+      return get.then((response) => response)
         .catch((error) => console.warn("response" in error ? error.response.data.message : error))
     }
   }
