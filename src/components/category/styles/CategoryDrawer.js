@@ -212,6 +212,10 @@ export const useStyles = makeStyles((theme) => ({
     display: "none",
     backgroundImage: "linear-gradient(271deg, #e0f6ff, #2083ff)"
   },
+  gridCard: {
+    padding: 0,
+    margin: 20,
+  },
   '@global': {
     '.MuiFilledInput-inputMarginDense': {
       paddingTop: '10px'

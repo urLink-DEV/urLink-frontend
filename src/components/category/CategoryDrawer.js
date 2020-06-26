@@ -1,6 +1,6 @@
 /* global chrome */
 // * React
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 
 // * dispatch
 import {useLinkState, useLinkDispatch, useCategoryState, useCategoryDispatch} from '../../containers/category/CategoryContainer'
@@ -31,6 +31,7 @@ import CategoryAppBar from './CategoryAppBar'
 import CategoryTab from './CategoryTab'
 import CategorySearchPopOver from './CategorySearchPopOver'
 import Snackbar from '../Snackbar'
+import useEventListener from '../../hooks/useEventListener'
 
 export default function CategoryDrawer(props) {
 
@@ -83,9 +84,10 @@ export default function CategoryDrawer(props) {
   }, [categories, selectedCategoryId])
 
   const handleChangeNewCategoryTitle = (e) => {
-    if (e.target.value.length >= 15) {
-      return 
-    }
+    let checks = /[a-zA-Z]/
+    if(checks.test(e.target.value)) {
+        if(e.target.value.length >= 15) return
+    } else if (e.target.value.length >= 7) return
     setNewCategoryTitle(e.target.value)
   }
 
@@ -534,17 +536,23 @@ export default function CategoryDrawer(props) {
   const [deleteSuccessAlert, setDeleteSuccessAlert] = useState(false)
   const [isReset, setIsReset] = useState(false)
 
+  const handleClickExceptCard = useCallback((ref) => {
+    if (ref.current === ref.target) {
+      console.log("You clicked just me!")
+      return
+    }
+  })
+
+  useEventListener('click', handleClickExceptCard)
+
   const handleSelectedCard = linkObj => e => {
-    console.log(linkObj, e)
     if (selectedCardList.indexOf(linkObj) !== -1) {
-      console.log('selectedCards', selectedCardList.indexOf(linkObj))
       selectedCardList.splice(selectedCardList.indexOf(linkObj), 1)
       setSelectedCardList([...selectedCardList])
       return
     }
     setSelectedCardList([...selectedCardList, linkObj])
   }
-  console.log(selectedCardList)
 
   const handleClickOpenSelectedCardList = () => {
     selectedCardList.forEach((card, idx) => {
@@ -567,10 +575,7 @@ export default function CategoryDrawer(props) {
   return (
     <div className={classes.root}>
       <nav className={classes.drawer}>
-        <Drawer
-          classes={{
-            paper: classes.drawerPaper,
-          }}
+        <Drawer classes={{paper: classes.drawerPaper}}
           variant="permanent"
           open
         >
@@ -595,8 +600,8 @@ export default function CategoryDrawer(props) {
             {searchPopOverBtn}
           </Grid>
           {
-            (selectedCardList.length > 0) ? 
-              <Grid>
+            (selectedCardList.length > 0) 
+            ? <Grid>
                 <Button onClick={handleClickOpenSelectedCardList}>
                   탭 열기
                 </Button>
@@ -605,14 +610,15 @@ export default function CategoryDrawer(props) {
                 >
                   탭 삭제
                 </Button>
-              </Grid> : null
+              </Grid> 
+            : null
           }
         </Grid>
-        <Grid container spacing={2}>
+        <Grid container>
           { 
             links.length ? links?.map((linkObj, idx) => 
-              <Grid item xs={2} key={idx}>
-                <CategoryCard key={idx} 
+              <Grid item key={idx} className={classes.gridCard}>
+                <CategoryCard key={idx}
                   linkInfo={linkObj}
                   handleSelectedCard={handleSelectedCard(linkObj)}
                   isReset={isReset}

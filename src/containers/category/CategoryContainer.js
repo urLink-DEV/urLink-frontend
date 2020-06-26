@@ -57,9 +57,8 @@ export default function CategoryContainer() {
   }
 
   // * 카테고리 수정
-  // linkInfo : Object { id, name, order, isFavorited }
-  const updateCategory = (linkInfo) => {
-    const update = categoryAPI.update(linkInfo)
+  const updateCategory = (id, name, order, isFavorited) => {
+    const update = categoryAPI.update(id, name, order, isFavorited)
     if(update) {
       return update.then(res => res) 
         .catch((error) => console.warn("response" in error ? error.response.data.message : error))
@@ -103,12 +102,13 @@ export default function CategoryContainer() {
   }
 
   // * 링크 정보, 페보릿 수정
-  const updateLink = (id, category, title, description, isFavorited) => {
-    const update = linkAPI.update({id, category, title, description, isFavorited})
+  // linkInfo {id, category, title, description, isFavorited}
+  const updateLink = (linkInfo) => {
+    const update = linkAPI.update(linkInfo)
     if (update) {
       update.then(response => {
         console.log('status value', response.status)
-        getLink(category)
+        getLink(linkInfo.category)
       }).catch((error) => console.warn("response" in error ? error.response.data.message : error))
     }
   }
@@ -144,7 +144,8 @@ export default function CategoryContainer() {
   const linkDispatch = {
     getLink,
     writeLink,
-    deleteLink
+    deleteLink,
+    updateLink,
   }
 
   const props = {

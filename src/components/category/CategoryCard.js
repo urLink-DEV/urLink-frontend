@@ -1,5 +1,5 @@
 /* global chrome */
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -17,21 +17,24 @@ import useStyles, { DatePickerWithStyles } from './styles/CategoryCard'
 import newTab from '../../images/new-tab.svg'
 import Snackbar from '../Snackbar'
 import InputBase from '@material-ui/core/InputBase'
+import useOutsideAlerter from '../../hooks/useOutsideAlerter'
+import {useLinkDispatch} from '../../containers/category/CategoryContainer'
 
 export default function CategoryCard(props) {
   const classes = useStyles()
+  const {updateLink} = useLinkDispatch()
   const {handleSelectedCard, isReset, setIsReset} = props
-  const {path, image_path, title, description, key} = props.linkInfo
+  const {id, category, path, image_path, title, description, key} = props.linkInfo
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [hover, setHover] = useState(false)
   const [isSelected, setIsSelected] = useState(false)
   const [copySuccessAlert, setCopySuccessAlert] = useState(false)
   const [isEditable, setIsEditable] = useState(false)
   const [editableTitle, setEditableTitle] = useState(title)
-  const [editableDesc, setEditableDesc] = useState(description)
+  const [editableDesc, setEditableDesc] = useState(description ? description : '')
 
-  const handleClickCard = () => {
-    console.log('isEditable', isEditable)
+  const handleClickCard = e => {
+    e.stopPropagation()
     if (isEditable) return
     setIsSelected(!isSelected)
     handleSelectedCard()
@@ -104,14 +107,22 @@ export default function CategoryCard(props) {
     setEditableDesc(e.target.value)
   }
 
-  const handleClickEditDone = e => {
-    e.stopPropagation()
-    console.log(editableTitle, editableDesc, 'done')
+  const handleCancelEdit = e => {
     setIsEditable(false)
   }
 
+  const handleClickEditDone = e => {
+    e.stopPropagation()
+    console.log(editableTitle, editableDesc, 'done')
+    updateLink({id, category, title: editableTitle, description: editableDesc})
+    setIsEditable(false)
+  }
+
+  const wrapperRef = useRef(null)
+  useOutsideAlerter(wrapperRef, isEditable, handleCancelEdit)
+
   return (
-    <div className={classes.divRoot}>
+    <div className={classes.divRoot} ref={wrapperRef}>
       <Card className={!isSelected ? isEditable ? classes.editableRoot : classes.root : classes.selectedRoot}
         onClick={handleClickCard}
         onMouseEnter={handleMouseEnterCard}

@@ -23,18 +23,15 @@ const useStyles = makeStyles({
   root: {
     position: 'relative',
     width: 200,
-    margin: 10,
   },
   selectedRoot: {
     position: 'relative',
     width: 200,
-    margin: 10,
     border: '1px solid #2083ff'
   },
   editableRoot: {
     position: 'relative',
     width: 200,
-    margin: 10,
     border: '1px solid #3cb043'
   },
   cardOpenBtn: {

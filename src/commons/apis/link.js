@@ -31,14 +31,11 @@ const linkAPI = {
       const { id } = linkInfo
       let dashQueryParams = getDashQueryParams([id])
       if(!dashQueryParams) throw new Error(`link : ${id} Id는 필수 입니다.`)
-      const linkUpdateKeys = Object.create(queryData["linkUpdate"])
+      const linkUpdateKeys = Object.assign(queryData["linkUpdate"])
       const linkUpdate = {}
       Object.entries(linkInfo).forEach(([key, value]) => {
-        if (linkUpdateKeys.indexOf(key) > -1) linkUpdate[key] = value
+        if (Object.getOwnPropertyNames(linkUpdateKeys).indexOf(key) > -1) linkUpdate[key] = value
       })
-      // linkUpdate.title = title
-      // linkUpdate.description = description
-      // linkUpdate.is_favorited = isFavorited
       return axios.patch(api.LINK + dashQueryParams, linkUpdate)
     } catch (error) {
       console.warn(error)
