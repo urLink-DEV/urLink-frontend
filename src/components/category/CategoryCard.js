@@ -23,8 +23,8 @@ import {useLinkDispatch} from '../../containers/category/CategoryContainer'
 export default function CategoryCard(props) {
   const classes = useStyles()
   const {updateLink} = useLinkDispatch()
-  const {handleSelectedCard, isReset, setIsReset} = props
-  const {id, category, path, image_path, title, description, is_favorited, key} = props.linkInfo
+  const {handleSelectedCard, isReset, setIsReset, writeAlarm} = props
+  const {id, category, path, image_path, title, description, is_favorited, has_alarms, key} = props.linkInfo
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [hover, setHover] = useState(false)
   const [isSelected, setIsSelected] = useState(false)
@@ -73,7 +73,6 @@ export default function CategoryCard(props) {
   }
 
   const handleClickCopy = e => {
-    e.stopPropagation()
     var copyElement = document.createElement('textarea')
     copyElement.value = path
     document.body.appendChild(copyElement)
@@ -87,15 +86,20 @@ export default function CategoryCard(props) {
     setCopySuccessAlert(false)
   }
 
-  const handleSetAlarm = date => e => {
-    e.stopPropagation()
-    setSelectedDate(date);
-    console.log('set snooze')
-    console.log(date, title)
+  const handleSetAlarm = date => {
+    setSelectedDate(date)
+    writeAlarm(`${category}-${id}`,
+      category,
+      id, 
+      date.years(), 
+      date.months()+1, 
+      date.dates(), 
+      date.hours(), 
+      date.minutes()
+    )
   }
 
   const handleClickEdit = e => {
-    e.stopPropagation()
     setIsEditable(true)
   }
 
@@ -112,7 +116,6 @@ export default function CategoryCard(props) {
   }
 
   const handleClickEditDone = e => {
-    e.stopPropagation()
     updateLink({id, category, title: editableTitle, description: editableDesc})
     setIsEditable(false)
   }
@@ -180,7 +183,9 @@ export default function CategoryCard(props) {
           </CardContent>
           }
         </CardActionArea>
-        <CardActions className={classes.cardActions} disableSpacing>
+        <CardActions className={classes.cardActions} disableSpacing
+          onClick={e => e.stopPropagation()}
+        >
           <IconButton aria-label="favorites"
             onClick={handleClickFavorite}
           >
@@ -197,10 +202,11 @@ export default function CategoryCard(props) {
             className={classes.datePicker}
             margin="normal"
             onChange={handleSetAlarm}
+            minDate={new Date()}
             InputProps={{
               disableUnderline: true,
             }}
-            keyboardIcon={<AddAlertIcon />}
+            keyboardIcon={<AddAlertIcon style={has_alarms ? { color: '#fdd835' }  : {color: '#616161'}}/>}
             KeyboardButtonProps={{
               'aria-label': 'change date',
             }}

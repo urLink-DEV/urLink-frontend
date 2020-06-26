@@ -52,7 +52,8 @@ export default function CategoryDrawer(props) {
     draggedHistory,
     setDraggedHistory,
     selectedLinkList,
-    setSelectedLinkList
+    setSelectedLinkList,
+    writeAlarm,
   } = props
   
   const links = useLinkState()
@@ -539,8 +540,7 @@ export default function CategoryDrawer(props) {
   const [deleteSuccessAlert, setDeleteSuccessAlert] = useState(false)
   const [isReset, setIsReset] = useState(false)
 
-  const handleClickExceptCard = useCallback((ref) => {
-      console.log(ref, "You clicked just me!")
+  const handleClickExceptCard = useCallback(() => {
       setIsReset(true)
       return
   })
@@ -625,6 +625,7 @@ export default function CategoryDrawer(props) {
                   handleSelectedCard={handleSelectedCard(linkObj)}
                   isReset={isReset}
                   setIsReset={setIsReset}
+                  writeAlarm={writeAlarm}
                 />
               </Grid>) 
             : searchValue ? 
