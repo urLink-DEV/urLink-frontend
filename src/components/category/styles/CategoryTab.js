@@ -4,12 +4,14 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: 208,
     boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)",
+    display: 'flex',
+    alignItems: 'center',
   },
   input: {
     padding:12,
     fontFamily: "SpoqaHanSans",
     fontSize: 16,
-    width: "70%"
+    width: "65%"
   },
   selected : {
     fontSize: 16,
@@ -17,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#2083ff'
   },
   urlCountBox : {
-    width: "30%",
+    width: "25%",
     display: "inline-block",
     fontSize: 12,
     fontFamily: "SpoqaHanSans",

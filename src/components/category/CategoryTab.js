@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper'
 import InputBase from '@material-ui/core/Input'
 import {useCategoryDispatch} from '../../containers/category/CategoryContainer'
 import useStyles from './styles/CategoryTab'
-
+import star from '../../images/star.svg'
 
 export default function CategoryTab({
   text, 
@@ -81,6 +81,7 @@ export default function CategoryTab({
         onKeyDown={updateText}
       />
       <div className={classes.urlCountBox}>{urlCount} 링크</div>
+      {isFavorited ? <img className="favorite-star" alt="favorite-star" src={star} /> : ''}
       </Paper>
     </div>
   )
