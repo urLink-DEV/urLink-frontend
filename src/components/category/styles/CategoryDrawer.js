@@ -106,7 +106,7 @@ export const useStyles = makeStyles((theme) => ({
     display: 'none'
   },
   input: {
-    padding:12,
+    padding: '0 12px',
     width: 122,
     height: 28,
     borderRadius: 4,
@@ -224,9 +224,6 @@ export const useStyles = makeStyles((theme) => ({
       backgroundColor: '#2083ff',
       color: 'white',
     },
-    '.MuiButton-root': {
-      minWidth: 50,
-    },
     'div.makeStyles-root-283': {
       right: 0
     },
@@ -234,7 +231,8 @@ export const useStyles = makeStyles((theme) => ({
       right: 50
     },
     '.MuiListItem-gutters' : {
-      padding: 0
+      padding: 0,
+      margin: '20px 0'
     }
   }
 }))

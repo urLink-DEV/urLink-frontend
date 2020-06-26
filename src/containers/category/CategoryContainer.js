@@ -9,6 +9,7 @@ import CategoryDrawer from '../../components/category/CategoryDrawer'
 import categoryAPI from '../../commons/apis/category'
 import linkAPI from '../../commons/apis/link'
 import historyAPI from '../../commons/chromeApis/history'
+import alarmSocket from '../../commons/apis/alarmSocket'
 
 // * Category context API
 const CategoryStateContext = createContext(null)
@@ -36,6 +37,7 @@ export default function CategoryContainer() {
 
   const [categoryState, setCategory] = useState([])
   const [linkState, setLink] = useState([])
+  const [alarmList, setAlarmList] = useState([])
 
   // * 전체 카테고리 가져오기
   const getCategory = (id) => {
@@ -130,6 +132,16 @@ export default function CategoryContainer() {
     historyAPI.get({text, startTime, endTime, maxResults, callback})
   }
 
+  // * 알람 읽음
+  const onalarmRead = (id) => {
+    alarmSocket.alarmRead({id})
+  }
+  
+  // * 알람 받지 않기
+  const onNoReturnAlarm = (id) => {
+    alarmSocket.alarmNoReturn({id})
+  }
+  
   // * 드래그된 히스토리 target
   const [draggedHistory, setDraggedHistory] = useState([])
   const [selectedLinkList, setSelectedLinkList] = useState([])
@@ -155,14 +167,25 @@ export default function CategoryContainer() {
     setSelectedLinkList,
     setDraggedHistory,
     getHistory,
+    onalarmRead,
+    onNoReturnAlarm,
 
-    newAlarmList,
+    alarmList,
     getProfileData,
     newRecentNofitication,
   }
 
   useEffect(() => {
     getCategory()
+    alarmSocket.onmessage(function(e) {
+      const { message, status } = JSON.parse(e.data)
+      if(status === "alarm" || status === "initial"){
+        setAlarmList(alarmList => alarmList.concat(message));
+      }
+      else if(status === "update") {
+        setAlarmList(message);
+      }
+    })
   },[])
   
   return (

@@ -6,13 +6,13 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)",
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'space-between'
   },
   listItem: {
     display: 'block',
     width: 208,
     borderRadius: 4,
     padding: '0 !important',
-    margin: '10px 0 10px 0',
     boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)",
     backgroundColor: "#ffffff",
     '&:hover': {
@@ -24,11 +24,10 @@ const useStyles = makeStyles((theme) => ({
     padding:12,
     fontFamily: "SpoqaHanSans",
     fontSize: 16,
-    width: "65%"
+    maxWidth: "60%"
   },
   selected : {
     fontSize: 16,
-    fontWeight: "bold",
     color: '#2083ff',
     width:210,
     boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
@@ -42,18 +41,28 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '4px'
   },
   urlCountBox : {
-    width: "25%",
     display: "inline-block",
     fontSize: 12,
     fontFamily: "SpoqaHanSans",
     color: "#868e96",
     textAlign: "center"
   },
+  favoriteStar: {
+    marginRight: '8px'
+  },
   block: {
     display: 'block'
   },
   hidden: {
     display: 'none'
+  },
+  marginRight: {
+    marginRight: '8px'
+  },
+  linkBox: {
+    display: 'flex',
+    alignItems: 'center',
+    maxWidth: '40%'
   }
 }))
 
