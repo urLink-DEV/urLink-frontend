@@ -54,9 +54,10 @@ export default function CategoryTab({
     if (!disabled) inputRef.current.children[0].focus()
 
     if (!selected && !disabled) {
-      dispatch.updateCategory(id, categoryTitle, order, isFavorited)
+      dispatch.updateCategory(id, prevCategoryTitle, order, isFavorited)
       .then(() => dispatch.getCategory())
       setDisabled(!disabled)
+      setCategoryTitle(prevCategoryTitle)
     }
 
   },[disabled, categoryTitle, selected])
