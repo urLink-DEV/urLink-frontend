@@ -49,8 +49,8 @@ export default function CategoryDrawer(props) {
     deleteLink 
   } = useLinkDispatch()
   const { 
-    draggedHistory,
-    setDraggedHistory,
+    draggedHistoryList,
+    setDraggedHistoryList,
     selectedLinkList,
     setSelectedLinkList,
     writeAlarm,
@@ -231,7 +231,7 @@ export default function CategoryDrawer(props) {
   const dragOver = (e, id, order, favorited) => {
     e.preventDefault()
 
-    if(draggedHistory.length !== 0 && draggedHistory[0].dataset.type === 'link') {
+    if(draggedHistoryList.length && draggedHistoryList[0].dataset.type === 'link') {
       setOveredTabId(id)
       e.dataTransfer.dropEffect = "move"
     } else if(draggedCategory.dataset.type === 'category') {
@@ -280,7 +280,7 @@ export default function CategoryDrawer(props) {
       setDragHistoryFinished(true)
       writeLink(overedTabId, filteredLinkList)
       setSelectedLinkList([])
-      setDraggedHistory([])
+      setDraggedHistoryList([])
     } else {
       draggedCategory.style.display='block'
     }
@@ -308,7 +308,7 @@ export default function CategoryDrawer(props) {
       writeLink(selectedCategoryId, filteredLinkList)
       setDragHistoryFinished(true)
       setSelectedLinkList([])
-      setDraggedHistory([])
+      setDraggedHistoryList([])
     }
   }
 

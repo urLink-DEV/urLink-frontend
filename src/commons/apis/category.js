@@ -15,7 +15,7 @@ const categoryAPI = {
   
   write : ({ name, isFavorited }) => {
     try {
-      const categoryWrite = Object.create(queryData["categoryWrite"])
+      const categoryWrite = Object.assign(queryData["categoryWrite"])
       categoryWrite.name = name
       categoryWrite.is_favorited = isFavorited
       return axios.post(api.CATEGORY, categoryWrite)

@@ -18,8 +18,8 @@ export default function CategoryAppBar(props) {
   const classes = useStyles()
   const { 
     getHistory, 
-    draggedHistory, 
-    setDraggedHistory, 
+    draggedHistoryList, 
+    setDraggedHistoryList, 
     selectedLinkList,
     setSelectedLinkList,
     onalarmRead,
@@ -143,8 +143,8 @@ export default function CategoryAppBar(props) {
 
       <CategoryHistoryDrawer
         getHistory={getHistory}
-        draggedHistory={draggedHistory} 
-        setDraggedHistory={setDraggedHistory}
+        draggedHistoryList={draggedHistoryList} 
+        setDraggedHistoryList={setDraggedHistoryList}
         selectedLinkList={selectedLinkList}
         setSelectedLinkList={setSelectedLinkList}
         historyDrawerOpen={historyDrawerOpen} 
