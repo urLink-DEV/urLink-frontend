@@ -28,6 +28,7 @@ const categoryAPI = {
     try {
       let dashQueryParams = getDashQueryParams([id])
       const categoryUpdate = Object.assign(queryData["categoryUpdate"])
+      console.log('updateAPI', id, name, order, isFavorited)
       if(!dashQueryParams) throw new Error(`category : ${id} Id는 필수 입니다.`)
       categoryUpdate.name = name
       categoryUpdate.order = order
