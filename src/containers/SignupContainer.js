@@ -1,50 +1,55 @@
 /* global chrome */
-import React from 'react';
-import {axios,api} from '../commons/http';
-import queryData from '../commons/queryData';
-import SignupPage from '../pages/SignupPage';
-import auth from '../commons/apis/auth';
+import React, {useState} from 'react'
+import auth from '../commons/apis/auth'
+import userAPI from '../commons/apis/user'
+import {AlertModal} from '../components/modal'
+import SignupPage from '../pages/SignupPage'
 
 export default function SignupContainer() {
-  let retry = true;
+  let retry = true
+  const [modalText, setModalText] = useState('')
 
-  const onClickSignup = async (e) => {
-    try {
-      e.preventDefault();
-      const data = new FormData(e.currentTarget);
-      const nRegister = queryData["n_register"];
-      nRegister.email = data.get("email");
-      nRegister.username = data.get("username");
-      nRegister.password = data.get("password");
-
-      await axios.post(api.N_MEMBER_REGISTER, nRegister);
-      alert("가입 완료!!\n환영 합니다~");
-      window.location.href = "/index.html";
-    } catch (error) {
-      alert("가입 실패\n"+error.response.data.message);
-    }
+  const onClickSignup = e => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget)
+    const email = data.get("email");
+    const username = data.get("username")
+    const password = data.get("password")
+    const nRegister = userAPI.nRegister({ email, username, password })
+    nRegister.then((res) => {
+      auth.setAccessToken(res.data.token)
+      setModalText("성공적으로 가입되었습니다!")
+      window.location.href = "/index.html"
+    })
+    .catch((error) => {
+      setModalText(error.response.data.message)
+    })
   }
 
   const onClickGoogleSignup = e => {
-    chrome.identity.getAuthToken({interactive: true}, function(token) {
-      requestGoogleSignup(token)
-        .then(res => {
-          if (res.status === 201) requestGoogleLoginAfterSignup(token)
-          if (res.status >= 400 && retry) {
-            console.log('res', res)
-            retry = false
-            return chrome.identity.removeCachedAuthToken({token}, onClickGoogleSignup)
-          }
+    chrome.identity.getAuthToken({interactive: true}, token => {
+      const gRegister = userAPI.gRegister({token})
+      if(gRegister){
+        gRegister.then(res => {
+          auth.setAccessToken(res.data.token)
+          setModalText("성공적으로 가입되었습니다!")
+          window.location.href = "/index.html"
         })
-        .then(res => {
-          if (res.status === 201) {
-            console.log(res.json())
-            return res.json();
+        .catch(error => {
+	        const status = error.response && (error.response.status || "")
+          if (status >= 400 && retry) {
+            retry = false;
+            chrome.identity.removeCachedAuthToken({token}, onClickGoogleSignup);
           }
+          else setModalText(error.response.data.message)
         })
-        .then(res => auth.setAccessToken(res.token))
-        .catch(e => console.log(e))
+      }
     })
+  }
+
+  const onModalClose = e => {
+    e.preventDefault()
+    setModalText('')
   }
 
   const props = {
@@ -52,17 +57,15 @@ export default function SignupContainer() {
     onClickGoogleSignup,
   }
   
-  return <SignupPage {...props}/>
-}
-
-function requestGoogleSignup(token) {
-  const gToken = queryData['g_register'];
-  gToken.token = token;
-  return axios.post(api.G_MEMBER_REGISTER, gToken);
-}
-
-function requestGoogleLoginAfterSignup(token) {
-  const gToken = queryData['g_login']
-  gToken.token = token;
-  return axios.post(api.G_MEMBER_LOGIN, gToken);
+  return (
+    <>
+      <SignupPage {...props}/>
+      <AlertModal
+        modalText={modalText}
+        btnCreate="false" 
+        openBool={modalText ? true: false} 
+        onClose={onModalClose}
+      />
+    </>
+  )
 }

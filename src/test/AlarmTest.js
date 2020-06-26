@@ -36,7 +36,7 @@ export default function UrlTabTest() {
     }
   }
 
-  // * 알람 삭제
+  // * 알람 작성
   const writeAlarm = (name, category, url, year, month, day, hour, minute) => {
     const write = alaramAPI.write({ name, category, url, year, month, day, hour, minute })
     if (write) {

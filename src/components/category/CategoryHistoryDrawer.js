@@ -102,6 +102,7 @@ export default function CategoryHistoryDrawer(props) {
       })
     }
     else {
+      setSelectedLinkList([])
       setLinkList([])
       setSelectedLinkList([])
       setHisotrySearch({
@@ -185,6 +186,9 @@ export default function CategoryHistoryDrawer(props) {
           }
         }
       })
+    } 
+    else {
+      setLinkList([])
     }
   }, [historySearch])
 

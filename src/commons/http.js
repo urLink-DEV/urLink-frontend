@@ -25,6 +25,30 @@ const axiosSetting = {
 	}
 }
 
+const api = {
+	GET_TOKEN: "user/token/", // * 토근 생성
+	UPDATE_TOKEN: "user/token/refresh/", // * 토큰 갱신
+	CHECK_TOKEN: "user/token/verify/", // * 토큰 검사
+
+	G_MEMBER_REGISTER: "user/google/sign-up/", // * 구글 회원가입
+	G_MEMBER_LOGIN: "user/google/sign-in/", // * 구글 로그인
+
+	N_MEMBER_REGISTER: "user/sign-up/", // * 일반 회원가입
+	N_MEMBER_LOGIN: "user/sign-in/", // * 일반 로그인
+	
+	MEMBER_LOGOUT: "user/sign-out/", // * 로그아웃
+
+	MEMBER: "user/",
+
+	CATEGORY: "category/",
+
+	LINK: "url/",
+
+	ALARAM: "alarm/",
+	
+	SOCKET_ALARAM: `ws://${axiosSetting.host}/ws/connection/`
+}
+
 const axios = Axios.create({
 	baseURL: axiosSetting.server(),
 	timeout: 10000
@@ -45,10 +69,10 @@ axios.interceptors.response.use(function(response)  {
 }, async (error) => {
 	if (!error.response) error["response"] = { data: { message: "네트워크 연결이 끊어져 있습니다." } }
 	const status = error.response && (error.response.status || "")
-	const response = error.response && (error.response.data || "")
-	const originalRequest = error.response && (error.config || "")
+	const response = error.response && (error.response.data || {})
+	const originalRequest = error.response && (error.config || {})
 	const url = originalRequest.url || ""
-
+	
 	// * API 호출 시, accessToken 만료
 	if (status === 401 && url.indexOf(api.UPDATE_TOKEN) === -1 && response.code === 'token_not_valid') {
 		const refreshToken = auth.getRefreshToken()
@@ -77,40 +101,11 @@ axios.interceptors.response.use(function(response)  {
 			})
 	}
 	// * login 필수
-	else if(status=== 401 && response.detail.indexOf("authentication credentials") > -1){
+	else if(status=== 401 && (""+response.detail).indexOf("authentication credentials") > -1){
 		axiosSetting.redirectPage() // * no authentication login!!
 	}
 	else return Promise.reject(error)
 })
 
-const api = {
-	GET_TOKEN: "user/token/", // * 토근 생성
-	UPDATE_TOKEN: "user/token/refresh/", // * 토큰 갱신
-	CHECK_TOKEN: "user/token/verify/", // * 토큰 검사
 
-	G_MEMBER_REGISTER: "user/google/sign-up/", // * 구글 회원가입
-	G_MEMBER_LOGIN: "user/google/sign-in/", // * 구글 로그인
-
-	N_MEMBER_REGISTER: "user/sign-up/", // * 일반 회원가입
-	N_MEMBER_LOGIN: "user/sign-in/", // * 일반 로그인
-	
-	MEMBER_LOGOUT: "user/sign-out/", // * 로그아웃
-
-	MEMBER: "user/", // * 회원정보 관련
-
-	READ_CATEGORY: "category/", // * 카테고리 리스트 조회
-	WRITE_CATEGORY: "category/", // * 카테고리 등록
-	UPDATE_CATEGORY: "category/", // * 카테고리 수정
-	DELETE_CATEGORY: "category/", // * 카테고리 삭제
-
-	READ_LINK: "url/", // * URl 리스트 조회
-	WRITE_LINK: "url/", // * URL 등록
-	DELETE_LINK: "url/", // * URL 삭제 
-
-	READ_ALARAM: "alarm/", // * ALARAM 리스트 조회 
-	WRITE_ALARAM: "alarm/", // * ALARAM 등록 
-	DELETE_ALARAM: "alarm/", // * ALARAM 삭제 
-
-	SOCKET_ALARAM: `ws://${axiosSetting.host}/ws/connection/`
-}
 export { axios , api }

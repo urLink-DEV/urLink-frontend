@@ -20,7 +20,6 @@ export default function CategoryHistory(props) {
   const classes = useStyles()
 
   const [favicon, setFavicon] = useState(`https://www.google.com/s2/favicons?domain=${link.hostName}`)
-
   const onError = () => { setFavicon(logo) }
 
   const onAnchorClick = (e) => {

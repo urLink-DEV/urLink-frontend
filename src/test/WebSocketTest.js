@@ -3,6 +3,8 @@ import alarmSocket from '../commons/apis/alarmSocket'
 /*
  * id: 15
  * name: "test"
+ * alarm_has_done: false
+ * alarm_has_read: false
  * reserved_time: "2020-06-21 09:31:00+00:00"
  * url_description: "개발을 진행하거나, 웹브라우저를 이용하여 업무를 하다보면, 의외로 크롬에 있는 웹스토어에서 extension을 다운받아 진행하는 경우들이 많습니다. 웹브라우저내의 스크린샷을 찍는다"
  * url_favicon_path: "https://trustyoo86.github.io/assets/icons/android-icon-192x192.png"
@@ -23,9 +25,13 @@ export default function CategoryTest() {
 
   useEffect(() => {
     alarmSocket.onmessage(function(e) {
-      const { message } = JSON.parse(e.data)
-      console.log(message)
-      setAlarmList(alarmList => alarmList.concat(message));
+      const { message, status } = JSON.parse(e.data)
+      if(status === "alarm" || status === "initial"){
+        setAlarmList(alarmList => alarmList.concat(message));
+      }
+      else if(status === "update") {
+        setAlarmList(message);
+      }
     })
   }, []);
 
@@ -37,7 +43,7 @@ export default function CategoryTest() {
         alarmList.length ? alarmList.map((alarm,idx) => { 
           return (
             <div key={alarm.id} style={{border:"1px solid", width: 250, height: 180, margin:3}}>            
-            {idx}
+            {idx} / alarm.alarm_has_read : {alarm.alarm_has_read? "on" : "off"}
               <div style={{ margin: "6px", display: "flex", alignContent: "center", justifyContent: "center" }}>
                 <a href={alarm.url_path}>
                   <img src={alarm.url_image_path} width={60} height={60}></img>

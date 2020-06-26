@@ -9,6 +9,7 @@ import CategoryDrawer from '../../components/category/CategoryDrawer'
 import categoryAPI from '../../commons/apis/category'
 import linkAPI from '../../commons/apis/link'
 import historyAPI from '../../commons/chromeApis/history'
+import alarmSocket from '../../commons/apis/alarmSocket'
 
 // * Category context API
 const CategoryStateContext = createContext(null)
@@ -36,12 +37,14 @@ export default function CategoryContainer() {
 
   const [categoryState, setCategory] = useState([])
   const [linkState, setLink] = useState([])
+  const [alarmList, setAlarmList] = useState([])
 
   // * 전체 카테고리 가져오기
   const getCategory = (id) => {
     const get = categoryAPI.get({ id })
     if (get) {
       get.then((response) => setCategory([...response.data]))
+      return get.then((response) => response)
         .catch((error) => console.warn("response" in error ? error.response.data.message : error))
     }
   }
@@ -50,7 +53,7 @@ export default function CategoryContainer() {
   const writeCategory = (name, isFavorited) => {
     const write = categoryAPI.write({ name, isFavorited })
     if (write) {
-      write.then((_response) => getCategory())
+      return write.then(res => res) 
         .catch((error) => console.warn("response" in error ? error.response.data.message : error))
     }
   }
@@ -59,7 +62,7 @@ export default function CategoryContainer() {
   const updateCategory = (id, name, order, isFavorited) => {
     const update = categoryAPI.update({ id, name, order, isFavorited })
     if(update) {
-      update.then(() => getCategory())
+      return update.then(res => res) 
         .catch((error) => console.warn("response" in error ? error.response.data.message : error))
     }
   }
@@ -68,8 +71,10 @@ export default function CategoryContainer() {
   const deleteCategory = (id) => {
     const remove = categoryAPI.remove({ id })
     if(remove) {
-      remove.then((response) => {
-        if (response.status === 204) getCategory()
+      return remove.then((response) => {
+        if (response.status === 204) {
+          return response
+        }
         else throw new Error("서버 에러")
       })
         .catch((error) => console.warn("response" in error ? error.response.data.message : error))
@@ -80,7 +85,7 @@ export default function CategoryContainer() {
   const getLink = (category, path, title) => {
     const get = linkAPI.get({ category, path, title })
     if (get) {
-      get.then((response) => setLink([...response.data]))
+      return get.then((response) => setLink([...response.data]))
         .catch((error) => console.warn("response" in error ? error.response.data.message : error))
     }
   }
@@ -115,6 +120,16 @@ export default function CategoryContainer() {
     historyAPI.get({text, startTime, endTime, maxResults, callback})
   }
 
+  // * 알람 읽음
+  const onalarmRead = (id) => {
+    alarmSocket.alarmRead({id})
+  }
+  
+  // * 알람 받지 않기
+  const onNoReturnAlarm = (id) => {
+    alarmSocket.alarmNoReturn({id})
+  }
+  
   // * 드래그된 히스토리 target
   const [draggedHistoryList, setDraggedHistoryList] = useState([])
   const [selectedLinkList, setSelectedLinkList] = useState([])
@@ -139,14 +154,25 @@ export default function CategoryContainer() {
     setSelectedLinkList,
     setDraggedHistoryList,
     getHistory,
+    onalarmRead,
+    onNoReturnAlarm,
 
-    newAlarmList,
+    alarmList,
     getProfileData,
     newRecentNofitication,
   }
 
   useEffect(() => {
     getCategory()
+    alarmSocket.onmessage(function(e) {
+      const { message, status } = JSON.parse(e.data)
+      if(status === "alarm" || status === "initial"){
+        setAlarmList(alarmList => alarmList.concat(message));
+      }
+      else if(status === "update") {
+        setAlarmList(message);
+      }
+    })
   },[])
   
   return (
