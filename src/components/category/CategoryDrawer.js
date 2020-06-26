@@ -82,7 +82,7 @@ export default function CategoryDrawer(props) {
   }, [categories, selectedCategoryId])
 
   const handleChangeNewCategoryTitle = (e) => {
-    if (e.target.value.length >= 15) {
+    if (e.target.value.length >= 14) {
       return 
     }
     setNewCategoryTitle(e.target.value)
@@ -227,10 +227,10 @@ export default function CategoryDrawer(props) {
   const dragOver = (e, id, order, favorited) => {
     e.preventDefault()
 
-    if(draggedHistory.length !== 0 && draggedHistory[0].dataset.type === 'link') {
+    if(draggedHistory.length !== 0 && draggedHistory[0].dataset.type === 'link' && !draggedCategory) {
       setOveredTabId(id)
       e.dataTransfer.dropEffect = "move"
-    } else if(draggedCategory.dataset.type === 'category') {
+    } else if(draggedCategory.dataset.type === 'category' && draggedCategory) {
       setOveredTabOrder(order)
       setOveredTabFavorite(favorited)
       draggedCategory.style.display='none'
