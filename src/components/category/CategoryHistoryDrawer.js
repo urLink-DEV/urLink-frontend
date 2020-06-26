@@ -1,5 +1,5 @@
 /* global chrome */
-import React, { useState , useEffect, Fragment} from 'react'
+import React, { useState , useEffect, Fragment, useRef} from 'react'
 import clsx from 'clsx'
 
 import useStyles from './styles/CategoryHistoryDrawer'
@@ -17,17 +17,20 @@ export default function CategoryHistoryDrawer(props) {
   const classes = useStyles()
   const { 
     getHistory, 
-    historyDrawerOpen, 
-    draggedHistory, 
-    setDraggedHistory,    
+    historyDrawerOpen,
+
+    draggedHistoryList, 
+    setDraggedHistoryList,    
+    
     selectedLinkList,
     setSelectedLinkList
   } = props
   
   const [linkList, setLinkList] = useState([])
   const [isHistoryDrag, setIsHistoryDrag] = useState(false)
-  
+  const dragMove = useRef(null)
   const dayAgo  = 1000 * 60 * 60 * 24 * 1
+  const minTime = Date.now() - (dayAgo * 365) 
   const [historySearch, setHisotrySearch] = useState({
     text: '',
     startTime: (new Date).getTime() - dayAgo,
@@ -39,55 +42,46 @@ export default function CategoryHistoryDrawer(props) {
   const [modalText, setModalText] = useState('')
   const [modalOpen, setModalOpen] = useState(false)
 
-  const onHistoryDragStart = (e, historyLink, historyLinkID) => {
+  const onHistoryDragStart = (e, link) => {
     const target = e.currentTarget
+    const { id, url: path } = link
     if(target.classList.contains('history-list')){
-      if(selectedLinkList.length === 0) {
-        setSelectedLinkList(selectedLinks => 
-          selectedLinks.concat({
-            id: historyLinkID, 
-            path: historyLink
-          })
-        )
-        setDraggedHistory(draggedHistorys => draggedHistorys.concat(target))
+      if(!selectedLinkList.length) {
+        setSelectedLinkList(selectedLinks => selectedLinks.concat({ id, path }))
+        setDraggedHistoryList(draggedHistoryList => draggedHistoryList.concat(target))
       }
-      
       setIsHistoryDrag(true)
       e.dataTransfer.setData('text/type', 'link')
-      e.dataTransfer.setDragImage(document.getElementById('mouse-modal'),110,35);
+      e.dataTransfer.setDragImage(dragMove.current, 110, 35)
     }
   }
 
-  const onHistoryDragEnd = (e, historyLinkID) => {
+  const onHistoryDragEnd = (e, _link) => {
     e.preventDefault()
     setIsHistoryDrag(false)
   }
 
-  const onLinkClick = (e , historyLink, historyLinkID) =>{
+  const onLinkClick = (e, link) => {
     e.preventDefault()
+    const { id, url: path } = link
     const target = e.currentTarget
-    const isSelectedHistoryDOM = (history) => draggedHistory.includes(history)
+    // const isSelectedHistoryDOM = (history) => draggedHistory.includes(history)
+    const isSelectedList = (id) => selectedLinkList.filter(selectedLink => selectedLink.id === id).length
 
-    if( isSelectedHistoryDOM(target) ) {
-      setSelectedLinkList(selectedLinks => selectedLinks.filter(link => link.id !== historyLinkID))
-      setDraggedHistory(draggedHistorys => draggedHistorys.filter(historyDOM => historyDOM !== target))
-
-    } else {
-      setSelectedLinkList(selectedLinks => 
-        selectedLinks.concat({
-          id: historyLinkID, 
-          path: historyLink
-        })
-      )
-      setDraggedHistory(draggedHistorys => draggedHistorys.concat(target))
-
+    if (isSelectedList(id)) {
+      setSelectedLinkList(selectedLinkList => selectedLinkList.filter(selectedLink => selectedLink.id !== id))
+      setDraggedHistoryList(draggedHistoryList => draggedHistoryList.filter(historyDOM => historyDOM !== target))
+    }
+    else {  
+      setSelectedLinkList(selectedLinkList => selectedLinkList.concat({ id, path }))
+      setDraggedHistoryList(draggedHistoryList => draggedHistoryList.concat(target))
     }
   }
 
   const onTabOpenClick = (e) => {
     e.preventDefault()
     if(!chrome.tabs){
-      selectedLinkList.forEach(link =>  window.open(link.url))
+      selectedLinkList.forEach(link =>  window.open(link.url)) // * not working multiple new Tab
     }
     else {
       selectedLinkList.forEach(link => chrome.tabs.create({
@@ -110,6 +104,7 @@ export default function CategoryHistoryDrawer(props) {
     else {
       setSelectedLinkList([])
       setLinkList([])
+      setSelectedLinkList([])
       setHisotrySearch({
         ...historySearch,
         text: '',
@@ -120,6 +115,20 @@ export default function CategoryHistoryDrawer(props) {
       })
     }
   }
+
+  const onInintClik = (e) => {
+    e.preventDefault()
+    setLinkList([])
+    setSelectedLinkList([])
+    setHisotrySearch({
+      ...historySearch,
+      text: '',
+      startTime: (new Date).getTime() - dayAgo,
+      endTime: (new Date).getTime(),
+      maxResults: 0,
+      scroll: true
+    }) 
+  }
   
   const onPressEnterSearchHistory = (e) => {
     const { keyCode } = e
@@ -127,9 +136,10 @@ export default function CategoryHistoryDrawer(props) {
     let startTime = (new Date).getTime() - dayAgo
     let scroll = true
     if (keyCode === 13) {
-      setLinkList([])
       if(value) startTime = 0
       else scroll = false
+      setLinkList([])
+      setSelectedLinkList([])
       setHisotrySearch({
         ...historySearch,
         text: value,
@@ -161,25 +171,26 @@ export default function CategoryHistoryDrawer(props) {
   }
 
   useEffect(() => {
-    if (historyDrawerOpen) {
-        const {text, startTime, endTime, maxResults} = historySearch;
-        getHistory({
-          text, startTime, endTime, maxResults, callback: (historyItems) => {
-            if(historyItems.scroll && historyItems.length < 20 && Date.now() - (dayAgo*365) > historySearch.startTime) {
-              setHisotrySearch((historySearch) => ({
-                ...historySearch,
-                startTime: historySearch.startTime - dayAgo
-              }))
-            }
-            else {
-              setLinkList([...linkList, ...historyItems])
-            }
+    if (historyDrawerOpen && (minTime < historySearch.startTime || !historySearch.startTime)) {
+      const { text, startTime, endTime, maxResults } = historySearch;
+      getHistory({
+        text, startTime, endTime, maxResults, callback: (historyItems) => {
+          if (historyItems.scroll && historyItems.length < 20) {
+            setHisotrySearch((historySearch) => ({
+              ...historySearch,
+              startTime: historySearch.startTime - dayAgo
+            }))
           }
-        })
-    } else {
+          else {
+            setLinkList([...linkList, ...historyItems])
+          }
+        }
+      })
+    } 
+    else {
       setLinkList([])
     }
-  },[historySearch])
+  }, [historySearch])
 
   useEffect(() => {
     if(modalText) setModalOpen(!modalOpen)
@@ -187,22 +198,24 @@ export default function CategoryHistoryDrawer(props) {
 
   return (
     <>
-      <div 
+      {/* history List Drag */}
+      <div
+        ref={dragMove}
         className={
           clsx(classes.tabMove, {
             [classes.dragStart]: isHistoryDrag,
             [classes.dragEnd]: !isHistoryDrag,
           })
         }
-        id='mouse-modal'
       >
         <div className={classes.circle}>
           <img className={classes.moveIcon} src={moveLink} alt="move links" />
         </div>
         <span>링크 {selectedLinkList.length}개 이동</span>
       </div>
+      {/* history List Drag - END */}
 
-      <div 
+      <div
         className={
           clsx(classes.root, {
             [classes.drawerOpen]: historyDrawerOpen,
@@ -215,7 +228,7 @@ export default function CategoryHistoryDrawer(props) {
         {
           historyDrawerOpen ?
             <Fragment>
-              <span className={classes.mainFont}>방문기록</span>
+              <button className={classes.mainFont} onClick={onInintClik}>방문기록</button>
               {/* history serarchTool */}
               <CategorySearchPopOver>
                 <div className={classes.popover}>
@@ -233,13 +246,15 @@ export default function CategoryHistoryDrawer(props) {
                 </div>
               </CategorySearchPopOver>
               {/* history serarchTool - END */}
+
               {selectedLinkList.length ?
-              <button className={classes.tabOpenText} onClick={onTabOpenClick}>탭 열기 ({selectedLinkList.length})</button> : ""
+                <button className={classes.tabOpenText} onClick={onTabOpenClick}>탭 열기 ({selectedLinkList.length})</button> : ""
               }
-              {
-                linkList.length ? linkList.map(link =>
+              
+              {linkList.length ?
+                linkList.map(link =>
                   <Fragment key={link.id}>
-                    <CategoryHistoryDateTitle link={link}/>
+                    <CategoryHistoryDateTitle link={link} />
                     <CategoryHistory
                       link={link}
                       selectedLinkList={selectedLinkList}
@@ -251,19 +266,19 @@ export default function CategoryHistoryDrawer(props) {
                   </Fragment>
                 )
                 :
-                historySearch.text ? 
-                (<div className={classes.imgCenter}>
-                  <img src={linkListSearchEmptyIcon} alt="link search list is empty"></img>
-                </div>)
-                :
-                (<div className={classes.imgCenter}>
-                  <img src={linkListEmptyIcon} alt="link list is empty"></img>
-                </div>) 
+                historySearch.text ?
+                  (<div className={classes.imgCenter}>
+                    <img src={linkListSearchEmptyIcon} alt="link search list is empty"></img>
+                  </div>)
+                  :
+                  (<div className={classes.imgCenter}>
+                    <img src={linkListEmptyIcon} alt="link list is empty"></img>
+                  </div>)
               }
-          </Fragment>
-        : null
-      }
-    </div>
+            </Fragment>
+            : null
+        }
+      </div>
     </>
   )
 }

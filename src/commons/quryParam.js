@@ -17,6 +17,6 @@ export const getQueryParams = (queryParamsData) => {
 export const getDashQueryParams = (queryParamsData) => {
   queryParamsData = queryParamsData || []
   let queryParams = ""
-  queryParamsData.map((queryParamData) => { if (queryParamData) queryParams += queryParamData + "/" })
+  queryParamsData.forEach((queryParamData) => { if (queryParamData) queryParams += queryParamData + "/" })
   return queryParams
 }
