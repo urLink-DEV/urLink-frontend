@@ -26,8 +26,9 @@ export default function AlarmPopover(props) {
   const classes = useStyles()
   const {alarmList, onAlarmRead, onNoReturnAlarm} = props
 
-  const handleClickAlarm = id => e => {
-    onAlarmRead(id)
+  const handleClickAlarm = alarm => e => {
+    onAlarmRead(alarm.id)
+    window.open(alarm.url_path)
   }
 
   const handleDeleteAlarm = id => e => {
@@ -38,9 +39,10 @@ export default function AlarmPopover(props) {
 
   return (
     <List className={classes.root}>
-      {alarmList.map((alarm) => 
+      {alarmList.map((alarm) =>
         <ListItem key={alarm.id} button 
-          onClick={handleClickAlarm(alarm.id)}
+          onClick={handleClickAlarm(alarm)}
+          style={alarm.alarm_has_read ? {backgroundColor: '#e0e0e0'} : {backgroundColor: 'white'}}
         >
         <ListItemAvatar>
           <Avatar className={classes.avatar}>
