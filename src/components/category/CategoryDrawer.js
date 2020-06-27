@@ -83,6 +83,10 @@ export default function CategoryDrawer(props) {
       }
 
   }, [categories, selectedCategoryId])
+  
+  const handleClickCategoryTitle = () => {
+    getLink(selectedCategoryId)
+  }
 
   const handleChangeNewCategoryTitle = (e) => {
     let checks = /[a-zA-Z]/
@@ -622,9 +626,9 @@ export default function CategoryDrawer(props) {
       <main className={classes.content}>
         <Grid container className={classes.toolbar}>
           <Grid item>
-            <div className={classes.mainFont}>
+            <button className={classes.mainFont} onClick={handleClickCategoryTitle}>
               {selectedCategoryTitle}
-            </div>
+            </button>
           </Grid>
           <Grid item>
             {searchPopOverBtn}
