@@ -24,13 +24,14 @@ import useStyles from './styles/AlarmPopover'
  */
 export default function AlarmPopover(props) {
   const classes = useStyles()
-  const {alarmList, onalarmRead, onNoReturnAlarm} = props
+  const {alarmList, onAlarmRead, onNoReturnAlarm} = props
 
-  const onClickAlarm = (id) => {
-    onalarmRead(id)
+  const handleClickAlarm = alarm => e => {
+    onAlarmRead(alarm.id)
+    window.open(alarm.url_path)
   }
 
-  const onDeleteAlarm = (id) => {
+  const handleDeleteAlarm = id => e => {
     onNoReturnAlarm(id)
   }
 
@@ -38,19 +39,26 @@ export default function AlarmPopover(props) {
 
   return (
     <List className={classes.root}>
-      {alarmList.map((alarm) => 
-        <ListItem key={alarm.id} button onClick={() => onClickAlarm(alarm.id)}>
+      {alarmList.map((alarm) =>
+        <ListItem key={alarm.id} button 
+          onClick={handleClickAlarm(alarm)}
+          style={alarm.alarm_has_read ? {backgroundColor: '#e0e0e0'} : {backgroundColor: 'white'}}
+        >
         <ListItemAvatar>
           <Avatar className={classes.avatar}>
-            {alarm.img ? <img className={classes.img} src={alarm.img}/> : <ImageIcon />}
+            {
+              alarm.url_image_path 
+              ? <img className={classes.img} src={alarm.url_image_path}/> 
+              : <ImageIcon />
+            }
           </Avatar>
         </ListItemAvatar>
         <ListItemText className={classes.text} 
-          primary={alarm.title} 
-          secondary={alarm.date}
+          primary={alarm.url_title} 
+          secondary={alarm.reserved_time}
         />
         <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="comments" onClick={() => onDeleteAlarm(alarm.id)}>
+            <IconButton edge="end" aria-label="comments" onClick={handleDeleteAlarm(alarm.id)}>
               <CloseIcon />
             </IconButton>
           </ListItemSecondaryAction>

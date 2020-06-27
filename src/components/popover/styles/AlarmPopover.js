@@ -5,7 +5,11 @@ const useStyles = makeStyles((theme) => ({
     width: 360,
     backgroundColor: theme.palette.background.paper,
   },
+  listItem: {
+    backgroundColor: 'rgba(0, 0, 0, 0.87)'
+  },
   avatar: {
+    marginLeft: 15,
     width: 32,
     height: 32,
   },

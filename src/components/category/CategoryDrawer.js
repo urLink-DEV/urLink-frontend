@@ -54,6 +54,7 @@ export default function CategoryDrawer(props) {
     selectedLinkList,
     setSelectedLinkList,
     writeAlarm,
+    getUser,
   } = props
   
   const links = useLinkState()
@@ -555,7 +556,7 @@ export default function CategoryDrawer(props) {
       setSelectedCardList([])
     }
   }, [isReset])
-  
+
   const handleClickExceptCard = useCallback(() => {
       setSelectedCardList([])
       setIsReset(true)
