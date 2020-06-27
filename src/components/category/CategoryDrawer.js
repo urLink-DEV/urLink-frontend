@@ -283,7 +283,7 @@ export default function CategoryDrawer(props) {
 
     if(type === 'category') {
       e.preventDefault()
-      e.currentTarget.previousSibling.style.display = 'none'
+      e.currentTarget.previousSibling.style.opacity = 0
       updateCategory(id, name, order, favorited)
       .then(() =>  setDraggedTargetData({
         ...draggedCategoryData,
