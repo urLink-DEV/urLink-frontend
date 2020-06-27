@@ -88,7 +88,7 @@ export default function CategoryDrawer(props) {
   const handleChangeNewCategoryTitle = (e) => {
     let checks = /[a-zA-Z]/
     if(checks.test(e.target.value)) {
-        if(e.target.value.length >= 15) return
+        if(e.target.value.length >= 14) return
     } else if (e.target.value.length >= 7) return
     setNewCategoryTitle(e.target.value)
   }
@@ -109,8 +109,9 @@ export default function CategoryDrawer(props) {
     }
   }
 
-  const addTab = () => {
-    if (newCategoryTitle === '') {
+  const addTab = (e) => {
+    e.stopPropagation()
+    if (!newCategoryTitle) {
       setAddOpen(true)
       setEnterOpen(false)
       setNewCategoryTitle('')
@@ -131,40 +132,51 @@ export default function CategoryDrawer(props) {
   }
 
   const pressEnter = (e) => {
+    e.stopPropagation()
     if (e.keyCode === 13) {
-      writeCategory(newCategoryTitle, false)
-      .then((res) => {
-        setSelectedCategoryId(res.data.id)
-        setSelectedCategoryTitle(res.data.name)
-        getLink(res.data.id)
-        return getCategory()
-      })
-      .then(() => {
-        setNewCategoryTitle('')
+      if (!newCategoryTitle) {
         setAddOpen(true)
         setEnterOpen(false)
-      })
+        setNewCategoryTitle('')
+      } else {
+        writeCategory(newCategoryTitle, false)
+        .then((res) => {
+          setSelectedCategoryId(res.data.id)
+          setSelectedCategoryTitle(res.data.name)
+          getLink(res.data.id)
+          return getCategory()
+        })
+        .then(() => {
+          setNewCategoryTitle('')
+          setAddOpen(true)
+          setEnterOpen(false)
+        })
+      }
     }
   }
 
-  const cancelAddTab = () => {
+  const cancelAddTab = (e) => {
+    e.stopPropagation()
     setAddOpen(true)
     setEnterOpen(false)
     setNewCategoryTitle('')
   }
 
   const openDeleteModal = (e) => {
+    e.stopPropagation()
     setDeleteOpen(true)
     setDeleteModalOpen(true)
   }
 
-  const closeDeleteModal = () => {
+  const closeDeleteModal = (e) => {
+    e.stopPropagation()
     setDeleteModalOpen(false)
     setDeleteOpen(false)
     setAddOpen(true)
   }
   
   const deleteTab = (e) => {
+    e.stopPropagation()
     deleteCategory(selectedCategoryId)
     .then(() => {
       setDeleteModalOpen(false)
@@ -180,7 +192,8 @@ export default function CategoryDrawer(props) {
     })
   }
 
-  const handleClickCategory = (id, name) => {
+  const handleClickCategory = (e, id, name) => {
+    e.stopPropagation()
     setAddOpen(false)
     if(addOpen) setDeleteOpen(true)
     setSelectedCategoryId(id)
@@ -188,7 +201,8 @@ export default function CategoryDrawer(props) {
     // getLink(selectedCategoryId)
   }
 
-  const openEnterTab = () => {
+  const openEnterTab = (e) => {
+    e.stopPropagation()
     setAddOpen(false)
     setEnterOpen(true)
   }
@@ -211,6 +225,7 @@ export default function CategoryDrawer(props) {
   const [dragHistoryFinished, setDragHistoryFinished] = useState(false)
 
   const dragStart = (e, id, name, order) => {
+    e.stopPropagation()
     const target = e.currentTarget
     setDraggedTargetData({
       ...draggedCategoryData,
@@ -227,11 +242,12 @@ export default function CategoryDrawer(props) {
 
   const dragOver = (e, id, order, favorited) => {
     e.preventDefault()
+    e.stopPropagation()
 
-    if(draggedHistoryList.length && draggedHistoryList[0].dataset.type === 'link') {
+    if(draggedHistoryList.length !== 0 && draggedHistoryList[0].dataset.type === 'link' && !draggedCategory) {
       setOveredTabId(id)
       e.dataTransfer.dropEffect = "move"
-    } else if(draggedCategory.dataset.type === 'category') {
+    } else if(draggedCategory.dataset.type === 'category' && draggedCategory) {
       setOveredTabOrder(order)
       setOveredTabFavorite(favorited)
       draggedCategory.style.display='none'
@@ -246,6 +262,7 @@ export default function CategoryDrawer(props) {
   
   const dragEnd = (e) => {
     e.preventDefault()
+    e.stopPropagation()
     setDraggedTargetData({
       ...draggedCategoryData,
       draggedCategory : '',
@@ -260,6 +277,7 @@ export default function CategoryDrawer(props) {
   }
 
   const drop = (e, id, name, order, favorited) => {
+    e.stopPropagation()
     const type = e.dataTransfer.getData('text/type')
     const filteredLinkList = [] 
     selectedLinkList.forEach(link => filteredLinkList.push(link.path))
@@ -284,6 +302,7 @@ export default function CategoryDrawer(props) {
   }
 
   const firstFavoriteDragOver = (e) => {
+    e.stopPropagation()
     e.preventDefault()
     draggedCategory.style.display='none'
     setOveredTabOrder(draggedOrder)
@@ -291,11 +310,13 @@ export default function CategoryDrawer(props) {
   }  
 
   const dragOverOnCardArea =(e) => {
+    e.stopPropagation()
     e.preventDefault()
     setOveredTabId(selectedCategoryId)
   }
 
   const dropOnCardArea = (e) => {
+    e.stopPropagation()
     const type = e.dataTransfer.getData('text/type')
     const filteredLinkList = [] 
     selectedLinkList.forEach(link => filteredLinkList.push(link.path))
@@ -322,17 +343,17 @@ export default function CategoryDrawer(props) {
   useEffect(() => {
 
     // * change add&delete button state if clicked on outside of element
-    function handleClickOutside(event) {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        if(enterOpen) {
-          setAddOpen(false)
-        } else {
-          setAddOpen(true)
-          setDeleteOpen(false) 
-        }
-      } 
-    }
-    document.addEventListener("mousedown", handleClickOutside)
+    // function handleClickOutside(event) {
+    //   if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+    //     if(enterOpen) {
+    //       setAddOpen(false)
+    //     } else {
+    //       setAddOpen(true)
+    //       setDeleteOpen(false) 
+    //     }
+    //   } 
+    // }
+    // document.addEventListener("mousedown", handleClickOutside)
 
     // add Animation when finished dragging
     if(dragFinished) {
@@ -344,7 +365,7 @@ export default function CategoryDrawer(props) {
           ...draggedCategoryData,
           dragFinished: false
         })
-      }, 900)  
+      }, 1000)  
 
     } else if(dragHistoryFinished) {
       timeId.current = setTimeout(() => {
@@ -353,7 +374,7 @@ export default function CategoryDrawer(props) {
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
+      // document.removeEventListener("mousedown", handleClickOutside)
       clearTimeout(timeId.current)
     }
 
@@ -379,7 +400,7 @@ export default function CategoryDrawer(props) {
               <ListItem className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
                 key={data.id}
                 data-type='category' 
-                onClick={() => handleClickCategory(data.id, data.name)}
+                onClick={(e) => handleClickCategory(e, data.id, data.name)}
                 draggable='true'
                 onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
                 onDragEnd={dragEnd}
@@ -443,7 +464,7 @@ export default function CategoryDrawer(props) {
               <ListItem className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
                 key={data.id} 
                 data-type='category' 
-                onClick={() => handleClickCategory(data.id, data.name)}
+                onClick={(e) => handleClickCategory(e, data.id, data.name)}
                 draggable='true'
                 onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
                 onDragEnd={dragEnd}
@@ -542,7 +563,18 @@ export default function CategoryDrawer(props) {
       return
   })
 
+  const handleClickChangeDeleteTabBtn = useCallback(() => {
+    if(enterOpen) {
+      setAddOpen(false)
+    } else {
+      setAddOpen(true)
+      setDeleteOpen(false) 
+    }
+    return 
+  })
+
   useEventListener('click', handleClickExceptCard)
+  useEventListener('click', handleClickChangeDeleteTabBtn)
 
   const handleSelectedCard = linkObj => e => {
     if (selectedCardList.indexOf(linkObj) !== -1) {

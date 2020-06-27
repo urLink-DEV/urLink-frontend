@@ -5,16 +5,19 @@ import {useCategoryDispatch} from '../../containers/category/CategoryContainer'
 import useStyles from './styles/CategoryTab'
 import star from '../../images/star.svg'
 
-export default function CategoryTab({
-  text, 
-  id, 
-  order, 
-  isFavorited, 
-  urlCount, 
-  selected, 
-  dragFinished, 
-  historyDragFinished, 
-  setSelectedCategoryTitle}) {
+export default function CategoryTab(props) {
+
+  const {
+    text, 
+    id, 
+    order, 
+    isFavorited, 
+    urlCount, 
+    selected, 
+    dragFinished, 
+    historyDragFinished, 
+    setSelectedCategoryTitle
+  } = props
 
   const classes = useStyles()
 
@@ -29,21 +32,23 @@ export default function CategoryTab({
     setCategoryTitle(event.target.value)
   }
 
-  const onDoubleClick = () => {
+  const onDoubleClick = (e) => {
+    e.stopPropagation()
     setDisabled(!disabled)
   }
 
   const updateText = (e) => {
+    e.stopPropagation()
       if (e.keyCode === 13) {
-        if (e.target.value === '') {
+        if (!e.target.value) {
           dispatch.updateCategory(id, prevCategoryTitle, order, isFavorited)
-          .then(() => dispatch.getCategory())
+          .then((_res) => dispatch.getCategory())
           setDisabled(!disabled)
           setSelectedCategoryTitle(prevCategoryTitle)
           setCategoryTitle(prevCategoryTitle)
         } else {
           dispatch.updateCategory(id, categoryTitle, order, isFavorited)
-          .then(() => dispatch.getCategory())
+          .then((_res) => dispatch.getCategory())
           setDisabled(!disabled)
           setSelectedCategoryTitle(categoryTitle)
         }
@@ -55,7 +60,7 @@ export default function CategoryTab({
 
     if (!selected && !disabled) {
       dispatch.updateCategory(id, prevCategoryTitle, order, isFavorited)
-      .then(() => dispatch.getCategory())
+      .then((_res) => dispatch.getCategory())
       setDisabled(!disabled)
       setCategoryTitle(prevCategoryTitle)
     }
