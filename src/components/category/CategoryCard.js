@@ -91,9 +91,9 @@ export default function CategoryCard(props) {
     writeAlarm(`${category}-${id}`,
       category,
       id, 
-      date.years(), 
-      date.months()+1, 
-      date.dates(), 
+      date.year(), 
+      date.month()+1, 
+      date.date(), 
       date.hours(), 
       date.minutes()
     )
@@ -112,6 +112,8 @@ export default function CategoryCard(props) {
   }
 
   const handleCancelEdit = e => {
+    setEditableTitle(title)
+    setEditableDesc(description)
     setIsEditable(false)
   }
 

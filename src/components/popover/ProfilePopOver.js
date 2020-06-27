@@ -1,4 +1,5 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
+import authAPI from '../../commons/apis/auth'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import Grid from '@material-ui/core/Grid'
@@ -11,20 +12,21 @@ import Badge from '@material-ui/core/Badge'
 import {useProfileContext} from '../../contexts/ProfileContext'
 import useStyles, {StyledBadge} from './styles/ProfilePopOver'
 
-export default function ProfilePopOver() {
+export default function ProfilePopOver(props) {
   
   const classes = useStyles()
   const profile = useProfileContext()
 
-  const [badgeInvisible, setBadgeInvisible] = React.useState(false);
+  const [badgeInvisible, setBadgeInvisible] = React.useState(false)
 
   // TODO 추후 공지 api 나오면 구상
   const handleBadgeVisibility = () => {
-    setBadgeInvisible(!badgeInvisible);
-  };
+    setBadgeInvisible(!badgeInvisible)
+  }
 
   const onClickLogout = () => {
-    console.log('logout')
+    authAPI.removeAccessToken()
+    window.location.href = "/index.html"
   }
 
   return (

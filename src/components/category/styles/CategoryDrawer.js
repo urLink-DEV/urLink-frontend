@@ -153,6 +153,7 @@ export const useStyles = makeStyles((theme) => ({
     objectFit: 'contain'
   },
   mainFont: {
+    backgroundColor: 'transparent',
     width: 200,
     height: '36px',
     fontFamily: 'SpoqaHanSans',
