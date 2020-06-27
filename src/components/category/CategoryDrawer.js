@@ -255,13 +255,13 @@ export default function CategoryDrawer(props) {
       setOveredTabOrder(order)
       setOveredTabFavorite(favorited)
       draggedCategory.style.display='none'
-      e.currentTarget.previousSibling.style.display = 'block'
+      e.currentTarget.previousSibling.style.opacity = 1
       e.dataTransfer.dropEffect = "move"
     }
   }
 
   const dragLeave = (e) => {
-    e.currentTarget.previousSibling.style.display = 'none'
+    e.currentTarget.previousSibling.style.opacity = 0
   }
   
   const dragEnd = (e) => {
