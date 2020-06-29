@@ -87,7 +87,7 @@ export default function CategoryTab(props) {
         onDoubleClick={onDoubleClick}
         value={categoryTitle}
         onChange={handleChange}
-        onKeyDown={updateText}
+        onKeyUp={updateText}
       />
       <div className={classes.linkBox}>
         <div className={classes.urlCountBox + (!isFavorited ? ' ' + classes.marginRight : '')}>

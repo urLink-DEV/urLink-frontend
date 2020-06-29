@@ -135,7 +135,7 @@ export default function CategoryDrawer(props) {
     }
   }
 
-  const pressEnter = (e) => {
+  const pressEnterAddTab = (e) => {
     e.stopPropagation()
     if (e.keyCode === 13) {
       if (!newCategoryTitle) {
@@ -452,7 +452,7 @@ export default function CategoryDrawer(props) {
             placeholder="New one"
             value={newCategoryTitle}
             onChange={handleChangeNewCategoryTitle}
-            onKeyDown={pressEnter}
+            onKeyUp={pressEnterAddTab}
           />
             <Button className={classes.okBtn} onClick={addTab}>
               확인
