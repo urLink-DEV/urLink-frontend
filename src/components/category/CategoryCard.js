@@ -100,6 +100,8 @@ export default function CategoryCard(props) {
   }
 
   const handleClickEdit = e => {
+    setEditableTitle(title)
+    setEditableDesc(description)
     setIsEditable(true)
   }
 
