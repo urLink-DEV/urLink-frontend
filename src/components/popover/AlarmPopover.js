@@ -10,6 +10,7 @@ import Avatar from '@material-ui/core/Avatar'
 import ImageIcon from '@material-ui/icons/Image'
 import CloseIcon from '@material-ui/icons/Close'
 import useStyles from './styles/AlarmPopover'
+import linkListEmptyIcon from '../../images/group-11.png'
 /*
  * id: 15
  * name: "test"
@@ -35,35 +36,34 @@ export default function AlarmPopover(props) {
     onNoReturnAlarm(id)
   }
 
-  console.log(alarmList)
-
   return (
-    <List className={classes.root}>
-      {alarmList.map((alarm) =>
-        <ListItem key={alarm.id} button 
-          onClick={handleClickAlarm(alarm)}
-          style={alarm.alarm_has_read ? {backgroundColor: '#e0e0e0'} : {backgroundColor: 'white'}}
-        >
-        <ListItemAvatar>
-          <Avatar className={classes.avatar}>
-            {
-              alarm.url_image_path 
-              ? <img className={classes.img} src={alarm.url_image_path}/> 
-              : <ImageIcon />
-            }
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText className={classes.text} 
-          primary={alarm.url_title} 
-          secondary={alarm.reserved_time}
-        />
-        <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="comments" onClick={handleDeleteAlarm(alarm.id)}>
-              <CloseIcon />
-            </IconButton>
-          </ListItemSecondaryAction>
-      </ListItem>
-      )}
-    </List>
+      (alarmList.length > 0)
+       ? <List className={classes.root}>
+       {alarmList.map((alarm) =>
+         <ListItem key={alarm.id} button 
+           onClick={handleClickAlarm(alarm)}
+           style={alarm.alarm_has_read ? {backgroundColor: '#e0e0e0'} : {backgroundColor: 'white'}}
+         >
+         <ListItemAvatar>
+           <Avatar className={classes.avatar}>
+             {
+               alarm.url_image_path 
+               ? <img className={classes.img} src={alarm.url_image_path}/> 
+               : <ImageIcon />
+             }
+           </Avatar>
+         </ListItemAvatar>
+         <ListItemText className={classes.text} 
+           primary={alarm.url_title} 
+           secondary={alarm.reserved_time}
+         />
+         <ListItemSecondaryAction>
+             <IconButton edge="end" aria-label="comments" onClick={handleDeleteAlarm(alarm.id)}>
+               <CloseIcon />
+             </IconButton>
+           </ListItemSecondaryAction>
+       </ListItem>
+       )}
+     </List> : <img src={linkListEmptyIcon} alt="alarm list empty"/>
   )
 }
