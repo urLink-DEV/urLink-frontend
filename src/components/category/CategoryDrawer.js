@@ -120,6 +120,8 @@ export default function CategoryDrawer(props) {
       setEnterOpen(false)
       setNewCategoryTitle('')
     } else {
+      setAddOpen(true)
+      setEnterOpen(false)
       writeCategory(newCategoryTitle, false)
       .then((res) => {
         setSelectedCategoryId(res.data.id)
@@ -127,35 +129,14 @@ export default function CategoryDrawer(props) {
         getLink(res.data.id)
         return getCategory()
       })
-      .then(() => {
-        setNewCategoryTitle('')
-        setAddOpen(true)
-        setEnterOpen(false)
-      })
+      setNewCategoryTitle('')
     }
   }
 
   const pressEnterAddTab = (e) => {
     e.stopPropagation()
     if (e.keyCode === 13) {
-      if (!newCategoryTitle) {
-        setAddOpen(true)
-        setEnterOpen(false)
-        setNewCategoryTitle('')
-      } else {
-        writeCategory(newCategoryTitle, false)
-        .then((res) => {
-          setSelectedCategoryId(res.data.id)
-          setSelectedCategoryTitle(res.data.name)
-          getLink(res.data.id)
-          return getCategory()
-        })
-        .then(() => {
-          setNewCategoryTitle('')
-          setAddOpen(true)
-          setEnterOpen(false)
-        })
-      }
+      addTab(e)
     }
   }
 
