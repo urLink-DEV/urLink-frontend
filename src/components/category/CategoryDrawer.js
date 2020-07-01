@@ -268,7 +268,9 @@ export default function CategoryDrawer(props) {
 
     if(type === 'category') {
       e.preventDefault()
-      e.currentTarget.previousSibling.style.opacity = 0
+      if(favoritedArr.length && notFavoritedArr.length) {
+        e.currentTarget.previousSibling.style.opacity = 0
+      }       
       updateCategory(id, name, order, favorited)
       .then(() =>  setDraggedTargetData({
         ...draggedCategoryData,
@@ -293,6 +295,14 @@ export default function CategoryDrawer(props) {
     setOveredTabFavorite(true)
   }  
 
+  const firstCategoryDragOver = (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+    draggedCategory.style.display='none'
+    setOveredTabOrder(draggedOrder)
+    setOveredTabFavorite(false)
+  }  
+
   const dragOverOnCardArea =(e) => {
     e.stopPropagation()
     e.preventDefault()
@@ -315,29 +325,11 @@ export default function CategoryDrawer(props) {
   }
 
 
-  /* 
-    아래는 외부영역 클릭시 버튼 토글 & 드래그 시작/끝날 때 애니메이션 css 토글
-  */
-
-  
   const listRef = useRef()  
   const wrapperRef = useRef(null)
   const timeId = useRef()
 
   useEffect(() => {
-
-    // * change add&delete button state if clicked on outside of element
-    // function handleClickOutside(event) {
-    //   if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-    //     if(enterOpen) {
-    //       setAddOpen(false)
-    //     } else {
-    //       setAddOpen(true)
-    //       setDeleteOpen(false) 
-    //     }
-    //   } 
-    // }
-    // document.addEventListener("mousedown", handleClickOutside)
 
     // add Animation when finished dragging
     if(dragFinished) {
@@ -373,7 +365,8 @@ export default function CategoryDrawer(props) {
           </div>
           <hr />
         </div>
-        <div className={(favoritedArr.length === 0 ? 'drag-box' : 'hidden')}
+        <div 
+          className={(!favoritedArr.length ? classes.firstFavoriteDropZone : classes.hidden)}
           onDragOver={firstFavoriteDragOver}
           onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
         >
@@ -386,8 +379,8 @@ export default function CategoryDrawer(props) {
               <ListItem className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
                 key={data.id}
                 data-type='category' 
-                onClick={(e) => handleClickCategory(e, data.id, data.name)}
                 draggable='true'
+                onClick={(e) => handleClickCategory(e, data.id, data.name)}
                 onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
                 onDragEnd={dragEnd}
                 onDragOver={(e) => dragOver(e, data.id, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
@@ -445,6 +438,11 @@ export default function CategoryDrawer(props) {
               취소
             </Button>
         </Paper>
+        <div 
+          className={(!notFavoritedArr.length ? classes.hiddenDropZone: classes.hidden)}
+          onDragOver={firstCategoryDragOver}
+          onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
+        />
         <List>
           {notFavoritedArr.map((data, index) => (
             <React.Fragment key={data.id}>
@@ -452,8 +450,8 @@ export default function CategoryDrawer(props) {
               <ListItem className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
                 key={data.id} 
                 data-type='category' 
-                onClick={(e) => handleClickCategory(e, data.id, data.name)}
                 draggable='true'
+                onClick={(e) => handleClickCategory(e, data.id, data.name)}
                 onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
                 onDragEnd={dragEnd}
                 onDragOver={(e) => dragOver(e, data.id, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
