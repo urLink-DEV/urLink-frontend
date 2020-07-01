@@ -34,7 +34,11 @@ export default function CategoryTab(props) {
 
   const onDoubleClick = (e) => {
     e.stopPropagation()
+    e.preventDefault()
     setDisabled(!disabled)
+    
+    inputRef.current.children[0].focus()
+    console.log('input1', inputRef.current.children[0])
   }
 
   const updateText = (e) => {
@@ -56,21 +60,37 @@ export default function CategoryTab(props) {
   }
 
   useEffect(() => {
-    if (!disabled) inputRef.current.children[0].focus()
 
-    if (!selected && !disabled) {
-      dispatch.updateCategory(id, prevCategoryTitle, order, isFavorited)
-      .then((_res) => dispatch.getCategory())
-      setDisabled(!disabled)
-      setCategoryTitle(prevCategoryTitle)
+    
+    if (!disabled) {
+      // inputRef.current.children[0].focus()
+      // console.log('input1', inputRef.current.children[0])
+
     }
 
-  },[disabled, categoryTitle, selected, prevCategoryTitle])
+    if (!selected && !disabled) {
+      // console.log('input2', inputRef.current.children[0])
+      // inputRef.current.children[0].blur()
+      dispatch.updateCategory(id, prevCategoryTitle, order, isFavorited)
+      .then((_res) => {
+        dispatch.getCategory()
+        inputRef.current.children[0].blur()
+
+      })
+      setDisabled(!disabled)
+      setCategoryTitle(prevCategoryTitle)
+      // inputRef.current.children[0].blur()
+      console.log('input2', inputRef.current.children[0])
+
+
+    }
+
+  },[disabled, selected, prevCategoryTitle])
 
 
   return (
     <div className={
-      classes.listItem
+      classes.listTab
       + (selected ? ' ' + classes.selected : '')
       + (!disabled && selected ? ' ' + classes.modifying : '')}>
       <Paper 

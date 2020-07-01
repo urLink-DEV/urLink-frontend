@@ -368,10 +368,12 @@ export default function CategoryDrawer(props) {
   const drawer = (
     <div>
       <div className="list-tab-layout" ref={wrapperRef}>
-        <div className="favorite-text">
-          Favorite
+        <div className="favorite-header">
+          <div className="favorite-text">
+            Favorite
+          </div>
+          <hr />
         </div>
-        <hr />
         <div className={(favoritedArr.length === 0 ? 'drag-box' : 'hidden')}
           onDragOver={firstFavoriteDragOver}
           onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
@@ -409,10 +411,12 @@ export default function CategoryDrawer(props) {
             </React.Fragment>
           ))}
         </List>
-        <div className="category-text">
-          Category
+        <div className="category-header">
+          <div className="category-text">
+            Category
+          </div>
+          <hr />
         </div>
-        <hr />
         <Button className={classes.addButton + (addOpen ? '' : ' '+classes.hidden)} 
           variant="contained"
           onClick={openEnterTab}

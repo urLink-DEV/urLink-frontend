@@ -230,6 +230,9 @@ export const useStyles = makeStyles((theme) => ({
     'div.makeStyles-drawerOpen-285': {
       right: 50
     },
+    '.MuiListItem-root': {
+      width: 208
+    },
     '.MuiListItem-gutters' : {
       padding: 0,
       margin: '10px 0'
