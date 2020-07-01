@@ -37,8 +37,8 @@ export default function CategoryTab(props) {
     e.preventDefault()
     setDisabled(!disabled)
     
-    inputRef.current.children[0].focus()
-    console.log('input1', inputRef.current.children[0])
+    inputRef.current.focus()
+    console.log('input1', inputRef.current)
   }
 
   const updateText = (e) => {
@@ -61,26 +61,18 @@ export default function CategoryTab(props) {
 
   useEffect(() => {
 
-    
-    if (!disabled) {
-      // inputRef.current.children[0].focus()
-      // console.log('input1', inputRef.current.children[0])
-
-    }
-
     if (!selected && !disabled) {
-      // console.log('input2', inputRef.current.children[0])
-      // inputRef.current.children[0].blur()
+      // console.log('input2', inputRef.current)
+      // inputRef.current.blur()
       dispatch.updateCategory(id, prevCategoryTitle, order, isFavorited)
       .then((_res) => {
         dispatch.getCategory()
-        inputRef.current.children[0].blur()
+        inputRef.current.blur()
 
       })
       setDisabled(!disabled)
       setCategoryTitle(prevCategoryTitle)
-      // inputRef.current.children[0].blur()
-      console.log('input2', inputRef.current.children[0])
+      console.log('input2', inputRef.current)
 
 
     }
@@ -101,9 +93,10 @@ export default function CategoryTab(props) {
       >
       <InputBase 
         disableUnderline={true}
-        ref={inputRef}
+        inputRef={inputRef}
         className={classes.input + (selected ? ' selected': '')}
         disabled={disabled}
+        autoFocus={true}
         onDoubleClick={onDoubleClick}
         value={categoryTitle}
         onChange={handleChange}
