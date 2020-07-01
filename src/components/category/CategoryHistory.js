@@ -1,6 +1,6 @@
 /* global chrome */
 import React, { useState } from 'react'
-import clsx from 'clsx';
+import clsx from 'clsx'
 
 import logo from '../../images/logo/logo16.png'
 import linkCopy from '../../images/link-copy.svg'

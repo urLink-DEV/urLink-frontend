@@ -98,7 +98,7 @@ export default function CategoryDrawer(props) {
   }
 
   const handleToggleChange = (event, newAlignment) => {
-    setToggleAlignment(newAlignment);
+    setToggleAlignment(newAlignment)
   }
 
   const handlePressEnterSearchValue = e => {
@@ -170,7 +170,6 @@ export default function CategoryDrawer(props) {
       return getCategory()
     })
     .then((res) => {
-      console.log(res)
       setSelectedCategoryId(res.data[0].id)
       setSelectedCategoryTitle(res.data[0].name)
       getLink(res.data[0].id)
@@ -590,7 +589,7 @@ export default function CategoryDrawer(props) {
 
   const handleDeleteSuccessAlertClose = e => {
     setDeleteSuccessAlert(false)
-  };
+  }
 
   return (
     <div className={classes.root}>

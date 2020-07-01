@@ -72,9 +72,6 @@ export default function CategoryTab(props) {
       })
       setDisabled(!disabled)
       setCategoryTitle(prevCategoryTitle)
-      console.log('input2', inputRef.current)
-
-
     }
 
   },[disabled, selected, prevCategoryTitle])

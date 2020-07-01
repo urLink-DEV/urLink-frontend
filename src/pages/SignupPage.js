@@ -1,21 +1,21 @@
 /* global chrome */
-import React, {useState,useReducer} from 'react';
-import {Link} from "react-chrome-extension-router";
+import React, {useState,useReducer} from 'react'
+import {Link} from "react-chrome-extension-router"
 import URLinkLogo from '../images/logo-urlink-full.png'
-import './LoginSignup.scss';
-import Button from '@material-ui/core/Button';
-import {GoogleLoginBtn, OneRadioBtn, NomalBtn} from '../components/button';
-import {IdInput, NicknameInput, PasswordInput} from '../components/input';
-import {TermsModal} from '../components/modal';
-import {singupAlert, singupAlertCheck} from '../components/alert';
-import LoginContainer from '../containers/LoginContainer';
+import './LoginSignup.scss'
+import Button from '@material-ui/core/Button'
+import {GoogleLoginBtn, OneRadioBtn, NomalBtn} from '../components/button'
+import {IdInput, NicknameInput, PasswordInput} from '../components/input'
+import {TermsModal} from '../components/modal'
+import {singupAlert, singupAlertCheck} from '../components/alert'
+import LoginContainer from '../containers/LoginContainer'
 
 function SignupPage(props) {
 
   /** 
    * * props setting
    */
-  const {onClickSignup, onClickGoogleSignup} = props;
+  const {onClickSignup, onClickGoogleSignup} = props
   
   /**
    * * state setting
@@ -26,81 +26,81 @@ function SignupPage(props) {
     email: "",
     password: "",
     rePassword: ""
-  };
+  }
   const reducer = (formState, { field, value }) => {
     return {
       ...formState,
       [field]: value
     }
-  };
-  const [formState, dispatch] = useReducer(reducer, formStateInit);
-  const { username, email, password, rePassword } = formState;
+  }
+  const [formState, dispatch] = useReducer(reducer, formStateInit)
+  const { username, email, password, rePassword } = formState
   // * usernameAlert
-  const [usernameAlertMsg, setUsernameAlertMsg] = useState('');
-  const [usernameAlert, setUsernameAlert] = useState(true);
+  const [usernameAlertMsg, setUsernameAlertMsg] = useState('')
+  const [usernameAlert, setUsernameAlert] = useState(true)
   //* emailAlert
-  const [emailAlertMsg, setEmailAlertMsg] = useState('');
-  const [emailAlert, setEmailAlert] = useState(true);
+  const [emailAlertMsg, setEmailAlertMsg] = useState('')
+  const [emailAlert, setEmailAlert] = useState(true)
   // * passwordAlert
-  const [passwordAlertMsg, setPasswordAlertMsg] = useState('');
-  const [passwordAlert, setPasswordAlert] = useState(true);
+  const [passwordAlertMsg, setPasswordAlertMsg] = useState('')
+  const [passwordAlert, setPasswordAlert] = useState(true)
   // * rePasswordAlert
-  const [rePasswordAlertMsg, setRePasswordAlertMsg] = useState('');
-  const [rePasswordAlert, setRePasswordAlert] = useState(true);
+  const [rePasswordAlertMsg, setRePasswordAlertMsg] = useState('')
+  const [rePasswordAlert, setRePasswordAlert] = useState(true)
   // * register access check Button
-  const [registerCheck, setRegisterCheck] = useState(false);
-  const [registerModalOpen, setRegisterModalOpen] = useState(false);
+  const [registerCheck, setRegisterCheck] = useState(false)
+  const [registerModalOpen, setRegisterModalOpen] = useState(false)
 
   const onChange = (e) => {
-    const field = e.target.name;
-    const value = e.target.value;
-    dispatch({ field, value });
-    if(validationCheck.hasOwnProperty([field + "Check"])) validationCheck[field + "Check"](value,formState);
-  };
+    const field = e.target.name
+    const value = e.target.value
+    dispatch({ field, value })
+    if(validationCheck.hasOwnProperty([field + "Check"])) validationCheck[field + "Check"](value,formState)
+  }
   const validationCheck = {
     usernameCheck: function (name,_formState) {
-      const resultAlert = singupAlertCheck.username(name);
-      setUsernameAlert(resultAlert.check);
-      setUsernameAlertMsg(resultAlert.msg);
+      const resultAlert = singupAlertCheck.username(name)
+      setUsernameAlert(resultAlert.check)
+      setUsernameAlertMsg(resultAlert.msg)
     },
     emailCheck: function (email,_formState) {
-      const resultAlert = singupAlertCheck.email(email);
-      setEmailAlert(resultAlert.check);
-      setEmailAlertMsg(resultAlert.msg);
+      const resultAlert = singupAlertCheck.email(email)
+      setEmailAlert(resultAlert.check)
+      setEmailAlertMsg(resultAlert.msg)
     },
     checkPw: function (password,rePassword) {
-      if (!password || !rePassword) return;
-      const resultAlert = singupAlertCheck.rePassword(password, rePassword);
-      setRePasswordAlert(resultAlert.check);
-      setRePasswordAlertMsg(resultAlert.msg);
+      if (!password || !rePassword) return
+      const resultAlert = singupAlertCheck.rePassword(password, rePassword)
+      setRePasswordAlert(resultAlert.check)
+      setRePasswordAlertMsg(resultAlert.msg)
     },
     passwordCheck: function (password,formState) {
-      const resultAlert = singupAlertCheck.password(password);
-      setPasswordAlert(resultAlert.check);
-      setPasswordAlertMsg(resultAlert.msg);
-      this.checkPw(password, formState.rePassword);
+      const resultAlert = singupAlertCheck.password(password)
+      setPasswordAlert(resultAlert.check)
+      setPasswordAlertMsg(resultAlert.msg)
+      this.checkPw(password, formState.rePassword)
     },
     rePasswordCheck: function (rePassword,formState) {
-      this.checkPw(formState.password, rePassword);
+      this.checkPw(formState.password, rePassword)
     }
-  };
+  }
   const changeRegisterCheck = () => {
-    setRegisterCheck(registerCheck => !registerCheck);
-  };
+    setRegisterCheck(registerCheck => !registerCheck)
+  }
   const handleRegisterCheck = (e) => {
-    const check = parseInt(e.currentTarget.value);
-    setRegisterCheck(check ? true : false);
-    setRegisterModalOpen(false);
-  };
+    const check = parseInt(e.currentTarget.value)
+    setRegisterCheck(check ? true : false)
+    setRegisterModalOpen(false)
+  }
   const handleClickTermsOpen = () => {
-    setRegisterModalOpen(true);
-  };
+    setRegisterModalOpen(true)
+  }
   const handleClickTermsClose = () => {
-    setRegisterModalOpen(false);
-  };
+    setRegisterModalOpen(false)
+  }
   const btnActive = () => {
     return usernameAlert || emailAlert || passwordAlert || rePasswordAlert || !registerCheck
-  };
+  }
   
   return (
     <div className="container container-layout">
@@ -149,7 +149,7 @@ function SignupPage(props) {
       <section className="image-box-signup image-layout">
       </section>
     </div>
-  );
+  )
 }
 
-export default SignupPage;
+export default SignupPage

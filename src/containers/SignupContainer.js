@@ -10,9 +10,9 @@ export default function SignupContainer() {
   const [modalText, setModalText] = useState('')
 
   const onClickSignup = e => {
-    e.preventDefault();
+    e.preventDefault()
     const data = new FormData(e.currentTarget)
-    const email = data.get("email");
+    const email = data.get("email")
     const username = data.get("username")
     const password = data.get("password")
     const nRegister = userAPI.nRegister({ email, username, password })
@@ -38,8 +38,8 @@ export default function SignupContainer() {
         .catch(error => {
 	        const status = error.response && (error.response.status || "")
           if (status >= 400 && retry) {
-            retry = false;
-            chrome.identity.removeCachedAuthToken({token}, onClickGoogleSignup);
+            retry = false
+            chrome.identity.removeCachedAuthToken({token}, onClickGoogleSignup)
           }
           else setModalText(error.response.data.message)
         })
