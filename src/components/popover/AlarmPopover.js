@@ -10,7 +10,7 @@ import Avatar from '@material-ui/core/Avatar'
 import ImageIcon from '@material-ui/icons/Image'
 import CloseIcon from '@material-ui/icons/Close'
 import useStyles from './styles/AlarmPopover'
-import linkListEmptyIcon from '../../images/group-11.png'
+import linkListEmptyIcon from '../../images/group-10.png'
 /*
  * id: 15
  * name: "test"

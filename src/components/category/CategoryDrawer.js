@@ -21,6 +21,7 @@ import {useStyles, StyledToggleButtonGroup} from './styles/CategoryDrawer'
 import clsx from 'clsx'
 
 import SearchIcon from '../../images/search.png'
+import CategoryEmptyIcon from '../../images/group-5.svg'
 import linkListEmptyIcon from '../../images/group-11.png'
 import linkListSearchEmptyIcon from '../../images/group-17.png'
 
@@ -189,7 +190,9 @@ export default function CategoryDrawer(props) {
       return getCategory()
     })
     .then((res) => {
-      console.log(res)
+      if (res.data.length === 0) {
+        return
+      }
       setSelectedCategoryId(res.data[0].id)
       setSelectedCategoryTitle(res.data[0].name)
       getLink(res.data[0].id)
@@ -661,17 +664,20 @@ export default function CategoryDrawer(props) {
                   writeAlarm={writeAlarm}
                 />
               </Grid>) 
-            : searchValue ? 
-              (<div className={classes.imgCenter}>
-                <img src={linkListSearchEmptyIcon} 
-                  alt='link list search empty'
-                />
-              </div>)
-          : (<div className={classes.imgCenter}>
-              <img src={linkListEmptyIcon} 
-                alt='link list empty'
+            : categories.length === 0 ? 
+              <img className={classes.imgCenter} 
+                src={CategoryEmptyIcon} 
+                alt='category list empty'
               />
-            </div>) 
+            :  searchValue ? 
+              <img className={classes.imgCenter}
+                src={linkListSearchEmptyIcon} 
+                alt='link list search empty'
+              />
+          : <img className={classes.imgCenter}
+              src={linkListEmptyIcon} 
+              alt='link list empty'
+            />
           }
         </Grid>
         <Snackbar open={deleteSuccessAlert}

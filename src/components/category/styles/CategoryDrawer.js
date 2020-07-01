@@ -144,13 +144,10 @@ export const useStyles = makeStyles((theme) => ({
     height: 50
   }, 
   imgCenter: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     position: 'absolute',
-    width: '80%',
-    height: '70%',
-    objectFit: 'contain'
+    top: '40%',
+    left: '55%',
+    transform: 'translate(-45%, -90%)',
   },
   mainFont: {
     backgroundColor: 'transparent',
