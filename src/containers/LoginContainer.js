@@ -10,9 +10,9 @@ export default function LoginContainer() {
   const [modalText, setModalText] = useState('')
 
   const onClickLogin = e => {
-    e.preventDefault();
+    e.preventDefault()
     const data = new FormData(e.currentTarget)
-    const email = data.get("email");
+    const email = data.get("email")
     const password = data.get("password")
     const nLogin = userAPI.nLogin({ email, password })
     nLogin.then((res) => {
@@ -36,8 +36,8 @@ export default function LoginContainer() {
         .catch(error => {
 	        const status = error.response && (error.response.status || "")
           if (status >= 400 && retry) {
-            retry = false;
-            chrome.identity.removeCachedAuthToken({token}, onClickGoogleLogin);
+            retry = false
+            chrome.identity.removeCachedAuthToken({token}, onClickGoogleLogin)
           }
           else setModalText(error.response.data.message)
         })

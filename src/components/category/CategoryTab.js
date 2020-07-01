@@ -34,7 +34,11 @@ export default function CategoryTab(props) {
 
   const onDoubleClick = (e) => {
     e.stopPropagation()
+    e.preventDefault()
     setDisabled(!disabled)
+    
+    inputRef.current.focus()
+    console.log('input1', inputRef.current)
   }
 
   const updateText = (e) => {
@@ -56,21 +60,26 @@ export default function CategoryTab(props) {
   }
 
   useEffect(() => {
-    if (!disabled) inputRef.current.children[0].focus()
 
     if (!selected && !disabled) {
+      // console.log('input2', inputRef.current)
+      // inputRef.current.blur()
       dispatch.updateCategory(id, prevCategoryTitle, order, isFavorited)
-      .then((_res) => dispatch.getCategory())
+      .then((_res) => {
+        dispatch.getCategory()
+        inputRef.current.blur()
+
+      })
       setDisabled(!disabled)
       setCategoryTitle(prevCategoryTitle)
     }
 
-  },[disabled, categoryTitle, selected, prevCategoryTitle])
+  },[disabled, selected, prevCategoryTitle])
 
 
   return (
     <div className={
-      classes.listItem
+      classes.listTab
       + (selected ? ' ' + classes.selected : '')
       + (!disabled && selected ? ' ' + classes.modifying : '')}>
       <Paper 
@@ -81,9 +90,10 @@ export default function CategoryTab(props) {
       >
       <InputBase 
         disableUnderline={true}
-        ref={inputRef}
+        inputRef={inputRef}
         className={classes.input + (selected ? ' selected': '')}
         disabled={disabled}
+        autoFocus={true}
         onDoubleClick={onDoubleClick}
         value={categoryTitle}
         onChange={handleChange}
