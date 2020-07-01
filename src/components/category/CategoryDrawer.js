@@ -137,8 +137,11 @@ export default function CategoryDrawer(props) {
   }
 
   const pressEnterAddTab = (e) => {
+    e.preventDefault()
     e.stopPropagation()
+    console.log('두 번 일어나니 설마?')
     if (e.keyCode === 13) {
+      console.log('여기야 여기')
       if (!newCategoryTitle) {
         setAddOpen(true)
         setEnterOpen(false)

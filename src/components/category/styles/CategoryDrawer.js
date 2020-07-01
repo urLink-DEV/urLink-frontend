@@ -145,9 +145,9 @@ export const useStyles = makeStyles((theme) => ({
   }, 
   imgCenter: {
     position: 'absolute',
-    top: '40%',
+    top: '50%',
     left: '55%',
-    transform: 'translate(-45%, -90%)',
+    transform: 'translate(-45%, -55%)',
   },
   mainFont: {
     backgroundColor: 'transparent',
