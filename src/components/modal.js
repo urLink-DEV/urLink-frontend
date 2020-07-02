@@ -136,12 +136,22 @@ export function TermsModal({ openBool, onClose, onClick }) {
           </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClick} color="primary" autoFocus style={{ fontWeight: "bold" }} value={1}>
-          동의함
-        </Button>
-        <Button onClick={onClick} color="primary" style={{ fontWeight: "bold" }} value={0}>
-          동의안함
-        </Button>
+        {onClick ?
+          (<>
+            <Button onClick={onClick} color="primary" autoFocus style={{ fontWeight: "bold" }} value={1}>
+              동의함
+            </Button>
+            <Button onClick={onClick} color="primary" style={{ fontWeight: "bold" }} value={0}>
+              동의안함
+            </Button>
+          </>)
+          : 
+          (
+            <Button onClick={onClose} color="primary" autoFocus style={{ fontWeight: "bold" }} value={1}>
+              닫기
+            </Button>
+          )
+          }
       </DialogActions>
     </Dialog>
   )
