@@ -9,6 +9,7 @@ const Profile = (props) => {
   const {getUser} = props
   
   const [profile, setProfile] = useState({name: '', email: '', img: ''})
+
   useEffect(() => {
     getUser()
       .then(res => res.data)
@@ -17,7 +18,7 @@ const Profile = (props) => {
         email: res.email,
         img: DefaultImg
       }))
-  })
+  }, [])
   
   return (
     <ProfileContext.Provider value={profile}>

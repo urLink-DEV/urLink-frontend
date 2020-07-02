@@ -43,7 +43,6 @@ export default function CategoryTab(props) {
   }
 
   const handleFocusIn = e => {
-    e.preventDefault()
     setDisabled(false)
     console.log('focus on', id)
   }
@@ -58,42 +57,19 @@ export default function CategoryTab(props) {
     e.preventDefault()
     e.stopPropagation()
     if (e.keyCode === 13) {
-      if (!e.target.value) {
-        dispatch.updateCategory(id, text, order, isFavorited)
-          .then((_res) => {
-            dispatch.getCategory()
-            setDisabled(true)
-            setSelectedCategoryTitle(text)
-            setCategoryTitle(text)
-        })
+      if (!categoryTitle) {
+        setCategoryTitle(text)
+        setDisabled(true)
       } else {
         dispatch.updateCategory(id, categoryTitle, order, isFavorited)
-          .then((_res) => {
-            dispatch.getCategory()
-            setDisabled(true)
+          .then(() => dispatch.getCategory())
+          .then(() => {
             setSelectedCategoryTitle(categoryTitle)
+            setDisabled(true)
           })
       }
     }
   }
-
-  // useEffect(() => {
-  //   console.log(selected, disabled)
-  //   if (!selected && !disabled) {
-  //     console.log('여기 들어옹ㅁ까')
-  //     setCategoryTitle(text)
-      
-  //     // console.log('input2', inputRef.current)
-  //     // inputRef.current.blur()
-  //     // dispatch.updateCategory(id, text, order, isFavorited)
-  //     // .then((_res) => {
-  //     //   dispatch.getCategory()
-  //       // inputRef.current.blur()
-  //     // })
-  //   }
-
-  // },[disabled, selected])
-
 
   return (
     <div className={
@@ -112,6 +88,7 @@ export default function CategoryTab(props) {
         disabled={disabled}
         value={categoryTitle}
         onDoubleClick={onDoubleClick}
+
         onFocus={handleFocusIn}
         onBlur={handleFocusOut}
         onChange={handleChange}
