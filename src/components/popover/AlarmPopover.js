@@ -46,8 +46,8 @@ export default function AlarmPopover(props) {
          <ListItemAvatar>
            <Avatar className={classes.avatar}>
              {
-               alarm.url_image_path 
-               ? <img className={classes.img} src={alarm.url_image_path} alt="url-favicon"/> 
+               alarm.url_favicon_path 
+               ? <img className={classes.img} src={alarm.url_favicon_path} alt="url-favicon"/> 
                : <ImageIcon />
              }
            </Avatar>
