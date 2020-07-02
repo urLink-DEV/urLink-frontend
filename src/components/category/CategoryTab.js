@@ -21,7 +21,7 @@ export default function CategoryTab(props) {
 
   const classes = useStyles()
 
-  const dispatch = useCategoryDispatch()
+  const { getCategory, updateCategory } = useCategoryDispatch()
   const [categoryTitle, setCategoryTitle] = useState(text)
   const [disabled, setDisabled] = useState(true)
 
@@ -60,17 +60,17 @@ export default function CategoryTab(props) {
     e.stopPropagation()
     if (e.keyCode === 13) {
       if (!e.target.value) {
-        dispatch.updateCategory(id, text, order, isFavorited)
+        updateCategory({ id, name: text, order, is_favorited: isFavorited })
           .then((_res) => {
-            dispatch.getCategory()
+            getCategory({})
             setDisabled(true)
             setSelectedCategoryTitle(text)
             setCategoryTitle(text)
         })
       } else {
-        dispatch.updateCategory(id, categoryTitle, order, isFavorited)
+        updateCategory({ id, name: categoryTitle, order, is_favorited: isFavorited })
           .then((_res) => {
-            dispatch.getCategory()
+            getCategory({})
             setDisabled(true)
             setSelectedCategoryTitle(categoryTitle)
           })
