@@ -9,6 +9,7 @@ const Profile = (props) => {
   const {getUser} = props
   
   const [profile, setProfile] = useState({name: '', email: '', img: ''})
+
   useEffect(() => {
     if(!(!!profile.name)) {
       getUser({})

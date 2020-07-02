@@ -208,10 +208,11 @@ export default function CategoryCard(props) {
             className={classes.datePicker}
             margin="normal"
             onChange={handleSetAlarm}
-            minDate={new Date()}
             InputProps={{
               disableUnderline: true,
             }}
+            initialFocusedDate={new Date()}
+            disablePast={true}
             keyboardIcon={<AddAlertIcon style={has_alarms ? { color: '#fdd835' }  : {color: '#616161'}}/>}
             KeyboardButtonProps={{
               'aria-label': 'change date',
