@@ -32,8 +32,8 @@ export default function CategoryTab(props) {
     }
   }, [selected])
   
-  const handleChange = (event) => {
-    setCategoryTitle(event.target.value)
+  const handleChange = e => {
+    setCategoryTitle(e.target.value)
   }
 
   const onDoubleClick = (e) => {
@@ -45,7 +45,6 @@ export default function CategoryTab(props) {
   const handleFocusIn = e => {
     e.preventDefault()
     setDisabled(false)
-    e.target.select()
     console.log('focus on', id)
   }
 
@@ -103,8 +102,7 @@ export default function CategoryTab(props) {
       + (!disabled && selected ? ' ' + classes.modifying : '')}>
       <Paper 
         component="div" 
-        className={classes.root + (dragFinished || historyDragFinished ? ' dragFinished' : '')
-} 
+        className={classes.root + (dragFinished || historyDragFinished ? ' dragFinished' : '')} 
         id={`${id}`}
       >
       <InputBase 
@@ -112,10 +110,10 @@ export default function CategoryTab(props) {
         // inputRef={inputRef}
         className={classes.input + (selected ? ' selected': '')}
         disabled={disabled}
+        value={categoryTitle}
         onDoubleClick={onDoubleClick}
         onFocus={handleFocusIn}
         onBlur={handleFocusOut}
-        value={categoryTitle}
         onChange={handleChange}
         onKeyUp={updateText}
       />

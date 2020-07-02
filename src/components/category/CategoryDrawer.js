@@ -143,6 +143,7 @@ export default function CategoryDrawer(props) {
   }
 
   const cancelAddTab = (e) => {
+    e.preventDefault()
     e.stopPropagation()
     setAddOpen(true)
     setEnterOpen(false)
@@ -194,6 +195,12 @@ export default function CategoryDrawer(props) {
     e.stopPropagation()
     setAddOpen(false)
     setEnterOpen(true)
+  }
+
+  
+  const onClickAddInput = e => {
+    e.preventDefault()
+    e.stopPropagation()
   }
 
   /*
@@ -366,7 +373,7 @@ export default function CategoryDrawer(props) {
       clearTimeout(timeId.current)
     }
 
-  },[wrapperRef, enterOpen, draggedCategory, dragFinished, dragHistoryFinished])
+  },[wrapperRef, draggedCategory, dragFinished, dragHistoryFinished])
   
   const drawer = (
     <div>
@@ -443,6 +450,7 @@ export default function CategoryDrawer(props) {
             value={newCategoryTitle}
             onChange={handleChangeNewCategoryTitle}
             onKeyUp={pressEnterAddTab}
+            onClick={onClickAddInput}
           />
             <Button className={classes.okBtn} onClick={addTab}>
               확인
@@ -563,18 +571,15 @@ export default function CategoryDrawer(props) {
       return
   })
 
-  const handleClickChangeDeleteTabBtn = useCallback(() => {
-    if(enterOpen) {
-      setAddOpen(false)
-    } else {
+  const handleClickChangeToAddBtn = useCallback(() => {
       setAddOpen(true)
       setDeleteOpen(false) 
-    }
-    return 
+      setEnterOpen(false)
+      return 
   })
 
   useEventListener('click', handleClickExceptCard)
-  useEventListener('click', handleClickChangeDeleteTabBtn)
+  useEventListener('click', handleClickChangeToAddBtn)
 
   const handleSelectedCard = linkObj => e => {
     if (selectedCardList.indexOf(linkObj) !== -1) {
