@@ -143,6 +143,7 @@ export default function CategoryDrawer(props) {
   }
 
   const cancelAddTab = (e) => {
+    e.preventDefault()
     e.stopPropagation()
     setAddOpen(true)
     setEnterOpen(false)
@@ -196,6 +197,12 @@ export default function CategoryDrawer(props) {
     setEnterOpen(true)
   }
 
+  
+  const onClickAddInput = e => {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
   /*
     아래는 drag n drop 로직
   */
@@ -232,6 +239,7 @@ export default function CategoryDrawer(props) {
   const dragOver = (e, id, order, favorited) => {
     e.preventDefault()
     e.stopPropagation()
+    
 
     if(draggedHistoryList.length !== 0 && draggedHistoryList[0].dataset.type === 'link' && !draggedCategory) {
       setOveredTabId(id)
@@ -273,9 +281,15 @@ export default function CategoryDrawer(props) {
 
     if(type === 'category') {
       e.preventDefault()
-      if(favoritedArr.length && notFavoritedArr.length) {
+      if(e.currentTarget.dataset.dropzone) {
+        const dropzone = e.currentTarget.dataset.dropzone
+        if(dropzone === 'first-favorite-dropzone' || dropzone === 'first-category-dropzone') {
+          e.currentTarget.previousSibling.style.opacity = 1
+        }
+      } else {
         e.currentTarget.previousSibling.style.opacity = 0
-      }       
+      }
+
       updateCategory(id, name, order, favorited)
       .then(() =>  setDraggedTargetData({
         ...draggedCategoryData,
@@ -359,7 +373,7 @@ export default function CategoryDrawer(props) {
       clearTimeout(timeId.current)
     }
 
-  },[wrapperRef, enterOpen, draggedCategory, dragFinished, dragHistoryFinished])
+  },[wrapperRef, draggedCategory, dragFinished, dragHistoryFinished])
   
   const drawer = (
     <div>
@@ -372,6 +386,7 @@ export default function CategoryDrawer(props) {
         </div>
         <div 
           className={(!favoritedArr.length ? classes.firstFavoriteDropZone : classes.hidden)}
+          data-dropzone='first-favorite-dropzone'
           onDragOver={firstFavoriteDragOver}
           onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
         >
@@ -435,6 +450,7 @@ export default function CategoryDrawer(props) {
             value={newCategoryTitle}
             onChange={handleChangeNewCategoryTitle}
             onKeyUp={pressEnterAddTab}
+            onClick={onClickAddInput}
           />
             <Button className={classes.okBtn} onClick={addTab}>
               확인
@@ -445,6 +461,7 @@ export default function CategoryDrawer(props) {
         </Paper>
         <div 
           className={(!notFavoritedArr.length ? classes.hiddenDropZone: classes.hidden)}
+          data-dropzone='first-cateogory-dropzone'          
           onDragOver={firstCategoryDragOver}
           onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
         />
@@ -554,18 +571,15 @@ export default function CategoryDrawer(props) {
       return
   })
 
-  const handleClickChangeDeleteTabBtn = useCallback(() => {
-    if(enterOpen) {
-      setAddOpen(false)
-    } else {
+  const handleClickChangeToAddBtn = useCallback(() => {
       setAddOpen(true)
       setDeleteOpen(false) 
-    }
-    return 
+      setEnterOpen(false)
+      return 
   })
 
   useEventListener('click', handleClickExceptCard)
-  useEventListener('click', handleClickChangeDeleteTabBtn)
+  useEventListener('click', handleClickChangeToAddBtn)
 
   const handleSelectedCard = linkObj => e => {
     if (selectedCardList.indexOf(linkObj) !== -1) {
