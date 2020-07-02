@@ -23,58 +23,77 @@ export default function CategoryTab(props) {
 
   const dispatch = useCategoryDispatch()
   const [categoryTitle, setCategoryTitle] = useState(text)
-  const [prevCategoryTitle, setPrevCategoryTitle] = useState(text)
   const [disabled, setDisabled] = useState(true)
 
-  const inputRef = useRef()
-
+  useEffect(() => {
+    if (!selected) {
+      setDisabled(true)
+      setCategoryTitle(text)
+    }
+  }, [selected])
+  
   const handleChange = (event) => {
     setCategoryTitle(event.target.value)
   }
 
   const onDoubleClick = (e) => {
-    e.stopPropagation()
     e.preventDefault()
-    setDisabled(!disabled)
-    
-    inputRef.current.focus()
-    console.log('input1', inputRef.current)
+    console.log('double click')
+    handleFocusIn(e)
+  }
+
+  const handleFocusIn = e => {
+    e.preventDefault()
+    setDisabled(false)
+    e.target.select()
+    console.log('focus on', id)
+  }
+
+  const handleFocusOut = () => {
+    setDisabled(true)
+    setCategoryTitle(text)
+    console.log('focus out successs', id)
   }
 
   const updateText = (e) => {
+    e.preventDefault()
     e.stopPropagation()
-      if (e.keyCode === 13) {
-        if (!e.target.value) {
-          dispatch.updateCategory(id, prevCategoryTitle, order, isFavorited)
-          .then((_res) => dispatch.getCategory())
-          setDisabled(!disabled)
-          setSelectedCategoryTitle(prevCategoryTitle)
-          setCategoryTitle(prevCategoryTitle)
-        } else {
-          dispatch.updateCategory(id, categoryTitle, order, isFavorited)
-          .then((_res) => dispatch.getCategory())
-          setDisabled(!disabled)
-          setSelectedCategoryTitle(categoryTitle)
-        }
+    if (e.keyCode === 13) {
+      if (!e.target.value) {
+        dispatch.updateCategory(id, text, order, isFavorited)
+          .then((_res) => {
+            dispatch.getCategory()
+            setDisabled(true)
+            setSelectedCategoryTitle(text)
+            setCategoryTitle(text)
+        })
+      } else {
+        dispatch.updateCategory(id, categoryTitle, order, isFavorited)
+          .then((_res) => {
+            dispatch.getCategory()
+            setDisabled(true)
+            setSelectedCategoryTitle(categoryTitle)
+          })
       }
+    }
   }
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   console.log(selected, disabled)
+  //   if (!selected && !disabled) {
+  //     console.log('여기 들어옹ㅁ까')
+  //     setCategoryTitle(text)
+      
+  //     // console.log('input2', inputRef.current)
+  //     // inputRef.current.blur()
+  //     // dispatch.updateCategory(id, text, order, isFavorited)
+  //     // .then((_res) => {
+  //     //   dispatch.getCategory()
+  //       // inputRef.current.blur()
+  //     // })
+  //   }
 
-    if (!selected && !disabled) {
-      // console.log('input2', inputRef.current)
-      // inputRef.current.blur()
-      dispatch.updateCategory(id, prevCategoryTitle, order, isFavorited)
-      .then((_res) => {
-        dispatch.getCategory()
-        inputRef.current.blur()
-
-      })
-      setDisabled(!disabled)
-      setCategoryTitle(prevCategoryTitle)
-    }
-
-  },[disabled, selected, prevCategoryTitle])
+  // },[disabled, selected])
 
 
   return (
@@ -90,11 +109,12 @@ export default function CategoryTab(props) {
       >
       <InputBase 
         disableUnderline={true}
-        inputRef={inputRef}
+        // inputRef={inputRef}
         className={classes.input + (selected ? ' selected': '')}
         disabled={disabled}
-        autoFocus={true}
         onDoubleClick={onDoubleClick}
+        onFocus={handleFocusIn}
+        onBlur={handleFocusOut}
         value={categoryTitle}
         onChange={handleChange}
         onKeyUp={updateText}

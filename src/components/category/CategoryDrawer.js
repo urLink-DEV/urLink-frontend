@@ -212,7 +212,7 @@ export default function CategoryDrawer(props) {
   const [overedTabOrder, setOveredTabOrder] = useState(0)
   const [overedTabFavorite, setOveredTabFavorite] = useState(null)
   const [dragHistoryFinished, setDragHistoryFinished] = useState(false)
-
+  
   const dragStart = (e, id, name, order) => {
     e.stopPropagation()
     const target = e.currentTarget
