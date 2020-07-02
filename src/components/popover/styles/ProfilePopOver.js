@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     transform: 'scale(0.8)',
   },
   title: {
-    width: 60,
+    width: 100,
     height: 29,
     fontFamily: 'SpoqaHanSans',
     fontSize: 20,
