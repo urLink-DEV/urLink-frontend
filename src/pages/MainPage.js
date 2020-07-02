@@ -2,7 +2,7 @@ import React from 'react'
 import {Link, Router} from 'react-chrome-extension-router'
 
 import URLinkLogo from '../images/logo-urlink-full.png'
-import './LoginSignup.scss'
+import './styles/LoginSignup.scss'
 
 import SignupContainer from '../containers/SignupContainer'
 import LoginContainer from '../containers/LoginContainer'
