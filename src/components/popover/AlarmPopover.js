@@ -41,27 +41,27 @@ export default function AlarmPopover(props) {
        {alarmList.map((alarm) =>
          <ListItem key={alarm.id} button 
            onClick={handleClickAlarm(alarm)}
-           style={alarm.alarm_has_read ? {backgroundColor: '#e0e0e0'} : {backgroundColor: 'white'}}
+           style={alarm.alarm_has_read ? {width:'100%', backgroundColor: '#ecf2f0'} : {width:'100%', backgroundColor: 'white'}}
          >
-         <ListItemAvatar>
-           <Avatar className={classes.avatar}>
-             {
-               alarm.url_favicon_path 
-               ? <img className={classes.img} src={alarm.url_favicon_path} alt="url-favicon"/> 
-               : <ImageIcon />
-             }
-           </Avatar>
-         </ListItemAvatar>
-         <ListItemText className={classes.text} 
-           primary={alarm.url_title} 
-           secondary={alarm.reserved_time}
-         />
-         <ListItemSecondaryAction>
-             <IconButton edge="end" aria-label="comments" onClick={handleDeleteAlarm(alarm.id)}>
-               <CloseIcon />
-             </IconButton>
-           </ListItemSecondaryAction>
-       </ListItem>
+          <ListItemAvatar>
+            <Avatar className={classes.avatar}>
+              {
+                alarm.url_favicon_path 
+                ? <img className={classes.img} src={alarm.url_favicon_path} alt="url-favicon"/> 
+                : <ImageIcon />
+              }
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText className={classes.text} 
+            primary={alarm.url_title} 
+            secondary={new Date(alarm.reserved_time).toLocaleString()}
+          />
+          <ListItemSecondaryAction>
+            <IconButton edge="end" aria-label="comments" onClick={handleDeleteAlarm(alarm.id)}>
+              <CloseIcon />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
        )}
      </List> : <img src={linkListEmptyIcon} alt="alarm list empty"/>
   )
