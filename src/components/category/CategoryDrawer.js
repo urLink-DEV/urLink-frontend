@@ -21,6 +21,7 @@ import {useStyles, StyledToggleButtonGroup} from './styles/CategoryDrawer'
 import clsx from 'clsx'
 
 import SearchIcon from '../../images/search.png'
+import CategoryEmptyIcon from '../../images/group-5.svg'
 import linkListEmptyIcon from '../../images/group-11.png'
 import linkListSearchEmptyIcon from '../../images/group-17.png'
 
@@ -98,7 +99,7 @@ export default function CategoryDrawer(props) {
   }
 
   const handleToggleChange = (event, newAlignment) => {
-    setToggleAlignment(newAlignment);
+    setToggleAlignment(newAlignment)
   }
 
   const handlePressEnterSearchValue = e => {
@@ -120,6 +121,8 @@ export default function CategoryDrawer(props) {
       setEnterOpen(false)
       setNewCategoryTitle('')
     } else {
+      setAddOpen(true)
+      setEnterOpen(false)
       writeCategory(newCategoryTitle, false)
       .then((res) => {
         setSelectedCategoryId(res.data.id)
@@ -127,35 +130,15 @@ export default function CategoryDrawer(props) {
         getLink(res.data.id)
         return getCategory()
       })
-      .then(() => {
-        setNewCategoryTitle('')
-        setAddOpen(true)
-        setEnterOpen(false)
-      })
+      setNewCategoryTitle('')
     }
   }
 
   const pressEnterAddTab = (e) => {
+    e.preventDefault()
     e.stopPropagation()
     if (e.keyCode === 13) {
-      if (!newCategoryTitle) {
-        setAddOpen(true)
-        setEnterOpen(false)
-        setNewCategoryTitle('')
-      } else {
-        writeCategory(newCategoryTitle, false)
-        .then((res) => {
-          setSelectedCategoryId(res.data.id)
-          setSelectedCategoryTitle(res.data.name)
-          getLink(res.data.id)
-          return getCategory()
-        })
-        .then(() => {
-          setNewCategoryTitle('')
-          setAddOpen(true)
-          setEnterOpen(false)
-        })
-      }
+      addTab(e)
     }
   }
 
@@ -189,7 +172,9 @@ export default function CategoryDrawer(props) {
       return getCategory()
     })
     .then((res) => {
-      console.log(res)
+      if (res.data.length === 0) {
+        return
+      }
       setSelectedCategoryId(res.data[0].id)
       setSelectedCategoryTitle(res.data[0].name)
       getLink(res.data[0].id)
@@ -227,7 +212,7 @@ export default function CategoryDrawer(props) {
   const [overedTabOrder, setOveredTabOrder] = useState(0)
   const [overedTabFavorite, setOveredTabFavorite] = useState(null)
   const [dragHistoryFinished, setDragHistoryFinished] = useState(false)
-
+  
   const dragStart = (e, id, name, order) => {
     e.stopPropagation()
     const target = e.currentTarget
@@ -288,7 +273,9 @@ export default function CategoryDrawer(props) {
 
     if(type === 'category') {
       e.preventDefault()
-      e.currentTarget.previousSibling.style.opacity = 0
+      if(favoritedArr.length && notFavoritedArr.length) {
+        e.currentTarget.previousSibling.style.opacity = 0
+      }       
       updateCategory(id, name, order, favorited)
       .then(() =>  setDraggedTargetData({
         ...draggedCategoryData,
@@ -313,6 +300,14 @@ export default function CategoryDrawer(props) {
     setOveredTabFavorite(true)
   }  
 
+  const firstCategoryDragOver = (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+    draggedCategory.style.display='none'
+    setOveredTabOrder(draggedOrder)
+    setOveredTabFavorite(false)
+  }  
+
   const dragOverOnCardArea =(e) => {
     e.stopPropagation()
     e.preventDefault()
@@ -335,29 +330,11 @@ export default function CategoryDrawer(props) {
   }
 
 
-  /* 
-    아래는 외부영역 클릭시 버튼 토글 & 드래그 시작/끝날 때 애니메이션 css 토글
-  */
-
-  
   const listRef = useRef()  
   const wrapperRef = useRef(null)
   const timeId = useRef()
 
   useEffect(() => {
-
-    // * change add&delete button state if clicked on outside of element
-    // function handleClickOutside(event) {
-    //   if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-    //     if(enterOpen) {
-    //       setAddOpen(false)
-    //     } else {
-    //       setAddOpen(true)
-    //       setDeleteOpen(false) 
-    //     }
-    //   } 
-    // }
-    // document.addEventListener("mousedown", handleClickOutside)
 
     // add Animation when finished dragging
     if(dragFinished) {
@@ -387,11 +364,14 @@ export default function CategoryDrawer(props) {
   const drawer = (
     <div>
       <div className="list-tab-layout" ref={wrapperRef}>
-        <div className="favorite-text">
-          Favorite
+        <div className="favorite-header">
+          <div className="favorite-text">
+            Favorite
+          </div>
+          <hr />
         </div>
-        <hr />
-        <div className={(favoritedArr.length === 0 ? 'drag-box' : 'hidden')}
+        <div 
+          className={(!favoritedArr.length ? classes.firstFavoriteDropZone : classes.hidden)}
           onDragOver={firstFavoriteDragOver}
           onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
         >
@@ -404,8 +384,8 @@ export default function CategoryDrawer(props) {
               <ListItem className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
                 key={data.id}
                 data-type='category' 
-                onClick={(e) => handleClickCategory(e, data.id, data.name)}
                 draggable='true'
+                onClick={(e) => handleClickCategory(e, data.id, data.name)}
                 onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
                 onDragEnd={dragEnd}
                 onDragOver={(e) => dragOver(e, data.id, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
@@ -428,10 +408,12 @@ export default function CategoryDrawer(props) {
             </React.Fragment>
           ))}
         </List>
-        <div className="category-text">
-          Category
+        <div className="category-header">
+          <div className="category-text">
+            Category
+          </div>
+          <hr />
         </div>
-        <hr />
         <Button className={classes.addButton + (addOpen ? '' : ' '+classes.hidden)} 
           variant="contained"
           onClick={openEnterTab}
@@ -461,6 +443,11 @@ export default function CategoryDrawer(props) {
               취소
             </Button>
         </Paper>
+        <div 
+          className={(!notFavoritedArr.length ? classes.hiddenDropZone: classes.hidden)}
+          onDragOver={firstCategoryDragOver}
+          onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
+        />
         <List>
           {notFavoritedArr.map((data, index) => (
             <React.Fragment key={data.id}>
@@ -468,8 +455,8 @@ export default function CategoryDrawer(props) {
               <ListItem className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
                 key={data.id} 
                 data-type='category' 
-                onClick={(e) => handleClickCategory(e, data.id, data.name)}
                 draggable='true'
+                onClick={(e) => handleClickCategory(e, data.id, data.name)}
                 onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
                 onDragEnd={dragEnd}
                 onDragOver={(e) => dragOver(e, data.id, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
@@ -605,7 +592,7 @@ export default function CategoryDrawer(props) {
 
   const handleDeleteSuccessAlertClose = e => {
     setDeleteSuccessAlert(false)
-  };
+  }
 
   return (
     <div className={classes.root}>
@@ -661,17 +648,20 @@ export default function CategoryDrawer(props) {
                   writeAlarm={writeAlarm}
                 />
               </Grid>) 
-            : searchValue ? 
-              (<div className={classes.imgCenter}>
-                <img src={linkListSearchEmptyIcon} 
-                  alt='link list search empty'
-                />
-              </div>)
-          : (<div className={classes.imgCenter}>
-              <img src={linkListEmptyIcon} 
-                alt='link list empty'
+            : categories.length === 0 ? 
+              <img className={classes.imgCenter} 
+                src={CategoryEmptyIcon} 
+                alt='category list empty'
               />
-            </div>) 
+            :  searchValue ? 
+              <img className={classes.imgCenter}
+                src={linkListSearchEmptyIcon} 
+                alt='link list search empty'
+              />
+          : <img className={classes.imgCenter}
+              src={linkListEmptyIcon} 
+              alt='link list empty'
+            />
           }
         </Grid>
         <Snackbar open={deleteSuccessAlert}

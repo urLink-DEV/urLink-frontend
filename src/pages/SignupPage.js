@@ -144,7 +144,7 @@ function SignupPage(props) {
       
       <section className="image-box-signup image-layout"></section>
     </div>
-  );
+  )
 }
 
-export default SignupPage;
+export default SignupPage

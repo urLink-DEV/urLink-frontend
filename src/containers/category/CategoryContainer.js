@@ -112,7 +112,6 @@ export default function CategoryContainer() {
     const update = linkAPI.update(linkInfo)
     if (update) {
       update.then(response => {
-        console.log('status value', response.status)
         getLink(linkInfo.category)
       }).catch((error) => console.warn("response" in error ? error.response.data.message : error))
     }
@@ -225,10 +224,10 @@ export default function CategoryContainer() {
     alarmSocket.onmessage(function(e) {
       const { message, status } = JSON.parse(e.data)
       if(status === "alarm" || status === "initial"){
-        setAlarmList(alarmList => alarmList.concat(message));
+        setAlarmList(alarmList => alarmList.concat(message))
       }
       else if(status === "update") {
-        setAlarmList(message);
+        setAlarmList(message)
       }
     })
   },[])

@@ -52,9 +52,13 @@ button {
     background-color: #fff;
 }
 
+.favorite-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
 .favorite-text {
-    width: 49px;
     height: 18px;
     font-family: 'SpoqaHanSans';
     font-size: 12px;
@@ -68,37 +72,21 @@ button {
 }
 
 .list-tab-layout hr {
-    display: inline-block !important;
-    width: 100%;
-    position: relative;
-    top: 4px;
-    border: 0.5px solid #d6d6d6;
+    width: 70%;
+    border: 1px solid #d6d6d6;
 }
 
-.drag-box {
-    width: 212px;
-    height: 52px;
-    border-radius: 4px;
-    border: dashed 1px #ced4da;
-    background-color: #f8f9fa;
-    font-size: 15px;
-    font-weight: 300;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 50px;
-    letter-spacing: normal;
-    text-align: center;
-    color: #868e96;
-    margin: 10px 0;
-    display: block;
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
 }
 
 .category-text {
-    width: 49px;
     height: 18px;
     font-family: 'SpoqaHanSans';
     font-size: 12px;
-    margin-top: 30px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;

@@ -13,9 +13,9 @@ export const StyledToggleButtonGroup = withStyles((theme) => ({
       borderRadius: theme.shape.borderRadius,
     },
   },
-}))(ToggleButtonGroup);
+}))(ToggleButtonGroup)
 
-const drawerWidth = 260;
+const drawerWidth = 260
 
 export const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,6 +33,30 @@ export const useStyles = makeStyles((theme) => ({
       flexShrink: 0,
     }
   },
+  firstFavoriteDropZone: {
+    width: '212px',
+    height: '52px',
+    borderRadius: '4px',
+    border: 'dashed 1px #ced4da',
+    backgroundColor: '#f8f9fa',
+    fontSize: '15px',
+    fontWeight: 300,
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: '50px',
+    letterSpacing: 'normal',
+    textAlign: 'center',
+    color: '#868e96',
+    margin: '10px 0',
+    display: 'block'
+  },
+  hiddenDropZone: {
+    width: '212px',
+    height: '100vh',
+    display: 'block',
+    opacity: 0
+  },
+
   coverBackground: {
     position: 'absolute',
     backgroundColor: 'rgba(53, 142, 255, 0.15)',
@@ -144,13 +168,10 @@ export const useStyles = makeStyles((theme) => ({
     height: 50
   }, 
   imgCenter: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     position: 'absolute',
-    width: '80%',
-    height: '70%',
-    objectFit: 'contain'
+    top: '50%',
+    left: '55%',
+    transform: 'translate(-45%, -55%)',
   },
   mainFont: {
     backgroundColor: 'transparent',
@@ -229,6 +250,9 @@ export const useStyles = makeStyles((theme) => ({
     },
     'div.makeStyles-drawerOpen-285': {
       right: 50
+    },
+    '.MuiListItem-root': {
+      width: 208
     },
     '.MuiListItem-gutters' : {
       padding: 0,

@@ -2,14 +2,14 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 208,
+    width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between'
   },
-  listItem: {
+  listTab: {
     display: 'block',
-    width: 208,
+    width: '100%',
     borderRadius: 4,
     padding: '0 !important',
     boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)",
@@ -28,13 +28,11 @@ const useStyles = makeStyles((theme) => ({
   selected : {
     fontSize: 16,
     color: '#2083ff',
-    width:210,
     boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
     border: "solid 1px #2083ff",
     borderRadius: '4px'
   },
   modifying : {
-    width:210,
     boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
     border: 'solid 1px #3cb043',
     borderRadius: '4px'

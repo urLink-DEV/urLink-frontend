@@ -7,7 +7,7 @@ import useStyles from './styles/CategoryHistoryDrawer'
 import SearchIcon from '../../images/search.png'
 import linkListSearchEmptyIcon from '../../images/group-17.png'
 import linkListEmptyIcon from '../../images/group-19.png'
-import moveLink from '../../images/move.png';
+import moveLink from '../../images/move.png'
 
 import CategorySearchPopOver from './CategorySearchPopOver'
 import CategoryHistoryDateTitle from './CategoryHistoryDateTitle'
@@ -20,8 +20,7 @@ export default function CategoryHistoryDrawer(props) {
   const { 
     getHistory, 
     historyDrawerOpen,
-
-    draggedHistoryList, 
+ 
     setDraggedHistoryList,    
     
     selectedLinkList,
@@ -101,7 +100,7 @@ export default function CategoryHistoryDrawer(props) {
     e.stopPropagation()
     if(e.currentTarget !== e.target) return
     if (historyDrawerOpen) {
-      const {text, startTime, endTime, maxResults} = historySearch;
+      const {text, startTime, endTime, maxResults} = historySearch
       getHistory({
         text, startTime, endTime, maxResults, callback: (historyItems) => {
           setLinkList([...linkList, ...historyItems])
@@ -189,7 +188,7 @@ export default function CategoryHistoryDrawer(props) {
 
   useEffect(() => {
     if (historyDrawerOpen && (minTime < historySearch.startTime || !historySearch.startTime)) {
-      const { text, startTime, endTime, maxResults } = historySearch;
+      const { text, startTime, endTime, maxResults } = historySearch
       getHistory({
         text, startTime, endTime, maxResults, callback: (historyItems) => {
           if (historyItems.scroll && historyItems.length < 20) {
