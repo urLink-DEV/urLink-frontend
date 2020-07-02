@@ -14,26 +14,13 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundImage: `url(${mainBackground}), linear-gradient(to top, #0260d8, #157cff 68%)`,
-    backgroundSize: '100%',
+    backgroundSize: '100%'
   },    
-
   titleCenter: {
-    // paddingTop: '100px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%',
-    // height: '100%'
-  },
-  imgCenter: {
-    paddingTop: '20px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  imgSize:{
     width: '100%'
   },
   getStartBtn: {
@@ -55,12 +42,12 @@ const useStyles = makeStyles(theme => ({
     fontStretch: 'normal',
     fontStyle: 'normal',
     lineHeight: 'normal',
-    letterSpacing: 'normal',
+    letterSpacing: 'normal'
   },
-  getStart_1: {
+  textBlack: {
     color: '#212529'
   },
-  getStart_2: {
+  textBlue: {
     color: '#358eff'
   },
   textGrp: {
@@ -70,15 +57,10 @@ const useStyles = makeStyles(theme => ({
     marginTop: '20px',
     padding: '10px'
   },
-  text_1: {
+  textCenter: {
     textAlign: 'center',
-    height: '29px'
-  },
-  text_2: {
-    textAlign: 'center',
-    height: '20px'
-  },
-  text: {
+    height: '29px',
+
     fontFamily: 'SpoqaHanSans',
     fontSize: '15px',
     fontWeight: 'normal',
@@ -86,23 +68,20 @@ const useStyles = makeStyles(theme => ({
     fontStyle: 'normal',
     lineHeight: 'normal',
     letterSpacing: '-0.47px',
-    color: '#ffffff',
+    color: '#ffffff'
   },
   textBold: {
     fontWeight: 'bold'
   },
-  contentGroup: {
-    padding: '10px',
+  imgCenter: {
+    paddingTop: '20px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-  },
-  swiper : {
-    display: 'flex',
-    alignItems: 'center',
     justifyContent: 'center',
-    width: "700px !important",
-    // height: "100% !important"
+  },
+  imgAutoSize:{
+    width: '100%'
   }
 }))
 

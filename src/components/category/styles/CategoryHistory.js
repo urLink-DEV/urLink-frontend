@@ -18,9 +18,9 @@ const useStyles = makeStyles(theme => ({
   linkDiv: {
     '&:hover': {
       boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12)',
-      // "& $linkDivSubFont": {
-      //   width: "127px"
-      // },
+      "& $linkDivSubFont": {
+        width: "127px"
+      },
       "& $linkIcon" : {
       visibility: "visible",
       }
@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
     overflow: 'hidden', 
     textOverflow: 'ellipsis',
 
-    width: '127px',
+    width: '157px',
     
     height: '19px',
     fontSize: '14px',
@@ -80,6 +80,10 @@ const useStyles = makeStyles(theme => ({
     lineHeight: 'normal',
     letterSpacing: '-0.6px',
     color: '#737b84'
+  },
+  linkIconGroup: {
+    position: 'absolute',
+    display: 'inline'
   },
   linkIcon: {
     visibility: "hidden",

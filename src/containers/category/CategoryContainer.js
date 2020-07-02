@@ -1,17 +1,12 @@
-/* global chrome */
 import React, { useState, useEffect, createContext, useContext } from 'react'
-
-import Grid from '@material-ui/core/Grid'
-
-import CategoryCard from '../../components/category/CategoryCard'
-import CategoryDrawer from '../../components/category/CategoryDrawer'
-
 import categoryAPI from '../../commons/apis/category'
 import linkAPI from '../../commons/apis/link'
 import historyAPI from '../../commons/chromeApis/history'
 import alarmSocket from '../../commons/apis/alarmSocket'
 import alarmAPI from '../../commons/apis/alarm'
 import userAPI from '../../commons/apis/user'
+
+import CategoryDrawer from '../../components/category/CategoryDrawer'
 
 // * Category context API
 const CategoryStateContext = createContext(null)
@@ -202,7 +197,6 @@ export default function CategoryContainer() {
   }
 
   const props = {
-    getCategoryUrlInfoList,
     draggedHistoryList,
     selectedLinkList,
     setSelectedLinkList,
@@ -213,8 +207,6 @@ export default function CategoryContainer() {
     onNoReturnAlarm,
 
     alarmList,
-    getProfileData,
-    newRecentNofitication,
 
     getUser,
   }
@@ -237,92 +229,10 @@ export default function CategoryContainer() {
       <CategoryDispatchContext.Provider value={categoryDispatch}>
         <LinkStateContext.Provider value={linkState}>
           <LinkDispatchContext.Provider value={linkDispatch}>
-            <CategoryDrawer {...props}>
-              <Grid container spacing={2}>
-                {getCategoryUrlInfoList.map((urlObj, idx) => 
-                  <Grid item xs={3} key={idx}>
-                    <CategoryCard key={idx} urlInfoList={urlObj} />
-                  </Grid>
-                )}
-              </Grid>
-            </CategoryDrawer>
+            <CategoryDrawer {...props}/>
           </LinkDispatchContext.Provider>
         </LinkStateContext.Provider>
       </CategoryDispatchContext.Provider>
     </CategoryStateContext.Provider>
   )
-}
-
-const getCategoryUrlInfoList = [{
-  img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-  title: 'naver: 네이버',
-  description: '네이버 메인 화면 입니다. 안녕하세요 이수 회원님, 네이버에 오신 것을 환영합니다. 본 이미지는 상기 이미지와 다를 수 있습니다. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'
-}, {
-  img: 'https://poiemaweb.com/img/poiemaweb.jpg',
-  title: 'poiemaweb site',
-  description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
-}, {
-  img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-  title: 'naver: 네이버',
-  description: '네이버 메인 화면 입니다. 안녕하세요 이수 회원님, 네이버에 오신 것을 환영합니다. 본 이미지는 상기 이미지와 다를 수 있습니다. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'
-}, {
-  img: 'https://poiemaweb.com/img/poiemaweb.jpg',
-  title: 'poiemaweb site',
-  description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
-},{
-  img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-  title: 'naver: 네이버',
-  description: '네이버 메인 화면 입니다. 안녕하세요 이수 회원님, 네이버에 오신 것을 환영합니다. 본 이미지는 상기 이미지와 다를 수 있습니다. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'
-}, {
-  img: 'https://poiemaweb.com/img/poiemaweb.jpg',
-  title: 'poiemaweb site',
-  description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
-},
-]
-
-const newAlarmList = [
-  {
-    title: '네이버 지식 검색',
-    img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-    date: '2020-06-10',
-  },
-  {
-    title: '네이버 지식 검색',
-    img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-    date: '2020-06-10',
-  },
-  {
-    title: '네이버 지식 검색',
-    img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-    date: '2020-06-10',
-  },
-  {
-    title: '네이버 지식 검색',
-    img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-    date: '2020-06-10',
-  },
-  {
-    title: '네이버 지식 검색',
-    img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-    date: '2020-06-10',
-  },
-  {
-    title: '네이버 지식 검색',
-    img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-    date: '2020-06-10',
-  },
-]
-
-const newRecentNofitication = [
-  {
-    title: '새로운 버전 출시', 
-    description: 'asdfasfd',
-    date: new Date(),
-  }
-]
-
-const getProfileData = {
-  nickName: '녹챠챠',
-  email: 'isoo7510@gmail.com',
-  profileImg: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
 }
