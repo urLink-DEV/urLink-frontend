@@ -2,12 +2,11 @@
 import React, { useState , useEffect, Fragment, useRef, useCallback} from 'react'
 import clsx from 'clsx'
 
-import useStyles from './styles/CategoryHistoryDrawer'
-
 import SearchIcon from '../../images/search.png'
 import linkListSearchEmptyIcon from '../../images/group-17.png'
 import linkListEmptyIcon from '../../images/group-19.png'
 import moveLink from '../../images/move.png'
+import useStyles from './styles/CategoryHistoryDrawer'
 
 import CategorySearchPopOver from './CategorySearchPopOver'
 import CategoryHistoryDateTitle from './CategoryHistoryDateTitle'
@@ -20,9 +19,7 @@ export default function CategoryHistoryDrawer(props) {
   const { 
     getHistory, 
     historyDrawerOpen,
- 
     setDraggedHistoryList,    
-    
     selectedLinkList,
     setSelectedLinkList
   } = props
@@ -39,9 +36,20 @@ export default function CategoryHistoryDrawer(props) {
     maxResults: 0,
     scroll: true
   })
-
   const [alertText, setAlertText] = useState('')
-  const [alertOpen, setAlertOpen] = useState(false)
+
+  function init() {
+    setLinkList([])
+    setSelectedLinkList([])
+    setHisotrySearch({
+      ...historySearch,
+      text: '',
+      startTime: new Date().getTime() - dayAgo,
+      endTime: new Date().getTime(),
+      maxResults: 0,
+      scroll: true
+    })
+  }
 
   const onHistoryDragStart = (e, link) => {
     e.stopPropagation()
@@ -69,9 +77,7 @@ export default function CategoryHistoryDrawer(props) {
     e.stopPropagation()
     const { id, url: path } = link
     const target = e.currentTarget
-    // const isSelectedHistoryDOM = (history) => draggedHistory.includes(history)
     const isSelectedList = (id) => selectedLinkList.filter(selectedLink => selectedLink.id === id).length
-
     if (isSelectedList(id)) {
       setSelectedLinkList(selectedLinkList => selectedLinkList.filter(selectedLink => selectedLink.id !== id))
       setDraggedHistoryList(draggedHistoryList => draggedHistoryList.filter(historyDOM => historyDOM !== target))
@@ -103,37 +109,17 @@ export default function CategoryHistoryDrawer(props) {
       const {text, startTime, endTime, maxResults} = historySearch
       getHistory({
         text, startTime, endTime, maxResults, callback: (historyItems) => {
-          setLinkList([...linkList, ...historyItems])
+          setLinkList(historyItems)
         }
       })
     }
-    else {
-      setLinkList([])
-      setSelectedLinkList([])
-      setHisotrySearch({
-        ...historySearch,
-        text: '',
-        startTime: new Date().getTime() - dayAgo,
-        endTime: new Date().getTime(),
-        maxResults: 0,
-        scroll: true
-      })
-    }
+    else init()
   }
 
   const onInintClik = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    setLinkList([])
-    setSelectedLinkList([])
-    setHisotrySearch({
-      ...historySearch,
-      text: '',
-      startTime: new Date().getTime() - dayAgo,
-      endTime: new Date().getTime(),
-      maxResults: 0,
-      scroll: true
-    }) 
+    init()
   }
   
   const onPressEnterSearchHistory = (e) => {
@@ -172,11 +158,8 @@ export default function CategoryHistoryDrawer(props) {
     }
   }
 
-  const onCloseAlert = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
+  const onCloseAlert = () => {
     setAlertText('')
-    setAlertOpen(false)
   }
 
   const handleClickExceptHistory = useCallback(() => {
@@ -192,25 +175,18 @@ export default function CategoryHistoryDrawer(props) {
       getHistory({
         text, startTime, endTime, maxResults, callback: (historyItems) => {
           if (historyItems.scroll && historyItems.length < 20) {
-            setHisotrySearch((historySearch) => ({
+            setHisotrySearch(historySearch => ({
               ...historySearch,
               startTime: historySearch.startTime - dayAgo
             }))
           }
           else {
-            setLinkList([...linkList, ...historyItems])
+            setLinkList(linkList => [...linkList, ...historyItems])
           }
         }
       })
-    } 
-    else {
-      setLinkList([])
     }
   }, [historySearch])
-
-  useEffect(() => {
-    if(alertText) setAlertOpen(!alertOpen)
-  },[alertText])
 
   return (
     <>
@@ -249,7 +225,7 @@ export default function CategoryHistoryDrawer(props) {
               <CategorySearchPopOver>
                 <div className={classes.popover}>
                   <div className={classes.popoverDiv}>
-                    <img src={SearchIcon} className={classes.searchIcon} />
+                    <img src={SearchIcon} className={classes.searchIcon} alt="search-icon" />
                     <span className={classes.searchBtnText}>Search</span>
                   </div>
                   <div>
@@ -297,7 +273,7 @@ export default function CategoryHistoryDrawer(props) {
       </div>
       <Snackbar
         alertText={alertText}
-        open={alertOpen}
+        open={alertText? true: false}
         handleClose={onCloseAlert}
       />
     </>

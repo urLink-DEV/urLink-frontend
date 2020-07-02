@@ -53,6 +53,10 @@ $desktop : "only screen and (min-width: 1025px)";
 @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);
 @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css);
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 * {
     box-sizing: border-box;
     font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', sans-serif;
@@ -142,230 +146,167 @@ $desktop : "only screen and (min-width: 1025px)";
 
 $mainTextColor: #212529;
 
-
 .container {
-    display: block;
+  display: block;
 }
 
 .container-layout {
-    width: 100vw;
-    min-height: 100vh;
-    display: flex;
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
 }
 
 .login-box {
-    height: auto;
-    box-shadow: 3px 2px 16px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    padding: 20px 40px;
+  height: auto;
+  box-shadow: 3px 2px 16px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 40px;
 }
 
 .logo-URLink {
-    width: 87px;
-    height: 19px;
+  width: 87px;
+  height: 19px;
 }
 
-.title-login {
-    width: 164px;
-    height: 24px;
-    font-size: 24px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    color: #393f45;
-    margin-top: 33px;
-    margin-bottom: 20px;
+.title {
+  height: 24px;
+  font-size: 24px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  color: #393f45;
+  margin-top: 33px;
+  margin-bottom: 20px;
 }
 
 .line {
-    width: 300px;
-    position: relative;
-    text-align: center;
-    margin: 33px auto;
-    z-index: 1;
+  width: 300px;
+  position: relative;
+  text-align: center;
+  margin: 20px auto;
+  z-index: 1;
 }
-
 .line::before {
-    display: inline-block;
-    content: "";
-    position: absolute;
-    height: 0px;
-    top: 50%;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    z-index: -1;
-    width: 300px;
-    border-top: 1px solid #979797;
-    margin: 0px auto;
+  display: inline-block;
+  content: "";
+  position: absolute;
+  height: 0px;
+  top: 50%;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: -1;
+  width: 300px;
+  border-top: 1px solid #979797;
+  margin: 0px auto;
 }
-
 .line span {
-    color: $mainTextColor;
-    background: rgb(255, 255, 255);
-    padding: 0px 10px;
-    width: 14px;
-    height: 14px;
-    font-size: 12px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: -0.91px;
-    text-align: center;
+  color: $mainTextColor;
+  background: rgb(255, 255, 255);
+  padding: 0px 10px;
+  width: 14px;
+  height: 14px;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.91px;
+  text-align: center;
 }
 
 .subtitle {
-    width: 74px;
-    height: 14px;
-    font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    color: #393f45;
-    letter-spacing: -0.64px;
+  width: 74px;
+  height: 14px;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  color: #393f45;
+  letter-spacing: -0.64px;
 }
 
 .btn-group {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 44px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 44px;
 }
 
-.form-id {
-    width: 300px;
+input:-webkit-autofill {
+  transition: background-color 1000s ease-in-out 0s;
 }
-
-.form-password {
-    width: 300px;
+.input {
+  width: 300px;
+  height: 40px;
+  border-radius: 3px;
+  border: solid 1.7px #ced4da;
+  background-color: #f1f3f5;
+  padding: 18.5px 14px;
 }
-
-.input-email {
-    margin: 10px 0 24px 0;
-    height: 40px;
-    background-color: #f1f3f5;
-    border-color: #ced4da;
-    font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: -0.64px;
+.input:focus {
+  outline: none !important;
+  border: 1.7px solid #007aff;
 }
-
-.input-nickname {
-    margin: 10px 0 24px 0;
-    height: 40px;
-    background-color: #f1f3f5;
-    border-color: #ced4da;
-    font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: -0.64px;
-}
-
-.input-password {
-    margin: 10px 0 10px 0;
-    height: 40px;
-    background-color: #f1f3f5;
-    border-color: #ced4da;
-    font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: -0.64px;
-}
-
-::placeholder {
-    color: #9da6af;
+input::placeholder {
+  color: #9da6af;
 }
 
 .btn-SigninupBox {
-    width: 100px;
-    height: 36px;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.1);
-    font-size: 16px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: -0.73px;
-    color: #ffffff;
+  font-family: 'SpoqaHanSans';
+  width: 100px;
+  height: 36px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.73px;
+  color: #ffffff;
 }
-
-
-.btn-SigninupBox span {
-    font-family: 'SpoqaHanSans';
-}
-
 .btn-SigninupText {
-    font-size: 16px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: -0.73px;
+  font-family: 'SpoqaHanSans';
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.73px;
 }
 
-.btn-SigninupText span {
-    font-family: 'SpoqaHanSans';
+.check-validation {
+  width: 298px;
+  font-family: 'SpoqaHanSans';
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.55px;
+  position: relative;
+  opacity: 0;
+  margin: 2px 0 10px 0;
+}
+.check-true {
+  opacity: 1;
+  color: #00b381;
+}
+.check-false {
+  opacity: 1;
+  color: #ff6b6b;
 }
 
-.check-idpw {
-    width: 298px;
-    height: 12px;
-    font-family: 'SpoqaHanSans';
-    font-size: 12px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: -0.55px;
-    position: relative;
+.link {
+  text-decoration: none;
 }
-
-.id-true {
-    color: #00b381;
-    top: -20px;
-}
-
-.id-false {
-    color: #ff6b6b;
-    top: -20px;
-}
-
-.pw-true {
-    color: #00b381;
-    top: -8px;
-}
-
-.pw-false {
-    color: #ff6b6b;
-    top: -12px;
-}
-
-.nickname-false {
-    top: -20px;
-    color: #ff6b6b;
-}
-
-
-
 
 /*-----------login-----------*/
 
-
-input:-webkit-autofill {
-    transition: background-color 1000s ease-in-out 0s;
-}
 
 .logo-google {
     width: 20px;
@@ -396,16 +337,13 @@ input:-webkit-autofill {
 
 .image-box-login {
     height: auto;
-    background-image: url("../images/mainBackground.png");
+    background-image: url("../../images/mainBackground.png");
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 
-
-
 /*-----------signup-----------*/
-
 .agree-group {
     display: flex;
     justify-content: space-between;
@@ -426,7 +364,7 @@ input:-webkit-autofill {
 
 .image-box-signup {
     height: auto;
-    background-image: url("../images/mainBackground.png");
+    background-image: url("../../images/mainBackground.png");
     background-repeat: no-repeat;
     background-size: cover;
 }

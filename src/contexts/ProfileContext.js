@@ -15,10 +15,9 @@ const Profile = (props) => {
       .then(res => setProfile({
         name: res.username,
         email: res.email,
-        img: DefaultImg,
+        img: DefaultImg
       }))
-    
-  }, [])
+  })
   
   return (
     <ProfileContext.Provider value={profile}>

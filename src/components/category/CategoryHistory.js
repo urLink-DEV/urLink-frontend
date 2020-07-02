@@ -24,6 +24,7 @@ export default function CategoryHistory(props) {
 
   const onAnchorClick = (e) => {
     e.preventDefault()
+    e.stopPropagation()
     if(!chrome.tabs){
       window.open(link.url)
     }
@@ -63,8 +64,10 @@ export default function CategoryHistory(props) {
       <img className={classes.linkFavicon} onError={onError} src={favicon} alt={link.title} title={link.title}></img>
       <span className={classes.linkDivMainFont} title={link.title + ` (${link.visitCount})`}>{link.title + ` (${link.visitCount})`}</span>
       <span className={classes.linkDivSubFont} title={link.hostName}>{link.hostName}</span>
-      <img className={classes.linkIcon} src={newTab} onClick={onAnchorClick} alt="새 창으로 열기" title="새 창으로 열기"></img>
-      <img className={classes.linkIcon} src={linkCopy} onClick={onLinkCopy} alt="링크 복사 하기" title="링크 복사 하기"></img>
+      <div className={classes.linkIconGroup}>
+        <img className={classes.linkIcon} src={newTab} onClick={onAnchorClick} alt="새 창으로 열기" title="새 창으로 열기"></img>
+        <img className={classes.linkIcon} src={linkCopy} onClick={onLinkCopy} alt="링크 복사 하기" title="링크 복사 하기"></img>
+      </div>
     </div>
   )
 }

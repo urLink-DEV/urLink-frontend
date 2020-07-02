@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import Paper from '@material-ui/core/Paper'
 import InputBase from '@material-ui/core/Input'
 import {useCategoryDispatch} from '../../containers/category/CategoryContainer'

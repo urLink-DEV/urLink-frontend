@@ -25,8 +25,8 @@ export default function CategoryAppBar(props) {
     onAlarmRead,
     onNoReturnAlarm,
     alarmList, 
-    newRecentNofitication,
-    getUser,
+    // newRecentNofitication,
+    getUser
   } = props
   
   const [historyDrawerOpen, setHistoryDrawerOpen] = useState(false) // * history
@@ -58,8 +58,6 @@ export default function CategoryAppBar(props) {
     setAnchorProfile(null)
   }
 
-
-
   return (
     <div>
       <div className={classes.appBar}>
@@ -76,7 +74,7 @@ export default function CategoryAppBar(props) {
             <Badge
               anchorOrigin={{
                 vertical: 'top',
-                horizontal: 'left',
+                horizontal: 'left'
               }}
               badgeContent={alarmList.length}
               max={99}
@@ -107,21 +105,21 @@ export default function CategoryAppBar(props) {
           </Popover>
           
           <Button
-          className={classes.imgButton}
+            className={classes.imgButton}
             aria-describedby={profileId}
             onClick={handleProfilePopOverClick}
             >
-            <Badge
+            {/* <Badge
               anchorOrigin={{
                 vertical: 'top',
-                horizontal: 'left',
+                horizontal: 'left'
               }}
               badgeContent={newRecentNofitication.length}
               color='primary'
               variant='dot'
-            >
+            > */}
               <img src={person} alt='person button' />
-            </Badge>
+            {/* </Badge> */}
           </Button>
           
           <Popover 
@@ -131,11 +129,11 @@ export default function CategoryAppBar(props) {
             anchorEl={anchorProfile}
             anchorOrigin={{
               vertical: 'bottom',
-              horizontal: 'left',
+              horizontal: 'left'
             }}
             transformOrigin={{
               vertical: 'bottom',
-              horizontal: 'right',
+              horizontal: 'right'
             }}
           >
             <ProfileContext getUser={getUser}>
