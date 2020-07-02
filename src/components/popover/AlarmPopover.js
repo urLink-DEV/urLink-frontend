@@ -9,7 +9,7 @@ import Avatar from '@material-ui/core/Avatar'
 import ImageIcon from '@material-ui/icons/Image'
 import CloseIcon from '@material-ui/icons/Close'
 import useStyles from './styles/AlarmPopover'
-import linkListEmptyIcon from '../../images/group-10.png'
+import linkListEmptyIcon from '../../images/logo/logo32.png'
 /*
  * id: 15
  * name: "test"
@@ -27,12 +27,12 @@ export default function AlarmPopover(props) {
   const {alarmList, onAlarmRead, onNoReturnAlarm} = props
 
   const handleClickAlarm = alarm => e => {
-    onAlarmRead(alarm.id)
+    onAlarmRead({ alarm_id: alarm.id })
     window.open(alarm.url_path)
   }
 
   const handleDeleteAlarm = id => e => {
-    onNoReturnAlarm(id)
+    onNoReturnAlarm({ alarm_id: id })
   }
 
   return (
@@ -41,13 +41,13 @@ export default function AlarmPopover(props) {
        {alarmList.map((alarm) =>
          <ListItem key={alarm.id} button 
            onClick={handleClickAlarm(alarm)}
-           style={alarm.alarm_has_read ? {width:'100%', backgroundColor: '#ecf2f0'} : {width:'100%', backgroundColor: 'white'}}
+           style={alarm.alarm_has_read ? {width:'100%', backgroundColor: '#e9ecef'} : {width:'100%', backgroundColor: 'white'}}
          >
           <ListItemAvatar>
             <Avatar className={classes.avatar}>
               {
-                alarm.url_favicon_path 
-                ? <img className={classes.img} src={alarm.url_favicon_path} alt="url-favicon"/> 
+                alarm.url_image_path 
+                ? <img className={classes.img} src={alarm.url_image_path} alt="url-favicon"/> 
                 : <ImageIcon />
               }
             </Avatar>
