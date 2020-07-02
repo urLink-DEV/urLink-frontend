@@ -55,7 +55,7 @@ export default function CategoryDrawer(props) {
     selectedLinkList,
     setSelectedLinkList,
     writeAlarm,
-    getUser,
+    // getUser,
   } = props
   
   const links = useLinkState()

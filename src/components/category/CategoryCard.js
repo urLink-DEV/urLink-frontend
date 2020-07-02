@@ -1,4 +1,3 @@
-/* global chrome */
 import React, {useState, useEffect, useRef} from 'react'
 import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'

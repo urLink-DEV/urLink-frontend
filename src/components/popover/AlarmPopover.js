@@ -1,5 +1,4 @@
-/* global chrome */
-import React, {useEffect} from 'react'
+import React from 'react'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
@@ -48,7 +47,7 @@ export default function AlarmPopover(props) {
            <Avatar className={classes.avatar}>
              {
                alarm.url_image_path 
-               ? <img className={classes.img} src={alarm.url_image_path}/> 
+               ? <img className={classes.img} src={alarm.url_image_path} alt="url-favicon"/> 
                : <ImageIcon />
              }
            </Avatar>
