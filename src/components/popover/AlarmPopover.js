@@ -27,12 +27,12 @@ export default function AlarmPopover(props) {
   const {alarmList, onAlarmRead, onNoReturnAlarm} = props
 
   const handleClickAlarm = alarm => e => {
-    onAlarmRead({ alarm_id: alarm.id })
+    onAlarmRead({ alarm_id: alarm.id, action: "read" })
     window.open(alarm.url_path)
   }
 
   const handleDeleteAlarm = id => e => {
-    onNoReturnAlarm({ alarm_id: id })
+    onNoReturnAlarm({ alarm_id: id, action: "done" })
   }
 
   return (
