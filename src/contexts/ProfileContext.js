@@ -10,14 +10,16 @@ const Profile = (props) => {
   
   const [profile, setProfile] = useState({name: '', email: '', img: ''})
   useEffect(() => {
-    getUser()
+    if(!(!!profile.name)) {
+      getUser({})
       .then(res => res.data)
       .then(res => setProfile({
         name: res.username,
         email: res.email,
         img: DefaultImg
       }))
-  })
+    }
+  },[profile])
   
   return (
     <ProfileContext.Provider value={profile}>
