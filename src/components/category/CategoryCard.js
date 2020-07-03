@@ -87,15 +87,18 @@ export default function CategoryCard(props) {
 
   const handleSetAlarm = date => {
     setIsReset(true)
-    writeAlarm(`${category}-${id}`,
-      category,
-      id, 
-      date.year(), 
-      date.month()+1, 
-      date.date(), 
-      date.hours(), 
-      date.minutes()
-    )
+    writeAlarm({
+      name: `${category}-${id}`,
+      category: category,
+      url: id,
+      reserved_time: {
+        year: date.year(),
+        month: date.month() + 1,
+        day: date.date(),
+        hour: date.hours(),
+        minute: date.minute()
+      }
+    })
   }
 
   const handleClickEdit = e => {

@@ -21,7 +21,7 @@ export default function CategoryTab(props) {
 
   const classes = useStyles()
 
-  const dispatch = useCategoryDispatch()
+  const { getCategory, updateCategory } = useCategoryDispatch()
   const [categoryTitle, setCategoryTitle] = useState(text)
   const [disabled, setDisabled] = useState(true)
 
@@ -61,8 +61,8 @@ export default function CategoryTab(props) {
         setCategoryTitle(text)
         setDisabled(true)
       } else {
-        dispatch.updateCategory(id, categoryTitle, order, isFavorited)
-          .then(() => dispatch.getCategory())
+        updateCategory({ id, name: categoryTitle, order, is_favorited: isFavorited })
+          .then(() => getCategory({}))
           .then(() => {
             setSelectedCategoryTitle(categoryTitle)
             setDisabled(true)

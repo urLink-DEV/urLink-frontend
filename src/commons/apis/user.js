@@ -2,77 +2,94 @@ import { axios, api } from '../http'
 import queryData from '../queryData'
 
 const userAPI = {
-  get : () => {
+  get : (userInfo) => {
     try {
-      const userRead = queryData["userRead"]
+      const userReadKeys = Object.keys(queryData["userRead"])
+      const userRead = {}
+      Object.entries(userInfo).forEach(([key, value]) => {
+        if (userReadKeys.includes(key)) userRead[key] = value
+      })
       return axios.get(api.MEMBER, userRead)
     } catch (error) {
-      console.warn(error)
+      return {error}
     }
   },
 
-  update: ({ username, password }) => {
+  update: (userInfo) => {
     try {
-      const userUpdate = queryData["userUpdate"]
-      userUpdate.username = username
-      userUpdate.password = password
+      const userUpdateKeys = Object.keys(queryData["userUpdate"])
+      const userUpdate = {}
+      Object.entries(userInfo).forEach(([key, value]) => {
+        if (userUpdateKeys.includes(key)) userUpdate[key] = value
+      })
       return axios.patch(api.MEMBER, userUpdate)
     } catch (error) {
-      console.warn(error)
+      return {error}
     }
   },
 
-  remove : () => {
+  remove : (userInfo) => {
     try {
-      const userDelete = queryData["userDelete"]
+      const userDeleteKeys = Object.keys(queryData["userDelete"])
+      const userDelete = {}
+      Object.entries(userInfo).forEach(([key, value]) => {
+        if (userDeleteKeys.includes(key)) userDelete[key] = value
+      })
       return axios.delete(api.MEMBER, userDelete)
     } catch (error) {
-      console.warn(error)
+      return {error}
     }
   },
 
-  nRegister: ({ email, username, password }) => {
+  nRegister: (userInfo) => {
     try {
-      const nRegister = queryData["n_register"]
-      nRegister.email = email
-      nRegister.username = username
-      nRegister.password = password
+      const nRegisterKeys = Object.keys(queryData["nRegister"])
+      const nRegister = {}
+      Object.entries(userInfo).forEach(([key, value]) => {
+        if (nRegisterKeys.includes(key)) nRegister[key] = value
+      })
       return axios.post(api.N_MEMBER_REGISTER, nRegister)
     } catch (error) {
-      console.warn(error)
+      return {error}
     }
   },
 
-  nLogin: ({ email, password }) => {
+  nLogin: (userInfo) => {
     try {
-      const nLogin = queryData["n_login"]
-      nLogin.email = email
-      nLogin.password = password
+      const nLoginKeys = Object.keys(queryData["nLogin"])
+      const nLogin = {}
+      Object.entries(userInfo).forEach(([key, value]) => {
+        if (nLoginKeys.includes(key)) nLogin[key] = value
+      })
       return axios.post(api.N_MEMBER_LOGIN, nLogin)
     } catch (error) {
-      console.warn(error)
+      return {error}
     }
   },
 
-  gRegister: ({ token }) => {
+  gRegister: (userInfo) => {
     try {
-      if (!token) throw new Error(` token: ${token}은 필수 값 입니다.`)
-      const gRegister = queryData['g_register']
-      gRegister.token = token
+      const gRegisterKeys = Object.keys(queryData["gRegister"])
+      const gRegister = {}
+      Object.entries(userInfo).forEach(([key, value]) => {
+        if (gRegisterKeys.includes(key)) gRegister[key] = value
+      })
       return axios.post(api.G_MEMBER_REGISTER, gRegister)
     } catch (error) {
-      console.warn(error);
+      return {error}
     }
   },
 
-  gLogin: ({ token }) => {
+  gLogin: (userInfo) => {
     try {
-      if(!token) throw new Error(` token: ${token}은 필수 값 입니다.`)
-      const login = queryData['g_login']
-      login.token = token
-      return axios.post(api.G_MEMBER_LOGIN, login)
+      const gLoginKeys = Object.keys(queryData["gLogin"])
+      const gLogin = {}
+      Object.entries(userInfo).forEach(([key, value]) => {
+        if (gLoginKeys.includes(key)) gLogin[key] = value
+      })
+      return axios.post(api.G_MEMBER_LOGIN, gLogin)
     } catch (error) {
-      console.warn(error);
+      return {error}
     }
   }
 }
