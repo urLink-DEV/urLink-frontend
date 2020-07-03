@@ -333,9 +333,10 @@ export default function CategoryDrawer(props) {
     const filteredLinkList = [] 
     selectedLinkList.forEach(link => filteredLinkList.push(link.path))
 
+
     if(type === 'link') {
       e.preventDefault()
-      writeLink({ writeLink: selectedCategoryId, path: filteredLinkList })
+      writeLink({ category: selectedCategoryId, path: filteredLinkList })
       setDragHistoryFinished(true)
       setSelectedLinkList([])
       setDraggedHistoryList([])
