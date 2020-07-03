@@ -87,7 +87,7 @@ const userAPI = {
       Object.entries(userInfo).forEach(([key, value]) => {
         if (gLoginKeys.includes(key)) gLogin[key] = value
       })
-      return axios.post(api.G_MEMBER_LOGIN, login)
+      return axios.post(api.G_MEMBER_LOGIN, gLogin)
     } catch (error) {
       return {error}
     }
