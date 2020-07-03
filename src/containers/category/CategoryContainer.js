@@ -100,14 +100,12 @@ export default function CategoryContainer() {
       const errorMsg = error.hasOwnProperty("response") ? error.response.data.message : error.message
       setAlerType("error")
       setAlertText(errorMsg)
-      // console.warn(errorMsg)
     }
   }
 
   // * 전체 링크 리스트 가져오기 => setLink
   const getLink = async (linkInfo) => {
     try {
-      console.trace(linkInfo)
       const response = await linkAPI.get(linkInfo)
       if (response.hasOwnProperty("error")) throw response.error
       setLink([...response.data])

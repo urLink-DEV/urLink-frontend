@@ -598,10 +598,8 @@ export default function CategoryDrawer(props) {
 
   const handleClickDeleteSelectedCardList = () => {
     Promise.all(selectedCardList.map(card => deleteLink({ id: card.id }))).then(() => {
-      setSelectedCardList([])
       setDeleteSuccessAlert(true)
       setIsReset(true)
-    }).then(() => {
       // getLink(selectedCategoryId) // !! 이미 useEffect에서 처리
       getCategory({})
     })
