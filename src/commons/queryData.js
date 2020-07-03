@@ -6,7 +6,7 @@ const queryData = {
    * * /user/sign-up/
    * * Authorization: JWT 불필요
    */
-  n_register: {
+  nRegister: {
     "sign_up_type": "normal",
     "email": "",
     "username": "",
@@ -18,7 +18,7 @@ const queryData = {
    * * /user/sign-in/
    * * Authorization: JWT 불필요
    */
-  n_login: {
+  nLogin: {
     "email": "",
     "password": ""
   },
@@ -29,7 +29,7 @@ const queryData = {
    * * Authorization: JWT 불필요
    * * email, password 불필요
    */
-  g_login: {
+  gLogin: {
     "token": ""
   },
   
@@ -39,7 +39,7 @@ const queryData = {
    * * Authorization: JWT 불필요
    * * email, password 불필요
    */
-  g_register: {
+  gRegister: {
     "token": ""
   },
   
