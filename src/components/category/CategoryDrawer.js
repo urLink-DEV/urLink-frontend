@@ -137,11 +137,8 @@ export default function CategoryDrawer(props) {
         setNewCategoryTitle('')
         setSelectedCategoryId(res.data.id)
         setSelectedCategoryTitle(res.data.name)
-        return res.data
-      })
-      .then((res) => {
-        getLink({ category: res.id })
         getCategory({})
+        return res.data
       })
     }
   }
