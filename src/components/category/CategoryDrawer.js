@@ -58,7 +58,7 @@ export default function CategoryDrawer(props) {
     // getUser,
   } = props
   
-  const links = useLinkState()
+  const [links, setLink] = useLinkState()
   const categories = useCategoryState()
   const favoritedArr = categories.filter(data => data.is_favorited === true)
   const notFavoritedArr = categories.filter(data => data.is_favorited === false)
@@ -75,16 +75,26 @@ export default function CategoryDrawer(props) {
   const [enterOpen, setEnterOpen] = useState(false)
 
   useEffect(() => {
-    if (!selectedCategoryId && categories.length) {
+    if (!selectedCategoryId) {
       setAddOpen(true)
       setDeleteOpen(false)
-      setSelectedCategoryId(categories[0]?.id)
-      setSelectedCategoryTitle(categories[0]?.name)
-    } else if(selectedCategoryId) {
+      getCategory({}).then((response) => {
+        const {data} = response
+        if(data.length) {
+          setSelectedCategoryId(data[0]?.id)
+          setSelectedCategoryTitle(data[0]?.name)
+        }
+        else {
+          setSelectedCategoryTitle('')
+          setLink([])
+        }
+      })
+    } 
+    else if (selectedCategoryId) { // * category Select
       getLink({ category: selectedCategoryId })
     }
-  }, [categories, selectedCategoryId])
-  
+  }, [selectedCategoryId])
+
   const handleClickCategoryTitle = () => {
     getLink({ category: selectedCategoryId })
   }
@@ -172,13 +182,7 @@ export default function CategoryDrawer(props) {
       setDeleteModalOpen(false)
       setDeleteOpen(false)
       setAddOpen(true)
-      return getCategory({})
-    })
-    .then((res) => { // * getCategory Promise
-      if (!res.data.length) return
-      setSelectedCategoryId(res.data[0].id)
-      setSelectedCategoryTitle(res.data[0].name)
-      getLink({ category: res.data[0].id })
+      setSelectedCategoryId('')
     })
   }
 
@@ -296,8 +300,8 @@ export default function CategoryDrawer(props) {
       }))
     } else if(type === 'link') {
       e.preventDefault()
-      setDragHistoryFinished(true)
       writeLink({ category: overedTabId, path: filteredLinkList })
+        .then(() => setDragHistoryFinished(true))
       setSelectedLinkList([])
       setDraggedHistoryList([])
     } else {
@@ -337,7 +341,7 @@ export default function CategoryDrawer(props) {
     if(type === 'link') {
       e.preventDefault()
       writeLink({ category: selectedCategoryId, path: filteredLinkList })
-      setDragHistoryFinished(true)
+        .then(() => setDragHistoryFinished(true))
       setSelectedLinkList([])
       setDraggedHistoryList([])
     }
@@ -361,13 +365,15 @@ export default function CategoryDrawer(props) {
           })
         }, 1000)  
       })
-
     } else if(dragHistoryFinished) {
-      timeId.current = setTimeout(() => {
-        setDragHistoryFinished(false)
-      }, 800)
+      if(overedTabId === selectedCategoryId) getLink({ category: selectedCategoryId })
+      getCategory({})
+        .then(() => {
+          timeId.current = setTimeout(() => {
+            setDragHistoryFinished(false)
+          }, 1000)
+        })
     }
-
     return () => {
       // document.removeEventListener("mousedown", handleClickOutside)
       clearTimeout(timeId.current)
@@ -601,8 +607,7 @@ export default function CategoryDrawer(props) {
     Promise.all(selectedCardList.map(card => deleteLink({ id: card.id }))).then(() => {
       setDeleteSuccessAlert(true)
       setIsReset(true)
-      // getLink(selectedCategoryId) // !! 이미 useEffect에서 처리
-      getCategory({})
+      setSelectedCategoryId('')
     })
   }
 
