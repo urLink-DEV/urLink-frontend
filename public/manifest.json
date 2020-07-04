@@ -5,11 +5,9 @@
   "description": "url collection",
   "permissions": [
     "tabs", 
-    "activeTab",
     "<all_urls>",
     "identity",
-    "history",
-    "storage"
+    "history"
   ],
   "icons": { 
     "16": "images/logo/logo16.png",
@@ -27,7 +25,7 @@
     "persistent": false
   },
   "oauth2": {
-    "client_id": "683415540436-aimi7aksc043mre0pdj2nejtr08fkchs.apps.googleusercontent.com",
+    "client_id": "653803605818-709sm4uf5qbernulcesm3ee1kt9tr1jp.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/contacts.readonly",
       "profile",
