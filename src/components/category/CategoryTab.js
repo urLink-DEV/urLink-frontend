@@ -34,10 +34,8 @@ export default function CategoryTab(props) {
   return (
     <div className={classes.listTab + (selected ? ' ' + classes.selected : '') 
       + (selected && isEditTitle ? ' ' + classes.modifying : '')}>
-      <Paper 
-        component="div" 
-        className={classes.root + (dragFinished || historyDragFinished ? ' dragFinished' : '')} 
-        id={`${id}`}
+      <Paper className={classes.root + (dragFinished || historyDragFinished ? ' dragFinished' : '')} 
+        component="div" id={id}
       >
         <InputBase className={classes.input + (selected ? ' selected': '')}
           disableUnderline value={categoryTitle}

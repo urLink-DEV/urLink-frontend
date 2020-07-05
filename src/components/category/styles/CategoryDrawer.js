@@ -15,8 +15,6 @@ export const StyledToggleButtonGroup = withStyles((theme) => ({
   },
 }))(ToggleButtonGroup)
 
-const drawerWidth = 260
-
 export const useStyles = makeStyles((theme) => ({
   root: {
     '&::-webkit-scrollbar': {
@@ -27,140 +25,13 @@ export const useStyles = makeStyles((theme) => ({
     height: '100vh',
     backgroundColor: '#fafafa',
   },
-  drawer: {
-    [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    }
-  },
-  firstFavoriteDropZone: {
-    width: '212px',
-    height: '52px',
-    borderRadius: '4px',
-    border: 'dashed 1px #ced4da',
-    backgroundColor: '#f8f9fa',
-    fontSize: '15px',
-    fontWeight: 300,
-    fontStretch: 'normal',
-    fontStyle: 'normal',
-    lineHeight: '50px',
-    letterSpacing: 'normal',
-    textAlign: 'center',
-    color: '#868e96',
-    margin: '10px 0',
-    display: 'block'
-  },
-  hiddenDropZone: {
-    width: '212px',
-    height: '100vh',
-    display: 'block',
-    opacity: 0
-  },
-
-  coverBackground: {
-    position: 'absolute',
-    backgroundColor: 'rgba(53, 142, 255, 0.15)',
-    height: '100%',
-    width: 'calc(100% - 600px)',
-    paddingLeft: 259,
-    zIndex: 1,
-    display: 'none',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   toolbar: {
     height: 40,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-    scrollbarWidth: 'none',
-    '&::-webkit-scrollbar': {
-      display: 'none'
-    }
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    margin: '0 63px 0 0',
-  },
-  addButton: {
-    width: 208,
-    height: 52,
-    display: 'block',
-    borderRadius: 4,
-    margin: "10px 0",
-    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)",
-    backgroundColor: "#f1f3f5",
-    '&:hover': {
-      backgroundColor: '#f7f7f7'
-    }
-  },
-  deleteButton: {
-    display: 'none',
-    width: 208,
-    height: 52,
-    borderRadius: 4,
-    margin: "10px 0",
-    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)",
-    backgroundColor: "#f1f3f5",
-    '&:hover': {
-      backgroundColor: '#f7f7f7'
-    }
-  },
-  enterTab: {
-    width: 208,
-    height: 52,
-    display: 'none',
-    alignItems: 'center',
-    justifyCntent: "space-around",
-    borderRadius: 4,
-    padding: 8,
-    marginTop: 10,
-    backgroundColor: "#ffffff",
-    boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
-    border: "solid 1px #2083ff",
-  },
-  flex: {
-    display: 'flex'
-  },
-  block: {
-    display: 'block'
-  },
-  hidden: {
-    display: 'none'
-  },
-  input: {
-    padding: '0 12px',
-    width: 122,
-    height: 28,
-    borderRadius: 4,
-    marginRight: 8,
-    backgroundColor: "#f1f3f5",
-    fontFamily: "AppleSDGothicNeo",
-    fontSize: 14,
-  },
-  okBtn: {
-    width: 37,
-    height: 24,
-    borderRadius: 4,
-    backgroundColor: "#2083ff",
-    padding: 0,
-    minWidth: 0,
-    color: "#fff",
-    fontFamily: "SpoqaHanSans",
-    fontSize: 12,
-    '&:hover': {
-      backgroundColor: '#2083ff'
-    }
-  },
-  cancelBtn: {
-    width: 37,
-    height: 24,
-    borderRadius: 4,
-    padding: 0,
-    minWidth: 0,
-    fontFamily: "SpoqaHanSans",
-    fontSize: 12
+    margin: '0 50px 0 0',
   },
   addLinkIcon: {
     color: '#358eff',
@@ -227,13 +98,6 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: '#f1f3f5',
     width: '100%',
     height: '28px'
-  },
-  dragline: {
-    width: 208,
-    height: 2,
-    borderRadius: 2,
-    backgroundImage: "linear-gradient(271deg, #e0f6ff, #2083ff)",
-    opacity: 0
   },
   gridCard: {
     padding: 0,
