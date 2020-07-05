@@ -174,8 +174,10 @@ export const useStyles = makeStyles((theme) => ({
     transform: 'translate(-45%, -55%)',
   },
   mainFont: {
+    textAlign: 'left',
     backgroundColor: 'transparent',
-    width: 200,
+    width: '100%',
+    maxWidth: 180,
     height: '36px',
     fontFamily: 'SpoqaHanSans',
     fontSize: '20pt',
@@ -236,6 +238,9 @@ export const useStyles = makeStyles((theme) => ({
   gridCard: {
     padding: 0,
     margin: 20,
+  },
+  settingsIcon: {
+    marginTop: 5,
   },
   '@global': {
     '.MuiFilledInput-inputMarginDense': {

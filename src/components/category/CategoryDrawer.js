@@ -15,8 +15,11 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import Paper from '@material-ui/core/Paper'
 import Input from '@material-ui/core/Input'
 import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/IconButton'
 import ToggleButton from '@material-ui/lab/ToggleButton'
+import InputBase from '@material-ui/core/InputBase'
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos'
+import CreateIcon from '@material-ui/icons/Create'
 import {useStyles, StyledToggleButtonGroup} from './styles/CategoryDrawer'
 import clsx from 'clsx'
 
@@ -55,7 +58,6 @@ export default function CategoryDrawer(props) {
     selectedLinkList,
     setSelectedLinkList,
     writeAlarm,
-    // getUser,
   } = props
   
   const [links, setLink] = useLinkState()
@@ -66,8 +68,7 @@ export default function CategoryDrawer(props) {
   const [newCategoryTitle, setNewCategoryTitle] = useState('')
   const [toggleAlignment, setToggleAlignment] = useState('left')
   const [searchValue, setSearchValue] = useState('')
-  const [selectedCategoryId, setSelectedCategoryId] = useState('')
-  const [selectedCategoryTitle, setSelectedCategoryTitle] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState({})
 
   const [addOpen, setAddOpen] = useState(true)
   const [deleteOpen, setDeleteOpen] = useState(false)
@@ -75,28 +76,26 @@ export default function CategoryDrawer(props) {
   const [enterOpen, setEnterOpen] = useState(false)
 
   useEffect(() => {
-    if (!selectedCategoryId) {
+    if (!selectedCategory.id) {
       setAddOpen(true)
       setDeleteOpen(false)
       getCategory({}).then((response) => {
         const {data} = response
         if(data.length) {
-          setSelectedCategoryId(data[0]?.id)
-          setSelectedCategoryTitle(data[0]?.name)
+          setSelectedCategory(data[0])
         }
         else {
-          setSelectedCategoryTitle('')
           setLink([])
         }
       })
     } 
-    else if (selectedCategoryId) { // * category Select
-      getLink({ category: selectedCategoryId })
+    else if (selectedCategory.id) { // * category Select
+      getLink({ category: selectedCategory.id })
     }
-  }, [selectedCategoryId])
+  }, [selectedCategory])
 
   const handleClickCategoryTitle = () => {
-    getLink({ category: selectedCategoryId })
+    getLink({ category: selectedCategory.id })
   }
 
   const handleChangeNewCategoryTitle = (e) => {
@@ -119,7 +118,7 @@ export default function CategoryDrawer(props) {
       if (toggleAlignment === 'left') path = value
       else if (toggleAlignment === 'right') title = value
       setSearchValue(value)
-      getLink({ category: selectedCategoryId, path, title })
+      getLink({ category: selectedCategory.id, path, title })
     }
   }
 
@@ -135,8 +134,7 @@ export default function CategoryDrawer(props) {
       writeCategory({ name: newCategoryTitle, is_favorited: false })
       .then((res) => {
         setNewCategoryTitle('')
-        setSelectedCategoryId(res.data.id)
-        setSelectedCategoryTitle(res.data.name)
+        setSelectedCategory(res.data)
         getCategory({})
         return res.data
       })
@@ -174,22 +172,20 @@ export default function CategoryDrawer(props) {
   
   const deleteTab = (e) => {
     e.stopPropagation()
-    deleteCategory({ id: selectedCategoryId })
-    .then(() => {
-      setDeleteModalOpen(false)
-      setDeleteOpen(false)
-      setAddOpen(true)
-      setSelectedCategoryId('')
-    })
+    deleteCategory({ id: selectedCategory.id })
+      .then(() => {
+        setDeleteModalOpen(false)
+        setDeleteOpen(false)
+        setAddOpen(true)
+        // setSelectedCategoryId('')
+      })
   }
 
-  const handleClickCategory = (e, id, name) => {
+  const handleClickCategory = category => e => {
     e.stopPropagation()
     setAddOpen(false)
     if(addOpen) setDeleteOpen(true)
-    setSelectedCategoryId(id)
-    setSelectedCategoryTitle(name)
-    // getLink(selectedCategoryId)
+    setSelectedCategory(category)
   }
 
   const openEnterTab = (e) => {
@@ -325,7 +321,7 @@ export default function CategoryDrawer(props) {
   const dragOverOnCardArea =(e) => {
     e.stopPropagation()
     e.preventDefault()
-    setOveredTabId(selectedCategoryId)
+    setOveredTabId(selectedCategory.id)
   }
 
   const dropOnCardArea = (e) => {
@@ -337,7 +333,7 @@ export default function CategoryDrawer(props) {
 
     if(type === 'link') {
       e.preventDefault()
-      writeLink({ category: selectedCategoryId, path: filteredLinkList })
+      writeLink({ category: selectedCategory.id, path: filteredLinkList })
         .then(() => setDragHistoryFinished(true))
       setSelectedLinkList([])
       setDraggedHistoryList([])
@@ -363,7 +359,7 @@ export default function CategoryDrawer(props) {
         }, 1000)  
       })
     } else if(dragHistoryFinished) {
-      if(overedTabId === selectedCategoryId) getLink({ category: selectedCategoryId })
+      if(overedTabId === selectedCategory.id) getLink({ category: selectedCategory.id })
       getCategory({})
         .then(() => {
           timeId.current = setTimeout(() => {
@@ -378,6 +374,32 @@ export default function CategoryDrawer(props) {
 
   },[wrapperRef, draggedCategory, dragFinished, dragHistoryFinished])
   
+  // when Edit Category Title
+  const [isEditCategoryTitle, setIsEditCategoryTitle] = useState(false)
+  const [editCategoryTitle, setEditCategoryTitle] = useState('')
+
+  const handleClickEditTitle = () => {
+    setEditCategoryTitle(selectedCategory.name)
+    setIsEditCategoryTitle(true)
+  }
+
+  const handleChangeEditCategoryTitle = e => {
+    setEditCategoryTitle(e.target.value)
+  }
+
+  const handleKeyupEditCategoryTitle = e => {
+    if (e.keyCode === 13) {
+      updateCategory({ 
+        id: selectedCategory.id, 
+        name: editCategoryTitle, 
+        order: selectedCategory.order, 
+        is_favorited: selectedCategory.isFavorited
+        }).then(res => setSelectedCategory({...selectedCategory, name: res.data.name}))
+        .then(() => getCategory({}))
+        .then(() => setIsEditCategoryTitle(false))
+    }
+  }
+
   const drawer = (
     <div>
       <div className="list-tab-layout" ref={wrapperRef}>
@@ -399,11 +421,11 @@ export default function CategoryDrawer(props) {
           {favoritedArr.map((data, index) => (
             <React.Fragment key={data.id}>
               <div className={classes.dragline} />
-              <ListItem className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
+              <ListItem className={classes.listItem + (data.id === selectedCategory.id ? ' '+classes.selected : '' )}
                 key={data.id}
                 data-type='category' 
                 draggable='true'
-                onClick={(e) => handleClickCategory(e, data.id, data.name)}
+                onClick={handleClickCategory(data)}
                 onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
                 onDragEnd={dragEnd}
                 onDragOver={(e) => dragOver(e, data.id, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
@@ -417,10 +439,11 @@ export default function CategoryDrawer(props) {
                   order={data.order}
                   isFavorited={data.is_favorited}
                   urlCount={data.url_count}
-                  selected={(data.id === selectedCategoryId)} 
+                  isEditTitle={isEditCategoryTitle}
+                  selected={(data.id === selectedCategory.id)} 
                   dragFinished={(data.id === draggedId ? dragFinished : false)} 
                   historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : null)}
-                  setSelectedCategoryTitle={setSelectedCategoryTitle}
+                  selectedCategoryTitle={isEditCategoryTitle ? editCategoryTitle : selectedCategory.name}
                 />
               </ListItem>
             </React.Fragment>
@@ -448,7 +471,6 @@ export default function CategoryDrawer(props) {
           component="div" 
         >
           <Input className={classes.input}
-            disableUnderline={true}
             placeholder="New one"
             value={newCategoryTitle}
             onChange={handleChangeNewCategoryTitle}
@@ -472,11 +494,11 @@ export default function CategoryDrawer(props) {
           {notFavoritedArr.map((data, index) => (
             <React.Fragment key={data.id}>
               <div className={classes.dragline} />
-              <ListItem className={classes.listItem + (data.id === selectedCategoryId ? ' '+classes.selected : '' )}
+              <ListItem className={classes.listItem + (data.id === selectedCategory.id ? ' '+classes.selected : '' )}
                 key={data.id} 
                 data-type='category' 
                 draggable='true'
-                onClick={(e) => handleClickCategory(e, data.id, data.name)}
+                onClick={handleClickCategory(data)}
                 onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
                 onDragEnd={dragEnd}
                 onDragOver={(e) => dragOver(e, data.id, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
@@ -484,16 +506,17 @@ export default function CategoryDrawer(props) {
                 onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
               >
                 <CategoryTab 
-                key={data.id} 
-                text={data.name} 
-                id={data.id} 
-                order={data.order}
-                isFavorited={data.is_favorited}
-                urlCount={data.url_count}
-                selected={(data.id === selectedCategoryId)} 
-                dragFinished={(data.id === draggedId ? dragFinished : false)} 
-                historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : false)}
-                setSelectedCategoryTitle={setSelectedCategoryTitle}
+                  key={data.id} 
+                  text={data.name} 
+                  id={data.id} 
+                  order={data.order}
+                  isFavorited={data.is_favorited}
+                  urlCount={data.url_count}
+                  isEditTitle={isEditCategoryTitle}
+                  selected={(data.id === selectedCategory.id)} 
+                  dragFinished={(data.id === draggedId ? dragFinished : false)} 
+                  historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : false)}
+                  selectedCategoryTitle={isEditCategoryTitle ? editCategoryTitle : selectedCategory.name}
                 />
               </ListItem>
             </React.Fragment>
@@ -555,7 +578,7 @@ export default function CategoryDrawer(props) {
       </Grid> 
     </CategorySearchPopOver>
   )
-  
+
   // TODO Refactoring
   // Category Cards List Business Logic
   const [selectedCardList, setSelectedCardList] = useState([])
@@ -569,16 +592,16 @@ export default function CategoryDrawer(props) {
   }, [isReset])
 
   const handleClickExceptCard = useCallback(() => {
-      setSelectedCardList([])
-      setIsReset(true)
-      return
+    setSelectedCardList([])
+    setIsReset(true)
+    return
   })
 
   const handleClickChangeToAddBtn = useCallback(() => {
-      setAddOpen(true)
-      setDeleteOpen(false) 
-      setEnterOpen(false)
-      return 
+    setAddOpen(true)
+    setDeleteOpen(false) 
+    setEnterOpen(false)
+    return 
   })
 
   useEventListener('click', handleClickExceptCard)
@@ -604,7 +627,6 @@ export default function CategoryDrawer(props) {
     Promise.all(selectedCardList.map(card => deleteLink({ id: card.id }))).then(() => {
       setDeleteSuccessAlert(true)
       setIsReset(true)
-      setSelectedCategoryId('')
     })
   }
 
@@ -631,11 +653,33 @@ export default function CategoryDrawer(props) {
       </div>
       <main className={classes.content}>
         <Grid container className={classes.toolbar}>
-          <Grid item>
-            <button className={classes.mainFont} onClick={handleClickCategoryTitle}>
-              {selectedCategoryTitle}
-            </button>
-          </Grid>
+          {
+            isEditCategoryTitle
+              ? <Grid item>
+                  <InputBase className={classes.mainFont}
+                    disableUnderline
+                    onChange={handleChangeEditCategoryTitle}
+                    onKeyUp={handleKeyupEditCategoryTitle}
+                    value={editCategoryTitle}
+                  />
+                </Grid>
+              : <>
+                <Grid item>
+                  <button className={classes.mainFont} 
+                    onClick={handleClickCategoryTitle}>
+                    {selectedCategory.name}
+                  </button>
+                </Grid>
+                <Grid item>
+                  <IconButton className={classes.settingsIcon}
+                    aria-label="setting"
+                    onClick={handleClickEditTitle}
+                  >
+                    <CreateIcon fontSize="small" />
+                  </IconButton>
+                </Grid>
+              </>
+          }
           <Grid item>
             {searchPopOverBtn}
           </Grid>
