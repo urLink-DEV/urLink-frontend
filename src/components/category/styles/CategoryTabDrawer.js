@@ -173,6 +173,9 @@ export const useStyles = makeStyles((theme) => ({
     boxShadow:" 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)",
     border: "solid 1px #2083ff",
   },
+  listItem: {
+    marginLeft: 15,
+  },
   coverBackground: {
     position: 'absolute',
     backgroundColor: 'rgba(53, 142, 255, 0.15)',
@@ -184,4 +187,12 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  '@global': {
+    '.MuiListItem-root': {
+      width: 208
+    },
+    '.MuiListItem-gutters' : {
+      padding: 0,
+    }
+  }
 }))

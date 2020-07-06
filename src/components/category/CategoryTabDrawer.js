@@ -52,7 +52,7 @@ export default function CategoryTabDrawer(props) {
   const favoritedArr = categories.filter(data => data.is_favorited === true)
   const notFavoritedArr = categories.filter(data => data.is_favorited === false)
   
-  const [draggedCategoryData, setDraggedTargetData] = useState({
+  const [draggedCategoryData, setDraggedCategoryData] = useState({
     draggedCategory : '',
     draggedId: 0,
     draggedName: '',
@@ -90,7 +90,7 @@ export default function CategoryTabDrawer(props) {
       .then(() => {
         draggedCategory.style.display='block'
         timeId.current = setTimeout(() => {
-          setDraggedTargetData({
+          setDraggedCategoryData({
             ...draggedCategoryData,
             dragFinished: false
           })
@@ -137,18 +137,10 @@ export default function CategoryTabDrawer(props) {
         e.currentTarget.previousSibling.style.opacity = 0
       }       
       updateCategory({ id, name, order, is_favorited: favorited })
-      .then(() =>  setDraggedTargetData({
+      .then(() =>  setDraggedCategoryData({
         ...draggedCategoryData,
         dragFinished: true
       }))
-    } else if(type === 'link') {
-      e.preventDefault()
-      writeLink({ category: overedTabId, path: filteredLinkList })
-        .then(() => setDragHistoryFinished(true))
-      setSelectedLinkList([])
-      setDraggedHistoryList([])
-    } else {
-      draggedCategory.style.display='block'
     }
   }
 
@@ -162,7 +154,7 @@ export default function CategoryTabDrawer(props) {
   const dragStart = (e, id, name, order) => {
     e.stopPropagation()
     const target = e.currentTarget
-    setDraggedTargetData({
+    setDraggedCategoryData({
       ...draggedCategoryData,
       draggedCategory: target,
       draggedId: id,
@@ -178,7 +170,7 @@ export default function CategoryTabDrawer(props) {
   const dragEnd = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    setDraggedTargetData({
+    setDraggedCategoryData({
       ...draggedCategoryData,
       draggedCategory : '',
       draggedId: 0,
