@@ -38,7 +38,9 @@ export default function CategoryTab(props) {
         component="div" id={id}
       >
         <InputBase className={classes.input + (selected ? ' selected': '')}
-          disableUnderline value={categoryTitle}
+          value={categoryTitle}
+          disabled
+          disableUnderline
         />
         <div className={classes.linkBox}>
           <div className={classes.urlCountBox + (!isFavorited ? ' ' + classes.marginRight : '')}>

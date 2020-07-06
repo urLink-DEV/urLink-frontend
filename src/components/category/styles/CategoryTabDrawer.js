@@ -174,11 +174,12 @@ export const useStyles = makeStyles((theme) => ({
     marginLeft: 15,
   },
   flexCoverBackground: {
-    display: 'flex',
-    opacity: 1,
+    display: 'flex !important',
+    opacity: '1 !important',
   },
   coverBackground: {
     position: 'absolute',
+    display: 'none',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(53, 142, 255, 0.15)',
