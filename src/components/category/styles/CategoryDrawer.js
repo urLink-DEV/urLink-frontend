@@ -33,11 +33,6 @@ export const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
     margin: '0 50px 0 0',
   },
-  addLinkIcon: {
-    color: '#358eff',
-    width: 50,
-    height: 50
-  }, 
   imgCenter: {
     position: 'absolute',
     top: '50%',

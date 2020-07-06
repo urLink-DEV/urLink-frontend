@@ -59,7 +59,7 @@ export default function CategoryTabDrawer(props) {
     draggedOrder: 0,
     dragFinished: false
   })
-  
+
   const {draggedCategory, draggedId, draggedName, draggedOrder, dragFinished} = draggedCategoryData  
   const [overedTabOrder, setOveredTabOrder] = useState(0)
   const [overedTabFavorite, setOveredTabFavorite] = useState(null)
@@ -126,11 +126,11 @@ export default function CategoryTabDrawer(props) {
     const filteredLinkList = [] 
     selectedLinkList.forEach(link => filteredLinkList.push(link.path))
 
-    if(type === 'category') {
+    if (type === 'category') {
       e.preventDefault()
-      if(e.currentTarget.dataset.dropzone) {
+      if (e.currentTarget.dataset.dropzone) {
         const dropzone = e.currentTarget.dataset.dropzone
-        if(dropzone === 'first-favorite-dropzone' || dropzone === 'first-category-dropzone') {
+        if (dropzone === 'first-favorite-dropzone' || dropzone === 'first-category-dropzone') {
           e.currentTarget.previousSibling.style.opacity = 1
         }
       } else {
@@ -141,6 +141,14 @@ export default function CategoryTabDrawer(props) {
         ...draggedCategoryData,
         dragFinished: true
       }))
+    } else if (type === 'link') {
+      e.preventDefault()
+      writeLink({ category: overedTabId, path: filteredLinkList })
+        .then(() => setDragHistoryFinished(true))
+      setSelectedLinkList([])
+      setDraggedHistoryList([])
+    } else {
+      draggedCategory.style.display='block'
     }
   }
 
@@ -451,7 +459,7 @@ return (
     </Drawer>
     </nav>
     <div className={clsx(classes.coverBackground, {
-        [classes.flex]: selectedLinkList.length !== 0
+        [classes.flexCoverBackground]: selectedLinkList.length !== 0
       })}
       onDrop={dropOnCardArea}
       onDragOver={dragOverOnCardArea}>

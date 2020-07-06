@@ -117,9 +117,6 @@ export const useStyles = makeStyles((theme) => ({
       backgroundColor: '#f7f7f7'
     }
   },
-  flex: {
-    display: 'flex'
-  },
   block: {
     display: 'block'
   },
@@ -176,17 +173,26 @@ export const useStyles = makeStyles((theme) => ({
   listItem: {
     marginLeft: 15,
   },
+  flexCoverBackground: {
+    display: 'flex',
+    opacity: 1,
+  },
   coverBackground: {
     position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'rgba(53, 142, 255, 0.15)',
     height: '100%',
     width: 'calc(100% - 600px)',
     paddingLeft: 259,
     zIndex: 1,
-    display: 'none',
-    justifyContent: 'center',
-    alignItems: 'center'
+    opacity: 0,
   },
+  addLinkIcon: {
+    color: '#358eff',
+    width: 50,
+    height: 50
+  }, 
   '@global': {
     '.MuiListItem-root': {
       width: 208
