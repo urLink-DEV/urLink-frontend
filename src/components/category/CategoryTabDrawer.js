@@ -83,19 +83,23 @@ export default function CategoryTabDrawer(props) {
 
   useEffect(() => {
     // add Animation when finished dragging
-    if(dragFinished) {
-      getCategory({})
-      .then(() => {
-        draggedCategory.style.display='block'
-        timeId.current = setTimeout(() => {
-          setDraggedCategoryData({
-            ...draggedCategoryData,
-            dragFinished: false,
-            draggedCategory : ''
-          })
-        }, 1000)  
-      })
-    } else if(dragHistoryFinished) {
+    // if(e.dataTransfer.dropEffect === 'move') {
+    //   getCategory({})
+    //   .then(() => {
+    //     draggedCategory.style.display='block'
+    //     timeId.current = setTimeout(() => {
+    //       setDraggedCategoryData({
+    //         ...draggedCategoryData,
+    //         draggedCategory : '',
+    //         draggedId: 0,
+    //         draggedName: '',
+    //         draggedOrder: 0,
+    //         dragFinished: false
+    //       })
+    //     }, 1000)  
+    //   })
+    // } else 
+    if(dragHistoryFinished) {
       if(overedTabId === selectedCategory.id) getLink({ category: selectedCategory.id })
       getCategory({})
         .then(() => {
@@ -108,7 +112,7 @@ export default function CategoryTabDrawer(props) {
       clearTimeout(timeId.current)
     }
 
-  },[dragFinished, dragHistoryFinished])
+  },[ dragHistoryFinished])
   
   const firstFavoriteDragOver = (e) => {
     e.stopPropagation()
@@ -142,6 +146,7 @@ export default function CategoryTabDrawer(props) {
   }  
 
   const dragStart = (e, id, name, order) => {
+    console.log('start', e.dataTransfer.dropEffect)
     e.stopPropagation()
     const target = e.currentTarget
     setDraggedCategoryData({
@@ -157,29 +162,48 @@ export default function CategoryTabDrawer(props) {
     e.dataTransfer.effectAllowed = 'move'
   }
 
-  const dragEnd = (e) => {
+  const dragEnd = (e,id, name, order, favorited) => {
+    console.log('end',e.dataTransfer.dropEffect)
     e.preventDefault()
     e.stopPropagation()
-    setDraggedCategoryData({
-      ...draggedCategoryData,
-      draggedId: 0,
-      draggedName: '',
-      draggedOrder: 0,
-    })
-      
-    if (e.dataTransfer.dropEffect === 'none') {
+
+    if(e.dataTransfer.dropEffect === 'move') {
+      updateCategory({ id, name, order, is_favorited: favorited })
+      .then(() => 
+      getCategory({}))
+      .then(() => {
+        draggedCategory.style.display='block'
+        timeId.current = setTimeout(() => {
+          setDraggedCategoryData({
+            ...draggedCategoryData,
+            draggedCategory : '',
+            draggedId: 0,
+            draggedName: '',
+            draggedOrder: 0,
+            dragFinished: false
+          })
+        }, 1000)  
+      })
+      .then(() => clearTimeout(timeId.current))
+    } else {
       draggedCategory.style.display='block'
     }
+    // setDraggedCategoryData({
+    //   ...draggedCategoryData,
+    //   draggedId: 0,
+    //   draggedName: '',
+    //   draggedOrder: 0,
+    // })
   }
   
   const dragOver = (e, id, order, favorited) => {
     e.preventDefault()
     e.stopPropagation()
 
-    if(draggedHistoryList.length !== 0 && draggedHistoryList[0].dataset.type && draggedHistoryList[0].dataset.type === 'link' && !draggedCategory) {
+    if(draggedHistoryList.length !== 0 && draggedHistoryList[0]?.dataset?.type === 'link' && !draggedCategory) {
       setOveredTabId(id)
     e.dataTransfer.dropEffect = "move"
-    } else if(draggedCategory.dataset.type && draggedCategory.dataset.type === 'category' && draggedCategory) {
+    } else if(draggedCategory?.dataset?.type === 'category' && draggedCategory) {
       setOveredTabOrder(order)
       setOveredTabFavorite(favorited)
       draggedCategory.style.display='none'
@@ -193,6 +217,7 @@ export default function CategoryTabDrawer(props) {
   }
 
   const drop = (e, id, name, order, favorited) => {
+    console.log('drop',e.dataTransfer.dropEffect)
     e.stopPropagation()
     const type = e.dataTransfer.getData('text/type')
     const filteredLinkList = [] 
@@ -210,11 +235,11 @@ export default function CategoryTabDrawer(props) {
       } else {
         e.currentTarget.previousSibling.style.opacity = 0
       }       
-      updateCategory({ id, name, order, is_favorited: favorited })
-      .then(() =>  setDraggedCategoryData({
-        ...draggedCategoryData,
-        dragFinished: true
-      }))
+      // updateCategory({ id, name, order, is_favorited: favorited })
+      // .then(() =>  setDraggedCategoryData({
+      //   ...draggedCategoryData,
+      //   dragFinished: true
+      // }))
     } else if (type === 'link') {
       e.preventDefault()
       writeLink({ category: overedTabId, path: filteredLinkList })
@@ -370,7 +395,7 @@ return (
                 draggable='true'
                 onClick={handleClickCategory(data)}
                 onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
-                onDragEnd={dragEnd}
+                onDragEnd={(e) => dragEnd(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
                 onDragOver={(e) => dragOver(e, data.id, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
                 onDragLeave={dragLeave}
                 onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
@@ -384,7 +409,7 @@ return (
                   urlCount={data.url_count}
                   isEditTitle={isEditCategoryTitle}
                   selected={(data.id === selectedCategory.id)} 
-                  dragFinished={(data.id === draggedId ? dragFinished : false)} 
+                  dragFinished={(data.id === draggedId ? true : false)} 
                   historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : null)}
                   selectedCategoryTitle={isEditCategoryTitle ? editCategoryTitle : selectedCategory.name}
                 />
@@ -444,7 +469,7 @@ return (
                 draggable='true'
                 onClick={handleClickCategory(data)}
                 onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
-                onDragEnd={dragEnd}
+                onDragEnd={(e) => dragEnd(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
                 onDragOver={(e) => dragOver(e, data.id, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
                 onDragLeave={dragLeave}
                 onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
@@ -458,7 +483,7 @@ return (
                   urlCount={data.url_count}
                   isEditTitle={isEditCategoryTitle}
                   selected={(data.id === selectedCategory.id)} 
-                  dragFinished={(data.id === draggedId ? dragFinished : false)} 
+                  dragFinished={(data.id === draggedId ? true : false)} 
                   historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : false)}
                   selectedCategoryTitle={isEditCategoryTitle ? editCategoryTitle : selectedCategory.name}
                 />
