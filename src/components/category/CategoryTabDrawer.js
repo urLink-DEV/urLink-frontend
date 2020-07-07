@@ -120,44 +120,28 @@ export default function CategoryTabDrawer(props) {
     setOveredTabFavorite(true)
   }  
 
-  const drop = (e, id, name, order, favorited) => {
+  const firstCategoryDragOver = (e) => {
     e.stopPropagation()
-    const type = e.dataTransfer.getData('text/type')
-    const filteredLinkList = [] 
-    selectedLinkList.forEach(link => filteredLinkList.push(link.path))
+    e.preventDefault()
+    draggedCategory.style.display='none'
+    setOveredTabOrder(draggedOrder)
+    setOveredTabFavorite(false)
+  }  
 
-    if (type === 'category') {
-      e.preventDefault()
-      if (e.currentTarget.dataset.dropzone) {
-        const dropzone = e.currentTarget.dataset.dropzone
-        if (dropzone === 'first-favorite-dropzone' || dropzone === 'first-category-dropzone') {
-          e.currentTarget.previousSibling.style.opacity = 1
-        }
-      } else {
-        e.currentTarget.previousSibling.style.opacity = 0
-      }       
-      updateCategory({ id, name, order, is_favorited: favorited })
-      .then(() =>  setDraggedCategoryData({
-        ...draggedCategoryData,
-        dragFinished: true
-      }))
-    } else if (type === 'link') {
-      e.preventDefault()
-      writeLink({ category: overedTabId, path: filteredLinkList })
-        .then(() => setDragHistoryFinished(true))
-      setSelectedLinkList([])
-      setDraggedHistoryList([])
-    } else {
-      draggedCategory.style.display='block'
+  const lastCategoryDragOver = (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+    draggedCategory.style.display='none'
+    e.currentTarget.previousSibling.style.opacity = 1
+    const dropzone = e.currentTarget.dataset.dropzone
+    if(dropzone === 'last-favorite-dropzone') {
+      setOveredTabOrder(favoritedArr[favoritedArr.length-1].order)
+      setOveredTabFavorite(true)
+    } else if(dropzone === 'last-category-dropzone') {
+      setOveredTabOrder(categories.length)
+      setOveredTabFavorite(false)
     }
-  }
-
-  const handleClickCategory = category => e => {
-    e.stopPropagation()
-    setAddOpen(false)
-    if(addOpen) setDeleteOpen(true)
-    setSelectedCategory(category)
-  }
+  }  
 
   const dragStart = (e, id, name, order) => {
     e.stopPropagation()
@@ -194,23 +178,85 @@ export default function CategoryTabDrawer(props) {
   const dragOver = (e, id, order, favorited) => {
     e.preventDefault()
     e.stopPropagation()
-    
 
     if(draggedHistoryList.length !== 0 && draggedHistoryList[0].dataset.type === 'link' && !draggedCategory) {
       setOveredTabId(id)
     e.dataTransfer.dropEffect = "move"
-  } else if(draggedCategory.dataset.type === 'category' && draggedCategory) {
-    setOveredTabOrder(order)
-    setOveredTabFavorite(favorited)
-    draggedCategory.style.display='none'
-    e.currentTarget.previousSibling.style.opacity = 1
-    e.dataTransfer.dropEffect = "move"
+    } else if(draggedCategory.dataset.type === 'category' && draggedCategory) {
+      setOveredTabOrder(order)
+      setOveredTabFavorite(favorited)
+      draggedCategory.style.display='none'
+      e.currentTarget.previousSibling.style.opacity = 1
+      e.dataTransfer.dropEffect = "move"
+    }
   }
-}
 
-const dragLeave = e => {
-  e.currentTarget.previousSibling.style.opacity = 0
-}
+  const dragLeave = e => {
+    e.currentTarget.previousSibling.style.opacity = 0
+  }
+
+  const drop = (e, id, name, order, favorited) => {
+    e.stopPropagation()
+    const type = e.dataTransfer.getData('text/type')
+    const filteredLinkList = [] 
+    selectedLinkList.forEach(link => filteredLinkList.push(link.path))
+
+    if (type === 'category') {
+      e.preventDefault()
+      if (e.currentTarget.dataset.dropzone) {
+        const dropzone = e.currentTarget.dataset.dropzone
+        if (dropzone === 'first-favorite-dropzone' || dropzone === 'first-category-dropzone') {
+          e.currentTarget.previousSibling.style.opacity = 1
+        } else {
+          e.currentTarget.previousSibling.style.opacity = 0
+          }
+      } else {
+        e.currentTarget.previousSibling.style.opacity = 0
+      }       
+      updateCategory({ id, name, order, is_favorited: favorited })
+      .then(() =>  setDraggedCategoryData({
+        ...draggedCategoryData,
+        dragFinished: true
+      }))
+    } else if (type === 'link') {
+      e.preventDefault()
+      writeLink({ category: overedTabId, path: filteredLinkList })
+        .then(() => setDragHistoryFinished(true))
+      setSelectedLinkList([])
+      setDraggedHistoryList([])
+    } else {
+      draggedCategory.style.display='block'
+    }
+  }
+
+  const dragOverOnCardArea =(e) => {
+    e.stopPropagation()
+    e.preventDefault()
+    setOveredTabId(selectedCategory.id)
+  }
+  
+  const dropOnCardArea = (e) => {
+    e.stopPropagation()
+    const type = e.dataTransfer.getData('text/type')
+    const filteredLinkList = [] 
+    selectedLinkList.forEach(link => filteredLinkList.push(link.path))
+  
+    if(type === 'link') {
+      e.preventDefault()
+      writeLink({ category: selectedCategory.id, path: filteredLinkList })
+        .then(() => setDragHistoryFinished(true))
+      setSelectedLinkList([])
+      setDraggedHistoryList([])
+    }
+  }
+
+  const handleClickCategory = category => e => {
+    e.stopPropagation()
+    setAddOpen(false)
+    if(addOpen) setDeleteOpen(true)
+    setSelectedCategory(category)
+  }
+
 
 const openEnterTab = e => {
   e.stopPropagation()
@@ -272,14 +318,6 @@ const cancelAddTab = e => {
   setNewCategoryTitle('')
 }
 
-const firstCategoryDragOver = (e) => {
-  e.stopPropagation()
-  e.preventDefault()
-  draggedCategory.style.display='none'
-  setOveredTabOrder(draggedOrder)
-  setOveredTabFavorite(false)
-}  
-
 const closeDeleteModal = (e) => {
   e.stopPropagation()
   setDeleteModalOpen(false)
@@ -298,26 +336,6 @@ const deleteTab = (e) => {
     })
 }
 
-const dragOverOnCardArea =(e) => {
-  e.stopPropagation()
-  e.preventDefault()
-  setOveredTabId(selectedCategory.id)
-}
-
-const dropOnCardArea = (e) => {
-  e.stopPropagation()
-  const type = e.dataTransfer.getData('text/type')
-  const filteredLinkList = [] 
-  selectedLinkList.forEach(link => filteredLinkList.push(link.path))
-
-  if(type === 'link') {
-    e.preventDefault()
-    writeLink({ category: selectedCategory.id, path: filteredLinkList })
-      .then(() => setDragHistoryFinished(true))
-    setSelectedLinkList([])
-    setDraggedHistoryList([])
-  }
-}
 
 const FavoriteDropZone  = (
   <div className={classes.firstFavoriteDropZone}
@@ -414,7 +432,7 @@ return (
               </Button>
           </Paper> : null
         }
-        <div className={(!notFavoritedArr.length ? classes.hiddenDropZone: classes.hidden)}
+        <div className={(!notFavoritedArr.length ? classes.hiddenCategoryDropZone: classes.hidden)}
           data-dropzone='first-cateogory-dropzone'          
           onDragOver={firstCategoryDragOver}
           onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
@@ -450,6 +468,15 @@ return (
               </ListItem>
             </React.Fragment>
           ))}
+          <div className={classes.dragline} />
+          <div 
+            className={(notFavoritedArr.length && draggedName ? classes.hiddenCategoryDropZone: classes.hidden)}
+            data-dropzone='last-category-dropzone'
+            onDragLeave={dragLeave}
+            onDragOver={lastCategoryDragOver}
+            onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
+          >
+          </div>
         </List>
         </div>
           <AlertModal 

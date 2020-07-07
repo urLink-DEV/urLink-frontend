@@ -32,9 +32,13 @@ export const useStyles = makeStyles((theme) => ({
     color: '#868e96',
     margin: '10px 15px',
   },
-  hiddenDropZone: {
+  hiddenFavoriteDropZone: {
     width: '212px',
-    height: '100vh',
+    height: '50px',
+  },
+  hiddenCategoryDropZone: {
+    width: '212px',
+    height: '100vh'
   },
   dragline: {
     width: 208,
