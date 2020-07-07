@@ -174,7 +174,7 @@ export function AlertModal({ btnText, modalText, openBool, onClose, onClickOk })
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose} color="primary" className={classes.alertModalBtn}>
-            닫기
+            취소
           </Button>
         {btnCreate ?
           <Button onClick={onClickOk} color="primary" className={classes.alertModalBtn} autoFocus >
