@@ -90,7 +90,8 @@ export default function CategoryTabDrawer(props) {
         timeId.current = setTimeout(() => {
           setDraggedCategoryData({
             ...draggedCategoryData,
-            dragFinished: false
+            dragFinished: false,
+            draggedCategory : ''
           })
         }, 1000)  
       })
@@ -104,7 +105,6 @@ export default function CategoryTabDrawer(props) {
         })
     }
     return () => {
-      // document.removeEventListener("mousedown", handleClickOutside)
       clearTimeout(timeId.current)
     }
 
@@ -162,7 +162,6 @@ export default function CategoryTabDrawer(props) {
     e.stopPropagation()
     setDraggedCategoryData({
       ...draggedCategoryData,
-      draggedCategory : '',
       draggedId: 0,
       draggedName: '',
       draggedOrder: 0,
