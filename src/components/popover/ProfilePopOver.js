@@ -19,7 +19,7 @@ import {useProfileContext} from '../../contexts/ProfileContext'
 export default function ProfilePopOver(props) {
   
   const classes = useStyles()
-  const profile = useProfileContext()
+  const { profile, removeUser, setAlertModalInfo } = useProfileContext()
 
   // const [badgeInvisible, setBadgeInvisible] = React.useState(false)
   const [termsModalOpen, setTermsModalOpen] = useState(false)
@@ -39,7 +39,25 @@ export default function ProfilePopOver(props) {
     authAPI.removeAccessToken()
     window.location.href = "/index.html"
   }
+  
+  const onClickRemoveUser = () => {
+    setAlertModalInfo({
+      btnText: "탈퇴",
+      modalText: "카테고리와 저장한 링크가 모두 삭제되며 복구할 수 없습니다. 정말 탈퇴하시겠어요?", 
+      openBool: true,
+      onClose: function(e) {
+        setAlertModalInfo({})
+      },
+      onClickOk: function(e) {
+        removeUser({}).then(() => {
+          authAPI.removeAccessToken()
+          window.location.href = "/index.html"
+        })
+      }
+    })
 
+
+  }
   return (
     <Card className={classes.root}>
       <CardContent>
@@ -58,6 +76,7 @@ export default function ProfilePopOver(props) {
               </Typography>
               <Grid>
                 <Button className={classes.profileBtn} size="small" onClick={handleClickTermsOpen}>약관보기</Button>
+                <Button className={classes.profileBtn} size="small" onClick={onClickRemoveUser}>회원탈퇴</Button>
                 <TermsModal openBool={termsModalOpen} onClose={handleClickTermsModalClose} />
                 {/* <StyledBadge color="primary" variant="dot" invisible={badgeInvisible}>
                     <Button className={classes.profileBtn}

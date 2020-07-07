@@ -1,4 +1,5 @@
 import React from 'react'
+import clsx from 'clsx'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
@@ -9,7 +10,7 @@ import Avatar from '@material-ui/core/Avatar'
 import ImageIcon from '@material-ui/icons/Image'
 import CloseIcon from '@material-ui/icons/Close'
 import useStyles from './styles/AlarmPopover'
-import linkListEmptyIcon from '../../images/logo/logo32.png'
+import linkListEmptyIcon from '../../images/linkListEmptyIcon.png'
 /*
  * id: 15
  * name: "test"
@@ -63,6 +64,6 @@ export default function AlarmPopover(props) {
           </ListItemSecondaryAction>
         </ListItem>
        )}
-     </List> : <img src={linkListEmptyIcon} alt="alarm list empty"/>
+     </List> : <List className={clsx(classes.root, classes.centerContext)}><img src={linkListEmptyIcon} alt="alarm list empty"/></List>
   )
 }

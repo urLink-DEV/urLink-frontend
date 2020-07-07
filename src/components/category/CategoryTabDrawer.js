@@ -328,6 +328,7 @@ const deleteTab = (e) => {
   e.stopPropagation()
   deleteCategory({ id: selectedCategory.id })
     .then(() => {
+      setSelectedCategory({})
       setDeleteModalOpen(false)
       setDeleteOpen(false)
       setAddOpen(true)
