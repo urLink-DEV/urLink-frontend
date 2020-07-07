@@ -87,6 +87,7 @@ export default function CategoryTabDrawer(props) {
     // add Animation when finished dragging
     if(dragFinished) {
       getCategory({})
+      .then(() => draggedCategory.style.display='block')
       .then(() => {
         timeId.current = setTimeout(() => {
           setDraggedCategoryData({
