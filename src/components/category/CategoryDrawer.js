@@ -56,16 +56,22 @@ export default function CategoryDrawer(props) {
   const [searchValue, setSearchValue] = useState('')
   const [selectedCategory, setSelectedCategory] = useState({})
 
+  const [isEditCategoryTitle, setIsEditCategoryTitle] = useState(false)
+  const [editCategoryTitle, setEditCategoryTitle] = useState('')
+
+  const handleClickExceptEditingTitle = useCallback(() => {
+    setIsEditCategoryTitle(false)
+    setEditCategoryTitle('')
+  })
+
+  useEventListener('click', handleClickExceptEditingTitle)
   useEffect(() => {
     if (!selectedCategory.id) {
-      // setAddOpen(true)
-      // setDeleteOpen(false)
       getCategory({}).then((response) => {
         const {data} = response
         if(data.length) {
           setSelectedCategory(data[0])
-        }
-        else {
+        } else {
           setLink([])
         }
       })
@@ -96,16 +102,22 @@ export default function CategoryDrawer(props) {
   }
 
   // when Edit Category Title
-  const [isEditCategoryTitle, setIsEditCategoryTitle] = useState(false)
-  const [editCategoryTitle, setEditCategoryTitle] = useState('')
-
-  const handleClickEditTitle = () => {
+  const handleClickEditTitle = e => {
+    e.stopPropagation()
     setEditCategoryTitle(selectedCategory.name)
     setIsEditCategoryTitle(true)
   }
 
   const handleChangeEditCategoryTitle = e => {
+    let checks = /[a-zA-Z]/
+    if(checks.test(e.target.value)) {
+        if(e.target.value.length >= 14) return
+    } else if (e.target.value.length >= 7) return
     setEditCategoryTitle(e.target.value)
+  }
+
+  const handleClickEditCategoryTitle = e => {
+    e.stopPropagation()
   }
 
   const handleKeyupEditCategoryTitle = e => {
@@ -121,7 +133,6 @@ export default function CategoryDrawer(props) {
     }
   }
 
-  
   const searchPopOverBtn = (
     <CategorySearchPopOver>
       <Grid  className={classes.popover}>
@@ -233,6 +244,7 @@ export default function CategoryDrawer(props) {
               ? <Grid item>
                   <InputBase className={classes.mainFont}
                     onChange={handleChangeEditCategoryTitle}
+                    onClick={handleClickEditCategoryTitle}
                     onKeyUp={handleKeyupEditCategoryTitle}
                     value={editCategoryTitle}
                   />
