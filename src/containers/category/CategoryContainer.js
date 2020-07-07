@@ -217,6 +217,19 @@ export default function CategoryContainer() {
     }
   }
 
+  // * 유저 탈퇴
+  const removeUser = async (userInfo) => {
+    try {
+      const response = await userAPI.remove(userInfo)
+      if(response.hasOwnProperty("error")) throw response.error
+      return response
+    }
+    catch (error) {
+      const errorMsg = error.hasOwnProperty("response") ? error.response.data.message : error.message 
+      console.warn(errorMsg)
+    }
+  }
+
   const categoryDispatch = {
     getCategory,
     writeCategory,
@@ -245,7 +258,8 @@ export default function CategoryContainer() {
     writeAlarm, // * ALRAM SOCKET
     onNoReturnAlarm, // * ALRAM SOCKET
 
-    getUser // * USER API
+    getUser, // * USER GET API
+    removeUser // * USER DELETE API
   }
 
   useEffect(() => {
