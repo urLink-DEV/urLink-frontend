@@ -240,7 +240,8 @@ export default function CategoryDrawer(props) {
       <main className={classes.content}>
         <Grid container className={classes.toolbar}>
           {
-            isEditCategoryTitle
+            categories.length !== 0
+              ? isEditCategoryTitle
               ? <Grid item>
                   <InputBase className={classes.mainFont}
                     onChange={handleChangeEditCategoryTitle}
@@ -264,10 +265,10 @@ export default function CategoryDrawer(props) {
                     <CreateIcon fontSize="small" />
                   </IconButton>
                 </Grid>
-              </>
+              </> : null
           }
           <Grid item>
-            {searchPopOverBtn}
+            {categories.length !== 0 ? searchPopOverBtn : null}
           </Grid>
           {
             (selectedCardList.length > 0) 
