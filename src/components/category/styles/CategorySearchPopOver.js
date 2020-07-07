@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
     boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.12)',
     backgroundColor: '#ffffff',
     padding: '5px 10px',
-    margin: '0 16px'
+    margin: '0 8px'
   },
   searchBtnText: {
     width: '34px',

@@ -45,56 +45,8 @@ button {
     display: flex;
 }
 
-.list-tab-layout {
-    width: 240px;
-    margin-top: 72px;
-    padding: 0 16px;
-    background-color: #fff;
-}
+.list-tab-layout 
 
-.favorite-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.favorite-text {
-    height: 18px;
-    font-family: 'SpoqaHanSans';
-    font-size: 12px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: $mainGrayColor;
-    display: inline-block;
-}
-
-.list-tab-layout hr {
-    width: 70%;
-    border: 1px solid #d6d6d6;
-}
-
-.category-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 30px;
-}
-
-.category-text {
-    height: 18px;
-    font-family: 'SpoqaHanSans';
-    font-size: 12px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: $mainGrayColor;
-    display: inline-block;
-}
 
 .tab-container {
     position: relative;
@@ -697,7 +649,7 @@ button {
 /* category drawer */
 
 .drawer-tab-layout {
-    width: 52px;
+    width: 50px;
     background-color: #fff;
     position: relative;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
@@ -714,7 +666,7 @@ button {
     background: transparent;
     display: flex;
     justify-content: center;
-    width: 30px;
+    width: 50px;
     height: 30px;
     margin: 10px auto;
     border-radius: 4px;

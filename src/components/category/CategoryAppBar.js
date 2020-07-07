@@ -25,7 +25,6 @@ export default function CategoryAppBar(props) {
     onAlarmRead,
     onNoReturnAlarm,
     alarmList, 
-    // newRecentNofitication,
     getUser
   } = props
   
@@ -65,7 +64,6 @@ export default function CategoryAppBar(props) {
           <Button className={classes.imgButton} onClick={onClickHistoryDrawer}>
             <img src={history} alt="history button" />
           </Button>
-
           <Button
           className={classes.imgButton}
             aria-describedby={alarmId}
