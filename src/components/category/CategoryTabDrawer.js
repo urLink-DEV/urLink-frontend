@@ -88,7 +88,6 @@ export default function CategoryTabDrawer(props) {
     if(dragFinished) {
       getCategory({})
       .then(() => {
-        draggedCategory.style.display='block'
         timeId.current = setTimeout(() => {
           setDraggedCategoryData({
             ...draggedCategoryData,
@@ -310,7 +309,6 @@ const dropOnCardArea = (e) => {
   const filteredLinkList = [] 
   selectedLinkList.forEach(link => filteredLinkList.push(link.path))
 
-
   if(type === 'link') {
     e.preventDefault()
     writeLink({ category: selectedCategory.id, path: filteredLinkList })
@@ -319,6 +317,16 @@ const dropOnCardArea = (e) => {
     setDraggedHistoryList([])
   }
 }
+
+const FavoriteDropZone  = (
+  <div className={classes.firstFavoriteDropZone}
+    data-dropzone='first-favorite-dropzone'
+    onDragOver={firstFavoriteDragOver}
+    onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
+  >
+    Drag the category here!
+  </div>
+)
 
 return (
   <div>
@@ -335,13 +343,7 @@ return (
           </div>
           <hr className={classes.hr}/>
         </div>
-        <div className={(!favoritedArr.length ? classes.firstFavoriteDropZone : classes.hidden)}
-          data-dropzone='first-favorite-dropzone'
-          onDragOver={firstFavoriteDragOver}
-          onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
-        >
-          Drag the category here!
-        </div>
+        { favoritedArr.length !== 0 ? null : FavoriteDropZone}
         <List ref={listRef}>
           {favoritedArr.map((data, index) => (
             <React.Fragment key={data.id}>

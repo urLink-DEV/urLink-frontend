@@ -30,17 +30,15 @@ export const useStyles = makeStyles((theme) => ({
     letterSpacing: 'normal',
     textAlign: 'center',
     color: '#868e96',
-    margin: '10px 0',
-    display: 'block'
+    margin: '10px 15px',
   },
   hiddenDropZone: {
     width: '212px',
     height: '100vh',
-    display: 'block',
-    opacity: 0
   },
   dragline: {
     width: 208,
+    marginLeft: 15,
     height: 2,
     borderRadius: 2,
     backgroundImage: "linear-gradient(271deg, #e0f6ff, #2083ff)",
