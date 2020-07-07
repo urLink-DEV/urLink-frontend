@@ -25,7 +25,8 @@ export default function CategoryAppBar(props) {
     onAlarmRead,
     onNoReturnAlarm,
     alarmList, 
-    getUser
+    getUser,
+    removeUser
   } = props
   
   const [historyDrawerOpen, setHistoryDrawerOpen] = useState(false) // * history
@@ -134,7 +135,7 @@ export default function CategoryAppBar(props) {
               horizontal: 'right'
             }}
           >
-            <ProfileContext getUser={getUser}>
+            <ProfileContext getUser={getUser} removeUser={removeUser}>
               <ProfilePopOver />
             </ProfileContext>
           </Popover>
