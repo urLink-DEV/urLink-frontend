@@ -176,10 +176,10 @@ export default function CategoryTabDrawer(props) {
     e.preventDefault()
     e.stopPropagation()
 
-    if(draggedHistoryList.length !== 0 && draggedHistoryList[0].dataset.type === 'link' && !draggedCategory) {
+    if(draggedHistoryList.length !== 0 && draggedHistoryList[0].dataset.type && draggedHistoryList[0].dataset.type === 'link' && !draggedCategory) {
       setOveredTabId(id)
     e.dataTransfer.dropEffect = "move"
-    } else if(draggedCategory.dataset.type === 'category' && draggedCategory) {
+    } else if(draggedCategory.dataset.type && draggedCategory.dataset.type === 'category' && draggedCategory) {
       setOveredTabOrder(order)
       setOveredTabFavorite(favorited)
       draggedCategory.style.display='none'
