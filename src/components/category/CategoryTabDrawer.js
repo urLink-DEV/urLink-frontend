@@ -71,8 +71,6 @@ export default function CategoryTabDrawer(props) {
   const [newCategoryTitle, setNewCategoryTitle] = useState('')
   const [dragHistoryFinished, setDragHistoryFinished] = useState(false)
 
-  const wrapperRef = useRef(null)
-  const listRef = useRef()
   const timeId = useRef()
 
   const handleClickChangeToAddBtn = useCallback(() => {
@@ -89,10 +87,12 @@ export default function CategoryTabDrawer(props) {
       getCategory({})
       .then(() => draggedCategory.style.display='block')
       .then(() => {
+        draggedCategory.style.display='block'
         timeId.current = setTimeout(() => {
           setDraggedCategoryData({
             ...draggedCategoryData,
-            dragFinished: false
+            dragFinished: false,
+            draggedCategory : ''
           })
         }, 1000)  
       })
@@ -106,11 +106,10 @@ export default function CategoryTabDrawer(props) {
         })
     }
     return () => {
-      // document.removeEventListener("mousedown", handleClickOutside)
       clearTimeout(timeId.current)
     }
 
-  },[wrapperRef, draggedCategory, dragFinished, dragHistoryFinished])
+  },[dragFinished, dragHistoryFinished])
   
   const firstFavoriteDragOver = (e) => {
     e.stopPropagation()
@@ -164,7 +163,6 @@ export default function CategoryTabDrawer(props) {
     e.stopPropagation()
     setDraggedCategoryData({
       ...draggedCategoryData,
-      draggedCategory : '',
       draggedId: 0,
       draggedName: '',
       draggedOrder: 0,
@@ -355,7 +353,7 @@ return (
       open
     >
     <div>
-      <div className={classes.layout} ref={wrapperRef}>
+      <div className={classes.layout}>
         <div className={classes.favoriteHeader}>
           <div className={classes.favoriteText}>
             Favorite
@@ -363,7 +361,7 @@ return (
           <hr className={classes.hr}/>
         </div>
         { favoritedArr.length !== 0 ? null : FavoriteDropZone}
-        <List ref={listRef}>
+        <List>
           {favoritedArr.map((data, index) => (
             <React.Fragment key={data.id}>
               <div className={classes.dragline} />
