@@ -222,6 +222,7 @@ export default function CategoryDrawer(props) {
   const [dragHistoryFinished, setDragHistoryFinished] = useState(false)
   
   const dragStart = (e, id, name, order) => {
+    console.log('start')
     e.stopPropagation()
     const target = e.currentTarget
     setDraggedTargetData({
@@ -259,6 +260,7 @@ export default function CategoryDrawer(props) {
   }
   
   const dragEnd = (e) => {
+    console.log('end')
     e.preventDefault()
     e.stopPropagation()
     setDraggedTargetData({
@@ -281,12 +283,15 @@ export default function CategoryDrawer(props) {
     selectedLinkList.forEach(link => filteredLinkList.push(link.path))
 
     if(type === 'category') {
+      console.log('drop')
       e.preventDefault()
       if(e.currentTarget.dataset.dropzone) {
         const dropzone = e.currentTarget.dataset.dropzone
         if(dropzone === 'first-favorite-dropzone' || dropzone === 'first-category-dropzone') {
           e.currentTarget.previousSibling.style.opacity = 1
-        }
+        }  else {
+          e.currentTarget.previousSibling.style.opacity = 0
+          }
       } else {
         e.currentTarget.previousSibling.style.opacity = 0
       }       
@@ -322,6 +327,21 @@ export default function CategoryDrawer(props) {
     setOveredTabFavorite(false)
   }  
 
+  const lastCategoryDragOver = (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+    draggedCategory.style.display='none'
+    e.currentTarget.previousSibling.style.opacity = 1
+    const dropzone = e.currentTarget.dataset.dropzone
+    if(dropzone === 'last-favorite-dropzone') {
+      setOveredTabOrder(favoritedArr[favoritedArr.length-1].order)
+      setOveredTabFavorite(true)
+    } else if(dropzone === 'last-category-dropzone') {
+      setOveredTabOrder(categories.length)
+      setOveredTabFavorite(false)
+    }
+  }  
+
   const dragOverOnCardArea =(e) => {
     e.stopPropagation()
     e.preventDefault()
@@ -344,9 +364,6 @@ export default function CategoryDrawer(props) {
     }
   }
 
-
-  const listRef = useRef()  
-  const wrapperRef = useRef(null)
   const timeId = useRef()
 
   useEffect(() => {
@@ -354,7 +371,7 @@ export default function CategoryDrawer(props) {
     if(dragFinished) {
       getCategory({})
       .then(() => {
-        draggedCategory.style.display='block'
+        // draggedCategory.style.display='block'
         timeId.current = setTimeout(() => {
           setDraggedTargetData({
             ...draggedCategoryData,
@@ -372,15 +389,17 @@ export default function CategoryDrawer(props) {
         })
     }
     return () => {
-      // document.removeEventListener("mousedown", handleClickOutside)
+      console.log('timeout')
       clearTimeout(timeId.current)
     }
 
-  },[wrapperRef, draggedCategory, dragFinished, dragHistoryFinished])
-  
+  },[dragFinished, dragHistoryFinished])
+
+ 
+
   const drawer = (
     <div>
-      <div className="list-tab-layout" ref={wrapperRef}>
+      <div className="list-tab-layout">
         <div className="favorite-header">
           <div className="favorite-text">
             Favorite
@@ -395,7 +414,7 @@ export default function CategoryDrawer(props) {
         >
           Drag the category here!
         </div>
-        <List ref={listRef}>
+        <List>
           {favoritedArr.map((data, index) => (
             <React.Fragment key={data.id}>
               <div className={classes.dragline} />
@@ -425,6 +444,14 @@ export default function CategoryDrawer(props) {
               </ListItem>
             </React.Fragment>
           ))}
+          <div className={classes.dragline} />
+          <div 
+            className={(favoritedArr.length && draggedName ? classes.hiddenDropZone: classes.hidden)}
+            data-dropzone='last-favorite-dropzone'
+            onDragLeave={dragLeave}
+            onDragOver={lastCategoryDragOver}
+            onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
+          />
         </List>
         <div className="category-header">
           <div className="category-text">
@@ -463,7 +490,7 @@ export default function CategoryDrawer(props) {
             </Button>
         </Paper>
         <div 
-          className={(!notFavoritedArr.length ? classes.hiddenDropZone: classes.hidden)}
+          className={(!notFavoritedArr.length ? classes.hiddenCategoryDropZone: classes.hidden)}
           data-dropzone='first-cateogory-dropzone'          
           onDragOver={firstCategoryDragOver}
           onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
@@ -498,6 +525,14 @@ export default function CategoryDrawer(props) {
               </ListItem>
             </React.Fragment>
           ))}
+          <div className={classes.dragline} />
+          <div 
+            className={(notFavoritedArr.length && draggedName ? classes.hiddenCategoryDropZone: classes.hidden)}
+            data-dropzone='last-category-dropzone'
+            onDragLeave={dragLeave}
+            onDragOver={lastCategoryDragOver}
+            onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
+          />
         </List>
       </div>
 
