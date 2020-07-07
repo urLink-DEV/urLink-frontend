@@ -127,6 +127,21 @@ export default function CategoryTabDrawer(props) {
     setOveredTabFavorite(false)
   }  
 
+  const lastCategoryDragOver = (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+    draggedCategory.style.display='none'
+    e.currentTarget.previousSibling.style.opacity = 1
+    const dropzone = e.currentTarget.dataset.dropzone
+    if(dropzone === 'last-favorite-dropzone') {
+      setOveredTabOrder(favoritedArr[favoritedArr.length-1].order)
+      setOveredTabFavorite(true)
+    } else if(dropzone === 'last-category-dropzone') {
+      setOveredTabOrder(categories.length)
+      setOveredTabFavorite(false)
+    }
+  }  
+
   const dragStart = (e, id, name, order) => {
     e.stopPropagation()
     const target = e.currentTarget
@@ -191,7 +206,9 @@ export default function CategoryTabDrawer(props) {
         const dropzone = e.currentTarget.dataset.dropzone
         if (dropzone === 'first-favorite-dropzone' || dropzone === 'first-category-dropzone') {
           e.currentTarget.previousSibling.style.opacity = 1
-        }
+        } else {
+          e.currentTarget.previousSibling.style.opacity = 0
+          }
       } else {
         e.currentTarget.previousSibling.style.opacity = 0
       }       
@@ -413,7 +430,7 @@ return (
               </Button>
           </Paper> : null
         }
-        <div className={(!notFavoritedArr.length ? classes.hiddenDropZone: classes.hidden)}
+        <div className={(!notFavoritedArr.length ? classes.hiddenCategoryDropZone: classes.hidden)}
           data-dropzone='first-cateogory-dropzone'          
           onDragOver={firstCategoryDragOver}
           onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
@@ -449,6 +466,15 @@ return (
               </ListItem>
             </React.Fragment>
           ))}
+          <div className={classes.dragline} />
+          <div 
+            className={(notFavoritedArr.length && draggedName ? classes.hiddenCategoryDropZone: classes.hidden)}
+            data-dropzone='last-category-dropzone'
+            onDragLeave={dragLeave}
+            onDragOver={lastCategoryDragOver}
+            onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
+          >
+          </div>
         </List>
         </div>
           <AlertModal 
