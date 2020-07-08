@@ -82,24 +82,8 @@ export default function CategoryTabDrawer(props) {
   useEventListener('click', handleClickChangeToAddBtn)
 
   useEffect(() => {
-    // add Animation when finished dragging
-    // if(e.dataTransfer.dropEffect === 'move') {
-    //   getCategory({})
-    //   .then(() => {
-    //     draggedCategory.style.display='block'
-    //     timeId.current = setTimeout(() => {
-    //       setDraggedCategoryData({
-    //         ...draggedCategoryData,
-    //         draggedCategory : '',
-    //         draggedId: 0,
-    //         draggedName: '',
-    //         draggedOrder: 0,
-    //         dragFinished: false
-    //       })
-    //     }, 1000)  
-    //   })
-    // } else 
-    console.log(dragFinished)
+
+    console.log(draggedCategoryData)
     if(dragHistoryFinished) {
       if(overedTabId === selectedCategory.id) getLink({ category: selectedCategory.id })
       getCategory({})
@@ -113,8 +97,8 @@ export default function CategoryTabDrawer(props) {
       clearTimeout(timeId.current)
     }
 
-  },[ dragFinished, dragHistoryFinished])
-  
+  },[dragHistoryFinished, draggedCategoryData])
+
   const firstFavoriteDragOver = (e) => {
     e.stopPropagation()
     e.preventDefault()
@@ -150,6 +134,7 @@ export default function CategoryTabDrawer(props) {
     console.log('start', e.dataTransfer.dropEffect)
     e.stopPropagation()
     const target = e.currentTarget
+    e.dataTransfer.dropEffect = "move"
     setDraggedCategoryData({
       ...draggedCategoryData,
       draggedCategory: target,
@@ -167,34 +152,31 @@ export default function CategoryTabDrawer(props) {
     console.log('end',e.dataTransfer.dropEffect)
     e.preventDefault()
     e.stopPropagation()
+    const type = e.dataTransfer.getData('text/type')
 
-    if(e.dataTransfer.dropEffect === 'move') {
+    console.log(e.dataTransfer)
+    if(draggedCategory && e.dataTransfer.dropEffect === 'move') {
+      console.log('update')
       updateCategory({ id, name, order, is_favorited: favorited })
-      .then(() => 
-      getCategory({}))
-      .then(() => {
-        draggedCategory.style.display='block'
-        timeId.current = setTimeout(() => {
-          setDraggedCategoryData({
-            ...draggedCategoryData,
-            draggedCategory : '',
-            draggedId: 0,
-            draggedName: '',
-            draggedOrder: 0,
-            dragFinished: false
-          })
-        }, 1000)  
-      })
-      .then(() => clearTimeout(timeId.current))
+        .then(() => 
+        getCategory({}))
+        .then(() => {
+          draggedCategory.style.display='block'
+          setTimeout(() => {
+            console.log('initialize')
+            setDraggedCategoryData({
+              ...draggedCategoryData,
+              draggedCategory : '',
+              draggedId: 0,
+              draggedName: '',
+              draggedOrder: 0,
+              dragFinished: false
+            })
+          }, 1000) 
+        })
     } else {
       draggedCategory.style.display='block'
     }
-    // setDraggedCategoryData({
-    //   ...draggedCategoryData,
-    //   draggedId: 0,
-    //   draggedName: '',
-    //   draggedOrder: 0,
-    // })
   }
   
   const dragOver = (e, id, order, favorited) => {
@@ -203,7 +185,7 @@ export default function CategoryTabDrawer(props) {
 
     if(draggedHistoryList.length !== 0 && draggedHistoryList[0]?.dataset?.type === 'link' && !draggedCategory) {
       setOveredTabId(id)
-    e.dataTransfer.dropEffect = "move"
+      e.dataTransfer.dropEffect = "move"
     } else if(draggedCategory?.dataset?.type === 'category' && draggedCategory) {
       setOveredTabOrder(order)
       setOveredTabFavorite(favorited)
@@ -224,6 +206,8 @@ export default function CategoryTabDrawer(props) {
     const filteredLinkList = [] 
     selectedLinkList.forEach(link => filteredLinkList.push(link.path))
 
+    console.log(e.dataTransfer.getData('text/type'))
+    
     if (type === 'category') {
       e.preventDefault()
       if (e.currentTarget.dataset.dropzone) {
@@ -235,16 +219,11 @@ export default function CategoryTabDrawer(props) {
           }
       } else {
         e.currentTarget.previousSibling.style.opacity = 0
-      }       
+      } 
       setDraggedCategoryData({
-          ...draggedCategoryData,
-          dragFinished: true
-        })
-      // updateCategory({ id, name, order, is_favorited: favorited })
-      // .then(() =>  setDraggedCategoryData({
-      //   ...draggedCategoryData,
-      //   dragFinished: true
-      // }))
+        ...draggedCategoryData,
+        dragFinished: true
+      })
     } else if (type === 'link') {
       e.preventDefault()
       writeLink({ category: overedTabId, path: filteredLinkList })
