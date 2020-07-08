@@ -215,7 +215,10 @@ export default function CategoryDrawer(props) {
   }
 
   const handleClickDeleteSelectedCardList = () => {
-    Promise.all(selectedCardList.map(card => deleteLink({ id: card.id }))).then(() => {
+    Promise.all(selectedCardList.map(card => deleteLink({ id: card.id })))
+    .then(() => getLink({ category: selectedCategory.id }))
+    .then(() => getCategory({}))
+    .then(() => {
       setDeleteSuccessAlert(true)
       setIsReset(true)
     })
