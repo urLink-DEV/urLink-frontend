@@ -135,6 +135,7 @@ export default function CategoryTabDrawer(props) {
     e.stopPropagation()
     const target = e.currentTarget
     if (!target) return
+    target.style.opacity = 0.3
     e.dataTransfer.dropEffect = "move"
     setDraggedCategoryData({
       ...draggedCategoryData,
@@ -161,6 +162,13 @@ export default function CategoryTabDrawer(props) {
       updateCategory({ id, name, order, is_favorited: favorited })
         .then(() => getCategory({}))
         .then(() => {
+          setDraggedCategoryData({
+            ...draggedCategoryData,
+            dragFinished: true
+          })
+          draggedCategory.style.opacity = 1
+        })
+        .then(() => {
           setTimeout(() => {
             // console.log('initialize')
             // draggedCategory.style.display = 'block'
@@ -176,6 +184,7 @@ export default function CategoryTabDrawer(props) {
         })
     } else if(draggedCategory) {
       // draggedCategory.style.display='block'
+      draggedCategory.style.opacity = 1
     }
   }
   
@@ -190,6 +199,7 @@ export default function CategoryTabDrawer(props) {
       setOveredTabOrder(order)
       setOveredTabFavorite(favorited)
       // draggedCategory.style.display='none'
+
       e.currentTarget.previousSibling.style.opacity = 1
       e.dataTransfer.dropEffect = "move"
     }
@@ -220,10 +230,10 @@ export default function CategoryTabDrawer(props) {
       } else {
         e.currentTarget.previousSibling.style.opacity = 0
       } 
-      setDraggedCategoryData({
-        ...draggedCategoryData,
-        dragFinished: true
-      })
+      // setDraggedCategoryData({
+      //   ...draggedCategoryData,
+      //   dragFinished: true
+      // })
     } else if (type === 'link') {
       e.preventDefault()
       writeLink({ category: overedTabId, path: filteredLinkList })
