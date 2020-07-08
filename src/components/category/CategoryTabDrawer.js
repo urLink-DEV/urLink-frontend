@@ -82,8 +82,6 @@ export default function CategoryTabDrawer(props) {
   useEventListener('click', handleClickChangeToAddBtn)
 
   useEffect(() => {
-
-    // console.log(draggedCategoryData)
     if(dragHistoryFinished) {
       if(overedTabId === selectedCategory.id) getLink({ category: selectedCategory.id })
       getCategory({})
@@ -93,16 +91,13 @@ export default function CategoryTabDrawer(props) {
           }, 1000)
         })
     }
-    return () => {
-      clearTimeout(timeId.current)
-    }
+    return () => clearTimeout(timeId.current)
 
-  },[dragHistoryFinished, draggedCategoryData])
+  },[dragHistoryFinished])
 
   const firstFavoriteDragOver = (e) => {
     e.stopPropagation()
     e.preventDefault()
-    // draggedCategory.style.display='none'
     setOveredTabOrder(draggedOrder)
     setOveredTabFavorite(true)
   }  
@@ -110,28 +105,11 @@ export default function CategoryTabDrawer(props) {
   const firstCategoryDragOver = (e) => {
     e.stopPropagation()
     e.preventDefault()
-    // draggedCategory.style.display='none'
     setOveredTabOrder(draggedOrder)
     setOveredTabFavorite(false)
   }  
 
-  const lastCategoryDragOver = (e) => {
-    e.stopPropagation()
-    e.preventDefault()
-    // draggedCategory.style.display='none'
-    e.currentTarget.previousSibling.style.opacity = 1
-    const dropzone = e.currentTarget.dataset.dropzone
-    if(dropzone === 'last-favorite-dropzone') {
-      setOveredTabOrder(favoritedArr[favoritedArr.length-1].order)
-      setOveredTabFavorite(true)
-    } else if(dropzone === 'last-category-dropzone') {
-      setOveredTabOrder(categories.length)
-      setOveredTabFavorite(false)
-    }
-  }  
-
   const dragStart = (e, id, name, order) => {
-    // console.log('start', e.dataTransfer.dropEffect)
     e.stopPropagation()
     const target = e.currentTarget
     if (!target) return
@@ -151,14 +129,9 @@ export default function CategoryTabDrawer(props) {
   }
 
   const dragEnd = (e,id, name, order, favorited) => {
-    // console.log('end',e.dataTransfer.dropEffect)
     e.preventDefault()
     e.stopPropagation()
-    const type = e.dataTransfer.getData('text/type')
-
-    // console.log(e.dataTransfer)
     if(draggedCategory && e.dataTransfer.dropEffect === 'move') {
-      // console.log('update')
       updateCategory({ id, name, order, is_favorited: favorited })
         .then(() => getCategory({}))
         .then(() => {
@@ -170,8 +143,6 @@ export default function CategoryTabDrawer(props) {
         })
         .then(() => {
           setTimeout(() => {
-            // console.log('initialize')
-            // draggedCategory.style.display = 'block'
             setDraggedCategoryData({
               ...draggedCategoryData,
               draggedCategory : '',
@@ -180,10 +151,11 @@ export default function CategoryTabDrawer(props) {
               draggedOrder: 0,
               dragFinished: false
             })
+            setOveredTabOrder(0)
+            setOveredTabFavorite(null)
           }, 1000) 
         })
     } else if(draggedCategory) {
-      // draggedCategory.style.display='block'
       draggedCategory.style.opacity = 1
     }
   }
@@ -191,14 +163,12 @@ export default function CategoryTabDrawer(props) {
   const dragOver = (e, id, order, favorited) => {
     e.preventDefault()
     e.stopPropagation()
-
     if(draggedHistoryList.length !== 0 && draggedHistoryList[0]?.dataset?.type === 'link' && !draggedCategory) {
       setOveredTabId(id)
       e.dataTransfer.dropEffect = "move"
     } else if(draggedCategory?.dataset?.type === 'category' && draggedCategory) {
       setOveredTabOrder(order)
       setOveredTabFavorite(favorited)
-      // draggedCategory.style.display='none'
 
       e.currentTarget.previousSibling.style.opacity = 1
       e.dataTransfer.dropEffect = "move"
@@ -209,40 +179,29 @@ export default function CategoryTabDrawer(props) {
     e.currentTarget.previousSibling.style.opacity = 0
   }
 
-  const drop = (e, id, name, order, favorited) => {
-    // console.log('drop',e.dataTransfer.dropEffect)
+  const drop = (e) => {
     e.stopPropagation()
     const type = e.dataTransfer.getData('text/type')
     const filteredLinkList = [] 
     selectedLinkList.forEach(link => filteredLinkList.push(link.path))
 
-    // console.log(e.dataTransfer.getData('text/type'))
-    
     if (type === 'category') {
       e.preventDefault()
       if (e.currentTarget.dataset.dropzone) {
         const dropzone = e.currentTarget.dataset.dropzone
         if (dropzone === 'first-favorite-dropzone' || dropzone === 'first-category-dropzone') {
           e.currentTarget.previousSibling.style.opacity = 1
-        } else {
-          e.currentTarget.previousSibling.style.opacity = 0
-          }
+        }
       } else {
         e.currentTarget.previousSibling.style.opacity = 0
       } 
-      // setDraggedCategoryData({
-      //   ...draggedCategoryData,
-      //   dragFinished: true
-      // })
     } else if (type === 'link') {
       e.preventDefault()
       writeLink({ category: overedTabId, path: filteredLinkList })
         .then(() => setDragHistoryFinished(true))
       setSelectedLinkList([])
       setDraggedHistoryList([])
-    } else {
-      // draggedCategory.style.display='block'
-    }
+    } 
   }
 
   const dragOverOnCardArea =(e) => {
@@ -392,7 +351,7 @@ return (
                 onDragEnd={(e) => dragEnd(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
                 onDragOver={(e) => dragOver(e, data.id, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
                 onDragLeave={dragLeave}
-                onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
+                onDrop={drop}
               >
                 <CategoryTab 
                   key={data.id} 
@@ -484,15 +443,6 @@ return (
               </ListItem>
             </React.Fragment>
           ))}
-          <div className={classes.dragline} />
-          <div 
-            className={(notFavoritedArr.length && draggedName ? classes.hiddenCategoryDropZone: classes.hidden)}
-            data-dropzone='last-category-dropzone'
-            onDragLeave={dragLeave}
-            onDragOver={lastCategoryDragOver}
-            onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
-          >
-          </div>
         </List>
         </div>
           <AlertModal 
