@@ -83,7 +83,7 @@ export default function CategoryTabDrawer(props) {
 
   useEffect(() => {
 
-    console.log(draggedCategoryData)
+    // console.log(draggedCategoryData)
     if(dragHistoryFinished) {
       if(overedTabId === selectedCategory.id) getLink({ category: selectedCategory.id })
       getCategory({})
@@ -102,7 +102,7 @@ export default function CategoryTabDrawer(props) {
   const firstFavoriteDragOver = (e) => {
     e.stopPropagation()
     e.preventDefault()
-    draggedCategory.style.display='none'
+    // draggedCategory.style.display='none'
     setOveredTabOrder(draggedOrder)
     setOveredTabFavorite(true)
   }  
@@ -110,7 +110,7 @@ export default function CategoryTabDrawer(props) {
   const firstCategoryDragOver = (e) => {
     e.stopPropagation()
     e.preventDefault()
-    draggedCategory.style.display='none'
+    // draggedCategory.style.display='none'
     setOveredTabOrder(draggedOrder)
     setOveredTabFavorite(false)
   }  
@@ -118,7 +118,7 @@ export default function CategoryTabDrawer(props) {
   const lastCategoryDragOver = (e) => {
     e.stopPropagation()
     e.preventDefault()
-    draggedCategory.style.display='none'
+    // draggedCategory.style.display='none'
     e.currentTarget.previousSibling.style.opacity = 1
     const dropzone = e.currentTarget.dataset.dropzone
     if(dropzone === 'last-favorite-dropzone') {
@@ -131,9 +131,10 @@ export default function CategoryTabDrawer(props) {
   }  
 
   const dragStart = (e, id, name, order) => {
-    console.log('start', e.dataTransfer.dropEffect)
+    // console.log('start', e.dataTransfer.dropEffect)
     e.stopPropagation()
     const target = e.currentTarget
+    if (!target) return
     e.dataTransfer.dropEffect = "move"
     setDraggedCategoryData({
       ...draggedCategoryData,
@@ -149,21 +150,20 @@ export default function CategoryTabDrawer(props) {
   }
 
   const dragEnd = (e,id, name, order, favorited) => {
-    console.log('end',e.dataTransfer.dropEffect)
+    // console.log('end',e.dataTransfer.dropEffect)
     e.preventDefault()
     e.stopPropagation()
     const type = e.dataTransfer.getData('text/type')
 
-    console.log(e.dataTransfer)
+    // console.log(e.dataTransfer)
     if(draggedCategory && e.dataTransfer.dropEffect === 'move') {
-      console.log('update')
+      // console.log('update')
       updateCategory({ id, name, order, is_favorited: favorited })
-        .then(() => 
-        getCategory({}))
+        .then(() => getCategory({}))
         .then(() => {
-          draggedCategory.style.display='block'
           setTimeout(() => {
-            console.log('initialize')
+            // console.log('initialize')
+            // draggedCategory.style.display = 'block'
             setDraggedCategoryData({
               ...draggedCategoryData,
               draggedCategory : '',
@@ -174,8 +174,8 @@ export default function CategoryTabDrawer(props) {
             })
           }, 1000) 
         })
-    } else {
-      draggedCategory.style.display='block'
+    } else if(draggedCategory) {
+      // draggedCategory.style.display='block'
     }
   }
   
@@ -189,7 +189,7 @@ export default function CategoryTabDrawer(props) {
     } else if(draggedCategory?.dataset?.type === 'category' && draggedCategory) {
       setOveredTabOrder(order)
       setOveredTabFavorite(favorited)
-      draggedCategory.style.display='none'
+      // draggedCategory.style.display='none'
       e.currentTarget.previousSibling.style.opacity = 1
       e.dataTransfer.dropEffect = "move"
     }
@@ -200,13 +200,13 @@ export default function CategoryTabDrawer(props) {
   }
 
   const drop = (e, id, name, order, favorited) => {
-    console.log('drop',e.dataTransfer.dropEffect)
+    // console.log('drop',e.dataTransfer.dropEffect)
     e.stopPropagation()
     const type = e.dataTransfer.getData('text/type')
     const filteredLinkList = [] 
     selectedLinkList.forEach(link => filteredLinkList.push(link.path))
 
-    console.log(e.dataTransfer.getData('text/type'))
+    // console.log(e.dataTransfer.getData('text/type'))
     
     if (type === 'category') {
       e.preventDefault()
@@ -231,7 +231,7 @@ export default function CategoryTabDrawer(props) {
       setSelectedLinkList([])
       setDraggedHistoryList([])
     } else {
-      draggedCategory.style.display='block'
+      // draggedCategory.style.display='block'
     }
   }
 
