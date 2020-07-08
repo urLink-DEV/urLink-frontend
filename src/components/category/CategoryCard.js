@@ -7,7 +7,6 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import IconButton from '@material-ui/core/IconButton'
 import FavoriteIcon from '@material-ui/icons/Favorite'
-import ShareIcon from '@material-ui/icons/Share'
 import AddAlertIcon from '@material-ui/icons/AddAlert'
 import CreateIcon from '@material-ui/icons/Create'
 import DoneIcon from '@material-ui/icons/Done'
@@ -18,6 +17,7 @@ import Snackbar from '../Snackbar'
 import InputBase from '@material-ui/core/InputBase'
 import useOutsideAlerter from '../../hooks/useOutsideAlerter'
 import {useLinkDispatch} from '../../containers/category/CategoryContainer'
+import CopyIcon from '../../images/link-icon.png'
 
 export default function CategoryCard(props) {
   const classes = useStyles()
@@ -202,7 +202,7 @@ export default function CategoryCard(props) {
           <IconButton aria-label="share"
             onClick={handleClickCopy}
           >
-            <ShareIcon fontSize="small" />
+            <img className={classes.copyIcon}src={CopyIcon} alt="share"/>
           </IconButton>
           <DatePickerWithStyles key={key}
             className={classes.datePicker}

@@ -67,6 +67,10 @@ const useStyles = makeStyles({
   settingsIcon: {
     marginLeft: 'auto'
   },
+  copyIcon: {
+    width: 18,
+    height: 18
+  },
   '@global': {
     'div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-2': {
       maxWidth: '100%',
