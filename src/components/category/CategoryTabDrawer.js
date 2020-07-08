@@ -99,6 +99,7 @@ export default function CategoryTabDrawer(props) {
     //     }, 1000)  
     //   })
     // } else 
+    console.log(dragFinished)
     if(dragHistoryFinished) {
       if(overedTabId === selectedCategory.id) getLink({ category: selectedCategory.id })
       getCategory({})
@@ -112,7 +113,7 @@ export default function CategoryTabDrawer(props) {
       clearTimeout(timeId.current)
     }
 
-  },[ dragHistoryFinished])
+  },[ dragFinished, dragHistoryFinished])
   
   const firstFavoriteDragOver = (e) => {
     e.stopPropagation()
@@ -235,6 +236,10 @@ export default function CategoryTabDrawer(props) {
       } else {
         e.currentTarget.previousSibling.style.opacity = 0
       }       
+      setDraggedCategoryData({
+          ...draggedCategoryData,
+          dragFinished: true
+        })
       // updateCategory({ id, name, order, is_favorited: favorited })
       // .then(() =>  setDraggedCategoryData({
       //   ...draggedCategoryData,
@@ -409,7 +414,7 @@ return (
                   urlCount={data.url_count}
                   isEditTitle={isEditCategoryTitle}
                   selected={(data.id === selectedCategory.id)} 
-                  dragFinished={(data.id === draggedId ? true : false)} 
+                  dragFinished={(data.id === draggedId ? dragFinished : false)} 
                   historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : null)}
                   selectedCategoryTitle={isEditCategoryTitle ? editCategoryTitle : selectedCategory.name}
                 />
@@ -483,7 +488,7 @@ return (
                   urlCount={data.url_count}
                   isEditTitle={isEditCategoryTitle}
                   selected={(data.id === selectedCategory.id)} 
-                  dragFinished={(data.id === draggedId ? true : false)} 
+                  dragFinished={(data.id === draggedId ? dragFinished : false)} 
                   historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : false)}
                   selectedCategoryTitle={isEditCategoryTitle ? editCategoryTitle : selectedCategory.name}
                 />

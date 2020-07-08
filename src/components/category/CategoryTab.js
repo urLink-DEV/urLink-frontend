@@ -46,7 +46,7 @@ export default function CategoryTab(props) {
           <div className={classes.urlCountBox + (!isFavorited ? ' ' + classes.marginRight : '')}>
             {urlCount === 0 ? '링크 없음' : urlCount + ' 링크'} 
           </div>
-          {isFavorited ? <img className={classes.favoriteStar} alt="favorite-star" src={star} /> : ''}
+          {isFavorited ? <img draggable='false' className={classes.favoriteStar} alt="favorite-star" src={star} /> : ''}
         </div>
       </Paper>
     </div>
