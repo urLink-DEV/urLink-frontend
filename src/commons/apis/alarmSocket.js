@@ -1,7 +1,7 @@
 import auth from './auth'
-import { api } from '../http'
-import queryData from '../queryData'
-import { getQueryParams } from '../quryParam'
+import { api } from '../http/client'
+import queryData from '../http/queryData'
+import { getQueryParams } from '../http/quryParam'
 
 let retry = 1
 let ws = null

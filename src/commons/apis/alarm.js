@@ -1,6 +1,6 @@
-import { axios, api } from '../http'
-import queryData from '../queryData'
-import { getQueryParams, getDashQueryParams } from '../quryParam'
+import { axios, api } from '../http/client'
+import queryData from '../http/queryData'
+import { getQueryParams, getDashQueryParams } from '../http/quryParam'
 
 const alarmAPI = {
   get : (alarmInfo) => {
