@@ -1,0 +1,236 @@
+/*-----------media query-----------*/
+
+$phone: 'only screen and (max-width: 767px)';
+$tablet: 'only screen and (max-width: 1024px) and (min-width: 768px)';
+$desktop: 'only screen and (min-width: 1025px)';
+
+@media #{$desktop} {
+  .container-layout {
+    flex-direction: row;
+  }
+
+  .main-layout {
+    width: 388px;
+  }
+
+  .image-layout {
+    width: calc(100vw - 388px);
+  }
+}
+
+@media #{$tablet} {
+  .container-layout {
+    flex-direction: row;
+  }
+
+  .main-layout {
+    width: 388px;
+  }
+
+  .image-layout {
+    width: calc(100vw - 388px);
+  }
+}
+
+@media #{$phone} {
+  .container-layout {
+    flex-direction: column;
+  }
+
+  .main-layout .box {
+    width: 100vw;
+    height: 100vh !important;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .image-layout {
+    display: none;
+  }
+}
+
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css);
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', sans-serif;
+}
+
+/*-----------login && signup-----------*/
+
+$mainTextColor: #212529;
+
+.container {
+  display: block;
+}
+
+.container-layout {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+}
+
+.box {
+  // box-shadow: 3px 2px 16px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 40px;
+}
+
+.image-box {
+  height: auto;
+  background-image: url('../../images/mainBackground.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.logo-URLink {
+  width: 87px;
+  height: 19px;
+}
+
+.logo-google {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.btn-GoogleLogin {
+  background-color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: $mainTextColor;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+  padding: 0;
+  border-radius: 1.8px;
+  border: none;
+  width: 300px;
+  height: 40px;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.58px;
+  cursor: pointer;
+}
+
+.title {
+  height: 24px;
+  font-size: 24px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  color: #393f45;
+  margin-top: 33px;
+  margin-bottom: 20px;
+}
+
+.line {
+  width: 300px;
+  position: relative;
+  text-align: center;
+  margin: 20px auto;
+  z-index: 1;
+}
+.line::before {
+  display: inline-block;
+  content: '';
+  position: absolute;
+  height: 0px;
+  top: 50%;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: -1;
+  width: 300px;
+  border-top: 1px solid #979797;
+  margin: 0px auto;
+}
+.line span {
+  color: $mainTextColor;
+  background: rgb(255, 255, 255);
+  padding: 0px 10px;
+  width: 14px;
+  height: 14px;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.91px;
+  text-align: center;
+}
+
+.form-group {
+  min-height: 95px;
+}
+
+.subtitle {
+  width: 78px;
+  height: 22px;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  opacity: 0.8;
+  color: #393f45;
+  letter-spacing: -0.64px;
+  display: block;
+}
+
+input:-webkit-autofill {
+  transition: background-color 1000s ease-in-out 0s;
+}
+.input {
+  width: 300px;
+  height: 40px;
+  border-radius: 3px;
+  border: solid 1.7px #ced4da;
+  background-color: #f1f3f5;
+  padding: 18.5px 14px;
+}
+.input:focus {
+  outline: none !important;
+  border: 1.7px solid #007aff;
+}
+input::placeholder {
+  color: #9da6af;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 44px;
+}
+
+.link {
+  text-decoration: none;
+}
+
+/*-----------signup-----------*/
+.agree-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 19px;
+  padding-right: 8px;
+}
+
+.text-agree {
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.91px;
+  color: #737b84;
+}
