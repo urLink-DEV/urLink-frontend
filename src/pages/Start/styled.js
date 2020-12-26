@@ -1,10 +1,10 @@
-import { makeStyles } from '@material-ui/core/styles'
-import mainBackground from '../../images/mainBackground2.png'
+import { makeStyles } from '@material-ui/core/styles';
+import mainBackground from '../../images/mainBackground2.png';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     '&::-webkit-scrollbar': {
-      display: 'none !important'
+      display: 'none !important',
     },
     overflow: 'hidden',
     padding: '40px',
@@ -14,17 +14,17 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundImage: `url(${mainBackground}), linear-gradient(to top, #0260d8, #157cff 68%)`,
-    backgroundSize: '100%'
-  },    
+    backgroundSize: '100%',
+  },
   titleCenter: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%'
+    width: '100%',
   },
   getStartBtn: {
-    marginTop: "10px",
+    marginTop: '10px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '40px',
     boxShadow: '0 2px 16px 0 rgba(0, 0, 0, 0.24)',
     backgroundColor: '#ffffff',
-    textDecoration: 'none'
+    textDecoration: 'none',
   },
   getStartText: {
     fontFamily: 'SpoqaHanSans',
@@ -42,20 +42,20 @@ const useStyles = makeStyles(theme => ({
     fontStretch: 'normal',
     fontStyle: 'normal',
     lineHeight: 'normal',
-    letterSpacing: 'normal'
+    letterSpacing: 'normal',
   },
   textBlack: {
-    color: '#212529'
+    color: '#212529',
   },
   textBlue: {
-    color: '#358eff'
+    color: '#358eff',
   },
   textGrp: {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: '20px',
-    padding: '10px'
+    padding: '10px',
   },
   textCenter: {
     textAlign: 'center',
@@ -68,10 +68,10 @@ const useStyles = makeStyles(theme => ({
     fontStyle: 'normal',
     lineHeight: 'normal',
     letterSpacing: '-0.47px',
-    color: '#ffffff'
+    color: '#ffffff',
   },
   textBold: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   imgCenter: {
     paddingTop: '20px',
@@ -80,9 +80,9 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  imgAutoSize:{
-    width: '100%'
-  }
-}))
+  imgAutoSize: {
+    width: '100%',
+  },
+}));
 
-export default useStyles
+export default useStyles;
