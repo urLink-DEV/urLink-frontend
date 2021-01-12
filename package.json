@@ -164,7 +164,8 @@
 					],
 					"alias": {
 						"@modules": "./src/modules",
-						"@commons": "./src/commons"
+						"@commons": "./src/commons",
+						"@config": "./src/config.js"
 					}
 				}
 			]
