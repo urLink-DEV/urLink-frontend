@@ -24,7 +24,7 @@ export function* getHeaders() {
 		const accessToken = auth.getAccessToken()
 
 		if (accessToken) {
-			headers["Authorization"] = `Bearer ${accessToken}`
+			headers["Authorization"] = `JWT ${accessToken}`
 		}
 		return headers
 	})
