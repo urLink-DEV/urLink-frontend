@@ -3,8 +3,8 @@ import {
 	createRequestSaga,
 	getHeaders,
 } from "@modules/helpers"
-import { createAction } from "@reduxjs/toolkit"
-import { call, all, takeEvery, takeLatest } from "redux-saga/effects"
+// import { createAction } from "@reduxjs/toolkit"
+import { call, all, takeEvery } from "redux-saga/effects"
 import { produce } from "immer"
 import axios from "axios"
 import { URLINK_HOST } from "@config"
@@ -17,8 +17,8 @@ const api = axios.create({
 
 export const getCategories = createRequestAction("category/GET_CATEGORIES")
 export const createCategoy = createRequestAction("category/CREATE_CATEGORY")
-export const updateCategoy = createRequestAction("category/UPDATE_CATEGORIES")
-export const removeCategoy = createRequestAction("category/REMOVE_CATEGORIES")
+export const updateCategoy = createRequestAction("category/UPDATE_CATEGORY")
+export const removeCategoy = createRequestAction("category/REMOVE_CATEGORY")
 
 // initial state
 const initialState = {
@@ -42,6 +42,7 @@ export const categoryReducer = (state = initialState, action) =>
 const handleGetCategories = createRequestSaga(getCategories, function* () {
 	const headers = yield getHeaders()
 	const response = yield call(api.get, "/", { headers })
+	console.log(response)
 
 	return response.data
 })
@@ -79,11 +80,11 @@ const handleRemoveCategory = createRequestSaga(
 	}
 )
 
-export function* barSaga() {
-	yield all(
-		[takeEvery(getCategories.REQUEST, handleGetCategories)],
-		[takeEvery(createCategoy.REQUEST, handleCreateCategory)],
-		[takeEvery(updateCategoy.REQUEST, handleUpdateCategoy)],
-		[takeEvery(removeCategoy.REQUEST, handleRemoveCategory)]
-	)
+export function* categorySaga() {
+	yield all([
+		takeEvery(getCategories.REQUEST, handleGetCategories),
+		takeEvery(createCategoy.REQUEST, handleCreateCategory),
+		takeEvery(updateCategoy.REQUEST, handleUpdateCategoy),
+		takeEvery(removeCategoy.REQUEST, handleRemoveCategory),
+	])
 }
