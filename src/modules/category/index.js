@@ -1,6 +1,6 @@
 import {
 	createRequestAction,
-	createRequestSaga4,
+	createRequestSaga,
 	getHeaders,
 } from "@modules/helpers"
 import { createAction } from "@reduxjs/toolkit"
@@ -39,14 +39,14 @@ export const categoryReducer = (state = initialState, action) =>
 	})
 
 // sagas
-const handleGetCategories = createRequestSaga4(getCategories, function* () {
+const handleGetCategories = createRequestSaga(getCategories, function* () {
 	const headers = yield getHeaders()
 	const response = yield call(api.get, "/", { headers })
 
 	return response.data
 })
 
-const handleCreateCategory = createRequestSaga4(
+const handleCreateCategory = createRequestSaga(
 	createCategoy,
 	function* (action) {
 		const headers = yield getHeaders()
@@ -61,7 +61,7 @@ const handleCreateCategory = createRequestSaga4(
 	}
 )
 
-const handleUpdateCategoy = createRequestSaga4(
+const handleUpdateCategoy = createRequestSaga(
 	updateCategoy,
 	function* (action) {
 		const headers = yield getHeaders()
@@ -70,7 +70,7 @@ const handleUpdateCategoy = createRequestSaga4(
 	}
 )
 
-const handleRemoveCategory = createRequestSaga4(
+const handleRemoveCategory = createRequestSaga(
 	removeCategoy,
 	function* (action) {
 		const headers = yield getHeaders()
