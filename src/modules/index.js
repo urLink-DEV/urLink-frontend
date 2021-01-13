@@ -4,6 +4,7 @@ import { pendingReducer } from "./pending"
 import { errorReducer, errorSaga } from "./error"
 import { categoryReducer, categorySaga } from "./category"
 import { userReducer, userSaga } from './user';
+import { uiReducer } from "./ui"
 
 // root reducer
 export const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ export const rootReducer = combineReducers({
 	error: errorReducer,
 	category: categoryReducer,
   user: userReducer,
+	ui: uiReducer,
 })
 
 // root saga

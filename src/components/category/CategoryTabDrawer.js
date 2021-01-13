@@ -1,467 +1,571 @@
 /* global chrome */
-import clsx from 'clsx'
-import React, { useState, useEffect, useRef, useCallback } from 'react'
-import Drawer from '@material-ui/core/Drawer'
-import Button from '@material-ui/core/Button'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
-import DeleteIcon from '@material-ui/icons/Delete'
-import AddToPhotosIcon from '@material-ui/icons/AddToPhotos'
-import Paper from '@material-ui/core/Paper'
-import InputBase from '@material-ui/core/InputBase'
-import {AlertModal} from '../../components/modal'
-import CategoryTab from './CategoryTab'
-import useEventListener from '../../hooks/useEventListener'
+import clsx from "clsx"
+import React, { useState, useEffect, useRef, useCallback } from "react"
+import Drawer from "@material-ui/core/Drawer"
+import Button from "@material-ui/core/Button"
+import List from "@material-ui/core/List"
+import ListItem from "@material-ui/core/ListItem"
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline"
+import DeleteIcon from "@material-ui/icons/Delete"
+import AddToPhotosIcon from "@material-ui/icons/AddToPhotos"
+import Paper from "@material-ui/core/Paper"
+import InputBase from "@material-ui/core/InputBase"
+import { AlertModal } from "../../components/modal"
+import CategoryTab from "./CategoryTab"
+import useEventListener from "../../hooks/useEventListener"
 import {
-  useLinkState, 
-  useLinkDispatch, 
-  useCategoryState, 
-  useCategoryDispatch,
-} from '../../containers/category/CategoryContainer'
-import {useStyles} from './styles/CategoryTabDrawer'
+	useLinkState,
+	useLinkDispatch,
+	useCategoryState,
+	useCategoryDispatch,
+} from "../../containers/category/CategoryContainer"
+import { useStyles } from "./styles/CategoryTabDrawer"
+import useDialog from "@modules/ui/hooks/useDialog"
 
 export default function CategoryTabDrawer(props) {
+	const {
+		selectedLinkList,
+		setSelectedLinkList,
+		draggedHistoryList,
+		setDraggedHistoryList,
+		selectedCategory,
+		setSelectedCategory,
+		isEditCategoryTitle,
+		editCategoryTitle,
+	} = props
 
-  const { 
-    selectedLinkList,
-    setSelectedLinkList,
-    draggedHistoryList,
-    setDraggedHistoryList,
-    selectedCategory,
-    setSelectedCategory,
-    isEditCategoryTitle,
-    editCategoryTitle,
-  } = props
+	const {
+		getCategory,
+		writeCategory,
+		updateCategory,
+		deleteCategory,
+	} = useCategoryDispatch()
 
-  const {
-    getCategory,
-    writeCategory,
-    updateCategory,
-    deleteCategory
-  } = useCategoryDispatch()
+	const { getLink, writeLink, deleteLink } = useLinkDispatch()
 
-  const { 
-    getLink, 
-    writeLink, 
-    deleteLink 
-  } = useLinkDispatch()
+	const classes = useStyles()
+	const categories = useCategoryState()
+	const favoritedArr = categories.filter((data) => data.is_favorited === true)
+	const notFavoritedArr = categories.filter(
+		(data) => data.is_favorited === false
+	)
 
-  const classes = useStyles()
-  const categories = useCategoryState()
-  const favoritedArr = categories.filter(data => data.is_favorited === true)
-  const notFavoritedArr = categories.filter(data => data.is_favorited === false)
-  
-  const [draggedCategoryData, setDraggedCategoryData] = useState({
-    draggedCategory : '',
-    draggedId: 0,
-    draggedName: '',
-    draggedOrder: 0,
-    dragFinished: false
-  })
+	const [draggedCategoryData, setDraggedCategoryData] = useState({
+		draggedCategory: "",
+		draggedId: 0,
+		draggedName: "",
+		draggedOrder: 0,
+		dragFinished: false,
+	})
 
-  const {draggedCategory, draggedId, draggedName, draggedOrder, dragFinished} = draggedCategoryData  
-  const [overedTabOrder, setOveredTabOrder] = useState(0)
-  const [overedTabFavorite, setOveredTabFavorite] = useState(null)
-  const [overedTabId, setOveredTabId] = useState(0)
-  const [addOpen, setAddOpen] = useState(true)
-  const [deleteOpen, setDeleteOpen] = useState(false)
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
-  const [enterOpen, setEnterOpen] = useState(false)
-  const [newCategoryTitle, setNewCategoryTitle] = useState('')
-  const [dragHistoryFinished, setDragHistoryFinished] = useState(false)
+	const {
+		draggedCategory,
+		draggedId,
+		draggedName,
+		draggedOrder,
+		dragFinished,
+	} = draggedCategoryData
+	const [overedTabOrder, setOveredTabOrder] = useState(0)
+	const [overedTabFavorite, setOveredTabFavorite] = useState(null)
+	const [overedTabId, setOveredTabId] = useState(0)
+	const [addOpen, setAddOpen] = useState(true)
+	const [deleteOpen, setDeleteOpen] = useState(false)
+	const {
+		open: deleteCategoryOpen,
+		toggle: deleteCategoryToggle,
+		close: deleteCategoryClose,
+	} = useDialog("delete category dialog")
 
-  const timeId = useRef()
+	const [enterOpen, setEnterOpen] = useState(false)
+	const [newCategoryTitle, setNewCategoryTitle] = useState("")
+	const [dragHistoryFinished, setDragHistoryFinished] = useState(false)
 
-  const handleClickChangeToAddBtn = useCallback(() => {
-    setAddOpen(true)
-    setDeleteOpen(false) 
-    setEnterOpen(false)
-    return 
-  })
-  useEventListener('click', handleClickChangeToAddBtn)
+	const timeId = useRef()
 
-  useEffect(() => {
-    if(dragHistoryFinished) {
-      if(overedTabId === selectedCategory.id) getLink({ category: selectedCategory.id })
-      getCategory({})
-        .then(() => {
-          timeId.current = setTimeout(() => {
-            setDragHistoryFinished(false)
-          }, 1000)
-        })
-    }
-    return () => clearTimeout(timeId.current)
+	const handleClickChangeToAddBtn = useCallback(() => {
+		setAddOpen(true)
+		setDeleteOpen(false)
+		setEnterOpen(false)
+		return
+	})
+	useEventListener("click", handleClickChangeToAddBtn)
 
-  },[dragHistoryFinished])
+	useEffect(() => {
+		if (dragHistoryFinished) {
+			if (overedTabId === selectedCategory.id)
+				getLink({ category: selectedCategory.id })
+			getCategory({}).then(() => {
+				timeId.current = setTimeout(() => {
+					setDragHistoryFinished(false)
+				}, 1000)
+			})
+		}
+		return () => clearTimeout(timeId.current)
+	}, [dragHistoryFinished])
 
-  const firstFavoriteDragOver = (e) => {
-    e.stopPropagation()
-    e.preventDefault()
-    setOveredTabOrder(draggedOrder)
-    setOveredTabFavorite(true)
-  }  
+	const firstFavoriteDragOver = (e) => {
+		e.stopPropagation()
+		e.preventDefault()
+		setOveredTabOrder(draggedOrder)
+		setOveredTabFavorite(true)
+	}
 
-  const firstCategoryDragOver = (e) => {
-    e.stopPropagation()
-    e.preventDefault()
-    setOveredTabOrder(draggedOrder)
-    setOveredTabFavorite(false)
-  }  
+	const firstCategoryDragOver = (e) => {
+		e.stopPropagation()
+		e.preventDefault()
+		setOveredTabOrder(draggedOrder)
+		setOveredTabFavorite(false)
+	}
 
-  const dragStart = (e, id, name, order) => {
-    e.stopPropagation()
-    const target = e.currentTarget
-    if (!target) return
-    target.style.opacity = 0.3
-    e.dataTransfer.dropEffect = "move"
-    setDraggedCategoryData({
-      ...draggedCategoryData,
-      draggedCategory: target,
-      draggedId: id,
-      draggedName: name,
-      draggedOrder: order
-    })
+	const dragStart = (e, id, name, order) => {
+		e.stopPropagation()
+		const target = e.currentTarget
+		if (!target) return
+		target.style.opacity = 0.3
+		e.dataTransfer.dropEffect = "move"
+		setDraggedCategoryData({
+			...draggedCategoryData,
+			draggedCategory: target,
+			draggedId: id,
+			draggedName: name,
+			draggedOrder: order,
+		})
 
-    e.dataTransfer.setData('text/html', target)
-    e.dataTransfer.setData("text/type", 'category')
-    e.dataTransfer.effectAllowed = 'move'
-  }
+		e.dataTransfer.setData("text/html", target)
+		e.dataTransfer.setData("text/type", "category")
+		e.dataTransfer.effectAllowed = "move"
+	}
 
-  const dragEnd = (e,id, name, order, favorited) => {
-    e.preventDefault()
-    e.stopPropagation()
-    if(draggedCategory && e.dataTransfer.dropEffect === 'move') {
-      updateCategory({ id, name, order, is_favorited: favorited })
-        .then(() => getCategory({}))
-        .then(() => {
-          setDraggedCategoryData({
-            ...draggedCategoryData,
-            dragFinished: true
-          })
-          draggedCategory.style.opacity = 1
-        })
-        .then(() => {
-          setTimeout(() => {
-            setDraggedCategoryData({
-              ...draggedCategoryData,
-              draggedCategory : '',
-              draggedId: 0,
-              draggedName: '',
-              draggedOrder: 0,
-              dragFinished: false
-            })
-            setOveredTabOrder(0)
-            setOveredTabFavorite(null)
-          }, 1000) 
-        })
-    } else if(draggedCategory) {
-      draggedCategory.style.opacity = 1
-    }
-  }
-  
-  const dragOver = (e, id, order, favorited) => {
-    e.preventDefault()
-    e.stopPropagation()
-    if(draggedHistoryList.length !== 0 && draggedHistoryList[0]?.dataset?.type === 'link' && !draggedCategory) {
-      setOveredTabId(id)
-      e.dataTransfer.dropEffect = "move"
-    } else if(draggedCategory?.dataset?.type === 'category' && draggedCategory) {
-      setOveredTabOrder(order)
-      setOveredTabFavorite(favorited)
+	const dragEnd = (e, id, name, order, favorited) => {
+		e.preventDefault()
+		e.stopPropagation()
+		if (draggedCategory && e.dataTransfer.dropEffect === "move") {
+			updateCategory({ id, name, order, is_favorited: favorited })
+				.then(() => getCategory({}))
+				.then(() => {
+					setDraggedCategoryData({
+						...draggedCategoryData,
+						dragFinished: true,
+					})
+					draggedCategory.style.opacity = 1
+				})
+				.then(() => {
+					setTimeout(() => {
+						setDraggedCategoryData({
+							...draggedCategoryData,
+							draggedCategory: "",
+							draggedId: 0,
+							draggedName: "",
+							draggedOrder: 0,
+							dragFinished: false,
+						})
+						setOveredTabOrder(0)
+						setOveredTabFavorite(null)
+					}, 1000)
+				})
+		} else if (draggedCategory) {
+			draggedCategory.style.opacity = 1
+		}
+	}
 
-      e.currentTarget.previousSibling.style.opacity = 1
-      e.dataTransfer.dropEffect = "move"
-    }
-  }
+	const dragOver = (e, id, order, favorited) => {
+		e.preventDefault()
+		e.stopPropagation()
+		if (
+			draggedHistoryList.length !== 0 &&
+			draggedHistoryList[0]?.dataset?.type === "link" &&
+			!draggedCategory
+		) {
+			setOveredTabId(id)
+			e.dataTransfer.dropEffect = "move"
+		} else if (
+			draggedCategory?.dataset?.type === "category" &&
+			draggedCategory
+		) {
+			setOveredTabOrder(order)
+			setOveredTabFavorite(favorited)
 
-  const dragLeave = e => {
-    e.currentTarget.previousSibling.style.opacity = 0
-  }
+			e.currentTarget.previousSibling.style.opacity = 1
+			e.dataTransfer.dropEffect = "move"
+		}
+	}
 
-  const drop = (e) => {
-    e.stopPropagation()
-    const type = e.dataTransfer.getData('text/type')
-    const filteredLinkList = [] 
-    selectedLinkList.forEach(link => filteredLinkList.push(link.path))
+	const dragLeave = (e) => {
+		e.currentTarget.previousSibling.style.opacity = 0
+	}
 
-    if (type === 'category') {
-      e.preventDefault()
-      if (e.currentTarget.dataset.dropzone) {
-        const dropzone = e.currentTarget.dataset.dropzone
-        if (dropzone === 'first-favorite-dropzone' || dropzone === 'first-category-dropzone') {
-          e.currentTarget.previousSibling.style.opacity = 1
-        }
-      } else {
-        e.currentTarget.previousSibling.style.opacity = 0
-      } 
-    } else if (type === 'link') {
-      e.preventDefault()
-      writeLink({ category: overedTabId, path: filteredLinkList })
-        .then(() => setDragHistoryFinished(true))
-      setSelectedLinkList([])
-      setDraggedHistoryList([])
-    } 
-  }
+	const drop = (e) => {
+		e.stopPropagation()
+		const type = e.dataTransfer.getData("text/type")
+		const filteredLinkList = []
+		selectedLinkList.forEach((link) => filteredLinkList.push(link.path))
 
-  const dragOverOnCardArea =(e) => {
-    e.stopPropagation()
-    e.preventDefault()
-    setOveredTabId(selectedCategory.id)
-  }
-  
-  const dropOnCardArea = (e) => {
-    e.stopPropagation()
-    const type = e.dataTransfer.getData('text/type')
-    const filteredLinkList = [] 
-    selectedLinkList.forEach(link => filteredLinkList.push(link.path))
-  
-    if(type === 'link') {
-      e.preventDefault()
-      writeLink({ category: selectedCategory.id, path: filteredLinkList })
-        .then(() => setDragHistoryFinished(true))
-      setSelectedLinkList([])
-      setDraggedHistoryList([])
-    }
-  }
+		if (type === "category") {
+			e.preventDefault()
+			if (e.currentTarget.dataset.dropzone) {
+				const dropzone = e.currentTarget.dataset.dropzone
+				if (
+					dropzone === "first-favorite-dropzone" ||
+					dropzone === "first-category-dropzone"
+				) {
+					e.currentTarget.previousSibling.style.opacity = 1
+				}
+			} else {
+				e.currentTarget.previousSibling.style.opacity = 0
+			}
+		} else if (type === "link") {
+			e.preventDefault()
+			writeLink({ category: overedTabId, path: filteredLinkList }).then(() =>
+				setDragHistoryFinished(true)
+			)
+			setSelectedLinkList([])
+			setDraggedHistoryList([])
+		}
+	}
 
-  const handleClickCategory = category => e => {
-    e.stopPropagation()
-    setAddOpen(false)
-    if(addOpen) setDeleteOpen(true)
-    setSelectedCategory(category)
-  }
+	const dragOverOnCardArea = (e) => {
+		e.stopPropagation()
+		e.preventDefault()
+		setOveredTabId(selectedCategory.id)
+	}
 
+	const dropOnCardArea = (e) => {
+		e.stopPropagation()
+		const type = e.dataTransfer.getData("text/type")
+		const filteredLinkList = []
+		selectedLinkList.forEach((link) => filteredLinkList.push(link.path))
 
-const openEnterTab = e => {
-  e.stopPropagation()
-  setAddOpen(false)
-  setEnterOpen(true)
-}
-   
-const openDeleteModal = e => {
-  e.stopPropagation()
-  setDeleteOpen(true)
-  setDeleteModalOpen(true)
-}
+		if (type === "link") {
+			e.preventDefault()
+			writeLink({
+				category: selectedCategory.id,
+				path: filteredLinkList,
+			}).then(() => setDragHistoryFinished(true))
+			setSelectedLinkList([])
+			setDraggedHistoryList([])
+		}
+	}
 
-const addTab = e => {
-  e.stopPropagation()
-  if (!newCategoryTitle) {
-    setAddOpen(true)
-    setEnterOpen(false)
-    setNewCategoryTitle('')
-  } else {
-    setAddOpen(true)
-    setEnterOpen(false)
-    writeCategory({ name: newCategoryTitle, is_favorited: false })
-    .then((res) => {
-      setNewCategoryTitle('')
-      setSelectedCategory(res.data)
-      getCategory({})
-      return res.data
-    })
-  }
-}
+	const handleClickCategory = (category) => (e) => {
+		e.stopPropagation()
+		setAddOpen(false)
+		if (addOpen) setDeleteOpen(true)
+		setSelectedCategory(category)
+	}
 
-const handleChangeNewCategoryTitle = e => {
-  let checks = /[a-zA-Z]/
-  if(checks.test(e.target.value)) {
-      if(e.target.value.length >= 14) return
-  } else if (e.target.value.length >= 7) return
-  setNewCategoryTitle(e.target.value)
-}
+	const openEnterTab = (e) => {
+		e.stopPropagation()
+		setAddOpen(false)
+		setEnterOpen(true)
+	}
 
-const pressEnterAddTab = e => {
-  e.preventDefault()
-  e.stopPropagation()
-  if (e.keyCode === 13) {
-    addTab(e)
-  }
-}
+	const addTab = (e) => {
+		e.stopPropagation()
+		if (!newCategoryTitle) {
+			setAddOpen(true)
+			setEnterOpen(false)
+			setNewCategoryTitle("")
+		} else {
+			setAddOpen(true)
+			setEnterOpen(false)
+			writeCategory({ name: newCategoryTitle, is_favorited: false }).then(
+				(res) => {
+					setNewCategoryTitle("")
+					setSelectedCategory(res.data)
+					getCategory({})
+					return res.data
+				}
+			)
+		}
+	}
 
-const handleClickAddInput = e => {
-  e.preventDefault()
-  e.stopPropagation()
-}
+	const handleChangeNewCategoryTitle = (e) => {
+		let checks = /[a-zA-Z]/
+		if (checks.test(e.target.value)) {
+			if (e.target.value.length >= 14) return
+		} else if (e.target.value.length >= 7) return
+		setNewCategoryTitle(e.target.value)
+	}
 
-const cancelAddTab = e => {
-  e.preventDefault()
-  e.stopPropagation()
-  setAddOpen(true)
-  setEnterOpen(false)
-  setNewCategoryTitle('')
-}
+	const pressEnterAddTab = (e) => {
+		e.preventDefault()
+		e.stopPropagation()
+		if (e.keyCode === 13) {
+			addTab(e)
+		}
+	}
 
-const closeDeleteModal = (e) => {
-  e.stopPropagation()
-  setDeleteModalOpen(false)
-  setDeleteOpen(false)
-  setAddOpen(true)
-}
+	const handleClickAddInput = (e) => {
+		e.preventDefault()
+		e.stopPropagation()
+	}
 
-const deleteTab = (e) => {
-  e.stopPropagation()
-  deleteCategory({ id: selectedCategory.id })
-    .then(() => {
-      setSelectedCategory({})
-      setDeleteModalOpen(false)
-      setDeleteOpen(false)
-      setAddOpen(true)
-    })
-}
+	const cancelAddTab = (e) => {
+		e.preventDefault()
+		e.stopPropagation()
+		setAddOpen(true)
+		setEnterOpen(false)
+		setNewCategoryTitle("")
+	}
 
+	const deleteTab = (e) => {
+		e.stopPropagation()
+		deleteCategory({ id: selectedCategory.id }).then(() => {
+			setSelectedCategory({})
+			deleteCategoryToggle()
+			setDeleteOpen(false)
+			setAddOpen(true)
+		})
+	}
 
-const FavoriteDropZone  = (
-  <div className={classes.firstFavoriteDropZone}
-    data-dropzone='first-favorite-dropzone'
-    onDragOver={firstFavoriteDragOver}
-    onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
-  >
-    Drag the category here!
-  </div>
-)
+	const FavoriteDropZone = (
+		<div
+			className={classes.firstFavoriteDropZone}
+			data-dropzone="first-favorite-dropzone"
+			onDragOver={firstFavoriteDragOver}
+			onDrop={(e) =>
+				drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)
+			}
+		>
+			Drag the category here!
+		</div>
+	)
 
-return (
-  <div>
-    <nav className={classes.drawer}>
-    <Drawer classes={{paper: classes.drawerPaper}}
-      variant="permanent"
-      open
-    >
-    <div>
-      <div className={classes.layout}>
-        <div className={classes.favoriteHeader}>
-          <div className={classes.favoriteText}>
-            Favorite
-          </div>
-          <hr className={classes.hr}/>
-        </div>
-        { favoritedArr.length !== 0 ? null : FavoriteDropZone}
-        <List>
-          {favoritedArr.map((data, index) => (
-            <React.Fragment key={data.id}>
-              <div className={classes.dragline} />
-              <ListItem className={classes.listItem + (data.id === selectedCategory.id ? ' '+classes.selected : '' )}
-                key={data.id}
-                data-type='category' 
-                draggable='true'
-                onClick={handleClickCategory(data)}
-                onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
-                onDragEnd={(e) => dragEnd(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
-                onDragOver={(e) => dragOver(e, data.id, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
-                onDragLeave={dragLeave}
-                onDrop={drop}
-              >
-                <CategoryTab 
-                  key={data.id} 
-                  text={data.name} 
-                  id={data.id} 
-                  order={data.order}
-                  isFavorited={data.is_favorited}
-                  urlCount={data.url_count}
-                  isEditTitle={isEditCategoryTitle}
-                  selected={(data.id === selectedCategory.id)} 
-                  dragFinished={(data.id === draggedId ? dragFinished : false)} 
-                  historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : null)}
-                  selectedCategoryTitle={isEditCategoryTitle ? editCategoryTitle : selectedCategory.name}
-                />
-              </ListItem>
-            </React.Fragment>
-          ))}
-        </List>
-        <div className={classes.categoryHeader}>
-          <div className={classes.categoryText}>
-            Category
-          </div>
-          <hr className={classes.hr}/>
-        </div>
-        <Button className={classes.addButton + (addOpen ? '' : ' '+ classes.hidden)} 
-          variant="contained"
-          onClick={openEnterTab}
-        >
-          <AddCircleOutlineIcon style={{color: "#cccccc"}} />
-        </Button>
-        <Button className={classes.deleteButton + (deleteOpen ? ' '+classes.block : '')} 
-          variant="contained" 
-          onClick={openDeleteModal}
-        >
-          <DeleteIcon style={{color: "#cccccc"}} />
-        </Button>
-        {enterOpen ?
-          <Paper className={classes.enterTab}
-            component="div" 
-          >
-            <InputBase className={classes.input}
-              placeholder="New one"
-              value={newCategoryTitle}
-              onChange={handleChangeNewCategoryTitle}
-              onKeyUp={pressEnterAddTab}
-              onClick={handleClickAddInput}
-            />
-              <Button className={classes.okBtn} onClick={addTab}>
-                확인
-              </Button>
-              <Button className={classes.cancelBtn} onClick={cancelAddTab}>
-                취소
-              </Button>
-          </Paper> : null
-        }
-        <div className={(!notFavoritedArr.length ? classes.hiddenCategoryDropZone: classes.hidden)}
-          data-dropzone='first-cateogory-dropzone'          
-          onDragOver={firstCategoryDragOver}
-          onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
-        />
-        <List>
-          {notFavoritedArr.map((data, index) => (
-            <React.Fragment key={data.id}>
-              <div className={classes.dragline} />
-              <ListItem className={classes.listItem + (data.id === selectedCategory.id ? ' '+classes.selected : '' )}
-                key={data.id} 
-                data-type='category' 
-                draggable='true'
-                onClick={handleClickCategory(data)}
-                onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
-                onDragEnd={(e) => dragEnd(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
-                onDragOver={(e) => dragOver(e, data.id, (draggedOrder < data.order ? data.order-1 : data.order) , data.is_favorited)}
-                onDragLeave={dragLeave}
-                onDrop={(e) => drop(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)}
-              >
-                <CategoryTab 
-                  key={data.id} 
-                  text={data.name} 
-                  id={data.id} 
-                  order={data.order}
-                  isFavorited={data.is_favorited}
-                  urlCount={data.url_count}
-                  isEditTitle={isEditCategoryTitle}
-                  selected={(data.id === selectedCategory.id)} 
-                  dragFinished={(data.id === draggedId ? dragFinished : false)} 
-                  historyDragFinished={(dragHistoryFinished && data.id === overedTabId ? true : false)}
-                  selectedCategoryTitle={isEditCategoryTitle ? editCategoryTitle : selectedCategory.name}
-                />
-              </ListItem>
-            </React.Fragment>
-          ))}
-        </List>
-        </div>
-          <AlertModal 
-            btnText='삭제'
-            modalText='카테고리를 삭제하면 안에 저장된 모든 탭이 삭제 됩니다. 그래도 삭제 하시겠습니까?'
-            openBool={deleteModalOpen} 
-            onClose={closeDeleteModal}
-            onClickOk={deleteTab} 
-          />
-        </div>
-    </Drawer>
-    </nav>
-    <div className={clsx(classes.coverBackground, {
-        [classes.flexCoverBackground]: selectedLinkList.length !== 0
-      })}
-      onDrop={dropOnCardArea}
-      onDragOver={dragOverOnCardArea}>
-      <AddToPhotosIcon className={classes.addLinkIcon} />
-    </div>
-  </div>
-  )  
+	return (
+		<div>
+			<nav className={classes.drawer}>
+				<Drawer
+					classes={{ paper: classes.drawerPaper }}
+					variant="permanent"
+					open
+				>
+					<div>
+						<div className={classes.layout}>
+							<div className={classes.favoriteHeader}>
+								<div className={classes.favoriteText}>Favorite</div>
+								<hr className={classes.hr} />
+							</div>
+							{favoritedArr.length !== 0 ? null : FavoriteDropZone}
+							<List>
+								{favoritedArr.map((data, index) => (
+									<React.Fragment key={data.id}>
+										<div className={classes.dragline} />
+										<ListItem
+											className={
+												classes.listItem +
+												(data.id === selectedCategory.id
+													? " " + classes.selected
+													: "")
+											}
+											key={data.id}
+											data-type="category"
+											draggable="true"
+											onClick={handleClickCategory(data)}
+											onDragStart={(e) =>
+												dragStart(e, data.id, data.name, data.order)
+											}
+											onDragEnd={(e) =>
+												dragEnd(
+													e,
+													draggedId,
+													draggedName,
+													overedTabOrder,
+													overedTabFavorite
+												)
+											}
+											onDragOver={(e) =>
+												dragOver(
+													e,
+													data.id,
+													draggedOrder < data.order
+														? data.order - 1
+														: data.order,
+													data.is_favorited
+												)
+											}
+											onDragLeave={dragLeave}
+											onDrop={drop}
+										>
+											<CategoryTab
+												key={data.id}
+												text={data.name}
+												id={data.id}
+												order={data.order}
+												isFavorited={data.is_favorited}
+												urlCount={data.url_count}
+												isEditTitle={isEditCategoryTitle}
+												selected={data.id === selectedCategory.id}
+												dragFinished={
+													data.id === draggedId ? dragFinished : false
+												}
+												historyDragFinished={
+													dragHistoryFinished && data.id === overedTabId
+														? true
+														: null
+												}
+												selectedCategoryTitle={
+													isEditCategoryTitle
+														? editCategoryTitle
+														: selectedCategory.name
+												}
+											/>
+										</ListItem>
+									</React.Fragment>
+								))}
+							</List>
+							<div className={classes.categoryHeader}>
+								<div className={classes.categoryText}>Category</div>
+								<hr className={classes.hr} />
+							</div>
+							<Button
+								className={
+									classes.addButton + (addOpen ? "" : " " + classes.hidden)
+								}
+								variant="contained"
+								onClick={openEnterTab}
+							>
+								<AddCircleOutlineIcon style={{ color: "#cccccc" }} />
+							</Button>
+							<Button
+								className={
+									classes.deleteButton + (deleteOpen ? " " + classes.block : "")
+								}
+								variant="contained"
+								onClick={deleteCategoryToggle}
+							>
+								<DeleteIcon style={{ color: "#cccccc" }} />
+							</Button>
+							{enterOpen ? (
+								<Paper className={classes.enterTab} component="div">
+									<InputBase
+										className={classes.input}
+										placeholder="New one"
+										value={newCategoryTitle}
+										onChange={handleChangeNewCategoryTitle}
+										onKeyUp={pressEnterAddTab}
+										onClick={handleClickAddInput}
+									/>
+									<Button className={classes.okBtn} onClick={addTab}>
+										확인
+									</Button>
+									<Button className={classes.cancelBtn} onClick={cancelAddTab}>
+										취소
+									</Button>
+								</Paper>
+							) : null}
+							<div
+								className={
+									!notFavoritedArr.length
+										? classes.hiddenCategoryDropZone
+										: classes.hidden
+								}
+								data-dropzone="first-cateogory-dropzone"
+								onDragOver={firstCategoryDragOver}
+								onDrop={(e) =>
+									drop(
+										e,
+										draggedId,
+										draggedName,
+										overedTabOrder,
+										overedTabFavorite
+									)
+								}
+							/>
+							<List>
+								{notFavoritedArr.map((data, index) => (
+									<React.Fragment key={data.id}>
+										<div className={classes.dragline} />
+										<ListItem
+											className={
+												classes.listItem +
+												(data.id === selectedCategory.id
+													? " " + classes.selected
+													: "")
+											}
+											key={data.id}
+											data-type="category"
+											draggable="true"
+											onClick={handleClickCategory(data)}
+											onDragStart={(e) =>
+												dragStart(e, data.id, data.name, data.order)
+											}
+											onDragEnd={(e) =>
+												dragEnd(
+													e,
+													draggedId,
+													draggedName,
+													overedTabOrder,
+													overedTabFavorite
+												)
+											}
+											onDragOver={(e) =>
+												dragOver(
+													e,
+													data.id,
+													draggedOrder < data.order
+														? data.order - 1
+														: data.order,
+													data.is_favorited
+												)
+											}
+											onDragLeave={dragLeave}
+											onDrop={(e) =>
+												drop(
+													e,
+													draggedId,
+													draggedName,
+													overedTabOrder,
+													overedTabFavorite
+												)
+											}
+										>
+											<CategoryTab
+												key={data.id}
+												text={data.name}
+												id={data.id}
+												order={data.order}
+												isFavorited={data.is_favorited}
+												urlCount={data.url_count}
+												isEditTitle={isEditCategoryTitle}
+												selected={data.id === selectedCategory.id}
+												dragFinished={
+													data.id === draggedId ? dragFinished : false
+												}
+												historyDragFinished={
+													dragHistoryFinished && data.id === overedTabId
+														? true
+														: false
+												}
+												selectedCategoryTitle={
+													isEditCategoryTitle
+														? editCategoryTitle
+														: selectedCategory.name
+												}
+											/>
+										</ListItem>
+									</React.Fragment>
+								))}
+							</List>
+						</div>
+						<AlertModal
+							btnText="삭제"
+							modalText="카테고리를 삭제하면 안에 저장된 모든 탭이 삭제 됩니다. 그래도 삭제 하시겠습니까?"
+							openBool={deleteCategoryOpen}
+							onClose={deleteCategoryClose}
+							onClickOk={deleteTab}
+						/>
+					</div>
+				</Drawer>
+			</nav>
+			<div
+				className={clsx(classes.coverBackground, {
+					[classes.flexCoverBackground]: selectedLinkList.length !== 0,
+				})}
+				onDrop={dropOnCardArea}
+				onDragOver={dragOverOnCardArea}
+			>
+				<AddToPhotosIcon className={classes.addLinkIcon} />
+			</div>
+		</div>
+	)
 }
