@@ -121,7 +121,7 @@ axios.interceptors.response.use(
         });
     }
     // login 필수
-    else if (status === 401 && response.detail.indexOf(LOGIN_REQUIRED_VALID) > -1) {
+    else if (status === 401 && response.detail?.indexOf(LOGIN_REQUIRED_VALID) > -1) {
       axiosSetting.redirectPage(); // no authentication => go login!!
     }
     // 그 외는 서버에서 내리는 에러
