@@ -49,8 +49,8 @@ $desktop: 'only screen and (min-width: 1025px)';
   }
 }
 
-@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);
-@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css);
+@import url(http://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);
+@import url(http://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css);
 
 ::-webkit-scrollbar {
   display: none;
@@ -175,7 +175,7 @@ $mainTextColor: #212529;
 }
 
 .subtitle {
-  width: 78px;
+  width: 100px;
   height: 22px;
   font-size: 14px;
   font-weight: normal;

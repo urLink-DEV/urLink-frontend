@@ -4,7 +4,7 @@ import RegisterFormBox from './RegisterFormBox';
 
 import '@assets/scss/LoginSignup.scss';
 
-function Signup() {
+function Register() {
   return (
     <div className="container container-layout">
       <section className="main-layout">
@@ -15,4 +15,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Register;

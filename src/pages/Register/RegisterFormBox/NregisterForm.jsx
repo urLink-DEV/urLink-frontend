@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-chrome-extension-router';
 import { toast } from 'react-toastify';
 import { useForm, Controller } from 'react-hook-form';
@@ -7,12 +6,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { FormControlLabel, Button, Checkbox } from '@material-ui/core';
-import TermsModal from '@components/modals/TermsModal';
+import { TermsModal } from '@components/modals';
 import ValidationMessage from '@components/ValidationMessage';
 import Login from '@pages/Login';
 
-import { setAccessToken } from '@commons/http/auth';
-import { userRegisterThunk } from '@modules/user';
+import { useUser } from '@modules/user/hooks/useUser';
 
 const SCHEMA = yup.object().shape({
   email: yup
@@ -37,9 +35,9 @@ const SCHEMA = yup.object().shape({
 });
 
 function NregisterForm() {
-  const dispatch = useDispatch();
+  const {registerThunk} = useUser();
   const [registerModalOpen, setRegisterModalOpen] = useState(false);
-  const { register, handleSubmit, setValue, errors, control } = useForm({
+  const { register, handleSubmit, setValue, errors, control, formState } = useForm({
     defaultValues: {
       email: '',
       username: '',
@@ -53,8 +51,7 @@ function NregisterForm() {
 
   const handleSignup = async (formData) => {
     try {
-      const res = await dispatch(userRegisterThunk(formData));
-      setAccessToken(res.token);
+      await registerThunk(formData);
       window.location.href = '/index.html';
     } catch (error) {
       toast.error(error?.response?.data?.message || '네트워크 오류!!');
@@ -177,7 +174,7 @@ function NregisterForm() {
 
       {/* 회원가입 | 로그인 */}
       <div className="btn-group">
-        <Button type="submit" variant="contained" color="primary">
+        <Button type="submit" variant="contained" color="primary" disabled={!formState.isValid}>
           회원가입
         </Button>
         <Link className="link" component={Login}>
