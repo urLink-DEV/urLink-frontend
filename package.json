@@ -156,7 +156,12 @@
 	},
 	"babel": {
 		"presets": [
-			"@babel/preset-env",
+			[
+				"@babel/preset-env", {
+					"targets": {"chrome": "55"},
+					"debug": true
+				}
+			],
 			"@babel/preset-react"
 		],
 		"plugins": [
