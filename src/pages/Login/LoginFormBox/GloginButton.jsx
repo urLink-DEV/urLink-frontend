@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 
 import LogoGoogle from '@images/logo-google.png';
 
-import { useUser } from '@modules/user/hooks/useUser';
+import { useUser } from '@modules/user';
 
 function GloginButton() {
   const { gloginThunk } = useUser();

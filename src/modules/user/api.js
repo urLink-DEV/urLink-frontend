@@ -1,22 +1,49 @@
-import { axios, api } from '@commons/http/client';
-import queryData, { selialize } from '@commons/http/queryData';
+import queryInfoData from './queryInfoData';
+
+import { axios } from '@commons/http/client';
+import queryFilter from '@commons/http/queryFilter';
 
 export const nRegister = (data = {}) => {
-  const info = selialize({ type: 'nRegister', originDataInfo: data });
-  return axios[queryData.nRegister.method](api.N_MEMBER_REGISTER, info);
+  const queryData = queryInfoData['nRegister'];
+  const info = queryFilter({ queryData, originDataInfo: data });
+  return axios[queryData.method](queryData.API, info);
 };
 
 export const nLogin = (data = {}) => {
-  const info = selialize({ type: 'nLogin', originDataInfo: data });
-  return axios[queryData.nLogin.method](api.N_MEMBER_LOGIN, info);
+  const queryData = queryInfoData['nLogin'];
+  const info = queryFilter({ queryData, originDataInfo: data });
+  return axios[queryData.method](queryData.API, info);
 };
 
 export const gRegister = (data = {}) => {
-  const info = selialize({ type: 'gRegister', originDataInfo: data });
-  return axios[queryData.gRegister.method](api.G_MEMBER_REGISTER, info);
+  const queryData = queryInfoData['gRegister'];
+  const info = queryFilter({ queryData, originDataInfo: data });
+  return axios[queryData.method](queryData.API, info);
 };
 
 export const gLogin = (data = {}) => {
-  const info = selialize({ type: 'gLogin', originDataInfo: data });
-  return axios[queryData.nLogin.method](api.G_MEMBER_LOGIN, info);
+  const queryData = queryInfoData['gLogin'];
+  const info = queryFilter({ queryData, originDataInfo: data });
+  return axios[queryData.method](queryData.API, info);
+};
+
+export const userRead = (data = {}) => {
+  const queryData = queryInfoData['userRead'];
+  const info = queryFilter({ queryData, originDataInfo: data });
+  const urlData = queryFilter({ queryData, queryType: 'urlQuery', originDataInfo: data });
+  return axios[queryData.method](queryData.replaceAPI({ ...urlData }), info);
+};
+
+export const userModiify = (data = {}) => {
+  const queryData = queryInfoData['userModiify'];
+  const info = queryFilter({ queryData, originDataInfo: data });
+  const urlData = queryFilter({ queryData, queryType: 'urlQuery', originDataInfo: data });
+  return axios[queryData.method](queryData.replaceAPI({ ...urlData }), info);
+};
+
+export const userRemove = (data = {}) => {
+  const queryData = queryInfoData['userRemove'];
+  const info = queryFilter({ queryData, originDataInfo: data });
+  const urlData = queryFilter({ queryData, queryType: 'urlQuery', originDataInfo: data });
+  return axios[queryData.method](queryData.replaceAPI({ ...urlData }), info);
 };

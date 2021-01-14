@@ -7,9 +7,9 @@ import * as yup from 'yup';
 
 import { Button } from '@material-ui/core';
 import ValidationMessage from '@components/ValidationMessage';
-import Signup from '@pages/Signup';
+import Register from '@pages/Register';
 
-import { useUser } from '@modules/user/hooks/useUser';
+import { useUser } from '@modules/user';
 
 const SCHEMA = yup.object().shape({
   email: yup.string().required('이메일은 필수 입력입니다.'),
@@ -78,7 +78,7 @@ function NloginForm() {
         <Button type="submit" variant="contained" color="primary" disabled={!formState.isValid}>
           로그인
         </Button>
-        <Link className="link" component={Signup}>
+        <Link className="link" component={Register}>
           <Button variant="text" color="primary">
             회원가입
           </Button>

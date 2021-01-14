@@ -10,7 +10,7 @@ import { TermsModal } from '@components/modals';
 import ValidationMessage from '@components/ValidationMessage';
 import Login from '@pages/Login';
 
-import { useUser } from '@modules/user/hooks/useUser';
+import { useUser } from '@modules/user';
 
 const SCHEMA = yup.object().shape({
   email: yup
