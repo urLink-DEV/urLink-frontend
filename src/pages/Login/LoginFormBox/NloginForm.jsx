@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-chrome-extension-router';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
@@ -10,8 +9,7 @@ import { Button } from '@material-ui/core';
 import ValidationMessage from '@components/ValidationMessage';
 import Signup from '@pages/Signup';
 
-import { setAccessToken } from '@commons/http/auth';
-import { userLoginThunk } from '@modules/user';
+import { useUser } from '@modules/user/hooks/useUser';
 
 const SCHEMA = yup.object().shape({
   email: yup.string().required('이메일은 필수 입력입니다.'),
@@ -19,8 +17,8 @@ const SCHEMA = yup.object().shape({
 });
 
 function NloginForm() {
-  const dispatch = useDispatch();
-  const { register, handleSubmit, errors } = useForm({
+  const { loginThunk } = useUser();
+  const { register, handleSubmit, errors, formState } = useForm({
     defaultValues: {
       email: '',
       password: '',
@@ -31,8 +29,7 @@ function NloginForm() {
 
   const handleLogin = async (formData) => {
     try {
-      const res = await dispatch(userLoginThunk(formData));
-      setAccessToken(res.token);
+      await loginThunk(formData);
       window.location.href = '/index.html';
     } catch (error) {
       toast.error(error?.response?.data?.message || '네트워크 오류!!');
@@ -78,7 +75,7 @@ function NloginForm() {
 
       {/* 회원가입 | 로그인 */}
       <div className="btn-group">
-        <Button type="submit" variant="contained" color="primary">
+        <Button type="submit" variant="contained" color="primary" disabled={!formState.isValid}>
           로그인
         </Button>
         <Link className="link" component={Signup}>
