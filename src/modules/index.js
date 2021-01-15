@@ -3,7 +3,7 @@ import { fork, all } from "redux-saga/effects"
 import { pendingReducer } from "./pending"
 import { errorReducer, errorSaga } from "./error"
 import { categoryReducer, categorySaga } from "./category"
-import { userReducer, userSaga } from './user';
+import { USER, userReducer, userSaga } from './user';
 import { uiReducer } from "./ui"
 
 // root reducer
@@ -11,7 +11,7 @@ export const rootReducer = combineReducers({
 	pending: pendingReducer,
 	error: errorReducer,
 	category: categoryReducer,
-  user: userReducer,
+  [USER]: userReducer,
 	ui: uiReducer,
 })
 

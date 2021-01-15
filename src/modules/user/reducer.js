@@ -1,5 +1,5 @@
 import { call, takeEvery, takeLatest } from 'redux-saga/effects';
-import { createReducer } from '@reduxjs/toolkit';
+import { createReducer, createSelector } from '@reduxjs/toolkit';
 
 import { createRequestAction, createRequestSaga, createRequestThunk } from '../helpers';
 import * as api from './api';
@@ -7,40 +7,57 @@ import * as api from './api';
 import { setAccessToken, removeAccessToken } from '@commons/http/auth';
 import { getAuthToken, removeCachedAuthToken } from '@commons/chromeApis/OAuth';
 
-export const userRegister = createRequestAction('user/REGISTER');
+export const userRegister = createRequestAction('USER/REGISTER');
 export const userRegisterThunk = createRequestThunk(userRegister);
 
-export const userLogin = createRequestAction('user/LOGIN');
+export const userLogin = createRequestAction('USER/LOGIN');
 export const userLoginThunk = createRequestThunk(userLogin);
 
-export const userLogout = createRequestAction('user/LOGOUT');
+export const userLogout = createRequestAction('USER/LOGOUT');
 export const userLogoutThunk = createRequestThunk(userLogout);
 
-export const userGregister = createRequestAction('user/G_REGISTER');
+export const userGregister = createRequestAction('USER/G_REGISTER');
 export const userGregisterThunk = createRequestThunk(userGregister);
 
-export const userGlogin = createRequestAction('user/G_LOGIN');
+export const userGlogin = createRequestAction('USER/G_LOGIN');
 export const userGloginThunk = createRequestThunk(userGlogin);
 
-export const userRead = createRequestAction('user/READ');
+export const userRead = createRequestAction('USER/READ');
 export const userReadThunk = createRequestThunk(userRead);
 
-export const userModify = createRequestAction('user/MODIFY');
+export const userModify = createRequestAction('USER/MODIFY');
 export const userModifyThunk = createRequestThunk(userModify);
 
-export const userRemove = createRequestAction('user/REMOVE');
+export const userRemove = createRequestAction('USER/REMOVE');
 export const userRemoveThunk = createRequestThunk(userRemove);
 
+// Reducer
 const initialState = {
   data: {},
 };
-
-// Reducer
 export const userReducer = createReducer(initialState, {
+  [userLogin.SUCCESS]: (state, { payload }) => {
+    state.data = payload;
+  },
+  [userGlogin.SUCCESS]: (state, { payload }) => {
+    state.data = payload;
+  },
   [userRead.SUCCESS]: (state, { payload }) => {
-    // state.data =
+    state.data = payload;
   },
 });
+export const USER = 'USER';
+
+// Select
+const selectAllState = createSelector(
+  (state) => state,
+  (state) => {
+    return state;
+  }
+);
+export const userSelector = {
+  data: (state) => selectAllState(state[USER].data),
+};
 
 // Saga
 const watchUserRegister = createRequestSaga(userRegister, function* (action) {
@@ -111,7 +128,7 @@ export function* userSaga() {
   yield takeLatest(userLogout.REQUEST, watchUserLogout);
   yield takeLatest(userGregister.REQUEST, watchUserGregister);
   yield takeLatest(userGlogin.REQUEST, watchUserGlogin);
-  
+
   yield takeEvery(userRead.REQUEST, watchUserRead);
   yield takeEvery(userModify.REQUEST, watchUserModify);
   yield takeLatest(userRemove.REQUEST, watchUserRemove);
