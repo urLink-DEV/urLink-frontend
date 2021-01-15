@@ -58,7 +58,7 @@ export const api = {
 
 export const axios = Axios.create({
   baseURL: axiosSetting.server(),
-  timeout: 10000,
+  timeout: 40000,
 });
 
 // Add a request interceptor

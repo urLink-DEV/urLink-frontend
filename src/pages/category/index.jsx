@@ -2,7 +2,7 @@ import React from 'react'
 import CategoryContainer from '../../containers/category/CategoryContainer'
 import './Category.scss'
 
-export default function CategoryPage() {
+export default function Category() {
 
   return (
     <CategoryContainer />
