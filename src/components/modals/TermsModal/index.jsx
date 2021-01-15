@@ -11,7 +11,7 @@ import {
 
 import textInfo from './textInfo';
 
-function TermsModal({ open, onClose, onYesClick, onNoClick }) {
+function TermsModal({ open, onClose, onYesClick, onYesText, onNoClick, onNoText }) {
   return (
     <Dialog
       aria-labelledby="alert-dialog-title"
@@ -32,12 +32,12 @@ function TermsModal({ open, onClose, onYesClick, onNoClick }) {
       <DialogActions>
         {onYesClick && (
           <Button onClick={onYesClick} color="primary" autoFocus style={{ fontWeight: 'bold' }}>
-            동의함
+            {onYesText || '동의함'}
           </Button>
         )}
         {onNoClick && (
           <Button onClick={onNoClick} color="primary" style={{ fontWeight: 'bold' }}>
-            동의안함
+            {onNoText || '동의안함'}
           </Button>
         )}
       </DialogActions>
