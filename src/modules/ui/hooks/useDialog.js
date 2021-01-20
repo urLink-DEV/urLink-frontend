@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { openDialog, closeDialog, closeAllDialogs } from '@modules/ui';
+import { openDialog, closeDialog, closeAllDialogs, uiSelector } from '@modules/ui';
 
 const useDialog = (type) => {
-  const dialogs = useSelector((state) => state.ui.dialogs);
+  const dialogs = useSelector(uiSelector.dialogs);
   const dispatch = useDispatch();
   const open = !!dialogs.find((dialog) => dialog.type === type);
 
