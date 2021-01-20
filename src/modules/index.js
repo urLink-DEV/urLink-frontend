@@ -5,7 +5,7 @@ import { errorReducer, errorSaga } from './error';
 import { categoryReducer, categorySaga } from './category';
 import { USER, userReducer, userSaga } from './user';
 import { ALARM_NOTICE, alaramNoticeReducer, alarmNoticeSaga } from './alarmNotice';
-import { uiReducer } from './ui';
+import { UI, uiReducer } from './ui';
 
 // root reducer
 export const rootReducer = combineReducers({
@@ -14,7 +14,7 @@ export const rootReducer = combineReducers({
   category: categoryReducer,
   [USER]: userReducer,
   [ALARM_NOTICE]: alaramNoticeReducer,
-  ui: uiReducer,
+  [UI]: uiReducer,
 });
 
 // root saga
