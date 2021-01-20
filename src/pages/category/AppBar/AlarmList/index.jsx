@@ -25,7 +25,7 @@ import linkListEmptyIcon from '@images/linkListEmptyIcon.png';
 import {
   alaramNoticeSelector,
   alaramNoticeReadNotice,
-  alaramNoticeNoReturnNotice,
+  alaramNoticeNoReturnNoticeThunk,
 } from '@modules/alarmNotice';
 import { useToast } from '@modules/ui';
 
@@ -40,9 +40,13 @@ function AlarmList() {
     window.open(alarm.url_path);
   };
 
-  const handleDeleteAlarm = (alarm_id) => (_e) => {
-    dispatch(alaramNoticeNoReturnNotice.request({ alarm_id }));
-    openToast({ type: 'success', message: '알람을 삭제했습니다.' });
+  const handleDeleteAlarm = (alarm_id) => async (_e) => {
+    try {
+      await dispatch(alaramNoticeNoReturnNoticeThunk({ alarm_id }));
+      openToast({ type: 'success', message: '알람을 삭제했습니다.' });
+    } catch (error) {
+      openToast({ type: 'error', message: '알람을 삭제하지 못했습니다.' });
+    }
   };
 
   return (
