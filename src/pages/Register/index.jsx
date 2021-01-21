@@ -1,14 +1,12 @@
 import React from 'react';
-
-import RegisterFormBox from './RegisterFormBox';
-
+import RegisterForm from './RegisterForm';
 import '@assets/scss/LoginSignup.scss';
 
 function Register() {
   return (
     <div className="container container-layout">
       <section className="main-layout">
-        <RegisterFormBox />
+        <RegisterForm />
       </section>
       <section className="image-box image-layout"></section>
     </div>

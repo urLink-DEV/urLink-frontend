@@ -1,14 +1,12 @@
 import React from 'react';
-
-import LoginFormBox from './LoginFormBox';
-
+import LoginForm from './LoginForm';
 import '@assets/scss/LoginSignup.scss';
 
 function Login() {
   return (
     <div className="container container-layout">
       <section className="main-layout">
-        <LoginFormBox />
+        <LoginForm />
       </section>
       <section className="image-box image-layout"></section>
     </div>

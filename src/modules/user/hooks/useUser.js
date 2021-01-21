@@ -1,16 +1,6 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import {
-  userRead,
-  userGloginThunk,
-  userGregisterThunk,
-  userRegisterThunk,
-  userLoginThunk,
-  userLogoutThunk,
-  userRemoveThunk,
-  userSelector,
-} from '@modules/user';
+import { userRead, userSelector } from '@modules/user';
 
 export function useUserData() {
   const dispatch = useDispatch();
@@ -30,40 +20,3 @@ export function useUserData() {
 
   return { pending, error, data, reload };
 }
-
-export function useUser() {
-  const dispatch = useDispatch();
-
-  const gRegisterThunk = useCallback(() => {
-    return dispatch(userGregisterThunk());
-  }, [dispatch]);
-
-  const gloginThunk = useCallback(() => {
-    return dispatch(userGloginThunk());
-  }, [dispatch]);
-
-  const registerThunk = useCallback(
-    (formdata) => {
-      return dispatch(userRegisterThunk(formdata));
-    },
-    [dispatch]
-  );
-
-  const loginThunk = useCallback(
-    (formdata) => {
-      return dispatch(userLoginThunk(formdata));
-    },
-    [dispatch]
-  );
-
-  const logoutThunk = useCallback(() => {
-    return dispatch(userLogoutThunk());
-  }, [dispatch]);
-
-  const removeThunk = useCallback(() => {
-    return dispatch(userRemoveThunk());
-  }, [dispatch]);
-
-  return { gRegisterThunk, gloginThunk, registerThunk, loginThunk, logoutThunk, removeThunk };
-}
-

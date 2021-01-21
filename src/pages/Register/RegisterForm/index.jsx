@@ -1,11 +1,9 @@
 import React from 'react';
-
 import NregisterForm from './NregisterForm';
 import GregisterButton from './GregisterButton';
-
 import URLinkLogo from '@images/logo-urlink-full.png';
 
-function RegisterFormBox() {
+function RegisterForm() {
   return (
     <div className="box">
       <img className="logo-URLink" alt="urLink logo" src={URLinkLogo} />
@@ -19,4 +17,4 @@ function RegisterFormBox() {
   );
 }
 
-export default RegisterFormBox;
+export default RegisterForm;

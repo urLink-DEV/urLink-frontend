@@ -2,7 +2,6 @@ import React from 'react';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import ReactDOM from 'react-dom';
-import { ToastContainer } from 'react-toastify';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
@@ -16,7 +15,6 @@ import MomentUtils from '@date-io/moment';
 import App from './App';
 
 import './index.css';
-import 'react-toastify/dist/ReactToastify.css';
 
 import * as serviceWorker from './serviceWorker';
 import { rootReducer, rootSaga } from './modules';
@@ -53,7 +51,6 @@ ReactDOM.render(
         <MuiThemeProvider theme={theme}>
           <MuiPickersUtilsProvider utils={MomentUtils}>
             <App />
-            <ToastContainer />
           </MuiPickersUtilsProvider>
         </MuiThemeProvider>
       </StylesProvider>

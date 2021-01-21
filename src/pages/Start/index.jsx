@@ -1,11 +1,8 @@
 import React, { useRef } from 'react';
 import { Link } from 'react-chrome-extension-router';
 import Swiper from 'react-id-swiper';
-
 import Register from '@pages/Register';
-
 import useStyles from './style';
-
 import 'swiper/css/swiper.css';
 import '@assets/scss/swiper.scss';
 import mainLogo from '@images/mainLogo.png';

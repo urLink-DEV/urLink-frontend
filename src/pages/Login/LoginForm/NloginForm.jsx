@@ -1,15 +1,14 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-chrome-extension-router';
-import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-
 import { Button } from '@material-ui/core';
 import ValidationMessage from '@components/ValidationMessage';
 import Register from '@pages/Register';
-
-import { useUser } from '@modules/user';
+import { userLoginThunk } from '@modules/user';
+import { useToast } from '@modules/ui';
 
 const SCHEMA = yup.object().shape({
   email: yup.string().required('이메일은 필수 입력입니다.'),
@@ -17,7 +16,8 @@ const SCHEMA = yup.object().shape({
 });
 
 function NloginForm() {
-  const { loginThunk } = useUser();
+  const dispatch = useDispatch();
+  const { openToast } = useToast();
   const { register, handleSubmit, errors, formState } = useForm({
     defaultValues: {
       email: '',
@@ -29,10 +29,10 @@ function NloginForm() {
 
   const handleLogin = async (formData) => {
     try {
-      await loginThunk(formData);
+      await dispatch(userLoginThunk(formData));
       window.location.href = '/index.html';
     } catch (error) {
-      toast.error(error?.response?.data?.message || '네트워크 오류!!');
+      openToast({ type: 'error', message: error.response?.data?.message || '네트워크 오류!!' });
     }
   };
 

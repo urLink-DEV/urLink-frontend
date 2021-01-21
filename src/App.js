@@ -1,9 +1,7 @@
 import React from 'react';
 import { Router } from 'react-chrome-extension-router';
-
 import CategoryPage from './pages/category';
 import GetStartPage from './pages/Start';
-
 import { getAccessToken } from '@commons/http/auth';
 import Snackbar from '@components/Toast';
 import { useToast } from '@modules/ui';

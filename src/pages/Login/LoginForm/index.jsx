@@ -1,11 +1,9 @@
 import React from 'react';
-
 import NloginForm from './NloginForm';
 import GloginButton from './GloginButton';
-
 import URLinkLogo from '@images/logo-urlink-full.png';
 
-function LoginFormBox() {
+function LoginForm() {
   return (
     <div className="box">
       <img className="logo-URLink" alt="urLink logo" src={URLinkLogo} />
@@ -19,4 +17,4 @@ function LoginFormBox() {
   );
 }
 
-export default LoginFormBox;
+export default LoginForm;

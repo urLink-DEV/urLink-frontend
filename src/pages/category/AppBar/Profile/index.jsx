@@ -1,6 +1,5 @@
 import React from 'react';
-import { toast } from 'react-toastify';
-
+import { useDispatch } from 'react-redux';
 import {
   Typography,
   Grid,
@@ -12,38 +11,37 @@ import {
 } from '@material-ui/core';
 import { TermsModal, AlertModal } from '@components/modals';
 import useStyles from './style';
+import defaultProfileImg from '@images/logo/profileImg.png';
+import { useUserData, userRemoveThunk, userLogoutThunk } from '@modules/user';
+import { useDialog, useToast, MODAL_NAME } from '@modules/ui';
 
-import defaultProfileImg from '@images/logo/profileImg.png'
-
-import { useUser, useUserData } from '@modules/user';
-import { useDialog, MODAL_NAME } from '@modules/ui';
-
-function ProfileCard() {
+function Profile() {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const { data } = useUserData();
-  const { removeThunk, logoutThunk } = useUser();
   const { open: termsOpen, toggle: termsToggle, close: termsClose } = useDialog(
     MODAL_NAME.TERMS_MODAL
   );
   const { open: removUserOpen, toggle: removUserToggle, close: removUserClose } = useDialog(
     MODAL_NAME.REMOVE_USER_ALERT_MODAL
   );
+  const { openToast } = useToast();
 
   const handleLogout = async () => {
     try {
-      await logoutThunk();
+      await dispatch(userLogoutThunk());
       window.location.href = '/index.html';
     } catch (error) {
-      toast.error(error?.response?.data?.message || '네트워크 오류!!');
+      openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' });
     }
   };
 
   const handleRemoveUser = async () => {
     try {
-      await removeThunk();
+      await dispatch(userRemoveThunk());
       window.location.href = '/index.html';
     } catch (error) {
-      toast.error(error?.response?.data?.message || '네트워크 오류!!');
+      openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' });
     }
   };
 
@@ -82,7 +80,14 @@ function ProfileCard() {
           </Button>
         </CardActions>
       </Card>
-      {termsOpen && <TermsModal open={termsOpen} onClose={termsClose} onYesText="닫기" onYesClick={termsClose} />}
+      {termsOpen && (
+        <TermsModal
+          open={termsOpen}
+          onClose={termsClose}
+          onYesText="닫기"
+          onYesClick={termsClose}
+        />
+      )}
       {removUserOpen && (
         <AlertModal
           openBool={removUserOpen}
@@ -96,4 +101,4 @@ function ProfileCard() {
   );
 }
 
-export default ProfileCard;
+export default Profile;

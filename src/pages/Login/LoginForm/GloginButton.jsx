@@ -1,22 +1,21 @@
 import React from 'react';
-import { toast } from 'react-toastify';
-
+import { useDispatch } from 'react-redux';
 import Button from '@material-ui/core/Button';
-
 import LogoGoogle from '@images/logo-google.png';
-
-import { useUser } from '@modules/user';
+import { userGloginThunk } from '@modules/user';
+import { useToast } from '@modules/ui';
 
 function GloginButton() {
-  const { gloginThunk } = useUser();
+  const dispatch = useDispatch();
+  const { openToast } = useToast();
 
   const handleGoogleLogin = async (e) => {
     e.preventDefault();
     try {
-      await gloginThunk();
+      await dispatch(userGloginThunk());
       window.location.href = '/index.html';
     } catch (error) {
-      toast.error(error.response?.data?.message || '네트워크 오류!!');
+      openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' });
     }
   };
 

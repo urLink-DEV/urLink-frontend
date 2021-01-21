@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-chrome-extension-router';
-import { toast } from 'react-toastify';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-
 import { FormControlLabel, Button, Checkbox } from '@material-ui/core';
 import { TermsModal } from '@components/modals';
 import ValidationMessage from '@components/ValidationMessage';
 import Login from '@pages/Login';
-
-import { useUser } from '@modules/user';
+import { userRegisterThunk } from '@modules/user';
+import { useToast } from '@modules/ui';
 
 const SCHEMA = yup.object().shape({
   email: yup
@@ -35,7 +34,8 @@ const SCHEMA = yup.object().shape({
 });
 
 function NregisterForm() {
-  const {registerThunk} = useUser();
+  const disptach = useDispatch();
+  const { openToast } = useToast();
   const [registerModalOpen, setRegisterModalOpen] = useState(false);
   const { register, handleSubmit, setValue, errors, control, formState } = useForm({
     defaultValues: {
@@ -51,10 +51,10 @@ function NregisterForm() {
 
   const handleSignup = async (formData) => {
     try {
-      await registerThunk(formData);
+      await disptach(userRegisterThunk(formData));
       window.location.href = '/index.html';
     } catch (error) {
-      toast.error(error?.response?.data?.message || '네트워크 오류!!');
+      openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' });
     }
   };
 
