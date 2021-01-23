@@ -13,7 +13,7 @@ import { SERVER_TOKEN, SERVER_TOKEN_NOT_VALID, LOGIN_REQUIRED_VALID } from 'sett
  * * Header parameter name: Authorization
 */
 
-const axiosSetting = {
+export const axiosSetting = {
   scheme: 'http',
   host: '15.165.198.243',
   api: '/api/v1',
