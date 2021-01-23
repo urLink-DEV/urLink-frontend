@@ -14,7 +14,7 @@ import MomentUtils from '@date-io/moment';
 
 import App from './App';
 
-import './index.css';
+import '@assets/scss/font.scss';
 
 import * as serviceWorker from './serviceWorker';
 import { rootReducer, rootSaga } from './modules';
