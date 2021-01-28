@@ -7,6 +7,11 @@ export const openDialog = createAction(`${UI}/OPEN_DIALOG`);
 export const closeDialog = createAction(`${UI}/CLOSE_DIALOG`);
 export const closeAllDialogs = createAction(`${UI}/CLOSE_ALL_DIALOGS`);
 export const setToast = createAction(`${UI}/SET_TOAST`);
+export const openDropZone = createAction(`${UI}/OPEN_DROP_ZONE`);
+export const closeDropZone = createAction(`${UI}/CLOSE_DROP_ZONE`);
+export const closeAllDropZones = createAction(`${UI}/CLOSE_ALL_DROP_ZONES`);
+export const setDrag = createAction(`${UI}/SET_DRAG`);
+export const clearDrag = createAction(`${UI}/CLEAR_DRAG`);
 
 // Reducer
 const initialState = {
@@ -15,6 +20,12 @@ const initialState = {
     open: false,
     type: 'success',
     message: '',
+  },
+  dropZones: [],
+  drag: {
+    type: '',
+    status: '',
+    listData: [],
   },
 };
 export const uiReducer = createReducer(initialState, {
@@ -37,6 +48,28 @@ export const uiReducer = createReducer(initialState, {
   [setToast.type]: (state, { payload }) => {
     state.toast = { ...state.toast, ...payload };
   },
+  [openDropZone.type]: (state, { payload }) => {
+    if (!state.dropZones.find((dropZone) => dropZone.type === payload.type)) {
+      state.dropZones.push(payload);
+    }
+  },
+  [closeDropZone.type]: (state, { payload }) => {
+    state.dropZones = state.dropZones.filter((dropZone) => {
+      if (payload.meta?.key) {
+        return dropZone.meta?.key !== payload.meta?.key;
+      }
+      return dropZone.type !== payload.type;
+    });
+  },
+  [closeAllDropZones.type]: (state) => {
+    state.dropZones = initialState.dropZones;
+  },
+  [setDrag.type]: (state, { payload }) => {
+    state.drag = { ...state.drag, ...payload };
+  },
+  [clearDrag.type]: (state) => {
+    state.drag = initialState.drag;
+  },
 });
 
 // Select
@@ -49,4 +82,6 @@ const selectAllState = createSelector(
 export const uiSelector = {
   dialogs: (state) => selectAllState(state[UI].dialogs),
   toast: (state) => selectAllState(state[UI].toast),
+  dropZones: (state) => selectAllState(state[UI].dropZones),
+  drag: (state) => selectAllState(state[UI].drag),
 };
