@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     '& .Mui-focusVisible': {
       backgroundColor: 'transparent',
     },
-    '&:hover,  &:focus-within': {
+    '&:hover': {
       boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12)',
       '& > $buttonGroup': {
         visibility: 'inherit',
