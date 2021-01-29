@@ -1,18 +1,25 @@
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   title: {
     position: 'absolute',
-    marginRight: 10,
+
     width: 80,
-    backgroundColor: '#f6f6f6'
+    marginRight: 10,
+
+    backgroundColor:
+      theme.palette.type !== 'dark'
+        ? theme.palette.colorGroup.lightGrey
+        : theme.palette.background.default,
   },
-  line: { 
+  line: {
     display: 'inline-block',
+
     width: '100%',
     height: 1,
-    backgroundColor: '#ced4da'
-  }
-}))
+
+    backgroundColor: '#ced4da',
+  },
+}));
 
 export default useStyles

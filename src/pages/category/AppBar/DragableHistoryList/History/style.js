@@ -2,12 +2,14 @@ import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
-    backgroundColor: '#ffff',
-    boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.12)',
-    border: 'solid 1px rgba(32, 131, 255, 0)',
-    borderRadius: 4,
     margin: '13px 0',
     padding: 1,
+
+    border: 'solid 1px rgba(32, 131, 255, 0)',
+    borderRadius: 4,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.12)',
+    
     '& .Mui-focusVisible': {
       backgroundColor: 'transparent',
     },
@@ -38,25 +40,33 @@ const useStyles = makeStyles((theme) => ({
   mainFont: {
     display: 'inline-block',
     verticalAlign: 'bottom',
-    marginRight: 12,
-    width: 295,
-    whiteSpace: 'nowrap',
+    
     overflow: 'hidden',
-    textOverflow: 'ellipsis',
+
+    width: 295,
+    marginRight: 12,
+    
+    color: theme.palette.text.primary,
+
     fontSize: 14,
     letterSpacing: -0.44,
-    color: '#212529',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
   },
   subFont: {
     display: 'inline-block',
     verticalAlign: 'bottom',
-    width: 157,
-    whiteSpace: 'nowrap',
+    
     overflow: 'hidden',
-    textOverflow: 'ellipsis',
+    
+    width: 157,
+    
+    color: theme.palette.text.secondary,
+    
     fontSize: 14,
     letterSpacing: -0.6,
-    color: '#737b84',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
   },
   buttonGroup: {
     visibility: 'hidden',

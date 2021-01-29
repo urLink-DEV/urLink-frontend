@@ -21,6 +21,17 @@ import { rootReducer, rootSaga } from './modules';
 
 const theme = createMuiTheme({
   palette: {
+    colorGroup: {
+      battleshipGrey: '#737b84',
+      lightGrey: '#f6f6f6',
+      blueGrey: '#868e96',
+      paleGrey: '#f6f7f9',
+      salmon: '#ff6b6b',
+      greenBlue: '#00b381',
+    },
+    common:{
+      black: '#212529'
+    },
     primary: {
       main: '#2083ff',
     },
@@ -39,7 +50,7 @@ const sagaMiddleware = createSagaMiddleware({
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(sagaMiddleware, thunkMiddleware))
+  composeWithDevTools({ trace: true })(applyMiddleware(sagaMiddleware, thunkMiddleware))
 );
 
 sagaMiddleware.run(rootSaga);
