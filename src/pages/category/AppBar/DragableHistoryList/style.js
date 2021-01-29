@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
 
-    padding: '16px 16px 0 16px',
+    padding: '16px 16px 10px 16px',
   },
   mainText: {
     marginRight: 16,
