@@ -183,6 +183,7 @@
 						"@config": "./src/config.js",
 						"@assets": "./src/assets",
 						"@images": "./src/images",
+						"@hooks": "./src/hooks",
 						"@components": "./src/components",
 						"@pages": "./src/pages"
 					}

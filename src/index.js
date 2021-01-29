@@ -1,21 +1,18 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import thunkMiddleware from 'redux-thunk';
+import { createBrowserHistory } from 'history';
 import { createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { StylesProvider } from '@material-ui/core/styles';
+import thunkMiddleware from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { MuiThemeProvider, createMuiTheme, StylesProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
-
 import App from './App';
-
 import '@assets/scss/font.scss';
-
 import * as serviceWorker from './serviceWorker';
 import { rootReducer, rootSaga } from './modules';
 
@@ -29,8 +26,8 @@ const theme = createMuiTheme({
       salmon: '#ff6b6b',
       greenBlue: '#00b381',
     },
-    common:{
-      black: '#212529'
+    common: {
+      black: '#212529',
     },
     primary: {
       main: '#2083ff',
@@ -61,6 +58,7 @@ ReactDOM.render(
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={theme}>
           <MuiPickersUtilsProvider utils={MomentUtils}>
+            <CssBaseline />
             <App />
           </MuiPickersUtilsProvider>
         </MuiThemeProvider>
