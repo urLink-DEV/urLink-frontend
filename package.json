@@ -18,7 +18,7 @@
 		"@testing-library/user-event": "^7.1.2",
 		"@typescript-eslint/eslint-plugin": "^2.10.0",
 		"@typescript-eslint/parser": "^2.10.0",
-		"axios": "^0.19.2",
+		"axios": "^0.21.1",
 		"babel-eslint": "10.0.3",
 		"babel-jest": "^24.9.0",
 		"babel-loader": "8.0.6",
@@ -44,7 +44,7 @@
 		"history": "^4.10.1",
 		"html-webpack-plugin": "4.0.0-beta.11",
 		"identity-obj-proxy": "3.0.0",
-		"immer": "^8.0.0",
+		"immer": "^8.0.1",
 		"jest": "24.9.0",
 		"jest-environment-jsdom-fourteen": "1.0.1",
 		"jest-resolve": "24.9.0",
@@ -183,6 +183,7 @@
 						"@config": "./src/config.js",
 						"@assets": "./src/assets",
 						"@images": "./src/images",
+						"@hooks": "./src/hooks",
 						"@components": "./src/components",
 						"@pages": "./src/pages"
 					}

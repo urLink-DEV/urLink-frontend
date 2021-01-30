@@ -1,19 +1,16 @@
 import React from 'react';
-
+import { DialogTitle, Button } from '@material-ui/core';
 import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Button,
-} from '@material-ui/core';
-
+  StyledDialog,
+  StyledDialogContent,
+  StyledDialogContentText,
+  StyledDialogActions,
+} from '@components/modals/style';
 import textInfo from './textInfo';
 
 function TermsModal({ open, onClose, onYesClick, onYesText, onNoClick, onNoText }) {
   return (
-    <Dialog
+    <StyledDialog
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       maxWidth="xs"
@@ -23,13 +20,13 @@ function TermsModal({ open, onClose, onYesClick, onYesText, onNoClick, onNoText 
       <DialogTitle id="alert-dialog-title" style={{ fontWeight: 'bold' }}>
         이용 약관 동의
       </DialogTitle>
-      <DialogContent>
-        <DialogContentText
+      <StyledDialogContent>
+        <StyledDialogContentText
           id="alert-dialog-description"
           dangerouslySetInnerHTML={{ __html: textInfo }}
         />
-      </DialogContent>
-      <DialogActions>
+      </StyledDialogContent>
+      <StyledDialogActions>
         {onYesClick && (
           <Button onClick={onYesClick} color="primary" autoFocus style={{ fontWeight: 'bold' }}>
             {onYesText || '동의함'}
@@ -40,8 +37,8 @@ function TermsModal({ open, onClose, onYesClick, onYesText, onNoClick, onNoText 
             {onNoText || '동의안함'}
           </Button>
         )}
-      </DialogActions>
-    </Dialog>
+      </StyledDialogActions>
+    </StyledDialog>
   );
 }
 

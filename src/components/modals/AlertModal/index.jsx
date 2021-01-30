@@ -1,9 +1,12 @@
 import React from 'react';
-
-import { Dialog, DialogActions, DialogContent, DialogContentText, Button } from '@material-ui/core';
-
+import { Button } from '@material-ui/core';
+import {
+  StyledDialog,
+  StyledDialogContent,
+  StyledDialogContentText,
+  StyledDialogActions,
+} from '@components/modals/style';
 import useStyles from './style';
-
 import alertIcon from '@images/logo/group-2.svg';
 
 function AlertModal({
@@ -18,14 +21,14 @@ function AlertModal({
   const classes = useStyles();
 
   return (
-    <Dialog aria-describedby="alert-dialog-description" open={openBool} onClose={handleClose}>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description" className={classes.alertModal}>
+    <StyledDialog aria-describedby="alert-dialog-description" open={openBool} onClose={handleClose}>
+      <StyledDialogContent>
+        <StyledDialogContentText id="alert-dialog-description" className={classes.alertModal}>
           <img className={classes.alertIcon} src={alertIcon} alt="alert-icon"></img>
           {contentText}
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
+        </StyledDialogContentText>
+      </StyledDialogContent>
+      <StyledDialogActions>
         {handleYesClick && (
           <Button
             onClick={handleYesClick}
@@ -45,8 +48,8 @@ function AlertModal({
             {handleNoText || '취소'}
           </Button>
         )}
-      </DialogActions>
-    </Dialog>
+      </StyledDialogActions>
+    </StyledDialog>
   );
 }
 
