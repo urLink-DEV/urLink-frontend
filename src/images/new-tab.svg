@@ -1,40 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="19px" height="20px" viewBox="0 0 19 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>9C07AEDF-5B61-4D31-89E3-2B43FFE610B5</title>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="20" viewBox="0 0 18 20">
     <defs>
-        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
-            <stop stop-color="#FFFFFF" offset="0%"></stop>
-            <stop stop-color="#F6F7F9" offset="100%"></stop>
+        <linearGradient id="prefix__c" x1="50%" x2="50%" y1="0%" y2="100%">
+            <stop offset="0%" stop-color="#FFF"/>
+            <stop offset="100%" stop-color="#F6F7F9"/>
         </linearGradient>
-        <ellipse id="path-2" cx="8.12" cy="8.27272727" rx="8.12" ry="8.27272727"></ellipse>
-        <filter x="-12.3%" y="-6.0%" width="124.6%" height="124.2%" filterUnits="objectBoundingBox" id="filter-3">
-            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
-            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
-            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        <ellipse id="prefix__b" cx="8.12" cy="8.273" rx="8.12" ry="8.273"/>
+        <filter id="prefix__a" width="124.6%" height="124.2%" x="-12.3%" y="-6%" filterUnits="objectBoundingBox">
+            <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation=".5"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
         </filter>
-        <rect id="path-4" x="0" y="0" width="13.92" height="14.1818182"></rect>
+        <path id="prefix__d" d="M0 0H13.92V14.182H0z"/>
     </defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="컴포넌트-통합" transform="translate(-866.000000, -213.000000)">
-            <g id="Group-5" transform="translate(501.000000, 206.000000)">
-                <g id="button/small/link" transform="translate(366.000000, 7.727273)">
-                    <g id="Group">
-                        <g id="Oval">
-                            <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
-                            <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
-                        </g>
-                        <g id="icon/open" transform="translate(1.160000, 1.181818)">
-                            <mask id="mask-5" fill="white">
-                                <use xlink:href="#path-4"></use>
-                            </mask>
-                            <g id="Background"></g>
-                            <path d="M11.6,7.09090909 L11.6,9.71717172 C11.6,10.8775276 10.6767117,11.8181818 9.53777778,11.8181818 L4.38222222,11.8181818 C3.24328834,11.8181818 2.32,10.8775276 2.32,9.71717172 L2.32,4.46464646 C2.32,3.30429063 3.24328834,2.36363636 4.38222222,2.36363636 L6.96,2.36363636" id="Path" stroke="#212529" stroke-width="1.152" stroke-linecap="round" mask="url(#mask-5)"></path>
-                            <polyline id="Path" stroke="#212529" stroke-width="1.152" stroke-linecap="round" mask="url(#mask-5)" transform="translate(10.440000, 3.545455) rotate(-270.000000) translate(-10.440000, -3.545455) " points="9.25818182 4.70545455 9.25818182 2.38545455 11.6218182 2.38545455"></polyline>
-                            <line x1="5.24934275" y1="5.05128982" x2="12.7306573" y2="4.95217011" id="Path" stroke="#212529" stroke-width="1.152" stroke-linecap="round" mask="url(#mask-5)" transform="translate(8.990000, 5.001730) rotate(-45.000000) translate(-8.990000, -5.001730) "></line>
-                        </g>
-                    </g>
-                </g>
-            </g>
+    <g fill="none" fill-rule="evenodd" transform="translate(1 .727)">
+        <use fill="#000" filter="url(#prefix__a)" xlink:href="#prefix__b"/>
+        <use fill="url(#prefix__c)" xlink:href="#prefix__b"/>
+        <g transform="translate(1.16 1.182)">
+            <mask id="prefix__e" fill="#fff">
+                <use xlink:href="#prefix__d"/>
+            </mask>
+            <path stroke="#212529" stroke-linecap="round" stroke-width="1.152" d="M11.6 7.09v2.627c0 1.16-.923 2.101-2.062 2.101H4.382c-1.139 0-2.062-.94-2.062-2.1V4.464c0-1.16.923-2.101 2.062-2.101H6.96" mask="url(#prefix__e)"/>
+            <path stroke="#212529" stroke-linecap="round" stroke-width="1.152" d="M9.258 4.705L9.258 2.385 11.622 2.385" mask="url(#prefix__e)" transform="rotate(90 10.44 3.545)"/>
+            <path stroke="#212529" stroke-linecap="round" stroke-width="1.152" d="M5.249 5.051L12.731 4.952" mask="url(#prefix__e)" transform="rotate(-45 8.99 5.002)"/>
         </g>
     </g>
 </svg>

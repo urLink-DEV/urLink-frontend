@@ -1,6 +1,6 @@
-import { axios, api } from '../http'
-import queryData from '../queryData'
-import { getDashQueryParams } from '../quryParam'
+import { axios, api } from '../http/client'
+import queryData from '../http/queryData'
+import { getDashQueryParams } from '../http/quryParam'
 
 const categoryAPI = {
   get: (categoryInfo) => {

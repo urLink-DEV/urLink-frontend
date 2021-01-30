@@ -1,21 +1,22 @@
-import React, {useState, useEffect} from 'react'
-import auth from './commons/apis/auth'
-import CategoryPage from './pages/category/CategoryPage'
-import GetStartPage from './pages/GetStartPage'
+import React from 'react';
+import { Router } from 'react-chrome-extension-router';
+import CategoryPage from './pages/category';
+import GetStartPage from './pages/Start';
+import { getAccessToken } from '@commons/http/auth';
+import Snackbar from '@components/Toast';
+import { useToast } from '@modules/ui';
 
 function App() {
-  
-  const [user, setUser] = useState(false)
-
-  useEffect(() => {
-    auth.tokenCheck()
-      .then(res => { if (res) setUser(true) })
-      .catch(e => console.log(e))
-  }, [])
-
   return (
-    user ? <CategoryPage /> : <GetStartPage />
-  )
+    <>
+      <Router>{getAccessToken() ? <CategoryPage /> : <GetStartPage />}</Router>
+      <ToastContainer />
+    </>
+  );
 }
 
-export default App
+function ToastContainer() {
+  const { open, type, message, close } = useToast();
+  return <Snackbar open={open} type={type} message={message} close={close} />;
+}
+export default App;

@@ -1,0 +1,30 @@
+.swiper-container-c {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 700px !important;
+}
+.prev-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-weight: bold;
+  right: 10px;
+  left: auto;
+  top: auto;
+}
+.next-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-weight: bold;
+  right: auto;
+  left: 10px;
+  top: auto;
+}    
+.swiper-container-horizontal > .swiper-pagination-bullets {
+  bottom: 5px;
+}
+.swiper-pagination-bullet-active {
+  background-color: white;
+}

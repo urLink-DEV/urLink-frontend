@@ -1,5 +1,5 @@
-import { axios, api } from '../http'
-import queryData from '../queryData'
+import { axios, api } from '../http/client'
+import queryData from '../http/queryData'
 
 const userAPI = {
   get : (userInfo) => {
