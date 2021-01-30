@@ -49,15 +49,6 @@ $desktop: 'only screen and (min-width: 1025px)';
   }
 }
 
-::-webkit-scrollbar {
-  display: none;
-}
-
-* {
-  box-sizing: border-box;
-  font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', sans-serif;
-}
-
 /*-----------login && signup-----------*/
 
 $mainTextColor: #212529;

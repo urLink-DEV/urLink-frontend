@@ -36,6 +36,24 @@ const theme = createMuiTheme({
   typography: {
     fontFamily: ['"Spoqa Han Sans"', '"Spoqa Han Sans JP"', 'sans-serif'].join(','),
   },
+  overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        '::-webkit-scrollbar': {
+          display: 'none'
+        },
+        "*":{
+          // boxSizing: 'border-box',
+          fontFamily: "'Spoqa Han Sans', 'Spoqa Han Sans JP', sans-serif"
+        },
+        button: {
+          cursor: 'pointer',
+          outline: 0,
+          border: 'none'
+        }
+      },
+    },
+  },
 });
 
 const browserHistory = createBrowserHistory();
