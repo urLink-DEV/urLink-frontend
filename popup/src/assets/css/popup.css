@@ -1,0 +1,271 @@
+::-webkit-scrollbar { display: none; }
+/* popup body */
+body{
+  margin: 0px;
+  padding: 0px;
+}
+.popup-body {
+  position: relative;
+  width: 260px;
+  height: 410px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12);
+  background-color: #ffffff;
+}
+/* login-container */
+/* category-empty-contanier */
+.login-required-container, .category-empty-contanier {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 260px;
+  height: 234px;
+}
+.category-empty {
+  width: 260px;
+  height: 234px;
+}
+/* category */
+.category {
+  overflow: auto;
+  width: 260px;
+  height: 234px;
+  background-color: #fafafa;
+}
+.category .category-card {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  text-align: right;
+
+  margin: 16px 26px;
+  width: 208px;
+  height: 52px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+.category .category-card .category-card-text {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+
+  text-align: left;
+  font-family: SpoqaHanSans;
+  width: 110px;
+  height: 24px;
+  font-size: 14px;
+
+  padding: 12px 0px 12px 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: var(--maintext);
+
+}
+.category .category-card .tab-text {
+  font-family: SpoqaHanSans;
+  text-align: right;
+  width: 60px;
+  height: 18px;
+  font-size: 12px;
+
+  /* margin-left: 45px; */
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: var(--blue-grey);
+}
+/* category-upload-finish */
+.upload-finish { 
+  color: #fff;
+  background: linear-gradient(271deg, #e0f6ff, #2083ff); 
+  background-size: 100% 100%; 
+  -webkit-animation: CategoryFinishAnimate 17s ease infinite;
+  -moz-animation: CategoryFinishAnimate 17s ease infinite;
+  animation: CategoryFinishAnimate 17s ease infinite;
+}
+.upload-finish > .category-card-text {
+  color: #ffffff !important; 
+}
+@-webkit-keyframes CategoryFinishAnimate {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@-moz-keyframes CategoryFinishAnimate {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes CategoryFinishAnimate {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+/* category-card-check */
+.category-card.check {
+  width: 208px;
+  height: 52px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  border: solid 1px var(--maincolor);
+  background-color: #ffffff;
+}
+.category-card.check .category-card-text {
+  font-weight: bold;
+  color: var(--maincolor);
+}
+/* category-card, -check :hover */
+.category-card:hover {
+  width: 208px;
+  height: 52px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12);
+  background-color: #ffffff;
+}
+.category-card.check:hover {
+  width: 208px;
+  height: 52px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12);
+  border: solid 1px var(--maincolor);
+  background-color: #ffffff;
+}
+
+/* btn-group */
+.btn-group {
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.58px;
+  text-align: center;
+  color: var(--pale-grey);
+}
+/* link save Btn-active-none */
+.link-save-btn {
+  cursor: pointer;
+
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  margin: 17px;
+  width: 228px;
+  height: 40px;
+  border-radius: 1.8px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+  background-color: var(--blue-grey);
+}
+/* .link-save-btn .link-save-btn-text{
+  cursor: pointer;
+  width: 102px;
+  height: 20px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.58px;
+  text-align: center;
+  color: var(--pale-grey);
+} */
+/* link save Btn-active */
+.link-save-btn.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 17px;
+  width: 228px;
+  height: 40px;
+  border-radius: 1.8px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  color: var(--maintext);
+}
+/* urlLink open */
+.urlLink-open-btn {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  
+  margin: 17px;
+  width: 228px;
+  height: 40px;
+  border-radius: 1.8px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+  background-color: var(--maincolor);
+}
+.urlLink-open-btn .urlLink-open-btn-text{
+  padding: 14px;
+  width: 100%;
+  height: 20px;
+  color: #ffffff;
+}
+a.urlLink-open-btn-text:link { text-decoration: none;}
+a.urlLink-open-btn-text:visited { text-decoration: none;}
+a.urlLink-open-btn-text:hover { text-decoration: none;}
+/* logo */
+.center {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 17px;
+  margin-top: 23px;
+}
+.logo {
+  width: 92px;
+  height: 20px;
+  object-fit: contain;
+}
+/* category popup */
+.category-popup-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 234px;
+  z-index: 9999;
+  background-color: rgba(248, 207, 220, 0.2);
+}
+.category-popup {
+  display: flex;
+  width: 238px;
+  height: 44px;
+  border-radius: 4px;
+  box-shadow: 0 14px 28px 0 rgba(0, 0, 0, 0.15), 0 10px 10px 0 rgba(0, 0, 0, 0.12);
+  background-color: rgba(33, 37, 41, 0.85);
+}
+.category-popup-img {
+  margin: 10px;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+.category-popup-container .category-popup-text{
+  width: 190px;
+  height: 17px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.64px;
+  color: #ffffff;
+  margin-top: 11px;
+  padding: 0px;
+}
