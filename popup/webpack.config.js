@@ -5,7 +5,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  mode: 'production',
+  devServer: {
+    contentBase: path.join(__dirname, '/build'),
+    port: 9000,
+  },
   entry: './src/index.js',
   output: {
     filename: 'static/js/[name].[chunkhash].js',
@@ -28,7 +31,7 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: '',
+              publicPath: '../../',
             },
           },
           'css-loader',
@@ -40,7 +43,7 @@ module.exports = {
           loader: 'url-loader',
           options: {
             limit: 100000,
-            name: 'static/media/[name].[hash:8][ext]',
+            name: 'static/media/[name].[hash:8].[ext]',
           },
         },
       },
@@ -61,10 +64,6 @@ module.exports = {
       },
     ],
   },
-  devServer: {
-    contentBase: path.join(__dirname, '/build'),
-    port: 9000,
-  },
   resolve: {
     modules: ['node_modules'],
     extensions: ['.js', '.json', 'css'],
@@ -80,15 +79,28 @@ module.exports = {
     new webpack.ProgressPlugin(),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'static/css/index.css',
+      filename: 'static/css/[name].[contenthash:8].css',
+      chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
     }),
     new HtmlWebpackPlugin({
       minify: {
+        removeComments: true,
         collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true,
       },
       hash: true,
       template: './src/index.html',
       filename: 'popup.html',
     }),
   ],
+  // Turn off performance processing because we utilize
+  // our own hints via the FileSizeReporter
+  performance: false,
 };
