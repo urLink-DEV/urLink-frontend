@@ -19,7 +19,7 @@
   "web_accessible_resources": ["*.ttf", "*.woff2"],
   "browser_action": {
     "default_icon": "images/logo/logo16.png",
-    "default_popup": "popup.html"
+    "default_popup": "popup/popup.html"
   },
   "background" : {
     "scripts" : ["background.js"],
