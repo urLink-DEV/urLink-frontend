@@ -10,7 +10,11 @@ function Main({title}) {
   return (
     <>
       <LinkDropZone />
-      <Header title={title} />
+      <main className={classes.content}>
+        <div position="static">
+          <Header title={title} />
+        </div>
+      </main>
     </>
   )
 }

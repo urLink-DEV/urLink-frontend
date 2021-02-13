@@ -1,19 +1,4 @@
 import { fade, makeStyles } from '@material-ui/core/styles'
-import {withStyles} from '@material-ui/styles'
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
- 
-export const StyledToggleButtonGroup = withStyles((theme) => ({
-  grouped: {
-    margin: theme.spacing(0.5),
-    border: 'none',
-    '&:not(:first-child)': {
-      borderRadius: theme.shape.borderRadius,
-    },
-    '&:first-child': {
-      borderRadius: theme.shape.borderRadius,
-    },
-  },
-}))(ToggleButtonGroup)
 
 export const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,51 +10,16 @@ export const useStyles = makeStyles((theme) => ({
     height: '100vh',
     backgroundColor: '#fafafa',
   },
+  content: {
+    width: '100%',
+    padding: theme.spacing(3),
+    margin: '0 50px 0 0',
+  },
   imgCenter: {
     position: 'absolute',
     top: '50%',
     left: '55%',
     transform: 'translate(-45%, -55%)',
-  },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade('#2083ff', 0.75),
-    '&:hover': {
-      backgroundColor: fade('#2083ff', 0.5),
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto',
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'white',
-  },
-  inputRoot: {
-    color: 'white',
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
   },
   popover: {
     width: '220px',
