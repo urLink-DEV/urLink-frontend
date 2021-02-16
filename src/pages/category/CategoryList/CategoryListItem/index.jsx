@@ -44,8 +44,6 @@ export default function CategoryListItem(props) {
 
   return (
     <div key={id}>
-      <div className={classes.dragline} />
-
       <div
         onClick={handleClickCategory}
         className={
@@ -55,7 +53,9 @@ export default function CategoryListItem(props) {
         }
       >
         <Paper
-          className={classes.root + (dragFinished || historyDragFinished ? ' dragFinished' : '')}
+          className={
+            classes.root + (dragFinished || historyDragFinished ? ' ' + classes.dragFinished : '')
+          }
           component="div"
           id={id}
         >

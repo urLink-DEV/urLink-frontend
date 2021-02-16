@@ -78,12 +78,8 @@ const useStyles = makeStyles((theme) => ({
   },
   dragFinished: {
     position: 'relative',
-    div: {
-      '&first-child': {
-        color: '#fff !important',
-        fontWeight: 'bold',
-      },
-    },
+    color: '#fff !important',
+    fontWeight: 'bold',
 
     '&:before': {
       content: '',
@@ -97,10 +93,10 @@ const useStyles = makeStyles((theme) => ({
       zIndex: 0,
       opacity: 1,
       animationFillMode: 'none',
-      animation: 'dragFinished 0.7s ease-in-out forwards 1',
+      animation: `$dragFinished 0.7s ease-in-out forwards 1`,
       '&::-webkit-transform-origin': '100% 0%',
       '&::transform-origin': '100% 0%',
-      '&::-webkit-animation': 'dragFinished 0.7s ease-in-out forwards 1',
+      '&::-webkit-animation': `$dragFinished 0.7s ease-in-out forwards 1`,
     },
   },
   '@-webkit-keyframes dragFinished': {

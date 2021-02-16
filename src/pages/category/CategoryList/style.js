@@ -3,6 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 const drawerWidth = 260;
 
 export const useStyles = makeStyles((theme) => ({
+  logo: {
+    width: '50%',
+    margin: '30px 5px',
+  },
   drawer: {
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
@@ -50,7 +54,6 @@ export const useStyles = makeStyles((theme) => ({
   },
   layout: {
     width: 240,
-    marginTop: 72,
     backgroundColor: '#fff',
   },
   hr: {

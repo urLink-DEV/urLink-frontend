@@ -8,6 +8,7 @@ import List from '@material-ui/core/List';
 import CategoryHeader from './CategoryHeader';
 import CategoryListItem from './CategoryListItem';
 import CategoryButtonGroup from './CategoryButtonGroup';
+import urlinkLogo from '@images/logo-urlink-full.png';
 
 import { useStyles } from './style';
 import { useToast } from '@modules/ui';
@@ -48,21 +49,7 @@ export default function CategoryList(props) {
   let getCategory, writeCategory, updateCategory, deleteCategory;
   let getLink, writeLink, deleteLink;
 
-  const [draggedCategoryData, setDraggedCategoryData] = useState({
-    draggedCategory: '',
-    draggedId: 0,
-    draggedName: '',
-    draggedOrder: 0,
-    dragFinished: false,
-  });
-
-  const {
-    draggedCategory,
-    draggedId,
-    draggedName,
-    draggedOrder,
-    dragFinished,
-  } = draggedCategoryData;
+  const { draggedCategory, draggedId, draggedName, draggedOrder, dragFinished } = listData;
   const [overedTabOrder, setOveredTabOrder] = useState(0);
   const [overedTabFavorite, setOveredTabFavorite] = useState(null);
   const [overedTabId, setOveredTabId] = useState(0);
@@ -73,6 +60,7 @@ export default function CategoryList(props) {
 
   useEffect(() => {
     if (dragHistoryFinished) {
+      // 추후 link 모듈 적용
       // if (overedTabId === selectedCategory?.id) getLink({ category: selectedCategory?.id });
       (async function () {
         try {
@@ -87,7 +75,6 @@ export default function CategoryList(props) {
           openToast({ type: 'error', message: errorMsg });
         }
       })();
-      getCategory({}).then(() => {});
     }
 
     return () => clearTimeout(timeId.current);
@@ -119,13 +106,6 @@ export default function CategoryList(props) {
       draggedName: name,
       draggedOrder: order,
     });
-    // setDraggedCategoryData({
-    //   ...draggedCategoryData,
-    //   draggedCategory: target,
-    //   draggedId: id,
-    //   draggedName: name,
-    //   draggedOrder: order,
-    // });
 
     e.dataTransfer.setData('text/html', target);
     e.dataTransfer.setData('text/type', 'category');
@@ -140,26 +120,14 @@ export default function CategoryList(props) {
         await dispatch(categoryModifyThunk({ id, name, order, is_favorited: favorited }));
         await dispatch(categoriesReadThunk());
         setDragData({
-          ...listData,
           dragFinished: true,
         });
-        // setDraggedCategoryData({
-        //   ...draggedCategoryData,
-        //   dragFinished: true,
-        // });
+
         draggedCategory.style.opacity = 1;
 
         setTimeout(() => {
           clearDragData();
 
-          // setDraggedCategoryData({
-          //   ...draggedCategoryData,
-          //   draggedCategory: '',
-          //   draggedId: 0,
-          //   draggedName: '',
-          //   draggedOrder: 0,
-          //   dragFinished: false,
-          // });
           setOveredTabOrder(0);
           setOveredTabFavorite(null);
         }, 1000);
@@ -200,8 +168,9 @@ export default function CategoryList(props) {
   const drop = (e) => {
     e.stopPropagation();
     const type = e.dataTransfer.getData('text/type');
-    const filteredLinkList = [];
-    selectedLinkList.forEach((link) => filteredLinkList.push(link.path));
+    // 추후 link state 가져와서 적용
+    // const filteredLinkList = [];
+    // selectedLinkList.forEach((link) => filteredLinkList.push(link.path));
 
     if (type === 'category') {
       e.preventDefault();
@@ -215,9 +184,10 @@ export default function CategoryList(props) {
       }
     } else if (type === 'link') {
       e.preventDefault();
-      writeLink({ category: overedTabId, path: filteredLinkList }).then(() =>
-        setDragHistoryFinished(true)
-      );
+      // 추후 link 모듈 적용
+      // writeLink({ category: overedTabId, path: filteredLinkList }).then(() =>
+      //   setDragHistoryFinished(true)
+      // );
       setSelectedLinkList([]);
       setDraggedHistoryList([]);
     }
@@ -229,6 +199,7 @@ export default function CategoryList(props) {
         <Drawer classes={{ paper: classes.drawerPaper }} variant="permanent" open>
           <div>
             <div className={classes.layout}>
+              <img className={classes.logo} src={urlinkLogo} alt="URLink" />
               <CategoryHeader type="favorite" />
               {favoritedArr?.length !== 0 ? null : (
                 <FirstFavoriteDropZone
@@ -242,42 +213,45 @@ export default function CategoryList(props) {
               )}
               <List>
                 {favoritedArr?.map((data) => (
-                  <CategoryListItemWrapper
-                    className={
-                      classes.listItem +
-                      (data.id === selectedCategory?.id ? ' ' + classes.selected : '')
-                    }
-                    key={data.id}
-                    data-type="category"
-                    draggable="true"
-                    onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
-                    onDragEnd={(e) =>
-                      dragEnd(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)
-                    }
-                    onDragOver={(e) =>
-                      dragOver(
-                        e,
-                        data.id,
-                        draggedOrder < data.order ? data.order - 1 : data.order,
-                        data.is_favorited
-                      )
-                    }
-                    onDragLeave={dragLeave}
-                    onDrop={drop}
-                  >
-                    <CategoryListItem
-                      categoryData={data}
-                      selected={data.id === selectedCategory?.id}
-                      isEditTitle={isEditCategoryTitle}
-                      dragFinished={data.id === draggedId ? dragFinished : false}
-                      historyDragFinished={
-                        dragHistoryFinished && data.id === overedTabId ? true : null
+                  <>
+                    <div className={classes.dragline} />
+                    <CategoryListItemWrapper
+                      className={
+                        classes.listItem +
+                        (data.id === selectedCategory?.id ? ' ' + classes.selected : '')
                       }
-                      selectedCategoryTitle={
-                        isEditCategoryTitle ? editCategoryTitle : selectedCategory?.name
+                      key={data.id}
+                      data-type="category"
+                      draggable="true"
+                      onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
+                      onDragEnd={(e) =>
+                        dragEnd(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)
                       }
-                    />
-                  </CategoryListItemWrapper>
+                      onDragOver={(e) =>
+                        dragOver(
+                          e,
+                          data.id,
+                          draggedOrder < data.order ? data.order - 1 : data.order,
+                          data.is_favorited
+                        )
+                      }
+                      onDragLeave={dragLeave}
+                      onDrop={drop}
+                    >
+                      <CategoryListItem
+                        categoryData={data}
+                        selected={data.id === selectedCategory?.id}
+                        isEditTitle={isEditCategoryTitle}
+                        dragFinished={data.id === draggedId ? dragFinished : false}
+                        historyDragFinished={
+                          dragHistoryFinished && data.id === overedTabId ? true : null
+                        }
+                        selectedCategoryTitle={
+                          isEditCategoryTitle ? editCategoryTitle : selectedCategory?.name
+                        }
+                      />
+                    </CategoryListItemWrapper>
+                  </>
                 ))}
               </List>
               <CategoryHeader type="category" />
@@ -292,42 +266,45 @@ export default function CategoryList(props) {
               />
               <List>
                 {notFavoritedArr?.map((data) => (
-                  <CategoryListItemWrapper
-                    className={
-                      classes.listItem +
-                      (data.id === selectedCategory?.id ? ' ' + classes.selected : '')
-                    }
-                    key={data.id}
-                    data-type="category"
-                    draggable="true"
-                    onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
-                    onDragEnd={(e) =>
-                      dragEnd(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)
-                    }
-                    onDragOver={(e) =>
-                      dragOver(
-                        e,
-                        data.id,
-                        draggedOrder < data.order ? data.order - 1 : data.order,
-                        data.is_favorited
-                      )
-                    }
-                    onDragLeave={dragLeave}
-                    onDrop={drop}
-                  >
-                    <CategoryListItem
-                      categoryData={data}
-                      selected={data.id === selectedCategory?.id}
-                      isEditTitle={isEditCategoryTitle}
-                      dragFinished={data.id === draggedId ? dragFinished : false}
-                      historyDragFinished={
-                        dragHistoryFinished && data.id === overedTabId ? true : null
+                  <>
+                    <div className={classes.dragline} />
+                    <CategoryListItemWrapper
+                      className={
+                        classes.listItem +
+                        (data.id === selectedCategory?.id ? ' ' + classes.selected : '')
                       }
-                      selectedCategoryTitle={
-                        isEditCategoryTitle ? editCategoryTitle : selectedCategory?.name
+                      key={data.id}
+                      data-type="category"
+                      draggable="true"
+                      onDragStart={(e) => dragStart(e, data.id, data.name, data.order)}
+                      onDragEnd={(e) =>
+                        dragEnd(e, draggedId, draggedName, overedTabOrder, overedTabFavorite)
                       }
-                    />
-                  </CategoryListItemWrapper>
+                      onDragOver={(e) =>
+                        dragOver(
+                          e,
+                          data.id,
+                          draggedOrder < data.order ? data.order - 1 : data.order,
+                          data.is_favorited
+                        )
+                      }
+                      onDragLeave={dragLeave}
+                      onDrop={drop}
+                    >
+                      <CategoryListItem
+                        categoryData={data}
+                        selected={data.id === selectedCategory?.id}
+                        isEditTitle={isEditCategoryTitle}
+                        dragFinished={data.id === draggedId ? dragFinished : false}
+                        historyDragFinished={
+                          dragHistoryFinished && data.id === overedTabId ? true : null
+                        }
+                        selectedCategoryTitle={
+                          isEditCategoryTitle ? editCategoryTitle : selectedCategory?.name
+                        }
+                      />
+                    </CategoryListItemWrapper>
+                  </>
                 ))}
               </List>
             </div>
