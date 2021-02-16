@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import { getAccessToken, getRefreshToken, setAccessToken, removeAccessToken } from './auth';
-import queryData from './queryData';
+import queryFilter from './queryFilter';
+import { updateToken, queryInfoData } from '@modules/token';
 import { SERVER_TOKEN, SERVER_TOKEN_NOT_VALID, LOGIN_REQUIRED_VALID } from 'setting';
 
 /**
@@ -28,7 +29,7 @@ export const axiosSetting = {
     );
   },
   redirectPage: () => {
-    window.location.href = '/';
+    window.location.reload();
   },
 };
 
@@ -58,7 +59,6 @@ export const api = {
 
 export const axios = Axios.create({
   baseURL: axiosSetting.server(),
-  timeout: 40000,
 });
 
 // Add a request interceptor
@@ -78,8 +78,12 @@ axios.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (!error.response) {
-      error.response = { data: { message: '네트워크 연결이 끊어져 있습니다.' } };
+      error.response = {
+        data: { message: '네트워크 연결이 끊어져 있습니다.' },
+      };
     }
+    const UPDATE_TOKEN_API = queryInfoData['updateToken'].API;
+    const CHECK_TOKEN_API = queryInfoData['checkToken'].API;
 
     const status = error.response.status || '';
     const response = error.response.data || {};
@@ -90,38 +94,33 @@ axios.interceptors.response.use(
     if (
       status === 401 &&
       response.code === SERVER_TOKEN_NOT_VALID &&
-      url.indexOf(api.UPDATE_TOKEN) === -1 // UPDATE TOKEN 요청이 아닐 때
+      url.indexOf(UPDATE_TOKEN_API) === -1 // UPDATE TOKEN 요청이 아닐 때
     ) {
-      const refreshToken = getRefreshToken() || '';
-      const checkToken = queryData['checkToken'];
-      const updateToken = queryData['updateToken'];
+      try {
+        const refresh = getRefreshToken();
+        if (!refresh) throw new Error();
 
-      // token_not_valid => go login!!
-      if (!refreshToken) axiosSetting.redirectPage();
-      else updateToken.refresh = refreshToken;
-
-      return axios
-        .post(api.UPDATE_TOKEN, updateToken)
-        .then((response) => {
-          if (!response.data) throw new Error();
-          else {
-            setAccessToken(response.data); // 만료되지 않은 경우, accessToken re-setting
-            if (url.indexOf(api.CHECK_TOKEN) > -1) {
-              // 만약 이전에 보냈던 url이 TOKEN 검사 요청이었을 때
-              const accessToken = getAccessToken();
-              checkToken.token = accessToken;
-              originalRequest.data = checkToken; // 이전에 보냈던 data를 다시 세팅
-            }
-            return axios.request(originalRequest);
+        const response = await updateToken({ refresh });
+        if (!response.data) throw new Error();
+        else {
+          setAccessToken(response.data);
+          // 만약 이전에 보냈던 url이 TOKEN 검사 요청이었을 때
+          if (url.indexOf(CHECK_TOKEN_API) > -1) {
+            const token = getAccessToken();
+            const queryData = queryInfoData['updateToken'];
+            const checkToken = queryFilter({ queryData, originDataInfo: { token } });
+            originalRequest.data = checkToken;
           }
-        })
-        .catch(() => {
-          removeAccessToken(); // 만료된 경우, localStorage 삭제
-          axiosSetting.redirectPage(); // token_not_valid login => go login!!
-        });
+          return axios.request(originalRequest);
+        }
+      } catch (error) {
+        removeAccessToken();
+        axiosSetting.redirectPage(); // token_not_valid login => go login!!
+      }
     }
     // login 필수
     else if (status === 401 && response.detail?.indexOf(LOGIN_REQUIRED_VALID) > -1) {
+      removeAccessToken();
       axiosSetting.redirectPage(); // no authentication => go login!!
     }
     // 그 외는 서버에서 내리는 에러
