@@ -1,11 +1,18 @@
-import React from 'react'
-import CategoryContainer from '../../containers/category/CategoryContainer'
-import '@assets/scss/Category(deprecated).scss'
+import React from 'react';
+import { useStyles } from './style';
 
-export default function Category() {
+import CategoryAppBar from '@pages/category/AppBar';
+import CategoryList from '@pages/category/CategoryList';
+import Main from '@pages/category/Main';
+
+export default function CategoryDrawer(props) {
+  const classes = useStyles();
 
   return (
-    <CategoryContainer />
-  )
+    <div className={classes.root}>
+      <CategoryList />
+      <Main />
+      <CategoryAppBar />
+    </div>
+  );
 }
-
