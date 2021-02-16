@@ -18,7 +18,7 @@ export const useStyles = makeStyles((theme) => ({
     width: 208,
     height: 52,
     borderRadius: 4,
-    marginLeft: 15,
+    marginLeft: 5,
     marginTop: 10,
     boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)',
     backgroundColor: '#f1f3f5',
@@ -73,7 +73,7 @@ export const useStyles = makeStyles((theme) => ({
     justifyCntent: 'space-around',
     borderRadius: 4,
     paddingTop: 10,
-    marginLeft: 15,
+    marginLeft: 5,
     marginTop: 10,
     backgroundColor: '#ffffff',
     boxShadow:
