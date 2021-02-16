@@ -1,7 +1,7 @@
 import React from 'react';
 import LinkDropZone from './LinkDropZone';
-function Main() {
+function LinkList() {
   return <LinkDropZone />;
 }
 
-export default Main;
+export default LinkList;
