@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12)',
     },
-    margin: '10px 0',
+    margin: '10px auto',
     outline: 'none',
   },
   title: {

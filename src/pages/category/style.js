@@ -118,10 +118,6 @@ export const useStyles = makeStyles((theme) => ({
     '.MuiListItem-root': {
       width: 208,
     },
-    '.MuiListItem-gutters': {
-      padding: 0,
-      margin: '10px 0',
-    },
   },
 }));
 
