@@ -40,17 +40,17 @@ const theme = createMuiTheme({
     MuiCssBaseline: {
       '@global': {
         '::-webkit-scrollbar': {
-          display: 'none'
+          display: 'none',
         },
-        "*":{
+        '*': {
           // boxSizing: 'border-box',
-          fontFamily: "'Spoqa Han Sans', 'Spoqa Han Sans JP', sans-serif"
+          fontFamily: "'Spoqa Han Sans', 'Spoqa Han Sans JP', sans-serif",
         },
         button: {
           cursor: 'pointer',
           outline: 0,
-          border: 'none'
-        }
+          border: 'none',
+        },
       },
     },
   },

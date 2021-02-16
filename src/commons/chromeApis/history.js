@@ -19,9 +19,10 @@
  */
 export function getHistoryList({ text, startTime = 0, endTime = Date.now(), maxResults }) {
   return new Promise((resolve, _reject) => {
-    if (!chrome.history?.search) resolve(urlTempList);
+    const search = chrome.history?.search;
+    if (!search) resolve(urlTempList);
     else {
-      chrome.history.search({ text, startTime, endTime, maxResults }, (historyList) => {
+      search({ text, startTime, endTime, maxResults }, (historyList) => {
         historyList = historyList.filter(
           (history) => startTime <= history.lastVisitTime && history.lastVisitTime <= endTime
         );
@@ -150,4 +151,3 @@ const urlTempList = [
 ];
 
 export default historyAPI;
-
