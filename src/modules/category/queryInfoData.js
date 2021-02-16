@@ -15,7 +15,6 @@ const queryInfoData = {
    * * /category/
    * * Authorization: JWT 필요
    */
-
   categoryCreate: {
     API: 'category/',
     method: 'post',
@@ -26,13 +25,13 @@ const queryInfoData = {
   },
 
   /**
-   * * 카테고리 수정 PUT
-   * * /category/{categoryId}/
+   * * 카테고리 수정 PATCH
+   * * /category/{id}/
    * * Authorization: JWT 필요
    */
   categoryModify: {
-    API: 'category/{categoryId}/',
-    method: 'put',
+    API: 'category/{id}/',
+    method: 'patch',
     bodyQuery: {
       id: '',
       name: '',
@@ -40,27 +39,27 @@ const queryInfoData = {
       is_favorited: '',
     },
     urlQuery: {
-      categoryId: '',
+      id: '',
     },
-    replaceAPI({ categoryId }) {
-      return this.API.replace('{categoryId}/', categoryId ? `${categoryId}/` : '');
+    replaceAPI({ id }) {
+      return this.API.replace('{id}/', id ? `${id}/` : '');
     },
   },
 
   /**
    * * 카테고리 삭제 DELETE
-   * * /category/{categoryId}/
+   * * /category/{id}/
    * * Authorization: JWT 필요
    */
   categoryRemove: {
-    API: 'category/{categoryId}/',
+    API: 'category/{id}/',
     method: 'delete',
     bodyQuery: {},
     urlQuery: {
-      categoryId: '',
+      id: '',
     },
-    replaceAPI({ categoryId }) {
-      return this.API.replace('{categoryId}/', categoryId ? `${categoryId}/` : '');
+    replaceAPI({ id }) {
+      return this.API.replace('{id}/', id ? `${id}/` : '');
     },
   },
 };

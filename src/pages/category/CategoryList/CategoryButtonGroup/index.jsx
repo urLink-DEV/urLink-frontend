@@ -109,7 +109,7 @@ export default function CategoryButtonGroup() {
   const handleClickdDelete = async (e) => {
     try {
       e.stopPropagation();
-      await dispatch(categoryRemoveThunk({ categoryId: selectedCategory.id }));
+      await dispatch(categoryRemoveThunk({ id: selectedCategory.id }));
       openToast({ type: 'success', message: '선택하신 카테고리가 삭제되었습니다.' });
       deleteCategoryToggle();
       setDeleteOpen(false);
