@@ -78,26 +78,20 @@ const useStyles = makeStyles((theme) => ({
   },
   dragFinished: {
     position: 'relative',
-    color: '#fff !important',
     fontWeight: 'bold',
-
-    '&:before': {
-      content: '',
-      position: 'absolute',
-      backgroundImage: 'linear-gradient(271deg, #e0f6ff, #2083ff)',
-      borderRadius: '4px',
-      top: 0,
-      left: 0,
-      height: '100%',
-      width: '100%',
-      zIndex: 0,
-      opacity: 1,
-      animationFillMode: 'none',
-      animation: `$dragFinished 0.7s ease-in-out forwards 1`,
-      '&::-webkit-transform-origin': '100% 0%',
-      '&::transform-origin': '100% 0%',
-      '&::-webkit-animation': `$dragFinished 0.7s ease-in-out forwards 1`,
+    '& > :first-child': {
+      color: '#fff !important',
     },
+    '& > div > span': {
+      color: '#fff !important',
+    },
+    backgroundImage: 'linear-gradient(271deg, #e0f6ff, #2083ff)',
+    borderRadius: '4px',
+    animationFillMode: 'none',
+    animation: `$dragFinished 0.7s ease-in-out forwards 1`,
+    '&::-webkit-transform-origin': '100% 0%',
+    '&::transform-origin': '100% 0%',
+    '&::-webkit-animation': `$dragFinished 0.7s ease-in-out forwards 1`,
   },
   '@-webkit-keyframes dragFinished': {
     '0%': {
@@ -133,6 +127,21 @@ const useStyles = makeStyles((theme) => ({
       opacity: 0,
       width: 0,
     },
+    // '0%': {
+    //   width: 0,
+    // },
+    // '70%': {
+    //   width: '100%',
+    //   opacity: 1,
+    // },
+    // '90%': {
+    //   opacity: 0,
+    //   width: '100%',
+    // },
+    // '100%': {
+    //   opacity: 0,
+    //   width: 0,
+    // },
   },
 }));
 

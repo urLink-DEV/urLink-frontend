@@ -1,16 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 import useStyles from './style';
 import star from '@images/star.svg';
 
-import {
-  categorySelect,
-  selectSelectedCategory,
-  categoriesRead,
-  categoryCreateThunk,
-  categoryRemove,
-} from '@modules/category';
+import { categorySelect } from '@modules/category';
 
 export default function CategoryListItem(props) {
   const {
@@ -63,9 +57,11 @@ export default function CategoryListItem(props) {
             {categoryTitle}
           </div>
           <div className={classes.linkBox}>
-            <div className={classes.urlCountBox + (!is_favorited ? ' ' + classes.marginRight : '')}>
+            <span
+              className={classes.urlCountBox + (!is_favorited ? ' ' + classes.marginRight : '')}
+            >
               {url_count === 0 ? '링크 없음' : url_count + ' 링크'}
-            </div>
+            </span>
             {is_favorited ? (
               <img
                 draggable="false"

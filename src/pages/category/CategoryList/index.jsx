@@ -1,5 +1,5 @@
 /* global chrome */
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -12,15 +12,12 @@ import urlinkLogo from '@images/logo-urlink-full.png';
 
 import { useStyles } from './style';
 import { useToast } from '@modules/ui';
-import useDialog from '@modules/ui/hooks/useDialog';
-import { DROP_ZONE, DRAG, useDrag, useDropZone } from '@modules/ui';
+import { DRAG, useDrag } from '@modules/ui';
 
 import {
   useCategories,
-  categorySelect,
   selectSelectedCategory,
   categoriesReadThunk,
-  categoryCreateThunk,
   categoryModifyThunk,
 } from '@modules/category';
 
@@ -29,7 +26,7 @@ const { CATEGORY } = DRAG;
 export default function CategoryList(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { pending, error, categories, reload } = useCategories();
+  const { pending, error, categories } = useCategories();
   const { setDragData, clearDragData, listData } = useDrag(CATEGORY);
   const { openToast } = useToast();
 
@@ -38,7 +35,7 @@ export default function CategoryList(props) {
   const notFavoritedArr = categories?.filter((data) => data.is_favorited === false);
 
   const {
-    selectedLinkList,
+    // selectedLinkList,
     setSelectedLinkList,
     draggedHistoryList,
     setDraggedHistoryList,
@@ -46,8 +43,8 @@ export default function CategoryList(props) {
     editCategoryTitle,
   } = props;
 
-  let getCategory, writeCategory, updateCategory, deleteCategory;
-  let getLink, writeLink, deleteLink;
+  // let getCategory, writeCategory, updateCategory, deleteCategory;
+  // let getLink, writeLink, deleteLink;
 
   const { draggedCategory, draggedId, draggedName, draggedOrder, dragFinished } = listData;
   const [overedTabOrder, setOveredTabOrder] = useState(0);
@@ -120,6 +117,7 @@ export default function CategoryList(props) {
         await dispatch(categoryModifyThunk({ id, name, order, is_favorited: favorited }));
         await dispatch(categoriesReadThunk());
         setDragData({
+          ...listData,
           dragFinished: true,
         });
 
@@ -127,7 +125,6 @@ export default function CategoryList(props) {
 
         setTimeout(() => {
           clearDragData();
-
           setOveredTabOrder(0);
           setOveredTabFavorite(null);
         }, 1000);
