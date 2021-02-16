@@ -11,8 +11,8 @@
 /coverage
 
 # production
+/dist
 /build
-/public/popup
 
 # misc
 .DS_Store
