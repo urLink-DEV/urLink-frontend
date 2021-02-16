@@ -5,11 +5,12 @@ import GetStartPage from './pages/Start';
 import { getAccessToken } from '@commons/http/auth';
 import Snackbar from '@components/Toast';
 import { useToast } from '@modules/ui';
+import Category from '@pages/category';
 
 function App() {
   return (
     <>
-      <Router>{getAccessToken() ? <CategoryPage /> : <GetStartPage />}</Router>
+      <Router>{getAccessToken() ? <Category /> : <GetStartPage />}</Router>
       <ToastContainer />
     </>
   );
