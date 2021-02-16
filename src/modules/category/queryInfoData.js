@@ -31,9 +31,10 @@ const queryInfoData = {
    * * Authorization: JWT 필요
    */
   categoryModify: {
-    API: 'category/{userId}/',
+    API: 'category/{categoryId}/',
     method: 'put',
     bodyQuery: {
+      id: '',
       name: '',
       order: '',
       is_favorited: '',
@@ -54,6 +55,7 @@ const queryInfoData = {
   categoryRemove: {
     API: 'category/{categoryId}/',
     method: 'delete',
+    bodyQuery: {},
     urlQuery: {
       categoryId: '',
     },

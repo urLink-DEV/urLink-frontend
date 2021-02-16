@@ -1,4 +1,4 @@
-import { createReducer, createSelector } from '@reduxjs/toolkit';
+import { createReducer, createSelector, createAction } from '@reduxjs/toolkit';
 import { createRequestAction, createRequestThunk } from '../helpers';
 
 export const CATEGORY = 'CATEGORY';
@@ -15,23 +15,24 @@ export const categoryModifyThunk = createRequestThunk(categoryModify);
 export const categoryRemove = createRequestAction(`${CATEGORY}/REMOVE`);
 export const categoryRemoveThunk = createRequestThunk(categoryRemove);
 
+export const categorySelect = createAction(`${CATEGORY}/SELECT`);
+
 // Reducer
 const initialState = {
-  data: {},
+  data: [],
+  selectedCategory: {},
 };
+
 export const categoryReducer = createReducer(initialState, {
   [categoriesRead.SUCCESS]: (state, { payload }) => {
     state.data = payload;
   },
+  [categorySelect]: (state, { payload }) => {
+    state.selectedCategory = { ...state.selectedCategory, ...payload };
+  },
 });
 
 // Select
-const selectAllState = createSelector(
-  (state) => state,
-  (state) => {
-    return state;
-  }
-);
-export const categorySelector = {
-  data: (state) => selectAllState(state[CATEGORY].data),
-};
+
+export const selectCategories = (state) => state[CATEGORY].data;
+export const selectSelectedCategory = (state) => state[CATEGORY].selectedCategory;

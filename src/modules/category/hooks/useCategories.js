@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { categoriesRead, categorySelector } from '@modules/category';
+import { categoriesRead, selectCategories } from '@modules/category';
 
 export function useCategories() {
   const dispatch = useDispatch();
-  const categories = useSelector(categorySelector.data);
+  const categories = useSelector(selectCategories);
   const pending = useSelector((state) => state.pending[categoriesRead.TYPE]);
   const error = useSelector((state) => state.error[categoriesRead.TYPE]);
 

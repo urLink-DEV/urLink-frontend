@@ -4,17 +4,17 @@ import { categoriesRead, categoryCreate, categoryModify, categoryRemove } from '
 import * as api from './api';
 
 const watchCategoriesRead = createRequestSaga(categoriesRead, function* () {
-  const { data } = yield call(api.categoriesRead, null, null);
+  const { data } = yield call(api.categoriesRead);
   return data;
 });
 
 const watchCategoryCreate = createRequestSaga(categoryCreate, function* (action) {
-  const { data } = yield call(api.categoryCreate, action.payload, null);
+  const { data } = yield call(api.categoryCreate, action.payload);
   return data;
 });
 
 const watchCategoryModify = createRequestSaga(categoryModify, function* (action) {
-  const { data } = yield call(api.categoryModify, action.payload, null);
+  const { data } = yield call(api.categoryModify, action.payload);
   return data;
 });
 
