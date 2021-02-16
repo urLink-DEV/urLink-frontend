@@ -4,8 +4,8 @@ const drawerWidth = 260;
 
 export const useStyles = makeStyles((theme) => ({
   logo: {
-    width: '50%',
-    margin: '30px 5px',
+    width: 95,
+    margin: '28px 5px',
   },
   drawer: {
     [theme.breakpoints.up('sm')]: {
@@ -54,6 +54,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   layout: {
     width: 240,
+    margin: 'auto',
+    padding: '0 10px',
     backgroundColor: '#fff',
   },
   block: {
