@@ -4,13 +4,13 @@ import InputTitle from './InputTitle'
 import SearchBar from './SearchBar'
 import useStyles from './style'
 
-function Header({title}) {
+function Header() {
 
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <Toolbar container className={classes.toolbar}>
-      <InputTitle title={title} />
+      <InputTitle />
       <SearchBar />
     </Toolbar>
   )

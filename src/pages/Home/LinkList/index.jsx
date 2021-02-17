@@ -2,32 +2,33 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import LinkDropZone from './LinkDropZone'
 import Header from './Header'
-import Card from './Card'
+// import Card from './Card'
 import useStyles from './style'
 
-function Main({title}) {
+function Main() {
 
   const classes = useStyles();
-  const links = []
+  const links = [1, 2]
   
   return (
     <>
       <LinkDropZone />
       <main className={classes.content}>
         <div position="static">
-          <Header title={title} />
+          <Header />
         </div>
         <div container>
-          { 
+          {links}
+          {/* { 
             links.length ? links?.map((linkObj, idx) => 
               <Grid item key={idx} className={classes.gridCard}>
-                {/* <CategoryCard key={idx}
+                <CategoryCard key={idx}
                   linkInfo={linkObj}
                   handleSelectedCard={handleSelectedCard(linkObj)}
                   isReset={isReset}
                   setIsReset={setIsReset}
                   writeAlarm={writeAlarm}
-                /> */}
+                />
                 <Card />
               </Grid>) 
             : categories.length === 0 ? 
@@ -44,7 +45,7 @@ function Main({title}) {
               src={linkListEmptyIcon} 
               alt='link list empty'
             />
-          }
+          } */}
         </div>
       </main>
     </>
