@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { fork, all } from 'redux-saga/effects';
 import { pendingReducer } from './pending';
 import { errorReducer, errorSaga } from './error';
-import { categoryReducer, categorySaga } from './category';
+import { CATEGORY, categoryReducer, categorySaga } from './category';
 import { USER, userReducer, userSaga } from './user';
 import { HISTORY_LINK, historyLinkReducer, historyLinkSaga } from './historyLink';
 import { ALARM_NOTICE, alaramNoticeReducer, alarmNoticeSaga } from './alarmNotice';
@@ -12,7 +12,7 @@ import { UI, uiReducer } from './ui';
 export const rootReducer = combineReducers({
   pending: pendingReducer,
   error: errorReducer,
-  category: categoryReducer,
+  [CATEGORY]: categoryReducer,
   [USER]: userReducer,
   [HISTORY_LINK]: historyLinkReducer,
   [ALARM_NOTICE]: alaramNoticeReducer,

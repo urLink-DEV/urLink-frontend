@@ -7,8 +7,9 @@ export const DRAG = {
   DRAG_STATUS: 'drag',
   DROP_STATUS: 'drop',
   LINK: 'link',
+  CATEGORY: 'category',
 };
 
 export const DROP_ZONE = {
-  LINK_DROP_ZONE: 'LINK_DROP_ZONE'
+  LINK_DROP_ZONE: 'LINK_DROP_ZONE',
 };

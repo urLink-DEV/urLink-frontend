@@ -1,23 +1,23 @@
-import React from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { getCategories } from "@modules/category"
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { categoriesRead, selectCategories } from '@modules/category';
 
 export function useCategories() {
-	const dispatch = useDispatch()
-	const categories = useSelector((state) => state.category.categories)
-	const pending = useSelector((state) => state.pending[getCategories.TYPE])
-	const error = useSelector((state) => state.error[getCategories.TYPE])
+  const dispatch = useDispatch();
+  const categories = useSelector(selectCategories);
+  const pending = useSelector((state) => state.pending[categoriesRead.TYPE]);
+  const error = useSelector((state) => state.error[categoriesRead.TYPE]);
 
-	const reload = () => {
-		dispatch(getCategories.request())
-	}
+  const reload = () => {
+    dispatch(categoriesRead.request());
+  };
 
-	React.useEffect(() => {
-		// If not loaded yet
-		if (pending === undefined) {
-			dispatch(getCategories.request())
-		}
-	}, [dispatch, pending])
+  React.useEffect(() => {
+    // If not loaded yet
+    if (pending === undefined) {
+      dispatch(categoriesRead.request());
+    }
+  }, [dispatch, pending]);
 
-	return { pending, error, categories, reload }
+  return { pending, error, categories, reload };
 }

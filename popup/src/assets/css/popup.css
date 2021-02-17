@@ -109,7 +109,7 @@ body{
   100%{background-position:0% 50%}
 }
 /* category-card-check */
-a.category-card.check {
+.category-card.check {
   width: 208px;
   height: 52px;
   border-radius: 4px;
@@ -117,19 +117,19 @@ a.category-card.check {
   border: solid 1px var(--maincolor);
   background-color: #ffffff;
 }
-a.category-card.check .category-card-text {
+.category-card.check .category-card-text {
   font-weight: bold;
   color: var(--maincolor);
 }
 /* category-card, -check :hover */
-a.category-card:hover {
+.category-card:hover {
   width: 208px;
   height: 52px;
   border-radius: 4px;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12);
   background-color: #ffffff;
 }
-a.category-card.check:hover {
+.category-card.check:hover {
   width: 208px;
   height: 52px;
   border-radius: 4px;
