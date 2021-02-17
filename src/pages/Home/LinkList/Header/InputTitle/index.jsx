@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
-  categorySelect, 
-  selectSelectedCategory, 
-  categoryModifyThunk 
+  categoriesRead,
+  categorySelect,
+  selectSelectedCategory,
+  categoryModifyThunk,
 } from '@modules/category'
 import InputBase from '@material-ui/core/InputBase'
 import IconButton from '@material-ui/core/IconButton'
@@ -18,6 +19,12 @@ function InputTitle() {
   const [categoryTitle, setCategoryTitle] = useState('')
   const [isModified, setIsModified] = useState(false)
   
+  useEffect(() => {
+    if (selectedCategory?.name) {
+      setCategoryTitle(selectedCategory.name)
+    }
+  }, [selectedCategory])
+
   const handleChangeCategoryTitle = e => {
     let checks = /[a-zA-Z]/
     if(checks.test(e.target.value)) {
@@ -33,11 +40,17 @@ function InputTitle() {
   const handleKeyupModifyCategoryTitle = async e => {
     if (e.keyCode === 13) {
       const response = await dispatch(
-        categoryModifyThunk({ name: categoryTitle })
-      );
-      dispatch(categorySelect({ ...response.data }))
+        categoryModifyThunk({ 
+          name: categoryTitle, 
+          id: selectedCategory?.id, 
+          order: selectedCategory?.order, 
+          is_favorited: selectedCategory?.isFavorited 
+        })
+      )
+      console.log(response)
+      dispatch(categorySelect({ ...response }))
+      dispatch(categoriesRead.request());
       setIsModified(false)
-      // dispatch(categoriesRead.request());
     }
   }
   const handleClickModifyBtn = e => {
