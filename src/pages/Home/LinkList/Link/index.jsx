@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react'
+import { useDispatch } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -11,17 +12,16 @@ import AddAlertIcon from '@material-ui/icons/AddAlert'
 import CreateIcon from '@material-ui/icons/Create'
 import DoneIcon from '@material-ui/icons/Done'
 import Typography from '@material-ui/core/Typography'
-import useStyles, { DatePickerWithStyles } from './styles/CategoryCard'
-import newTab from '../../images/new-tab.svg'
-import Snackbar from '../Snackbar'
+import useStyles, { DatePickerWithStyles } from './style'
+import newTab from '@images/new-tab.svg'
+import Snackbar from '@components/Snackbar'
 import InputBase from '@material-ui/core/InputBase'
-import useOutsideAlerter from '../../hooks/useOutsideAlerter'
-import {useLinkDispatch} from '../../containers/category/CategoryContainer'
-import CopyIcon from '../../images/link-icon.png'
+import useOutsideAlerter from '@hooks/useOutsideAlerter'
+import CopyIcon from '@images/link-icon.png'
 
-export default function CategoryCard(props) {
+function Link(props) {
   const classes = useStyles()
-  const {updateLink} = useLinkDispatch()
+  const dispatch = useDispatch()
   const {handleSelectedCard, isReset, setIsReset, writeAlarm} = props
   const {id, category, path, image_path, title, description, is_favorited, has_alarms, key} = props.linkInfo
   const [hover, setHover] = useState(false)
@@ -68,7 +68,7 @@ export default function CategoryCard(props) {
 
   const handleClickFavorite = e => {
     setIsReset(true)
-    updateLink({id, category, is_favorited: !Boolean(is_favorited)})
+    // updateLink({id, category, is_favorited: !Boolean(is_favorited)})
   }
 
   const handleClickCopy = e => {
@@ -122,7 +122,7 @@ export default function CategoryCard(props) {
   }
 
   const handleClickEditDone = e => {
-    updateLink({id, category, title: editableTitle, description: editableDesc})
+    // updateLink({id, category, title: editableTitle, description: editableDesc})
     setIsEditable(false)
   }
 
@@ -242,3 +242,5 @@ export default function CategoryCard(props) {
     </div>
   )
 }
+
+export default Link

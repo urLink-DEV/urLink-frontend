@@ -2,7 +2,7 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import LinkDropZone from './LinkDropZone'
 import Header from './Header'
-// import Card from './Card'
+import Link from './Link'
 import useStyles from './style'
 
 function Main() {
@@ -18,7 +18,7 @@ function Main() {
           <Header />
         </div>
         <div container>
-          {links}
+          <Link />
           {/* { 
             links.length ? links?.map((linkObj, idx) => 
               <Grid item key={idx} className={classes.gridCard}>
