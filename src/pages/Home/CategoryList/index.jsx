@@ -29,7 +29,6 @@ export default function CategoryList(props) {
   const { pending, error, categories } = useCategories();
   const { setDragData, clearDragData, listData } = useDrag(CATEGORY);
   const { openToast } = useToast();
-
   const selectedCategory = useSelector(selectSelectedCategory);
   const favoritedArr = categories?.filter((data) => data.is_favorited === true);
   const notFavoritedArr = categories?.filter((data) => data.is_favorited === false);
