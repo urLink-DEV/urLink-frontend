@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import clsx from 'clsx'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
@@ -211,10 +212,9 @@ export default function CategoryList(props) {
                     <>
                       <div className={classes.dragline} />
                       <CategoryItemWrapper
-                        className={
-                          classes.listItem +
-                          (data.id === selectedCategory?.id ? ' ' + classes.selected : '')
-                        }
+                        className={clsx(classes.listItem, {
+                          [classes.selected]: Boolean(data.id === selectedCategory?.id),
+                        })}
                         key={data.id}
                         data-type="category"
                         draggable="true"
@@ -264,10 +264,9 @@ export default function CategoryList(props) {
                     <>
                       <div className={classes.dragline} />
                       <CategoryItemWrapper
-                        className={
-                          classes.listItem +
-                          (data.id === selectedCategory?.id ? ' ' + classes.selected : '')
-                        }
+                        className={clsx(classes.listItem, {
+                          [classes.selected]: Boolean(data.id === selectedCategory?.id),
+                        })}
                         key={data.id}
                         data-type="category"
                         draggable="true"
