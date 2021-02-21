@@ -1,9 +1,8 @@
-/* global chrome */
-import React from 'react';
-import { useStyles } from './style';
+import React from 'react'
+import { useStyles } from './style'
 
 export default function CategoryHeader({ type }) {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <div className={type === 'favorite' ? classes.favoriteHeader : classes.categoryHeader}>
@@ -12,5 +11,5 @@ export default function CategoryHeader({ type }) {
       </div>
       <hr className={classes.hr} />
     </div>
-  );
+  )
 }

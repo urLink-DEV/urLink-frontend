@@ -1,159 +1,151 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Button from '@material-ui/core/Button';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
-import { AlertModal } from '@components/modals';
-import useEventListener from '@hooks/useEventListener';
-import { useStyles } from './style';
-import { useToast } from '@modules/ui';
+import React, { useState, useCallback, useEffect } from 'react'
+import clsx from 'clsx'
+import { useDispatch, useSelector } from 'react-redux'
+import Button from '@material-ui/core/Button'
+import DeleteIcon from '@material-ui/icons/Delete'
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
+import Paper from '@material-ui/core/Paper'
+import InputBase from '@material-ui/core/InputBase'
+import { AlertModal } from '@components/modals'
+import useEventListener from '@hooks/useEventListener'
+import { useStyles } from './style'
+import { useDialog, useToast, MODAL_NAME } from '@modules/ui'
 
-import useDialog from '@modules/ui/hooks/useDialog';
 import {
   categorySelect,
   selectSelectedCategory,
   categoriesRead,
-  categoriesReadThunk,
   categoryCreateThunk,
   categoryRemoveThunk,
-} from '@modules/category';
+} from '@modules/category'
+
+const BUTTON_STATE = {
+  addOpen: 'addOpen',
+  deleteOpen: 'deleteOpen',
+  addInput: 'addInput',
+}
 
 export default function CategoryButtonGroup() {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const { openToast } = useToast();
-  const selectedCategory = useSelector(selectSelectedCategory);
+  const classes = useStyles()
+  const dispatch = useDispatch()
+  const { openToast } = useToast()
+  const selectedCategory = useSelector(selectSelectedCategory)
 
-  const [addOpen, setAddOpen] = useState(true);
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const [enterOpen, setEnterOpen] = useState(false);
-  const [newCategoryTitle, setNewCategoryTitle] = useState('');
+  const [buttonState, setButtonState] = useState(BUTTON_STATE.addOpen)
+  const [categoryName, setCategoryName] = useState('')
 
   const {
     open: deleteCategoryOpen,
     toggle: deleteCategoryToggle,
     close: deleteCategoryClose,
-  } = useDialog('delete category dialog');
+  } = useDialog(MODAL_NAME.DELETE_CATEGORY_ALERT_MODAL)
 
   const handleClickChangeToAddBtn = useCallback(() => {
-    setAddOpen(true);
-    setDeleteOpen(false);
-    setEnterOpen(false);
-    return;
-  }, [setAddOpen, setDeleteOpen, setEnterOpen]);
+    setButtonState(BUTTON_STATE.addOpen)
+  }, [])
 
-  useEventListener('click', handleClickChangeToAddBtn);
+  useEventListener('click', handleClickChangeToAddBtn)
 
   const handleClickOpenEnterTab = (e) => {
-    e.stopPropagation();
-    setAddOpen(false);
-    setEnterOpen(true);
-  };
+    e.stopPropagation()
+    setButtonState(BUTTON_STATE.addInput)
+  }
 
   const handleClickAdd = async (e) => {
     try {
-      e.stopPropagation();
-      if (!newCategoryTitle) {
-        setAddOpen(true);
-        setEnterOpen(false);
-        setNewCategoryTitle('');
+      e.stopPropagation()
+      if (!categoryName) {
+        setButtonState(BUTTON_STATE.addOpen)
+        setCategoryName('')
       } else {
-        setAddOpen(true);
-        setEnterOpen(false);
+        setButtonState(BUTTON_STATE.addOpen)
         const response = await dispatch(
-          categoryCreateThunk({ name: newCategoryTitle, is_favorited: false })
-        );
-        dispatch(categorySelect({ ...response.data }));
-        setNewCategoryTitle('');
-        dispatch(categoriesRead.request());
+          categoryCreateThunk({ name: categoryName, is_favorited: false })
+        )
+        dispatch(categorySelect({ ...response.data }))
+        setCategoryName('')
+        dispatch(categoriesRead.request())
       }
     } catch (error) {
-      const errorMsg = error.hasOwnProperty('response')
-        ? error.response.data.message
-        : error.message;
-      openToast({ type: 'error', message: errorMsg });
+      openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
     }
-  };
+  }
 
   const handleChangeNewCategoryTitle = useCallback((e) => {
-    let checks = /[a-zA-Z]/;
+    let checks = /[a-zA-Z]/
     if (checks.test(e.target.value)) {
-      if (e.target.value.length >= 14) return;
-    } else if (e.target.value.length >= 7) return;
-    setNewCategoryTitle(e.target.value);
-  }, []);
+      if (e.target.value.length >= 14) return
+    } else if (e.target.value.length >= 7) return
+    setCategoryName(e.target.value)
+  }, [])
 
   const onKeyUpAddTab = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.keyCode === 13) {
-      handleClickAdd(e);
-    }
-  };
+    e.preventDefault()
+    e.stopPropagation()
+    if (e.keyCode === 13) handleClickAdd(e)
+  }
 
   const handleClickAddInput = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
+    e.preventDefault()
+    e.stopPropagation()
+  }
 
   const handleClickCancel = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setAddOpen(true);
-    setEnterOpen(false);
-    setNewCategoryTitle('');
-  };
+    e.preventDefault()
+    e.stopPropagation()
+    setButtonState(BUTTON_STATE.addOpen)
+    setCategoryName('')
+  }
 
   const handleClickdDelete = async (e) => {
     try {
-      e.stopPropagation();
-      await dispatch(categoryRemoveThunk({ id: selectedCategory.id }));
-      openToast({ type: 'success', message: '선택하신 카테고리가 삭제되었습니다.' });
-      deleteCategoryToggle();
-      setDeleteOpen(false);
-      setAddOpen(true);
-      const response = await dispatch(categoriesReadThunk());
-      dispatch(categorySelect({ ...response[0] }));
+      e.stopPropagation()
+      await dispatch(categoryRemoveThunk({ id: selectedCategory.id }))
+      openToast({ type: 'success', message: '선택하신 카테고리가 삭제되었습니다.' })
+      deleteCategoryToggle()
+      setButtonState(BUTTON_STATE.deleteOpen)
     } catch (error) {
-      const errorMsg = error.hasOwnProperty('response')
-        ? error.response.data.message
-        : error.message;
-      openToast({ type: 'error', message: errorMsg });
+      openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
     }
-  };
+  }
 
   useEffect(() => {
-    if (selectedCategory?.id) {
-      setAddOpen(false);
-      setDeleteOpen(true);
+    if (selectedCategory?.type === 'mount') {
+      setButtonState(BUTTON_STATE.addOpen)
+    } else {
+      setButtonState(BUTTON_STATE.deleteOpen)
     }
-  }, [selectedCategory]);
+  }, [selectedCategory])
 
   return (
     <>
       <Button
-        className={classes.addButton + (addOpen ? '' : ' ' + classes.hidden)}
+        className={clsx(classes.addButton, {
+          [classes.hidden]: buttonState !== BUTTON_STATE.addOpen,
+          [classes.block]: buttonState === BUTTON_STATE.addOpen,
+        })}
         variant="contained"
         onClick={handleClickOpenEnterTab}
       >
-        <AddCircleOutlineIcon style={{ color: '#cccccc' }} />
+        <AddCircleOutlineIcon className={classes.addCircleIcon} />
       </Button>
       <Button
-        className={classes.deleteButton + (deleteOpen ? ' ' + classes.block : '')}
+        className={clsx(classes.deleteButton, {
+          [classes.block]: buttonState === BUTTON_STATE.deleteOpen,
+          [classes.hidden]: buttonState !== BUTTON_STATE.deleteOpen,
+        })}
         variant="contained"
         onClick={deleteCategoryToggle}
       >
         <DeleteIcon style={{ color: '#cccccc' }} />
       </Button>
 
-      {enterOpen ? (
+      {buttonState === BUTTON_STATE.addInput && (
         <Paper className={classes.enterTab} component="div">
           <InputBase
             className={classes.input}
-            placeholder="New one"
-            value={newCategoryTitle}
+            placeholder="New Category"
+            value={categoryName}
             onChange={handleChangeNewCategoryTitle}
             onKeyUp={onKeyUpAddTab}
             onClick={handleClickAddInput}
@@ -165,7 +157,7 @@ export default function CategoryButtonGroup() {
             취소
           </Button>
         </Paper>
-      ) : null}
+      )}
 
       <AlertModal
         openBool={deleteCategoryOpen}
@@ -175,5 +167,5 @@ export default function CategoryButtonGroup() {
         handleYesClick={handleClickdDelete}
       />
     </>
-  );
+  )
 }

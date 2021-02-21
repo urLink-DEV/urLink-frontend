@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,14 +68,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     maxWidth: '40%',
   },
-  dragline: {
-    width: 208,
-    marginLeft: 15,
-    height: 2,
-    borderRadius: 2,
-    backgroundImage: 'linear-gradient(271deg, #e0f6ff, #2083ff)',
-    opacity: 0,
-  },
   dragFinished: {
     position: 'relative',
     fontWeight: 'bold',
@@ -143,6 +135,6 @@ const useStyles = makeStyles((theme) => ({
     //   width: 0,
     // },
   },
-}));
+}))
 
-export default useStyles;
+export default useStyles

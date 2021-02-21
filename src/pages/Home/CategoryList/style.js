@@ -1,6 +1,6 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 
-const drawerWidth = 260;
+const drawerWidth = 260
 
 export const useStyles = makeStyles((theme) => ({
   logo: {
@@ -46,11 +46,11 @@ export const useStyles = makeStyles((theme) => ({
   },
   dragline: {
     width: 208,
-    marginLeft: 15,
     height: 2,
     borderRadius: 2,
     backgroundImage: 'linear-gradient(271deg, #e0f6ff, #2083ff)',
     opacity: 0,
+    margin: 'auto',
   },
   layout: {
     width: 240,
@@ -86,4 +86,11 @@ export const useStyles = makeStyles((theme) => ({
     width: 50,
     height: 50,
   },
-}));
+  flexCenterBackground: {
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+}))

@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 
 export const useStyles = makeStyles((theme) => ({
   addButton: {
@@ -14,7 +14,6 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   deleteButton: {
-    display: 'none',
     width: 208,
     height: 52,
     borderRadius: 4,
@@ -40,7 +39,6 @@ export const useStyles = makeStyles((theme) => ({
     marginRight: 4,
     marginLeft: 4,
     backgroundColor: '#f1f3f5',
-    fontFamily: 'AppleSDGothicNeo',
     fontSize: 14,
   },
   okBtn: {
@@ -51,7 +49,6 @@ export const useStyles = makeStyles((theme) => ({
     padding: 0,
     minWidth: 0,
     color: '#fff',
-    fontFamily: 'SpoqaHanSans',
     fontSize: 12,
     '&:hover': {
       backgroundColor: '#2083ff',
@@ -63,7 +60,6 @@ export const useStyles = makeStyles((theme) => ({
     borderRadius: 4,
     padding: 0,
     minWidth: 0,
-    fontFamily: 'SpoqaHanSans',
     fontSize: 12,
   },
   enterTab: {
@@ -80,4 +76,7 @@ export const useStyles = makeStyles((theme) => ({
       ' 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)',
     border: 'solid 1px #2083ff',
   },
-}));
+  addCircleIcon: {
+    color: '#ccc',
+  },
+}))

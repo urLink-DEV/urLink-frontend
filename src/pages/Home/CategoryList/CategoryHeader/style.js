@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 
 export const useStyles = makeStyles((theme) => ({
   hr: {
@@ -13,13 +13,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   favoriteText: {
     height: 18,
-    fontFamily: 'SpoqaHanSans',
     fontSize: 12,
-    fontWeight: 'normal',
-    fontStretch: 'normal',
-    fontStyle: 'normal',
-    lineHeight: 'normal',
-    letterSpacing: 'normal',
     color: '#2083ff',
     display: 'inline-block',
   },
@@ -32,14 +26,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   categoryText: {
     height: '18px',
-    fontFamily: 'SpoqaHanSans',
     fontSize: '12px',
-    fontWeight: 'normal',
-    fontStretch: 'normal',
-    fontStyle: 'normal',
-    lineHeight: 'normal',
-    letterSpacing: 'normal',
     color: '#868e96',
     display: 'inline-block',
   },
-}));
+}))
