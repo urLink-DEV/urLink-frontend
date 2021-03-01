@@ -53,8 +53,9 @@ function CategoryList(props) {
   } = dragData
 
   const [dragHistoryFinished, setDragHistoryFinished] = useState(false)
-
   const timeId = useRef()
+
+  /* link 모듈 관련 내용 추후 수정
 
   useEffect(() => {
     if (dragHistoryFinished) {
@@ -74,6 +75,8 @@ function CategoryList(props) {
 
     return () => clearTimeout(timeId.current)
   }, [dragHistoryFinished])
+
+  */
 
   const handleDragOverFirstFavorite = useCallback(
     (e) => {

@@ -1,4 +1,4 @@
-import { createReducer, createSelector, createAction } from '@reduxjs/toolkit'
+import { createReducer, createAction } from '@reduxjs/toolkit'
 import { createRequestAction, createRequestThunk } from '../helpers'
 
 export const CATEGORY = 'CATEGORY'
