@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import clsx from 'clsx'
 import { useDispatch, useSelector } from 'react-redux'
 
 import ErrorIcon from '@material-ui/icons/Error'
@@ -264,6 +263,7 @@ function CategoryList(props) {
                 <List>
                   {favoritedArr?.map((data) => (
                     <CategoryItemWrapper
+                      key={data.id}
                       data={data}
                       handleDragFunctions={handleDragFunctions}
                       draggedOrder={draggedOrder}
@@ -296,6 +296,7 @@ function CategoryList(props) {
                 <List>
                   {notFavoritedArr?.map((data) => (
                     <CategoryItemWrapper
+                      key={data.id}
                       data={data}
                       handleDragFunctions={handleDragFunctions}
                       draggedOrder={draggedOrder}

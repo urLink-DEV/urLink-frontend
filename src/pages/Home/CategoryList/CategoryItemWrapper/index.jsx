@@ -12,7 +12,7 @@ function CategoryItemWrapper({ data, handleDragFunctions, draggedOrder, children
   } = handleDragFunctions
 
   return (
-    <React.Fragment key={data.id}>
+    <React.Fragment>
       <div className={classes.dragline} />
       <div
         data-type="category"
