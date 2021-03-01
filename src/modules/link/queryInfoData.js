@@ -5,14 +5,19 @@ const queryInfoData = {
    * * JWT 필요
    */
   linksRead: {
-    API: 'url/?category={categoryId}',
+    API: 'url/?category={categoryId}&path={path}&title={title}',
     method: 'get',
     bodyQuery: {},
     urlQuery: {
       categoryId: '',
+      path: '',
+      title: '',
     },
-    replaceAPI({ categoryId }) {
-      return this.API.replace('{categoryId}', categoryId ? `${categoryId}` : '')
+    replaceAPI({ categoryId, path, title }) {
+      if (!categoryId) return
+      return this.API.replace('{categoryId}', categoryId)
+        .replace('{path}', path || '')
+        .replace('{title}', title || '')
     },
   },
 
@@ -31,7 +36,8 @@ const queryInfoData = {
       categoryId: '',
     },
     replaceAPI({ categoryId }) {
-      return this.API.replace('{categoryId}', categoryId ? `${categoryId}` : '')
+      if (!categoryId) return
+      return this.API.replace('{categoryId}', categoryId)
     },
   },
 
@@ -41,15 +47,19 @@ const queryInfoData = {
    * * JWT 필요
    */
   linkModify: {
-    API: 'url/{urlId}',
+    API: 'url/{urlId}/',
     method: 'patch',
     bodyQuery: {
       title: '',
       description: '',
       is_favorited: '',
     },
+    urlQuery: {
+      urlId: '',
+    },
     replaceAPI({ urlId }) {
-      return this.API.replace('{urlId}', urlId ? `${urlId}` : '')
+      if (!urlId) return
+      return this.API.replace('{urlId}', urlId)
     },
   },
 
@@ -59,11 +69,15 @@ const queryInfoData = {
    * * JWT 필요
    */
   linkRemove: {
-    API: 'url/{urlId}',
+    API: 'url/{urlId}/',
     method: 'delete',
     bodyQuery: {},
+    urlQuery: {
+      urlId: '',
+    },
     replaceAPI({ urlId }) {
-      return this.API.replace('{urlId}', urlId ? `${urlId}` : '')
+      if (!urlId) return
+      return this.API.replace('{urlId}', urlId)
     },
   },
 }

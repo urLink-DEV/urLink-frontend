@@ -1,7 +1,6 @@
-import queryInfoData from './queryInfoData'
-
 import { axios } from '@commons/http/client'
 import queryFilter from '@commons/http/queryFilter'
+import queryInfoData from './queryInfoData'
 
 export const linksRead = (data = {}) => {
   const queryData = queryInfoData['linksRead']
