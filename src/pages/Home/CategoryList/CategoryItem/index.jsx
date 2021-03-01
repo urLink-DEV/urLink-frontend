@@ -7,7 +7,7 @@ import starImg from '@images/star.svg'
 
 import { categorySelect } from '@modules/category'
 
-export default function CategoryItem({
+function CategoryItem({
   data = {},
   selected = false,
   isEditTitle = false,
@@ -43,7 +43,7 @@ export default function CategoryItem({
         })}
       >
         <Paper
-          className={clsx(classes.root, {
+          className={clsx(classes.root, classes.paper, {
             [classes.dragFinished]: Boolean(dragFinished || historyDragFinished),
           })}
           component="div"
@@ -78,3 +78,5 @@ export default function CategoryItem({
     </div>
   )
 }
+
+export default CategoryItem

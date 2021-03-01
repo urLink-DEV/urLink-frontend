@@ -8,7 +8,7 @@ import Paper from '@material-ui/core/Paper'
 import InputBase from '@material-ui/core/InputBase'
 import { AlertModal } from '@components/modals'
 import useEventListener from '@hooks/useEventListener'
-import { useStyles } from './style'
+import useStyles from './style'
 import { useDialog, useToast, MODAL_NAME } from '@modules/ui'
 
 import {
@@ -25,7 +25,7 @@ const BUTTON_STATE = {
   addInput: 'addInput',
 }
 
-export default function CategoryButtonGroup() {
+function CategoryButtonGroup() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { openToast } = useToast()
@@ -169,3 +169,5 @@ export default function CategoryButtonGroup() {
     </>
   )
 }
+
+export default CategoryButtonGroup

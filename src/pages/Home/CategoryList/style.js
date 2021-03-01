@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const drawerWidth = 260
 
-export const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
   logo: {
     width: 95,
     margin: '28px 5px',
@@ -21,7 +21,7 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   firstFavoriteDropZone: {
-    width: '212px',
+    width: '208px',
     height: '52px',
     borderRadius: '4px',
     border: 'dashed 1px #ced4da',
@@ -34,7 +34,7 @@ export const useStyles = makeStyles((theme) => ({
     letterSpacing: 'normal',
     textAlign: 'center',
     color: '#868e96',
-    margin: '10px 15px',
+    margin: '10px auto',
   },
   hiddenFavoriteDropZone: {
     width: '212px',
@@ -43,14 +43,6 @@ export const useStyles = makeStyles((theme) => ({
   hiddenCategoryDropZone: {
     width: '212px',
     height: '100vh',
-  },
-  dragline: {
-    width: 208,
-    height: 2,
-    borderRadius: 2,
-    backgroundImage: 'linear-gradient(271deg, #e0f6ff, #2083ff)',
-    opacity: 0,
-    margin: 'auto',
   },
   layout: {
     width: 240,
@@ -94,3 +86,5 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
 }))
+
+export default useStyles

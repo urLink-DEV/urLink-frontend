@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles'
 
-export const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
   hr: {
     width: '70%',
     border: '1px solid #d6d6d6',
@@ -31,3 +31,5 @@ export const useStyles = makeStyles((theme) => ({
     display: 'inline-block',
   },
 }))
+
+export default useStyles

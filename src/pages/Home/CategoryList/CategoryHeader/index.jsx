@@ -1,7 +1,7 @@
 import React from 'react'
-import { useStyles } from './style'
+import useStyles from './style'
 
-export default function CategoryHeader({ type }) {
+function CategoryHeader({ type }) {
   const classes = useStyles()
 
   return (
@@ -13,3 +13,5 @@ export default function CategoryHeader({ type }) {
     </div>
   )
 }
+
+export default CategoryHeader

@@ -1,12 +1,12 @@
-import React from 'react';
-import { useStyles } from './style';
+import React from 'react'
+import useStyles from './style'
 
-import CategoryAppBar from '@pages/Home/AppBar';
-import CategoryList from '@pages/Home/CategoryList';
-import LinkList from '@pages/Home/LinkList';
+import CategoryAppBar from '@pages/Home/AppBar'
+import CategoryList from '@pages/Home/CategoryList'
+import LinkList from '@pages/Home/LinkList'
 
 export default function Home() {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <div className={classes.root}>
@@ -14,5 +14,5 @@ export default function Home() {
       <LinkList />
       <CategoryAppBar />
     </div>
-  );
+  )
 }

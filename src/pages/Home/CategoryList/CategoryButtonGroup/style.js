@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles'
 
-export const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
   addButton: {
     width: 208,
     height: 52,
@@ -80,3 +80,5 @@ export const useStyles = makeStyles((theme) => ({
     color: '#ccc',
   },
 }))
+
+export default useStyles
