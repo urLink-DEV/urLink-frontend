@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles'
+import { fade, makeStyles } from '@material-ui/core/styles'
 import {withStyles} from '@material-ui/styles'
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
  
@@ -26,10 +26,10 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: '#fafafa',
   },
   toolbar: {
-    height: 40,
+    flexGrow: 1,
   },
   content: {
-    flexGrow: 1,
+    width: '100%',
     padding: theme.spacing(3),
     margin: '0 50px 0 0',
   },
@@ -39,11 +39,11 @@ export const useStyles = makeStyles((theme) => ({
     left: '55%',
     transform: 'translate(-45%, -55%)',
   },
+  title: {
+    flexGrow: 1,
+  },
   mainFont: {
-    textAlign: 'left',
     backgroundColor: 'transparent',
-    width: '100%',
-    maxWidth: 180,
     height: '36px',
     fontFamily: 'SpoqaHanSans',
     fontSize: '20pt',
@@ -54,21 +54,61 @@ export const useStyles = makeStyles((theme) => ({
     letterSpacing: 'normal',
     color: '#000000'
   },
-  searchIcon: {
-    marginRight: 5,
+  // searchIcon: {
+  //   marginRight: 5,
+  // },
+  // searchBtnText: {
+  //   width: '34px',
+  //   height: '15px',
+  //   fontFamily: 'SpoqaHanSans',
+  //   fontSize: '12pt',
+  //   fontWeight: '300',
+  //   fontStretch: 'normal',
+  //   fontStyle: 'normal',
+  //   lineHeight: 'normal',
+  //   letterSpacing: 'normal',
+  //   textAlign: 'center',
+  //   color: '#868e96',
+  // },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade('#2083ff', 0.75),
+    '&:hover': {
+      backgroundColor: fade('#2083ff', 0.5),
+    },
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
+    },
   },
-  searchBtnText: {
-    width: '34px',
-    height: '15px',
-    fontFamily: 'SpoqaHanSans',
-    fontSize: '12pt',
-    fontWeight: '300',
-    fontStretch: 'normal',
-    fontStyle: 'normal',
-    lineHeight: 'normal',
-    letterSpacing: 'normal',
-    textAlign: 'center',
-    color: '#868e96',
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'white',
+  },
+  inputRoot: {
+    color: 'white',
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '12ch',
+      '&:focus': {
+        width: '20ch',
+      },
+    },
   },
   popover: {
     width: '220px',
@@ -97,9 +137,6 @@ export const useStyles = makeStyles((theme) => ({
   gridCard: {
     padding: 0,
     margin: 20,
-  },
-  settingsIcon: {
-    marginTop: 5,
   },
   '@global': {
     '.MuiFilledInput-inputMarginDense': {

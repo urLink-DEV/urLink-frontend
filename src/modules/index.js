@@ -3,6 +3,7 @@ import { fork, all } from 'redux-saga/effects';
 import { pendingReducer } from './pending';
 import { errorReducer, errorSaga } from './error';
 import { CATEGORY, categoryReducer, categorySaga } from './category';
+import { LINK, linkReducer, linkSaga } from './link';
 import { USER, userReducer, userSaga } from './user';
 import { HISTORY_LINK, historyLinkReducer, historyLinkSaga } from './historyLink';
 import { ALARM_NOTICE, alaramNoticeReducer, alarmNoticeSaga } from './alarmNotice';
@@ -13,6 +14,7 @@ export const rootReducer = combineReducers({
   pending: pendingReducer,
   error: errorReducer,
   [CATEGORY]: categoryReducer,
+  [LINK]: linkReducer,
   [USER]: userReducer,
   [HISTORY_LINK]: historyLinkReducer,
   [ALARM_NOTICE]: alaramNoticeReducer,
@@ -24,6 +26,7 @@ export function* rootSaga() {
   yield all([
     fork(errorSaga),
     fork(categorySaga),
+    fork(linkSaga),
     fork(userSaga),
     fork(historyLinkSaga),
     fork(alarmNoticeSaga),
