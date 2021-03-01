@@ -14,4 +14,4 @@ function CategoryHeader({ type }) {
   )
 }
 
-export default CategoryHeader
+export default React.memo(CategoryHeader)

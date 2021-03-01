@@ -36,4 +36,4 @@ function CategoryItemWrapper({ data, handleDragFunctions, draggedOrder, children
   )
 }
 
-export default CategoryItemWrapper
+export default React.memo(CategoryItemWrapper)

@@ -79,4 +79,4 @@ function CategoryItem({
   )
 }
 
-export default CategoryItem
+export default React.memo(CategoryItem)
