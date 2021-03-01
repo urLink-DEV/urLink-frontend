@@ -1,14 +1,19 @@
 const queryInfoData = {
-  
   /**
    * * Link 리스트 조회 GET
    * * url/?category={categoryId}&path={path}&title={title}
    * * JWT 필요
    */
-  linksRead: { 
-    API: 'url/',
+  linksRead: {
+    API: 'url/?category={categoryId}',
     method: 'get',
     bodyQuery: {},
+    urlQuery: {
+      categoryId: '',
+    },
+    replaceAPI({ categoryId }) {
+      return this.API.replace('{categoryId}', categoryId ? `${categoryId}` : '')
+    },
   },
 
   /**
@@ -26,7 +31,7 @@ const queryInfoData = {
       categoryId: '',
     },
     replaceAPI({ categoryId }) {
-      return this.API.replace('{categoryId}', categoryId ? `${categoryId}` : '');
+      return this.API.replace('{categoryId}', categoryId ? `${categoryId}` : '')
     },
   },
 
@@ -44,7 +49,7 @@ const queryInfoData = {
       is_favorited: '',
     },
     replaceAPI({ urlId }) {
-      return this.API.replace('{urlId}', urlId ? `${urlId}` : '');
+      return this.API.replace('{urlId}', urlId ? `${urlId}` : '')
     },
   },
 
@@ -53,14 +58,14 @@ const queryInfoData = {
    * * url/{urlId}/
    * * JWT 필요
    */
-  linkRemove: { 
+  linkRemove: {
     API: 'url/{urlId}',
     method: 'delete',
     bodyQuery: {},
     replaceAPI({ urlId }) {
-      return this.API.replace('{urlId}', urlId ? `${urlId}` : '');
+      return this.API.replace('{urlId}', urlId ? `${urlId}` : '')
     },
   },
-};
+}
 
 export default queryInfoData
