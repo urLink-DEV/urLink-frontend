@@ -4,6 +4,7 @@ import { pendingReducer } from './pending';
 import { errorReducer, errorSaga } from './error';
 import { CATEGORY, categoryReducer, categorySaga } from './category';
 import { LINK, linkReducer, linkSaga } from './link';
+import { ALARM, alarmReducer, alarmSaga } from './alarm'
 import { USER, userReducer, userSaga } from './user';
 import { HISTORY_LINK, historyLinkReducer, historyLinkSaga } from './historyLink';
 import { ALARM_NOTICE, alaramNoticeReducer, alarmNoticeSaga } from './alarmNotice';
@@ -15,6 +16,7 @@ export const rootReducer = combineReducers({
   error: errorReducer,
   [CATEGORY]: categoryReducer,
   [LINK]: linkReducer,
+  [ALARM]: alarmReducer,
   [USER]: userReducer,
   [HISTORY_LINK]: historyLinkReducer,
   [ALARM_NOTICE]: alaramNoticeReducer,
@@ -27,6 +29,7 @@ export function* rootSaga() {
     fork(errorSaga),
     fork(categorySaga),
     fork(linkSaga),
+    fork(alarmSaga),
     fork(userSaga),
     fork(historyLinkSaga),
     fork(alarmNoticeSaga),

@@ -15,18 +15,24 @@ export const linkRemove = createRequestAction(`${LINK}/REMOVE`)
 export const linkRemoveThunk = createRequestThunk(linkRemove)
 
 export const linkSelect = createAction(`${LINK}/SELECT`)
+export const linkCancleSelect = createAction(`${LINK}/CANCLE_SELECT`)
 
 // Reducer
 const initialState = {
   listData: [],
-  selectedLink: {},
+  selectedLink: [],
 }
 export const linkReducer = createReducer(initialState, {
   [linksRead.SUCCESS]: (state, { payload }) => {
     state.listData = payload
   },
-  [linkSelect]: (state, { payload }) => {
-    state.selectedLink = { ...state.selectedLink, ...payload }
+  [linkSelect]: (state, { payload: linkId }) => {
+    if (!state.selectedLink.find((id) => id === linkId)) {
+      state.selectedLink.push(linkId)
+    }
+  },
+  [linkCancleSelect]: (state, { payload: linkId }) => {
+    state.selectedLink.filter((id) => id !== linkId)
   },
 })
 

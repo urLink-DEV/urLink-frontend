@@ -1,23 +1,22 @@
-import React from 'react'
+import { useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { linksRead, selectLinks } from '@modules/link'
+import { linksRead, linkSelector } from '@modules/link'
 
-export function useLinks({ categoryId }) {
+export function useLinks({categoryId}) {
   const dispatch = useDispatch()
-  const links = useSelector(selectLinks)
+  const links = useSelector(linkSelector.listData)
   const pending = useSelector((state) => state.pending[linksRead.TYPE])
   const error = useSelector((state) => state.error[linksRead.TYPE])
 
-  const reload = () => {
+  const reload = useCallback(() => {
     dispatch(linksRead.request({ categoryId }))
-  }
+  }, [dispatch, categoryId])
 
-  React.useEffect(() => {
-    // If not loaded yet
-    if (pending === undefined && categoryId) {
+  useEffect(() => {
+    if (categoryId) {
       dispatch(linksRead.request({ categoryId }))
     }
-  }, [dispatch, pending, categoryId])
+  }, [dispatch, categoryId])
 
   return { pending, error, links, reload }
 }
