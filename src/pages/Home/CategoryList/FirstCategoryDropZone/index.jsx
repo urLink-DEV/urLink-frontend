@@ -10,7 +10,7 @@ function FirstCategoryDropZone({ notFavoritedArr, handleDragFunctions }) {
       className={!notFavoritedArr?.length ? classes.hiddenCategoryDropZone : classes.hidden}
       data-dropzone="first-cateogory-dropzone"
       onDragOver={handleDragOverFirstCategory}
-      onDrop={handleDragDrop}
+      onDrop={handleDragDrop()}
     />
   )
 }

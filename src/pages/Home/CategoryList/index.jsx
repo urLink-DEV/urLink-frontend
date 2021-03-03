@@ -109,7 +109,7 @@ function CategoryList(props) {
   )
 
   const handleDragStart = useCallback(
-    (e, id, name, order) => {
+    (id, name, order) => (e) => {
       e.stopPropagation()
       const target = e.currentTarget
       if (!target) return
@@ -126,7 +126,7 @@ function CategoryList(props) {
   )
 
   const handleDragOver = useCallback(
-    (e, id, order, favorited) => {
+    (id, order, favorited, ref) => (e) => {
       e.preventDefault()
       e.stopPropagation()
       if (draggedHistoryList?.length !== 0 && draggedType === 'link' && !draggedCategory?.current) {
@@ -144,14 +144,14 @@ function CategoryList(props) {
             overedTabFavorite: favorited,
           })
         }
-        e.currentTarget.previousSibling.style.opacity = 1
+        ref.current.style.opacity = 1
       }
     },
     [dragData, draggedHistoryList, draggedType, overedTabId, overedTabOrder, setDragData]
   )
 
-  const handleDragLeave = (e) => {
-    e.currentTarget.previousSibling.style.opacity = 0
+  const handleDragLeave = (ref) => () => {
+    ref.current.style.opacity = 0
   }
 
   const handleDragEnd = useCallback(() => {
@@ -159,7 +159,7 @@ function CategoryList(props) {
   }, [draggedCategory])
 
   const handleDragDrop = useCallback(
-    async (e) => {
+    (ref) => async (e) => {
       e.stopPropagation()
       e.preventDefault()
 
@@ -169,14 +169,7 @@ function CategoryList(props) {
 
       try {
         if (draggedType === 'category') {
-          if (e.currentTarget.dataset.dropzone) {
-            const dropzone = e.currentTarget.dataset.dropzone
-            if (dropzone === 'first-favorite-dropzone' || dropzone === 'first-category-dropzone') {
-              e.currentTarget.previousSibling.style.opacity = 1
-            }
-          } else {
-            e.currentTarget.previousSibling.style.opacity = 0
-          }
+          if (ref) ref.current.style.opacity = 0
 
           if (draggedCategory?.current) {
             await dispatch(
