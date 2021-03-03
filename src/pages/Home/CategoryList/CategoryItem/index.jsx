@@ -11,7 +11,6 @@ function CategoryItem({
   data = {},
   selected = false,
   isEditTitle = false,
-  historyDragFinished = false,
   dragFinished = false,
   selectedCategoryTitle = '',
 }) {
@@ -44,7 +43,7 @@ function CategoryItem({
       >
         <Paper
           className={clsx(classes.root, classes.paper, {
-            [classes.dragFinished]: Boolean(dragFinished || historyDragFinished),
+            [classes.dragFinished]: Boolean(dragFinished),
           })}
           component="div"
         >

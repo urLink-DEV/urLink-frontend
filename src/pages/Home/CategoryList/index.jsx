@@ -20,6 +20,7 @@ import {
   categoriesReadThunk,
   categoryModifyThunk,
 } from '@modules/category'
+import { linkCreateThunk } from '@modules/link'
 
 const { CATEGORY } = DRAG
 
@@ -27,85 +28,68 @@ function CategoryList(props) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { error, favoritedArr, notFavoritedArr } = useCategories()
-  const { setDragData, clearDragData, data: dragData } = useDrag(CATEGORY)
+  const selectedCategory = useSelector(selectSelectedCategory)
+  const { setDragData, clearDragData, dragType, data: dragData, listData } = useDrag(CATEGORY)
   const draggedCategory = useRef(null)
   const { openToast } = useToast()
-  const selectedCategory = useSelector(selectSelectedCategory)
 
+  const [linkHoverTabId, setLinkHoverTabId] = useState(null)
   // 추후 삭제 예정
-  const {
-    setSelectedLinkList,
-    draggedHistoryList,
-    setDraggedHistoryList,
-    isEditCategoryTitle,
-    editCategoryTitle,
-  } = props
+  const { isEditCategoryTitle, editCategoryTitle } = props
 
   const {
     draggedId,
     draggedName,
     draggedOrder,
-    draggedType,
     dragFinished,
-    overedTabOrder,
-    overedTabFavorite,
-    overedTabId,
+    hoverTabOrder,
+    hoverTabFavorite,
+    hoverTabId,
   } = dragData
 
-  const [dragHistoryFinished, setDragHistoryFinished] = useState(false)
-  const timeId = useRef()
-
-  /* link 모듈 관련 내용 추후 수정
-
-  useEffect(() => {
-    if (dragHistoryFinished) {
-      // 추후 link 모듈 적용
-      // if (overedTabId === selectedCategory?.id) getLink({ category: selectedCategory?.id })
-      ;(async function () {
-        try {
-          await dispatch(categoriesReadThunk())
-          timeId.current = setTimeout(() => {
-            setDragHistoryFinished(false)
-          }, 1000)
-        } catch (error) {
-          openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
-        }
-      })()
-    }
-
-    return () => clearTimeout(timeId.current)
-  }, [dragHistoryFinished])
-
-  */
+  const dispatchLinkCreate = useCallback(async () => {
+    const promises = []
+    listData.forEach((link) =>
+      promises.push(
+        dispatch(
+          linkCreateThunk({
+            categoryId: linkHoverTabId,
+            path: link.path,
+          })
+        )
+      )
+    )
+    return Promise.all(promises)
+  }, [dispatch, linkHoverTabId, listData])
 
   const handleDragOverFirstFavorite = useCallback(
     (e) => {
       e.stopPropagation()
       e.preventDefault()
-      if (!overedTabFavorite) {
+      if (!hoverTabFavorite) {
         setDragData({
           ...dragData,
-          overedTabFavorite: true,
-          overedTabOrder: draggedOrder,
+          hoverTabFavorite: true,
+          hoverTabOrder: draggedOrder,
         })
       }
     },
-    [dragData, draggedOrder, overedTabFavorite, setDragData]
+    [dragData, draggedOrder, hoverTabFavorite, setDragData]
   )
 
   const handleDragOverFirstCategory = useCallback(
     (e) => {
       e.stopPropagation()
       e.preventDefault()
-      if (overedTabFavorite) {
+      if (hoverTabFavorite) {
         setDragData({
           ...dragData,
-          overedTabFavorite: false,
-          overedTabOrder: draggedOrder,
+          hoverTabFavorite: false,
+          hoverTabOrder: draggedOrder,
         })
       }
     },
-    [dragData, draggedOrder, overedTabFavorite, setDragData]
+    [dragData, draggedOrder, hoverTabFavorite, setDragData]
   )
 
   const handleDragStart = useCallback(
@@ -117,7 +101,6 @@ function CategoryList(props) {
         draggedId: id,
         draggedName: name,
         draggedOrder: order,
-        draggedType: 'category',
       })
       draggedCategory.current = ref.current
     },
@@ -128,25 +111,22 @@ function CategoryList(props) {
     (id, order, favorited, ref) => (e) => {
       e.preventDefault()
       e.stopPropagation()
-      if (draggedHistoryList?.length !== 0 && draggedType === 'link' && !draggedCategory?.current) {
-        if (id !== overedTabId) {
-          setDragData({
-            ...dragData,
-            overedTabId: id,
-          })
+      if (dragType === 'link' && !!listData?.length) {
+        if (id !== linkHoverTabId) {
+          setLinkHoverTabId(id)
         }
-      } else if (draggedType === 'category' && draggedCategory?.current) {
-        if (order !== overedTabOrder) {
+      } else if (dragType === 'category' && draggedCategory?.current) {
+        if (order !== hoverTabOrder) {
           setDragData({
             ...dragData,
-            overedTabOrder: order,
-            overedTabFavorite: favorited,
+            hoverTabOrder: order,
+            hoverTabFavorite: favorited,
           })
         }
         ref.current.style.opacity = 1
       }
     },
-    [dragData, draggedHistoryList, draggedType, overedTabId, overedTabOrder, setDragData]
+    [dragData, listData, dragType, linkHoverTabId, hoverTabOrder, setDragData]
   )
 
   const handleDragLeave = (ref) => () => {
@@ -161,13 +141,8 @@ function CategoryList(props) {
     (ref) => async (e) => {
       e.stopPropagation()
       e.preventDefault()
-
-      // 추후 link state 가져와서 적용
-      // const filteredLinkList = [];
-      // selectedLinkList.forEach((link) => filteredLinkList.push(link.path));
-
       try {
-        if (draggedType === 'category') {
+        if (dragType === 'category') {
           if (ref) ref.current.style.opacity = 0
 
           if (draggedCategory?.current) {
@@ -175,8 +150,8 @@ function CategoryList(props) {
               categoryModifyThunk({
                 id: draggedId,
                 name: draggedName,
-                order: overedTabOrder,
-                is_favorited: overedTabFavorite,
+                order: hoverTabOrder,
+                is_favorited: hoverTabFavorite,
               })
             )
             await dispatch(categoriesReadThunk())
@@ -184,36 +159,33 @@ function CategoryList(props) {
               ...dragData,
               dragFinished: true,
             })
-
-            setTimeout(() => {
-              clearDragData()
-            }, 500)
           }
-        } else if (draggedType === 'link') {
-          // 추후 link 모듈 적용
-          // writeLink({ category: overedTabId, path: filteredLinkList }).then(() =>
-          //   setDragHistoryFinished(true)
-          // );
-          setSelectedLinkList([])
-          setDraggedHistoryList([])
+        } else if (dragType === 'link') {
+          await dispatchLinkCreate()
+          await dispatch(categoriesReadThunk())
+          setDragData({
+            dragFinished: true,
+          })
         }
+        setTimeout(() => {
+          clearDragData()
+        }, 500)
       } catch (error) {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
       }
     },
     [
-      setDraggedHistoryList,
-      setSelectedLinkList,
       clearDragData,
+      dispatchLinkCreate,
       openToast,
       dispatch,
       dragData,
       setDragData,
-      draggedType,
+      dragType,
       draggedId,
       draggedName,
-      overedTabOrder,
-      overedTabFavorite,
+      hoverTabOrder,
+      hoverTabFavorite,
     ]
   )
 
@@ -256,9 +228,10 @@ function CategoryList(props) {
                         data={data}
                         selected={data.id === selectedCategory?.id}
                         isEditTitle={isEditCategoryTitle}
-                        dragFinished={data.id === draggedId ? dragFinished : false}
-                        historyDragFinished={
-                          dragHistoryFinished && data.id === overedTabId ? true : false
+                        dragFinished={
+                          data.id === hoverTabId || data.id === linkHoverTabId
+                            ? dragFinished
+                            : false
                         }
                         selectedCategoryTitle={
                           isEditCategoryTitle ? editCategoryTitle : selectedCategory?.name
@@ -285,9 +258,10 @@ function CategoryList(props) {
                         data={data}
                         selected={data.id === selectedCategory?.id}
                         isEditTitle={isEditCategoryTitle}
-                        dragFinished={data.id === draggedId ? dragFinished : false}
-                        historyDragFinished={
-                          dragHistoryFinished && data.id === overedTabId ? true : false
+                        dragFinished={
+                          data.id === hoverTabId || data.id === linkHoverTabId
+                            ? dragFinished
+                            : false
                         }
                         selectedCategoryTitle={
                           isEditCategoryTitle ? editCategoryTitle : selectedCategory?.name
