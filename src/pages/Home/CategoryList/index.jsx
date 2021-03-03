@@ -8,7 +8,8 @@ import CategoryHeader from './CategoryHeader'
 import CategoryItemWrapper from './CategoryItemWrapper'
 import CategoryItem from './CategoryItem'
 import CategoryButtonGroup from './CategoryButtonGroup'
-// import FirstFavoriteDropZone from './FirstFavoriteDropZone'
+import FirstFavoriteDropZone from './FirstFavoriteDropZone'
+import FirstCategoryDropZone from './FirstCategoryDropZone'
 import urlinkLogo from '@images/logo-urlink-full.png'
 import useStyles from './style'
 import { useToast } from '@modules/ui'
@@ -249,14 +250,7 @@ function CategoryList(props) {
                 <img className={classes.logo} src={urlinkLogo} alt="URLink" />
                 <CategoryHeader type="favorite" />
                 {!favoritedArr?.length && (
-                  <div
-                    className={classes.firstFavoriteDropZone}
-                    data-dropzone="first-favorite-dropzone"
-                    onDragOver={handleDragOverFirstFavorite}
-                    onDrop={handleDragDrop}
-                  >
-                    Drag the category here!
-                  </div>
+                  <FirstFavoriteDropZone handleDragFunctions={handleDragFunctions} />
                 )}
                 <List>
                   {favoritedArr?.map((data) => (
@@ -283,13 +277,9 @@ function CategoryList(props) {
                 </List>
                 <CategoryHeader type="category" />
                 <CategoryButtonGroup />
-                <div
-                  className={
-                    !notFavoritedArr?.length ? classes.hiddenCategoryDropZone : classes.hidden
-                  }
-                  data-dropzone="first-cateogory-dropzone"
-                  onDragOver={handleDragOverFirstCategory}
-                  onDrop={handleDragDrop}
+                <FirstCategoryDropZone
+                  notFavoritedArr={notFavoritedArr}
+                  handleDragFunctions={handleDragFunctions}
                 />
                 <List>
                   {notFavoritedArr?.map((data) => (
