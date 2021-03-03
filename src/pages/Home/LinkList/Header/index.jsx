@@ -1,7 +1,7 @@
 import React from 'react'
 import Toolbar from '@material-ui/core/Toolbar'
-import InputTitle from './InputTitle'
-import SearchBar from './SearchBar'
+import EditableTitle from './EditableTitle'
+import SearchButton from '@components/SearchButton'
 import useStyles from './style'
 
 function Header() {
@@ -10,8 +10,16 @@ function Header() {
 
   return (
     <Toolbar container className={classes.toolbar}>
-      <InputTitle />
-      <SearchBar />
+      <EditableTitle />
+      {/* {selectedCardList.length > 0 ? (
+        <>
+          <Button onClick={handleClickOpenSelectedCardList}>탭 열기</Button>
+          <Button color="secondary" onClick={handleClickDeleteSelectedCardList}>
+            탭 삭제
+          </Button>
+        </>
+      ) : null} */}
+      <SearchButton />
     </Toolbar>
   )
 }

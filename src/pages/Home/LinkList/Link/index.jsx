@@ -1,246 +1,268 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, { useCallback, useState, useRef, useMemo, memo } from 'react'
 import { useDispatch } from 'react-redux'
-import Grid from '@material-ui/core/Grid'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import clsx from 'clsx'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import IconButton from '@material-ui/core/IconButton'
+import Typography from '@material-ui/core/Typography'
+import InputBase from '@material-ui/core/InputBase'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import AddAlertIcon from '@material-ui/icons/AddAlert'
 import CreateIcon from '@material-ui/icons/Create'
 import DoneIcon from '@material-ui/icons/Done'
-import Typography from '@material-ui/core/Typography'
-import useStyles, { DatePickerWithStyles } from './style'
-import newTab from '@images/new-tab.svg'
-import Snackbar from '@components/Snackbar'
-import InputBase from '@material-ui/core/InputBase'
+import { KeyboardDateTimePicker } from '@material-ui/pickers'
+import useStyles from './style'
+import newTabIconImg from '@images/new-tab.svg'
+import copyIconImg from '@images/link-icon.png'
+import { createTab } from '@commons/chromeApis/tab'
+import copyLink from '@commons/utils/copyLink'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
-import CopyIcon from '@images/link-icon.png'
+import { useToast } from '@modules/ui'
+import { linksRead, linkCancleSelect, linkModifyThunk, linkSelect } from '@modules/link'
+import { alarmCreateThunk } from '@modules/alarm'
 
-function Link(props) {
+const LINK_SCHEMA = yup.object({
+  title: yup.string(),
+  description: yup.string(),
+})
+
+function Link({ data }) {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const {handleSelectedCard, isReset, setIsReset, writeAlarm} = props
-  const {id, category, path, image_path, title, description, is_favorited, has_alarms, key} = props.linkInfo
-  const [hover, setHover] = useState(false)
-  const [isSelected, setIsSelected] = useState(false)
-  const [copySuccessAlert, setCopySuccessAlert] = useState(false)
-  const [isEditable, setIsEditable] = useState(false)
-  const [editableTitle, setEditableTitle] = useState(title)
-  const [editableDesc, setEditableDesc] = useState(description ? description : '')
-
-  const handleClickCard = e => {
-    e.stopPropagation()
-    if (isEditable) return
-    setIsSelected(!isSelected)
-    handleSelectedCard()
-  }
-
-  useEffect(() => {
-    if (isReset || isEditable) {
-      setIsSelected(false)
-      setIsReset(false)
-    }
+  const { openToast } = useToast()
+  const { register, handleSubmit: checkSubmit } = useForm({
+    defaultValues: {
+      title: data.title,
+      description: data.description,
+    },
+    resolver: yupResolver(LINK_SCHEMA),
   })
 
-  const handleMouseEnterCard = () => {
-    setHover(true)
-  }
+  const rootRef = useRef(null)
+  const [showNewTabIcon, setShowNewTabIcon] = useState(false)
+  const [isSelected, setIsSelected] = useState(false)
+  const [isEditable, setIsEditable] = useState(false)
 
-  const handleMouseLeaveCard = () => {
-    setHover(false)
-  }
+  const handleSelectedCard = useCallback(
+    (e) => {
+      e.stopPropagation()
+      if (isEditable) return
+      setIsSelected((prev) => !prev)
+      if (isSelected) dispatch(linkSelect(data.id))
+      else dispatch(linkCancleSelect(data.id))
+    },
+    [isSelected, data.id, dispatch, isEditable]
+  )
 
-  const handleClickHoverBtn = e => {
-    e.stopPropagation()
-    window.open(path)
-  }
+  const handleToggleShowNewTabIcon = useCallback(() => {
+    setShowNewTabIcon((prev) => !prev)
+  }, [])
 
-  const limitedDescription = desc => {
-    if (!desc) return ''
-    const limitedLength = 30
-    return desc.length > limitedLength 
-    ? desc.substring(0, limitedLength) + ' ... '
-    : desc
-  }
+  const handleNewTab = useCallback(
+    (e) => {
+      e.stopPropagation()
+      createTab(data.path)
+    },
+    [data.path]
+  )
 
-  const handleClickFavorite = e => {
-    setIsReset(true)
-    // updateLink({id, category, is_favorited: !Boolean(is_favorited)})
-  }
-
-  const handleClickCopy = e => {
-    var copyElement = document.createElement('textarea')
-    copyElement.value = path
-    document.body.appendChild(copyElement)
-    copyElement.select()
-    document.execCommand("copy")
-    document.body.removeChild(copyElement)
-    setCopySuccessAlert(true)
-  }
-
-  const handleCopySuccessAlert = e => {
-    setCopySuccessAlert(false)
-  }
-
-  const handleSetAlarm = date => {
-    setIsReset(true)
-    writeAlarm({
-      name: `${category}-${id}`,
-      category: category,
-      url: id,
-      reserved_time: {
-        year: date.year(),
-        month: date.month() + 1,
-        day: date.date(),
-        hour: date.hours(),
-        minute: date.minute()
+  const handleToggleFavorite = useCallback(
+    async (e) => {
+      e.stopPropagation()
+      try {
+        await dispatch(
+          linkModifyThunk({
+            urlId: data.id,
+            is_favorited: !data.is_favorited,
+          })
+        )
+        dispatch(linksRead.request({ categoryId: data.category }))
+      } catch (error) {
+        openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
       }
-    })
-  }
+    },
+    [data.category, data.id, data.is_favorited, dispatch, openToast]
+  )
 
-  const handleClickEdit = e => {
-    setEditableTitle(title)
-    setEditableDesc(description)
+  const handleCopy = useCallback(
+    (e) => {
+      e.stopPropagation()
+      copyLink(data.url)
+      openToast({ type: 'success', message: '링크가 복사 되었습니다.' })
+    },
+    [data.url, openToast]
+  )
+
+  const handleSetAlarm = useCallback(
+    async (date) => {
+      try {
+        await dispatch(
+          alarmCreateThunk({
+            categoryId: data.category,
+            urlId: data.id,
+            name: `${data.category}-${data.id}`,
+            reserved_time: {
+              year: date.year(),
+              month: date.month() + 1,
+              day: date.date(),
+              hour: date.hours(),
+              minute: date.minute(),
+            },
+          })
+        )
+        dispatch(linksRead.request({ categoryId: data.category }))
+        openToast({ type: 'success', message: '알람이 설정 되었습니다.' })
+      } catch (error) {
+        openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
+      }
+    },
+    [data.category, data.id, dispatch, openToast]
+  )
+
+  const handleShowEdit = useCallback(() => {
     setIsEditable(true)
-  }
+  }, [])
 
-  const handleChangeTitle = e => {
-    setEditableTitle(e.target.value)
-  }
-
-  const handleChangeDesc = e => {
-    setEditableDesc(e.target.value)
-  }
-
-  const handleCancelEdit = e => {
-    setEditableTitle(title)
-    setEditableDesc(description)
+  const handleCancelEdit = useCallback(() => {
     setIsEditable(false)
-  }
+  }, [])
 
-  const handleClickEditDone = e => {
-    // updateLink({id, category, title: editableTitle, description: editableDesc})
-    setIsEditable(false)
-  }
+  const handleEditDone = useMemo(
+    () =>
+      checkSubmit(async (formData) => {
+        try {
+          await dispatch(
+            linkModifyThunk({
+              urlId: data.id,
+              title: formData.title,
+              description: formData.description,
+            })
+          )
+          dispatch(linksRead.request({ categoryId: data.category }))
+          setIsEditable(false)
+          openToast({ type: 'success', message: '링크 카드 정보가 수정 되었습니다.' })
+        } catch (error) {
+          openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
+        }
+      }),
+    [checkSubmit, data.category, data.id, dispatch, openToast]
+  )
 
-  const wrapperRef = useRef(null)
-  useOutsideAlerter(wrapperRef, isEditable, handleCancelEdit)
+  useOutsideAlerter(rootRef, isEditable, handleCancelEdit)
 
   return (
-    <div className={classes.divRoot} ref={wrapperRef}>
-      <Card className={!isSelected ? isEditable ? classes.editableRoot : classes.root : classes.selectedRoot}
-        onClick={handleClickCard}
-        onMouseEnter={handleMouseEnterCard}
-        onMouseLeave={handleMouseLeaveCard}
-      >
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            height="120"
-            image={image_path}
-            title="Contemplative Reptile"
+    <Card
+      className={clsx(classes.root, {
+        [classes.editableCard]: !isSelected && isEditable,
+        [classes.selectedCard]: isSelected && !isEditable,
+      })}
+      onClick={handleSelectedCard}
+      onMouseEnter={handleToggleShowNewTabIcon}
+      onMouseLeave={handleToggleShowNewTabIcon}
+      ref={rootRef}
+    >
+      <CardActionArea disableRipple>
+        <CardMedia component="img" height="120" image={data.image_path} alt={data.title} />
+        {showNewTabIcon && (
+          <img
+            className={classes.newTabIcon}
+            src={newTabIconImg}
+            onClick={handleNewTab}
+            alt="새 창으로 열기"
           />
-          {
-            hover ? 
-            <img className={classes.cardOpenBtn} 
-              src={newTab} 
-              onClick={handleClickHoverBtn} 
-              alt="새 창으로 열기" 
-              title="새 창으로 열기"
-            /> : null
-          }
-          {
-            isEditable 
-            ? <CardContent className={classes.cardContent}>
-            <Grid item zeroMinWidth>
-              <InputBase className={classes.edittingCardContentTitle}
-                value={editableTitle}
-                onChange={handleChangeTitle}
-                fontSize="medium"
-              />
-              <InputBase className={classes.edittingCardContentDesc}
-                value={editableDesc}
-                onChange={handleChangeDesc}
+        )}
+        <CardContent className={classes.cardContent}>
+          {isEditable ? (
+            <>
+              <InputBase className={classes.contentTitle} name="title" inputRef={register} />
+              <InputBase
+                className={classes.contentDesc}
+                name="description"
                 rowsMin={3}
                 multiline
+                inputRef={register}
               />
-            </Grid>
-          </CardContent>
-            : <CardContent className={classes.cardContent}>
-            <Grid item zeroMinWidth>
-              <Typography className={classes.cardContentTitle}
-                gutterBottom noWrap
-                variant="h6" 
+            </>
+          ) : (
+            <>
+              <Typography
+                className={classes.contentTitle}
+                noWrap
+                gutterBottom
+                variant="h6"
                 component="h2"
               >
-                {title}
+                {data.title}
               </Typography>
-              <Typography className={classes.cardContentDesc}
-                variant="body2" 
+              <Typography
+                className={classes.contentDesc}
                 color="textSecondary"
+                variant="body2"
                 component="p"
               >
-                {limitedDescription(description)}
+                {data.description}
               </Typography>
-            </Grid>
-          </CardContent>
-          }
-        </CardActionArea>
-        <CardActions className={classes.cardActions} disableSpacing
-          onClick={e => e.stopPropagation()}
-        >
-          <IconButton aria-label="favorites"
-            onClick={handleClickFavorite}
-          >
-            <FavoriteIcon fontSize="small" 
-              color={is_favorited ? "secondary" : "action"}
+            </>
+          )}
+        </CardContent>
+      </CardActionArea>
+      <CardActions
+        className={classes.cardActions}
+        disableSpacing
+        onClick={(e) => e.stopPropagation()}
+      >
+        <IconButton aria-label="최상단 노출 하기" onClick={handleToggleFavorite}>
+          <FavoriteIcon fontSize="small" color={data.is_favorited ? 'secondary' : 'action'} />
+        </IconButton>
+        <IconButton aria-label="복사 하기" onClick={handleCopy}>
+          <img className={classes.copyIcon} src={copyIconImg} alt="복사 하기" />
+        </IconButton>
+        <KeyboardDateTimePicker
+          onChange={handleSetAlarm}
+          InputProps={{
+            disableUnderline: true,
+            className: classes.keyboardDatetimePicker,
+          }}
+          initialFocusedDate={Date.now()}
+          disablePast={true}
+          keyboardIcon={
+            <AddAlertIcon
+              fontSize="small"
+              className={clsx(classes.alarmIcon, {
+                [classes.alarmIconActive]: data.has_alarms,
+              })}
             />
-          </IconButton>
-          <IconButton aria-label="share"
-            onClick={handleClickCopy}
-          >
-            <img className={classes.copyIcon}src={CopyIcon} alt="share"/>
-          </IconButton>
-          <DatePickerWithStyles key={key}
-            className={classes.datePicker}
-            margin="normal"
-            onChange={handleSetAlarm}
-            InputProps={{
-              disableUnderline: true,
-            }}
-            initialFocusedDate={new Date()}
-            disablePast={true}
-            keyboardIcon={<AddAlertIcon style={has_alarms ? { color: '#fdd835' }  : {color: '#616161'}}/>}
-            KeyboardButtonProps={{
-              'aria-label': 'change date',
-            }}
-          />
-          {
-            isEditable
-            ? <IconButton className={classes.settingsIcon}
-                aria-label="setting"
-                onClick={handleClickEditDone}
-              >
-                <DoneIcon fontSize="small" />
-              </IconButton>
-            : <IconButton className={classes.settingsIcon}
-                aria-label="setting"
-                onClick={handleClickEdit}
-                >
-                <CreateIcon fontSize="small" />
-              </IconButton>
           }
-        </CardActions>
-      </Card>
-      <Snackbar open={copySuccessAlert}
-        alertText="링크 복사가 완료되었습니다."
-        handleClose={handleCopySuccessAlert}
-      />
-    </div>
+          KeyboardButtonProps={{
+            'aria-label': '알람 설정 하기',
+          }}
+        />
+        {isEditable ? (
+          <IconButton
+            className={classes.editIcon}
+            aria-label="제목 및 내용 수정 하기"
+            onClick={handleEditDone}
+          >
+            <DoneIcon fontSize="small" />
+          </IconButton>
+        ) : (
+          <IconButton
+            className={classes.editIcon}
+            aria-label="제목 및 내용 수정 모드 전환"
+            onClick={handleShowEdit}
+          >
+            <CreateIcon fontSize="small" />
+          </IconButton>
+        )}
+      </CardActions>
+    </Card>
   )
 }
 
-export default Link
+export default memo(Link)
