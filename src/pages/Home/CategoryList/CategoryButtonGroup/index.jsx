@@ -59,10 +59,7 @@ function CategoryButtonGroup() {
         setCategoryName('')
       } else {
         setButtonState(BUTTON_STATE.addOpen)
-        const response = await dispatch(
-          categoryCreateThunk({ name: categoryName, is_favorited: false })
-        )
-        dispatch(categorySelect({ ...response.data }))
+        await dispatch(categoryCreateThunk({ name: categoryName, is_favorited: false }))
         setCategoryName('')
         dispatch(categoriesRead.request())
       }
@@ -101,6 +98,7 @@ function CategoryButtonGroup() {
     try {
       e.stopPropagation()
       await dispatch(categoryRemoveThunk({ id: selectedCategory.id }))
+      dispatch(categoriesRead.request())
       openToast({ type: 'success', message: '선택하신 카테고리가 삭제되었습니다.' })
       deleteCategoryToggle()
       setButtonState(BUTTON_STATE.deleteOpen)

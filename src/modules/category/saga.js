@@ -20,7 +20,6 @@ const watchCategoryModify = createRequestSaga(categoryModify, function* (action)
 
 const watchCategoryRemove = createRequestSaga(categoryRemove, function* (action) {
   const { data } = yield call(api.categoryRemove, action.payload, null)
-  yield put(categoriesRead.request())
   return data
 })
 
