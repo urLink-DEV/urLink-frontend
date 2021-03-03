@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles'
+import { fade, makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -9,6 +9,12 @@ const useStyles = makeStyles(theme => ({
     padding: '20px 24px 22px 24px',
     backgroundColor: '#f6f6f6',
     boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.1)',
+  },
+  toolbar: {
+    flexGrow: 1,
+  },
+  title: {
+    flexGrow: 1,
   },
   mainFont: {
     backgroundColor: 'transparent',
@@ -104,21 +110,62 @@ const useStyles = makeStyles(theme => ({
     color: '#737b84',
     backgroundColor: 'transparent'
   },
-  searchIcon: {
-    marginRight: 5,
+  // searchIcon: {
+  //   marginRight: 5,
+  // },
+  // searchBtnText: {
+  //   width: '34px',
+  //   height: '15px',
+  //   fontFamily: 'SpoqaHanSans',
+  //   fontSize: '12pt',
+  //   fontWeight: '300',
+  //   fontStretch: 'normal',
+  //   fontStyle: 'normal',
+  //   lineHeight: 'normal',
+  //   letterSpacing: 'normal',
+  //   textAlign: 'center',
+  //   color: '#868e96',
+  // },
+
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade('#2083ff', 0.75),
+    '&:hover': {
+      backgroundColor: fade('#2083ff', 0.5),
+    },
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
+    },
   },
-  searchBtnText: {
-    width: '34px',
-    height: '15px',
-    fontFamily: 'SpoqaHanSans',
-    fontSize: '12pt',
-    fontWeight: '300',
-    fontStretch: 'normal',
-    fontStyle: 'normal',
-    lineHeight: 'normal',
-    letterSpacing: 'normal',
-    textAlign: 'center',
-    color: '#868e96',
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'white',
+  },
+  inputRoot: {
+    color: 'white',
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '12ch',
+      '&:focus': {
+        width: '20ch',
+      },
+    },
   },
   textfield: {
     '&:focus' : {border: '1px solid #2083ff'},

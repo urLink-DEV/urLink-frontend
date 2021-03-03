@@ -2,7 +2,11 @@
 import React, { useState , useEffect, Fragment, useRef, useCallback} from 'react'
 import clsx from 'clsx'
 
-import SearchIcon from '../../images/search.png'
+import Toolbar from '@material-ui/core/Toolbar'
+import InputBase from '@material-ui/core/InputBase'
+import SearchIcon from '@material-ui/icons/Search'
+
+// import SearchIcon from '../../images/search.png'
 import linkListSearchEmptyIcon from '../../images/group-17.png'
 import linkListEmptyIcon from '../../images/group-19.png'
 import moveLink from '../../images/move.png'
@@ -220,9 +224,28 @@ export default function CategoryHistoryDrawer(props) {
         {
           historyDrawerOpen ?
             <Fragment>
-              <button className={classes.mainFont} onClick={onInintClik}>방문기록</button>
-              {/* history serarchTool */}
-              <CategorySearchPopOver>
+              <div position="static">
+                <Toolbar container className={classes.toolbar}>
+                  <div className={classes.title}>
+                    <button className={classes.mainFont} onClick={onInintClik}>방문기록</button>
+                  </div>
+                  {/* history serarchTool */}
+                  <div className={classes.search}>
+                    <div className={classes.searchIcon}>
+                      <SearchIcon />
+                    </div>
+                    <InputBase
+                      placeholder="Search…"
+                      classes={{
+                        root: classes.inputRoot,
+                        input: classes.inputInput,
+                      }}
+                      inputProps={{ 'aria-label': 'search' }}
+                    />
+                  </div>
+                </Toolbar>
+              </div>
+              {/* <CategorySearchPopOver>
                 <div className={classes.popover}>
                   <div className={classes.popoverDiv}>
                     <img src={SearchIcon} className={classes.searchIcon} alt="search-icon" />
@@ -236,7 +259,7 @@ export default function CategoryHistoryDrawer(props) {
                     />
                   </div>
                 </div>
-              </CategorySearchPopOver>
+              </CategorySearchPopOver> */}
               {/* history serarchTool - END */}
 
               {selectedLinkList.length ?
