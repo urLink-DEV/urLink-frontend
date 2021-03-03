@@ -109,18 +109,17 @@ function CategoryList(props) {
   )
 
   const handleDragStart = useCallback(
-    (id, name, order) => (e) => {
+    (id, name, order, ref) => (e) => {
       e.stopPropagation()
-      const target = e.currentTarget
-      if (!target) return
-      target.style.opacity = 0.3
+      if (!ref.current) return
+      ref.current.style.opacity = 0.3
       setDragData({
         draggedId: id,
         draggedName: name,
         draggedOrder: order,
         draggedType: 'category',
       })
-      draggedCategory.current = target
+      draggedCategory.current = ref.current
     },
     [setDragData]
   )

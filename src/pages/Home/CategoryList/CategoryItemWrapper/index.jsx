@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import useStyles from './style'
-// import { DROP_ZONE, useDropZone } from '@modules/ui'
-
-// const { CATEGORY_DROP_ZONE } = DROP_ZONE
+import { DRAG } from '@modules/ui'
+const { CATEGORY } = DRAG
 
 function CategoryItemWrapper({ data, handleDragFunctions, draggedOrder, children }) {
   const classes = useStyles()
@@ -14,25 +13,25 @@ function CategoryItemWrapper({ data, handleDragFunctions, draggedOrder, children
     handleDragEnd,
   } = handleDragFunctions
 
-  // const { open, toggle, close } = useDropZone(CATEGORY_DROP_ZONE)
+  const dragLineRef = useRef(null)
+  const categoryRef = useRef(null)
 
   return (
     <React.Fragment>
-      <div className={classes.dragline} />
+      <div className={classes.dragline} ref={dragLineRef} />
       <div
-        data-type="category"
+        ref={categoryRef}
+        data-type={CATEGORY}
         draggable="true"
-        onDragStart={(e) => handleDragStart(e, data.id, data.name, data.order)}
-        onDragOver={(e) =>
-          handleDragOver(
-            e,
-            data.id,
-            draggedOrder < data.order ? data.order - 1 : data.order,
-            data.is_favorited
-          )
-        }
-        onDragLeave={handleDragLeave}
-        onDrop={handleDragDrop}
+        onDragStart={handleDragStart(data.id, data.name, data.order, categoryRef)}
+        onDragOver={handleDragOver(
+          data.id,
+          draggedOrder < data.order ? data.order - 1 : data.order,
+          data.is_favorited,
+          dragLineRef
+        )}
+        onDragLeave={handleDragLeave(dragLineRef)}
+        onDrop={handleDragDrop(dragLineRef)}
         onDragEnd={handleDragEnd}
       >
         {children}
