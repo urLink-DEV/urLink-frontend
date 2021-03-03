@@ -8,12 +8,11 @@ import CategoryHeader from './CategoryHeader'
 import CategoryItemWrapper from './CategoryItemWrapper'
 import CategoryItem from './CategoryItem'
 import CategoryButtonGroup from './CategoryButtonGroup'
+// import FirstFavoriteDropZone from './FirstFavoriteDropZone'
 import urlinkLogo from '@images/logo-urlink-full.png'
-
 import useStyles from './style'
 import { useToast } from '@modules/ui'
 import { DRAG, useDrag } from '@modules/ui'
-
 import {
   useCategories,
   selectSelectedCategory,
@@ -125,51 +124,6 @@ function CategoryList(props) {
     [setDragData]
   )
 
-  const handleDragEnd = useCallback(
-    async (e) => {
-      try {
-        e.preventDefault()
-        e.stopPropagation()
-        if (draggedCategory?.current && e.dataTransfer.dropEffect === 'move') {
-          await dispatch(
-            categoryModifyThunk({
-              id: draggedId,
-              name: draggedName,
-              order: overedTabOrder,
-              is_favorited: overedTabFavorite,
-            })
-          )
-          await dispatch(categoriesReadThunk())
-          setDragData({
-            ...dragData,
-            dragFinished: true,
-          })
-
-          draggedCategory.current.style.opacity = 1
-
-          setTimeout(() => {
-            clearDragData()
-          }, 500)
-        } else if (draggedCategory?.current) {
-          draggedCategory.current.style.opacity = 1
-        }
-      } catch (error) {
-        openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
-      }
-    },
-    [
-      clearDragData,
-      dispatch,
-      dragData,
-      openToast,
-      setDragData,
-      draggedId,
-      draggedName,
-      overedTabOrder,
-      overedTabFavorite,
-    ]
-  )
-
   const handleDragOver = useCallback(
     (e, id, order, favorited) => {
       e.preventDefault()
@@ -180,7 +134,6 @@ function CategoryList(props) {
             ...dragData,
             overedTabId: id,
           })
-          e.dataTransfer.dropEffect = 'move'
         }
       } else if (draggedType === 'category' && draggedCategory?.current) {
         if (order !== overedTabOrder) {
@@ -189,7 +142,6 @@ function CategoryList(props) {
             overedTabOrder: order,
             overedTabFavorite: favorited,
           })
-          e.dataTransfer.dropEffect = 'move'
         }
         e.currentTarget.previousSibling.style.opacity = 1
       }
@@ -201,42 +153,85 @@ function CategoryList(props) {
     e.currentTarget.previousSibling.style.opacity = 0
   }
 
+  const handleDragEnd = useCallback(() => {
+    draggedCategory.current.style.opacity = 1
+  }, [draggedCategory])
+
   const handleDragDrop = useCallback(
-    (e) => {
+    async (e) => {
       e.stopPropagation()
+      e.preventDefault()
+
       // 추후 link state 가져와서 적용
       // const filteredLinkList = [];
       // selectedLinkList.forEach((link) => filteredLinkList.push(link.path));
 
-      if (draggedType === 'category') {
-        e.preventDefault()
-        if (e.currentTarget.dataset.dropzone) {
-          const dropzone = e.currentTarget.dataset.dropzone
-          if (dropzone === 'first-favorite-dropzone' || dropzone === 'first-category-dropzone') {
-            e.currentTarget.previousSibling.style.opacity = 1
+      try {
+        if (draggedType === 'category') {
+          if (e.currentTarget.dataset.dropzone) {
+            const dropzone = e.currentTarget.dataset.dropzone
+            if (dropzone === 'first-favorite-dropzone' || dropzone === 'first-category-dropzone') {
+              e.currentTarget.previousSibling.style.opacity = 1
+            }
+          } else {
+            e.currentTarget.previousSibling.style.opacity = 0
           }
-        } else {
-          e.currentTarget.previousSibling.style.opacity = 0
+
+          if (draggedCategory?.current) {
+            await dispatch(
+              categoryModifyThunk({
+                id: draggedId,
+                name: draggedName,
+                order: overedTabOrder,
+                is_favorited: overedTabFavorite,
+              })
+            )
+            await dispatch(categoriesReadThunk())
+            setDragData({
+              ...dragData,
+              dragFinished: true,
+            })
+
+            setTimeout(() => {
+              clearDragData()
+            }, 500)
+          }
+        } else if (draggedType === 'link') {
+          // 추후 link 모듈 적용
+          // writeLink({ category: overedTabId, path: filteredLinkList }).then(() =>
+          //   setDragHistoryFinished(true)
+          // );
+          setSelectedLinkList([])
+          setDraggedHistoryList([])
         }
-      } else if (draggedType === 'link') {
-        e.preventDefault()
-        // 추후 link 모듈 적용
-        // writeLink({ category: overedTabId, path: filteredLinkList }).then(() =>
-        //   setDragHistoryFinished(true)
-        // );
-        setSelectedLinkList([])
-        setDraggedHistoryList([])
+      } catch (error) {
+        openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
       }
     },
-    [draggedType, setDraggedHistoryList, setSelectedLinkList]
+    [
+      setDraggedHistoryList,
+      setSelectedLinkList,
+      clearDragData,
+      openToast,
+      dispatch,
+      dragData,
+      setDragData,
+      draggedType,
+      draggedId,
+      draggedName,
+      overedTabOrder,
+      overedTabFavorite,
+    ]
   )
 
   const handleDragFunctions = {
     handleDragStart,
-    handleDragEnd,
     handleDragOver,
     handleDragLeave,
     handleDragDrop,
+    handleDragEnd,
+    handleDragOverFirstFavorite,
+    handleDragOverFirstCategory,
   }
 
   return (

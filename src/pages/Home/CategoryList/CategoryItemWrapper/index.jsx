@@ -1,15 +1,20 @@
 import React from 'react'
 import useStyles from './style'
+// import { DROP_ZONE, useDropZone } from '@modules/ui'
+
+// const { CATEGORY_DROP_ZONE } = DROP_ZONE
 
 function CategoryItemWrapper({ data, handleDragFunctions, draggedOrder, children }) {
   const classes = useStyles()
   const {
     handleDragStart,
-    handleDragEnd,
     handleDragOver,
     handleDragLeave,
     handleDragDrop,
+    handleDragEnd,
   } = handleDragFunctions
+
+  // const { open, toggle, close } = useDropZone(CATEGORY_DROP_ZONE)
 
   return (
     <React.Fragment>
@@ -18,7 +23,6 @@ function CategoryItemWrapper({ data, handleDragFunctions, draggedOrder, children
         data-type="category"
         draggable="true"
         onDragStart={(e) => handleDragStart(e, data.id, data.name, data.order)}
-        onDragEnd={handleDragEnd}
         onDragOver={(e) =>
           handleDragOver(
             e,
@@ -29,6 +33,7 @@ function CategoryItemWrapper({ data, handleDragFunctions, draggedOrder, children
         }
         onDragLeave={handleDragLeave}
         onDrop={handleDragDrop}
+        onDragEnd={handleDragEnd}
       >
         {children}
       </div>
