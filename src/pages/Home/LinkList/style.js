@@ -1,10 +1,14 @@
 import { makeStyles } from '@material-ui/core/styles'
 
-export const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((_theme) => ({
+  root: {
+    paddingLeft: 34,
+    paddingRight: 34,
+    height: '100vh'
+  },
   content: {
-    width: '100%',
-    padding: theme.spacing(3),
-    margin: '0 50px 0 0',
+    maxHeight: 'calc(100vh - 58px);',
+    overflow: 'scroll',
   },
   center: {
     display: 'flex',
