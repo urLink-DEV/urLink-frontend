@@ -7,8 +7,8 @@ import SearchButton from '@components/SearchButton'
 import EditableCategoryTitle from './EditableCategoryTitle'
 import TabButtonGroup from './TabButtonGroup'
 import useStyles from './style'
-import { useLinks, linkSearchFilterChangeState } from '@modules/link'
 import { selectSelectedCategory } from '@modules/category'
+import { useLinks, linkSearchFilterChangeState } from '@modules/link'
 
 const listSearchFilter = [
   { search: 'path', name: '도메인' },
@@ -19,7 +19,7 @@ function Header() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const selectedCategory = useSelector(selectSelectedCategory)
-  const { reload } = useLinks({ categoryId: selectedCategory?.id })
+  const { refresh } = useLinks({ categoryId: selectedCategory?.id })
 
   const [selectedName, setSelectedName] = useState(listSearchFilter[0].search)
 
@@ -39,11 +39,11 @@ function Header() {
   }, [])
 
   const handleReload = debounce(() => {
-    reload()
+    refresh()
   }, 400)
 
   return (
-    <Toolbar container className={classes.toolbar}>
+    <Toolbar className={classes.toolbar}>
       <EditableCategoryTitle />
       <SearchButton
         inputProps={{

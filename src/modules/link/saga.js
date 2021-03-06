@@ -1,4 +1,4 @@
-import { all, call, debounce, takeLatest, throttle } from 'redux-saga/effects'
+import { all, call, debounce, takeLatest } from 'redux-saga/effects'
 import { createRequestSaga } from '../helpers'
 import { linksRead, linkCreate, linkModify, linkRemove, linksRemove } from './reducer'
 import * as api from './api'
@@ -24,12 +24,12 @@ const watchLinkRemove = createRequestSaga(linkRemove, function* (action) {
 })
 
 const watchLinksRemove = createRequestSaga(linksRemove, function* ({ payload: { urlIdList } }) {
-  const listData = yield all(urlIdList.map((data) => call(api.linkRemove,data)))
-  return listData.map(res => res.data)
+  const listData = yield all(urlIdList.map((data) => call(api.linkRemove, data)))
+  return listData.map((res) => res.data)
 })
 
 export function* linkSaga() {
-  yield debounce(1000, linksRead.REQUEST, watchLinksRead)
+  yield debounce(100, linksRead.REQUEST, watchLinksRead)
   yield takeLatest(linkCreate.REQUEST, watchLinkCreate)
   yield takeLatest(linkModify.REQUEST, watchLinkModify)
   yield takeLatest(linkRemove.REQUEST, watchLinkRemove)

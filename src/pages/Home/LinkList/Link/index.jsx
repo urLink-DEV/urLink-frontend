@@ -25,6 +25,7 @@ import useStyles from './style'
 import newTabIconImg from '@images/new-tab.svg'
 import copyIconImg from '@images/link-icon.png'
 import { createTab } from '@commons/chromeApis/tab'
+import { limitedStringReplace } from '@commons/utils/filter'
 import copyLink from '@commons/utils/copyLink'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import { useToast } from '@modules/ui'
@@ -222,7 +223,7 @@ function Link({ data }) {
                 variant="body2"
                 component="p"
               >
-                {data.description}
+                {limitedStringReplace(data.description, 65)}
               </Typography>
             </>
           )}

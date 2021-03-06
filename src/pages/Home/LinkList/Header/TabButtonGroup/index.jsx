@@ -6,7 +6,7 @@ import useStyles from './style'
 import { createTabList } from '@commons/chromeApis/tab'
 import { useToast } from '@modules/ui'
 import { linkSelector, linkClearSelect, linksRead, linksRemoveThunk } from '@modules/link'
-import { selectSelectedCategory, categoriesRead } from '@modules/category'
+import { selectSelectedCategory } from '@modules/category'
 
 function TabButtonGroup() {
   const classes = useStyles()

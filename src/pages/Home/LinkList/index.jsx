@@ -10,13 +10,7 @@ import linkListEmptyImg from '@images/group-11.png'
 import linkListSearchEmptyImg from '@images/group-17.png'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import { useCategories, selectSelectedCategory } from '@modules/category'
-import {
-  useLinks,
-  linksRead,
-  linkSelector,
-  linkClearSelect,
-  linkSearchFilterInit,
-} from '@modules/link'
+import { useLinks, linkSelector, linkClearSelect, linkSearchFilterInit } from '@modules/link'
 
 const CATEGORY_EMPTY = 0
 const LINK_EMPTY = 0
@@ -29,7 +23,12 @@ function LinkList() {
   const selectedCategory = useSelector(selectSelectedCategory)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
   const searchFilter = useSelector(linkSelector.searchFilter)
-  const { links } = useLinks({ detact:true,  categoryId: selectedCategory?.id })
+  const { links } = useLinks({
+    detact: true,
+    categoryId: selectedCategory?.id,
+    selectedName: searchFilter?.selectedName,
+    keyword: searchFilter?.keyword,
+  })
 
   const rootRef = useRef(null)
   const contentRef = useRef(null)
@@ -46,17 +45,6 @@ function LinkList() {
     selectedLinkList.length,
     useCallback(() => dispatch(linkClearSelect()), [dispatch])
   )
-
-  useEffect(() => {
-    if (selectedCategory?.id && searchFilter.selectedName) {
-      dispatch(
-        linksRead.request({
-          categoryId: selectedCategory?.id,
-          [searchFilter.selectedName]: searchFilter.keyword,
-        })
-      )
-    }
-  }, [dispatch, searchFilter.selectedName, searchFilter.keyword, selectedCategory])
 
   useEffect(() => {
     contentRef.current.scrollTop = 0
