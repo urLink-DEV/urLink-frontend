@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef, useMemo, memo } from 'react'
+import React, { useCallback, useEffect, useState, useRef, useMemo, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -25,7 +25,6 @@ import useStyles from './style'
 import newTabIconImg from '@images/new-tab.svg'
 import copyIconImg from '@images/link-icon.png'
 import { createTab } from '@commons/chromeApis/tab'
-import { limitedStringReplace } from '@commons/utils/filter'
 import copyLink from '@commons/utils/copyLink'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import { useToast } from '@modules/ui'
@@ -48,7 +47,7 @@ function Link({ data }) {
   const dispatch = useDispatch()
   const { openToast } = useToast()
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
-  const { register, handleSubmit: checkSubmit } = useForm({
+  const { register, handleSubmit: checkSubmit, reset } = useForm({
     defaultValues: {
       title: data.title,
       description: data.description,
@@ -62,6 +61,13 @@ function Link({ data }) {
   const isSelected = useMemo(() => {
     return selectedLinkList?.find((selectData) => selectData.id === data.id)
   }, [data.id, selectedLinkList])
+
+  useEffect(() => {
+    reset({
+      title: data.title,
+      description: data.description,
+    })
+  }, [data, reset])
 
   const handleSelectedLinkCard = useCallback(
     (e) => {
@@ -223,7 +229,7 @@ function Link({ data }) {
                 variant="body2"
                 component="p"
               >
-                {limitedStringReplace(data.description, 65)}
+                {data.description}
               </Typography>
             </>
           )}

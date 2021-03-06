@@ -27,11 +27,14 @@ const useStyles = makeStyles({
     fontSize: 14,
   },
   contentDesc: {
+    display: 'box',
+    boxOrient: 'vertical',
+    overflow: 'hidden',
     width: '100%',
-    height: 55,
+    height: 54,
     fontSize: 12,
     whiteSpace: 'pre-line',
-    overflow: 'scroll',
+    lineClamp: 3,
   },
   cardActions: {
     padding: 5,

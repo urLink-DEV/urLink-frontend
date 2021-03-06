@@ -5,7 +5,3 @@ export function isObjValueEmpty(obj) {
 export function isObjkeysEmpty(obj) {
   return !!Object.keys(obj).length
 }
-
-export function limitedStringReplace(data, limit, replaceString="...") {
-  return data.substring(0, limit) + replaceString
-}
