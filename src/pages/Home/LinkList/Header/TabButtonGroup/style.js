@@ -1,13 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles'
- 
+
 export const useStyles = makeStyles((theme) => ({
-  toolbar: {
-    paddingLeft: 0,
-    paddingRight: 0,
-    '& > :nth-last-child(1)':{
-      marginLeft: 'auto'
-    }
-  },
   tabText: {
     fontSize: 14,
     fontWeight: 'bold',

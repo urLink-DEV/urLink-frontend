@@ -1,28 +1,39 @@
-import React, { useState, useRef } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Grid } from '@material-ui/core'
 import ScrollUpButton from '@components/ScrollUpButton'
 import Header from './Header'
 import Link from './Link'
 import useStyles from './style'
-import { useCategories, selectSelectedCategory } from '@modules/category'
-import { useLinks } from '@modules/link'
 import CategoryEmptyImg from '@images/group-5.svg'
 import linkListEmptyImg from '@images/group-11.png'
 import linkListSearchEmptyImg from '@images/group-17.png'
+import useOutsideAlerter from '@hooks/useOutsideAlerter'
+import { useCategories, selectSelectedCategory } from '@modules/category'
+import {
+  useLinks,
+  linksRead,
+  linkSelector,
+  linkClearSelect,
+  linkSearchFilterInit,
+} from '@modules/link'
 
 const CATEGORY_EMPTY = 0
 const LINK_EMPTY = 0
+const SEARCH_LINK_EMPTY = 1
 
 function LinkList() {
   const classes = useStyles()
+  const dispatch = useDispatch()
   const { categories } = useCategories()
   const selectedCategory = useSelector(selectSelectedCategory)
-  const { links } = useLinks({ categoryId: selectedCategory?.id })
+  const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
+  const searchFilter = useSelector(linkSelector.searchFilter)
+  const { links } = useLinks({ detact:true,  categoryId: selectedCategory?.id })
 
   const rootRef = useRef(null)
+  const contentRef = useRef(null)
   const [showScrollUpButton, setButtonOpen] = useState(null)
-  const [searchValue, setSearchValue] = useState('')
 
   const handleScrollUpBtn = (e) => {
     const scrollTop = e.currentTarget.scrollTop
@@ -30,8 +41,34 @@ function LinkList() {
     setButtonOpen(scrollTop + clientHeight / 2 > clientHeight)
   }
 
+  useOutsideAlerter(
+    rootRef,
+    selectedLinkList.length,
+    useCallback(() => dispatch(linkClearSelect()), [dispatch])
+  )
+
+  useEffect(() => {
+    if (selectedCategory?.id && searchFilter.selectedName) {
+      dispatch(
+        linksRead.request({
+          categoryId: selectedCategory?.id,
+          [searchFilter.selectedName]: searchFilter.keyword,
+        })
+      )
+    }
+  }, [dispatch, searchFilter.selectedName, searchFilter.keyword, selectedCategory])
+
+  useEffect(() => {
+    contentRef.current.scrollTop = 0
+    dispatch(linkClearSelect())
+  }, [dispatch, links])
+
+  useEffect(() => {
+    dispatch(linkSearchFilterInit())
+  }, [dispatch, selectedCategory])
+
   return (
-    <Grid container direction="column" className={classes.root}>
+    <Grid container direction="column" className={classes.root} ref={rootRef}>
       <Grid item>
         <Header />
       </Grid>
@@ -42,7 +79,7 @@ function LinkList() {
         className={classes.content}
         spacing={2}
         onScroll={handleScrollUpBtn}
-        ref={rootRef}
+        ref={contentRef}
       >
         {categories.length === CATEGORY_EMPTY && (
           <Grid item xs={12} className={classes.center}>
@@ -57,7 +94,7 @@ function LinkList() {
         ))}
 
         {links.length === LINK_EMPTY &&
-          (searchValue ? (
+          (searchFilter.keyword && SEARCH_LINK_EMPTY ? (
             <Grid item xs={12} className={classes.center}>
               <img src={linkListSearchEmptyImg} alt="검색 조회 없음" />
             </Grid>
@@ -68,7 +105,7 @@ function LinkList() {
           ))}
       </Grid>
 
-      <ScrollUpButton targetRef={rootRef} open={showScrollUpButton} />
+      <ScrollUpButton targetRef={contentRef} open={showScrollUpButton} />
     </Grid>
   )
 }

@@ -27,10 +27,11 @@ const useStyles = makeStyles({
     fontSize: 14,
   },
   contentDesc: {
+    width: '100%',
     height: 55,
     fontSize: 12,
-    whiteSpace: "pre-line",
-    overflow: "scroll"
+    whiteSpace: 'pre-line',
+    overflow: 'scroll',
   },
   cardActions: {
     padding: 5,
@@ -52,9 +53,6 @@ const useStyles = makeStyles({
     '& > .MuiInputAdornment-positionEnd': {
       marginLeft: 0,
     },
-  },
-  alarmIcon: {
-    color: '#616161',
   },
   alarmIconActive: {
     color: '#fdd835',
