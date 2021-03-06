@@ -3,12 +3,9 @@ import { ListItem } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
+    position: 'relative',
     zIndex: theme.zIndex.drawer,
 
-    width: 50,
     height: '100vh',
 
     backgroundColor: '#fff',
