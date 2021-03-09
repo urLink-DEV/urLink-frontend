@@ -1,10 +1,19 @@
 import { makeStyles } from '@material-ui/core/styles'
 
 export const useStyles = makeStyles((theme) => ({
+  root: {
+    paddingTop: 5,
+    paddingLeft: 28,
+    paddingRight: 20,
+    height: '100vh',
+        backgroundColor:
+      theme.palette.type !== 'dark'
+        ? theme.palette.colorGroup.lightGrey
+        : theme.palette.background.default,
+  },
   content: {
-    width: '100%',
-    padding: theme.spacing(3),
-    margin: '0 50px 0 0',
+    maxHeight: 'calc(100vh - 61px);',
+    overflow: 'scroll',
   },
   center: {
     display: 'flex',

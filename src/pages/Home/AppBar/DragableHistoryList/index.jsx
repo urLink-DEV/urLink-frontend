@@ -157,7 +157,7 @@ function DragableHistoryList() {
         )}
       </CardContent>
       <HistoryDragBox ref={dragBoxRef} selectedCount={selectedList.length} />
-      <ScrollUpButton className={classes.scrollUp} ref={historyContentRef} open={buttonOpen} />
+      <ScrollUpButton targetRef={historyContentRef} open={buttonOpen} />
     </Card>
   )
 }

@@ -1,21 +1,25 @@
-import React, { useCallback, useState, useRef, useMemo, memo } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useCallback, useEffect, useState, useRef, useMemo, memo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import clsx from 'clsx'
-import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import IconButton from '@material-ui/core/IconButton'
-import Typography from '@material-ui/core/Typography'
-import InputBase from '@material-ui/core/InputBase'
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import AddAlertIcon from '@material-ui/icons/AddAlert'
-import CreateIcon from '@material-ui/icons/Create'
-import DoneIcon from '@material-ui/icons/Done'
+import {
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardMedia,
+  IconButton,
+  Typography,
+  InputBase,
+} from '@material-ui/core'
+import {
+  Favorite as FavoriteIcon,
+  AddAlert as AddAlertIcon,
+  Create as CreateIcon,
+  Done as DoneIcon,
+} from '@material-ui/icons'
 import { KeyboardDateTimePicker } from '@material-ui/pickers'
 import useStyles from './style'
 import newTabIconImg from '@images/new-tab.svg'
@@ -24,8 +28,14 @@ import { createTab } from '@commons/chromeApis/tab'
 import copyLink from '@commons/utils/copyLink'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import { useToast } from '@modules/ui'
-import { linksRead, linkCancleSelect, linkModifyThunk, linkSelect } from '@modules/link'
 import { alarmCreateThunk } from '@modules/alarm'
+import {
+  linkSelector,
+  linksRead,
+  linkModifyThunk,
+  linkSelect,
+  linkCancleSelect,
+} from '@modules/link'
 
 const LINK_SCHEMA = yup.object({
   title: yup.string(),
@@ -36,7 +46,8 @@ function Link({ data }) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { openToast } = useToast()
-  const { register, handleSubmit: checkSubmit } = useForm({
+  const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
+  const { register, handleSubmit: checkSubmit, reset } = useForm({
     defaultValues: {
       title: data.title,
       description: data.description,
@@ -46,22 +57,34 @@ function Link({ data }) {
 
   const rootRef = useRef(null)
   const [showNewTabIcon, setShowNewTabIcon] = useState(false)
-  const [isSelected, setIsSelected] = useState(false)
   const [isEditable, setIsEditable] = useState(false)
+  const isSelected = useMemo(() => {
+    return selectedLinkList?.find((selectData) => selectData.id === data.id)
+  }, [data.id, selectedLinkList])
 
-  const handleSelectedCard = useCallback(
+  useEffect(() => {
+    reset({
+      title: data.title,
+      description: data.description,
+    })
+  }, [data, reset])
+
+  const handleSelectedLinkCard = useCallback(
     (e) => {
       e.stopPropagation()
       if (isEditable) return
-      setIsSelected((prev) => !prev)
-      if (isSelected) dispatch(linkSelect(data.id))
-      else dispatch(linkCancleSelect(data.id))
+      if (isSelected) dispatch(linkCancleSelect(data))
+      else dispatch(linkSelect(data))
     },
-    [isSelected, data.id, dispatch, isEditable]
+    [data, dispatch, isEditable, isSelected]
   )
 
-  const handleToggleShowNewTabIcon = useCallback(() => {
-    setShowNewTabIcon((prev) => !prev)
+  const handleShowNewTabIcon = useCallback(() => {
+    setShowNewTabIcon(true)
+  }, [])
+
+  const handleCloseNewTabIcon = useCallback(() => {
+    setShowNewTabIcon(false)
   }, [])
 
   const handleNewTab = useCallback(
@@ -159,12 +182,12 @@ function Link({ data }) {
   return (
     <Card
       className={clsx(classes.root, {
-        [classes.editableCard]: !isSelected && isEditable,
+        [classes.editableCard]: isEditable,
         [classes.selectedCard]: isSelected && !isEditable,
       })}
-      onClick={handleSelectedCard}
-      onMouseEnter={handleToggleShowNewTabIcon}
-      onMouseLeave={handleToggleShowNewTabIcon}
+      onClick={handleSelectedLinkCard}
+      onMouseEnter={handleShowNewTabIcon}
+      onMouseLeave={handleCloseNewTabIcon}
       ref={rootRef}
     >
       <CardActionArea disableRipple>
@@ -184,7 +207,7 @@ function Link({ data }) {
               <InputBase
                 className={classes.contentDesc}
                 name="description"
-                rowsMin={3}
+                rows={3}
                 multiline
                 inputRef={register}
               />
@@ -234,7 +257,7 @@ function Link({ data }) {
           keyboardIcon={
             <AddAlertIcon
               fontSize="small"
-              className={clsx(classes.alarmIcon, {
+              className={clsx({
                 [classes.alarmIconActive]: data.has_alarms,
               })}
             />
