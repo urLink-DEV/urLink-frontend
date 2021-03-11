@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 4,
     backgroundColor: theme.palette.background.paper,
     boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.12)',
-    
+
     '& .Mui-focusVisible': {
       backgroundColor: 'transparent',
     },
@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   listButton: {
     padding: '3px 12px 3px 12px',
+    width: '100%',
     '& .MuiListItemIcon-root': {
       minWidth: 16,
       marginRight: 12,
@@ -40,12 +41,12 @@ const useStyles = makeStyles((theme) => ({
   mainFont: {
     display: 'inline-block',
     verticalAlign: 'bottom',
-    
+
     overflow: 'hidden',
 
     width: 295,
     marginRight: 12,
-    
+
     color: theme.palette.text.primary,
 
     fontSize: 14,
@@ -56,13 +57,13 @@ const useStyles = makeStyles((theme) => ({
   subFont: {
     display: 'inline-block',
     verticalAlign: 'bottom',
-    
+
     overflow: 'hidden',
-    
+
     width: 157,
-    
+
     color: theme.palette.text.secondary,
-    
+
     fontSize: 14,
     letterSpacing: -0.6,
     whiteSpace: 'nowrap',
@@ -74,6 +75,6 @@ const useStyles = makeStyles((theme) => ({
   iconButton: {
     padding: 5,
   },
-}));
+}))
 
 export default useStyles

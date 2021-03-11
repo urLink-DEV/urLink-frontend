@@ -54,7 +54,7 @@ const theme = createMuiTheme({
       },
     },
   },
-});
+})
 
 const browserHistory = createBrowserHistory();
 const sagaMiddleware = createSagaMiddleware({

@@ -22,6 +22,6 @@ const queryInfoData = {
       action: 'done',
     },
   },
-};
+}
 
-export default queryInfoData;
+export default queryInfoData
