@@ -1,4 +1,4 @@
-import { call, takeLatest, put } from 'redux-saga/effects'
+import { call, takeLatest } from 'redux-saga/effects'
 import { createRequestSaga } from '../helpers'
 import { categoriesRead, categoryCreate, categoryModify, categoryRemove } from './reducer'
 import * as api from './api'

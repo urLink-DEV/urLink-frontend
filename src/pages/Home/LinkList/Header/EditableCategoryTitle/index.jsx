@@ -12,7 +12,7 @@ import DoneIcon from '@material-ui/icons/Done'
 import useStyles from './style'
 import { isObjkeysEmpty } from '@commons/utils/filter'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
-import { categoriesRead, selectSelectedCategory, categoryModifyThunk } from '@modules/category'
+import { categorySelect, selectSelectedCategory, categoryModifyThunk } from '@modules/category'
 
 const CATEGORY_NAME_MAX_LENTH = 6
 const CATEGORY_SCHEMA = yup.object({
@@ -49,13 +49,13 @@ function EditableCategoryTitle() {
 
   const handleEditDone = useMemo(() => {
     return checkSubmit(async (formData) => {
-      await dispatch(
+      const response = await dispatch(
         categoryModifyThunk({
           id: category.id,
           name: formData.name,
         })
       )
-      dispatch(categoriesRead.request())
+      dispatch(categorySelect({ ...response }))
       setIsEditable(false)
     })
   }, [category, checkSubmit, dispatch])

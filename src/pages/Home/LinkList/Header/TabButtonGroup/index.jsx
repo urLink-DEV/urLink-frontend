@@ -6,7 +6,7 @@ import useStyles from './style'
 import { createTabList } from '@commons/chromeApis/tab'
 import { useToast } from '@modules/ui'
 import { linkSelector, linkClearSelect, linksRead, linksRemoveThunk } from '@modules/link'
-import { selectSelectedCategory } from '@modules/category'
+import { selectSelectedCategory, categoriesRead } from '@modules/category'
 
 function TabButtonGroup() {
   const classes = useStyles()
@@ -29,7 +29,7 @@ function TabButtonGroup() {
     } catch (error) {
       openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
     } finally {
-      // dispatch(categoriesRead.request()) // !! BUG:정보를 불러오는 순간 category 첫번째가 자동으로 읽어 오는 버그 발견
+      dispatch(categoriesRead.request())
       dispatch(linksRead.request({ categoryId: selectedCategory.id }))
     }
   }, [dispatch, selectedLinkList, selectedCategory.id, openToast])
