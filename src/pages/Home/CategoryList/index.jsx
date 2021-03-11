@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import ErrorIcon from '@material-ui/icons/Error'
@@ -32,8 +32,8 @@ function CategoryList(props) {
   const { setDragData, clearDragData, dragType, data: dragData, listData } = useDrag(CATEGORY)
   const draggedCategory = useRef(null)
   const { openToast } = useToast()
-
   const [linkHoverTabId, setLinkHoverTabId] = useState(null)
+
   // 추후 삭제 예정
   const { isEditCategoryTitle, editCategoryTitle } = props
 
@@ -169,6 +169,7 @@ function CategoryList(props) {
         }
         setTimeout(() => {
           clearDragData()
+          setLinkHoverTabId(null)
         }, 500)
       } catch (error) {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
@@ -229,9 +230,7 @@ function CategoryList(props) {
                         selected={data.id === selectedCategory?.id}
                         isEditTitle={isEditCategoryTitle}
                         dragFinished={
-                          data.id === hoverTabId || data.id === linkHoverTabId
-                            ? dragFinished
-                            : false
+                          data.id === draggedId || data.id === linkHoverTabId ? dragFinished : false
                         }
                         selectedCategoryTitle={
                           isEditCategoryTitle ? editCategoryTitle : selectedCategory?.name
@@ -259,9 +258,7 @@ function CategoryList(props) {
                         selected={data.id === selectedCategory?.id}
                         isEditTitle={isEditCategoryTitle}
                         dragFinished={
-                          data.id === hoverTabId || data.id === linkHoverTabId
-                            ? dragFinished
-                            : false
+                          data.id === draggedId || data.id === linkHoverTabId ? dragFinished : false
                         }
                         selectedCategoryTitle={
                           isEditCategoryTitle ? editCategoryTitle : selectedCategory?.name

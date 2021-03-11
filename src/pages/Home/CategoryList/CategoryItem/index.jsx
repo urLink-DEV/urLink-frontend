@@ -32,6 +32,8 @@ function CategoryItem({
     }
   }, [selected, selectedCategoryTitle])
 
+  console.log(dragFinished)
+
   return (
     <div>
       <div

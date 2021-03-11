@@ -24,21 +24,23 @@ const initialState = {
 }
 
 export const categoryReducer = createReducer(initialState, {
-  [categoriesRead.SUCCESS]: (state, { payload }) => {
+  [categoriesRead.SUCCESS]: (state, { payload, meta }) => {
     state.data = payload
-    state.selectedCategory = {
-      ...state.selectedCategory,
-      type: 'mount',
-      ...payload.filter((item) => !Boolean(item.is_favorited))[0],
+
+    if (meta?.key === 'isFirstCategory') {
+      state.selectedCategory = {
+        ...state.selectedCategory,
+        ...payload.filter((item) => !Boolean(item.is_favorited))[0],
+      }
     }
   },
+
   [categorySelect]: (state, { payload }) => {
-    state.selectedCategory = { ...state.selectedCategory, type: 'select', ...payload }
+    state.selectedCategory = { ...state.selectedCategory, ...payload }
   },
 })
 
 // Select
-
 export const selectCategories = (state) => state[CATEGORY].data
 export const selectFavoriteCategories = (state) =>
   state[CATEGORY].data.filter((item) => Boolean(item.is_favorited))

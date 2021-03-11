@@ -52,11 +52,6 @@ const useStyles = makeStyles((theme) => ({
   imgContent: {
     width: 'auto',
   },
-  scrollUp: {
-    position: 'absolute',
-    bottom: 14,
-    right: 6,
-  },
 
   /* common */
   rowSpread: {

@@ -10,7 +10,7 @@ import { selectSelectedCategory, categoriesReadThunk } from '@modules/category'
 const { LINK } = DRAG
 const { LINK_DROP_ZONE } = DROP_ZONE
 
-function LinkDropZone({ id }) {
+function LinkDropZone() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const selectedCategory = useSelector(selectSelectedCategory)
