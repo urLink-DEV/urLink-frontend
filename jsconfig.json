@@ -1,34 +1,16 @@
 {
-    "compilerOptions": {
-        "baseUrl": "src",
-        "paths": {
-            "@/*": [
-                "./*"
-            ],
-            "@modules/*": [
-                "modules/*"
-            ],
-            "@commons/*": [
-                "commons/*"
-            ],
-            "@config/*": [
-                "config/*"
-            ],
-            "@assets/*": [
-                "assets/*"
-            ],
-            "@images/*": [
-                "images/*"
-            ],
-            "@hooks/*": [
-                "hooks/*"
-            ],
-            "@components/*": [
-                "components/*"
-            ],
-            "@pages/*": [
-                "pages/*"
-            ]
-        }
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"],
+      "@modules/*": ["modules/*"],
+      "@commons/*": ["commons/*"],
+      "@config/*": ["config/*"],
+      "@assets/*": ["assets/*"],
+      "@images/*": ["images/*"],
+      "@hooks/*": ["hooks/*"],
+      "@components/*": ["components/*"],
+      "@pages/*": ["pages/*"]
     }
+  }
 }

@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   extends: ['react-app', 'plugin:prettier/recommended'],
-  plugins: ['react-hooks'],
+  plugins: ['react-hooks', 'import', 'prettier'],
   env: {
     browser: true,
     node: true,
@@ -17,19 +17,26 @@ module.exports = {
   rules: {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn', // Checks effect dependencies
-    'prettier/prettier': [
-      'warn',
+    'prettier/prettier': 'error',
+    // import order 정의
+    'import/order': [
+      'error',
       {
-        printWidth: 100,
-        singleQuote: true,
-        semi: true,
-        useTabs: false,
-        tabWidth: 2,
-        trailingComma: 'es5',
-        bracketSpacing: true,
-        endOfLine: 'auto',
-        // arrowParens: 'avoid',
+        groups: ['builtin', 'external', 'internal'],
+        pathGroups: [
+          {
+            pattern: 'react',
+            group: 'external',
+            position: 'before',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['react'],
+        'newlines-between': 'always',
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true,
+        },
       },
     ],
   },
-};
+}

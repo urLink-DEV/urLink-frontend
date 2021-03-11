@@ -1,12 +1,33 @@
 {
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
-    },
-    "eslint.alwaysShowStatus": true,
-    "eslint.workingDirectories": [
-        {"mode": "auto"}
+  "javascript.format.enable": false,
+  "editor.formatOnSave": false,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "eslint.options": {
+    "extensions": [
+      ".js",
+      ".jsx",
     ],
-    "eslint.validate": [
-        "javascript"
+    "validate": [
+      "javascript",
+      "javascriptreact",
     ]
+  },
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "eslint.alwaysShowStatus": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": false,
+    "source.fixAll.eslint": true
+  },
 }
