@@ -1,13 +1,14 @@
-import React, { useRef, useState } from 'react';
-import { Popover } from '@material-ui/core';
-import useStyles from './style';
-import SearchImg from '@images/search.png';
+import React, { useRef, useState } from 'react'
+import ToggleButton from '@material-ui/lab/ToggleButton'
+import { Popover } from '@material-ui/core'
+import useStyles, { StyledToggleButtonGroup } from './style'
+import SearchImg from '@images/search.png'
 
-function SearchButton({ buttonProps, inputProps }) {
-  const classes = useStyles();
+function SearchButton({ buttonProps, inputProps, listSearchFilter, onSelectButton, selectedName }) {
+  const classes = useStyles()
 
-  const searchButtonRef = useRef(null);
-  const [openSearchBox, setOpenSearchBox] = useState(false);
+  const searchButtonRef = useRef(null)
+  const [openSearchBox, setOpenSearchBox] = useState(false)
 
   return (
     <>
@@ -35,12 +36,38 @@ function SearchButton({ buttonProps, inputProps }) {
             <span className={classes.searchBtnText}>Search</span>
           </div>
           <div>
-            <input className={classes.textfield} placeholder="검색어를 입력해 주세요." {...inputProps} />
+            <input
+              className={classes.textfield}
+              placeholder="검색어를 입력해 주세요."
+              {...inputProps}
+            />
           </div>
+          {listSearchFilter && (
+            <div>
+              <StyledToggleButtonGroup
+                size="small"
+                exclusive
+                value={selectedName}
+                onChange={onSelectButton}
+              >
+                {listSearchFilter.map(({ search, name }) => (
+                  <ToggleButton
+                    key={search}
+                    className={classes.popoverBtn}
+                    value={search}
+                    variant="contained"
+                    size="small"
+                  >
+                    {name}
+                  </ToggleButton>
+                ))}
+              </StyledToggleButtonGroup>
+            </div>
+          )}
         </div>
       </Popover>
     </>
-  );
+  )
 }
 
-export default SearchButton;
+export default SearchButton

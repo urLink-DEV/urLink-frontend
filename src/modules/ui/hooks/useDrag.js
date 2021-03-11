@@ -1,31 +1,41 @@
-import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { DRAG, setDrag, clearDrag, uiSelector } from '@modules/ui';
-const { DRAG_STATUS } = DRAG;
+import { DRAG, setDrag, clearDrag, uiSelector } from '@modules/ui'
+const { DRAG_STATUS } = DRAG
 
 const useDrag = (type) => {
-  const { type: dragType, status: dragStatus, listData } = useSelector(uiSelector.drag);
-  const dispatch = useDispatch();
+  const { type: dragType, status: dragStatus, listData, data } = useSelector(uiSelector.drag)
+  const dispatch = useDispatch()
 
   const setDragData = useCallback(
-    (listData) => {
-      dispatch(
-        setDrag({
-          type,
-          status: DRAG_STATUS,
-          listData,
-        })
-      );
+    (dragData) => {
+      if (Array.isArray(dragData)) {
+        dispatch(
+          setDrag({
+            type,
+            status: DRAG_STATUS,
+            listData: dragData,
+          })
+        )
+      } else {
+        dispatch(
+          setDrag({
+            type,
+            status: DRAG_STATUS,
+            data: dragData,
+          })
+        )
+      }
     },
     [type, dispatch]
-  );
+  )
 
   const clearDragData = useCallback(() => {
-    dispatch(clearDrag());
-  }, [dispatch]);
+    dispatch(clearDrag())
+  }, [dispatch])
 
-  return { dragType, dragStatus, listData, setDragData, clearDragData };
-};
+  return { dragType, dragStatus, listData, data, setDragData, clearDragData }
+}
 
-export default useDrag;
+export default useDrag
