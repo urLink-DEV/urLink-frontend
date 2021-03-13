@@ -26,9 +26,7 @@ export function getHistoryList({ text, startTime = 0, endTime = Date.now(), maxR
         historyList = historyList.filter(
           (history) => startTime <= history.lastVisitTime && history.lastVisitTime <= endTime
         )
-        historyList.sort(
-          (preHistory, curHistory) => curHistory.lastVisitTime - preHistory.lastVisitTime
-        )
+        historyList.sort((preHistory, curHistory) => curHistory.lastVisitTime - preHistory.lastVisitTime)
         let prevDate = ''
         const resultList = historyList.map(function (history) {
           let curDate = new Date(history.lastVisitTime).toLocaleDateString()

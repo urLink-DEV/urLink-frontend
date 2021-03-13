@@ -1,5 +1,6 @@
-import { axios } from '@commons/http/client'
-import queryFilter from '@commons/http/queryFilter'
+import { axios } from '@utils/http/client'
+import queryFilter from '@utils/http/queryFilter'
+
 import queryInfoData from './queryInfoData'
 
 export const linksRead = (data = {}) => {

@@ -1,14 +1,17 @@
-import React from 'react';
-import { DialogTitle, Button } from '@material-ui/core';
+import React from 'react'
+
+import { DialogTitle, Button } from '@material-ui/core'
+
 import {
   StyledDialog,
   StyledDialogContent,
   StyledDialogContentText,
   StyledDialogActions,
-} from '@components/modals/style';
-import textInfo from './textInfo';
+} from '@components/modals/style'
 
-function TermsModal({ open, onClose, onYesClick, onYesText, onNoClick, onNoText }) {
+import textInfo from './textInfo'
+
+function TermsModal({ open, onClose, onYesClick, onYesText = '동의함', onNoClick, onNoText = '동의안함' }) {
   return (
     <StyledDialog
       aria-labelledby="alert-dialog-title"
@@ -21,25 +24,22 @@ function TermsModal({ open, onClose, onYesClick, onYesText, onNoClick, onNoText 
         이용 약관 동의
       </DialogTitle>
       <StyledDialogContent>
-        <StyledDialogContentText
-          id="alert-dialog-description"
-          dangerouslySetInnerHTML={{ __html: textInfo }}
-        />
+        <StyledDialogContentText id="alert-dialog-description" dangerouslySetInnerHTML={{ __html: textInfo }} />
       </StyledDialogContent>
       <StyledDialogActions>
         {onYesClick && (
           <Button onClick={onYesClick} color="primary" autoFocus style={{ fontWeight: 'bold' }}>
-            {onYesText || '동의함'}
+            {onYesText}
           </Button>
         )}
         {onNoClick && (
           <Button onClick={onNoClick} color="primary" style={{ fontWeight: 'bold' }}>
-            {onNoText || '동의안함'}
+            {onNoText}
           </Button>
         )}
       </StyledDialogActions>
     </StyledDialog>
-  );
+  )
 }
 
-export default TermsModal;
+export default TermsModal

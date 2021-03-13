@@ -1,28 +1,30 @@
-import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { openDropZone, closeDropZone, closeAllDropZones, uiSelector } from '@modules/ui';
+import { useCallback } from 'react'
+
+import { useDispatch, useSelector } from 'react-redux'
+
+import { openDropZone, closeDropZone, closeAllDropZones, uiSelector } from '@modules/ui'
 
 const useDropZone = (type) => {
-  const dropZones = useSelector(uiSelector.dropZones);
-  const dispatch = useDispatch();
-  const open = !!dropZones.find((dropZone) => dropZone.type === type);
+  const dropZones = useSelector(uiSelector.dropZones)
+  const dispatch = useDispatch()
+  const open = !!dropZones.find((dropZone) => dropZone.type === type)
 
   const toggle = useCallback(() => {
-    if (open) dispatch(closeDropZone({ type }));
-    else dispatch(openDropZone({ type }));
-  }, [open, type, dispatch]);
+    if (open) dispatch(closeDropZone({ type }))
+    else dispatch(openDropZone({ type }))
+  }, [open, type, dispatch])
 
   const close = useCallback(() => {
-    dispatch(closeDropZone({ type }));
-  }, [dispatch, type]);
+    dispatch(closeDropZone({ type }))
+  }, [dispatch, type])
 
   const closeAll = useCallback(() => {
     if (dropZones.length) {
-      dispatch(closeAllDropZones());
+      dispatch(closeAllDropZones())
     }
-  }, [dispatch, dropZones]);
+  }, [dispatch, dropZones])
 
-  return { open, toggle, close, closeAll };
-};
+  return { open, toggle, close, closeAll }
+}
 
-export default useDropZone;
+export default useDropZone

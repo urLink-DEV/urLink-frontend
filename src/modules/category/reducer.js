@@ -1,4 +1,5 @@
 import { createReducer, createAction } from '@reduxjs/toolkit'
+
 import { createRequestAction, createRequestThunk } from '../helpers'
 
 export const CATEGORY = 'CATEGORY'
@@ -42,8 +43,6 @@ export const categoryReducer = createReducer(initialState, {
 
 // Select
 export const selectCategories = (state) => state[CATEGORY].data
-export const selectFavoriteCategories = (state) =>
-  state[CATEGORY].data.filter((item) => Boolean(item.is_favorited))
-export const selectNotFavoriteCategories = (state) =>
-  state[CATEGORY].data.filter((item) => !Boolean(item.is_favorited))
+export const selectFavoriteCategories = (state) => state[CATEGORY].data.filter((item) => Boolean(item.is_favorited))
+export const selectNotFavoriteCategories = (state) => state[CATEGORY].data.filter((item) => !Boolean(item.is_favorited))
 export const selectSelectedCategory = (state) => state[CATEGORY].selectedCategory

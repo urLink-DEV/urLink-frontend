@@ -1,7 +1,8 @@
 import { call, takeLatest } from 'redux-saga/effects'
+
 import { createRequestSaga } from '../helpers'
-import { alarmsRead, alarmCreate, alarmRemove } from './reducer'
 import * as api from './api'
+import { alarmsRead, alarmCreate, alarmRemove } from './reducer'
 
 const watchAlarmsRead = createRequestSaga(alarmsRead, function* () {
   const { data } = yield call(api.alarmsRead)

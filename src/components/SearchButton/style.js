@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles'
-import { withStyles } from '@material-ui/styles'
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
+import { withStyles } from '@material-ui/styles'
 
 export const StyledToggleButtonGroup = withStyles((theme) => ({
   grouped: {
@@ -22,8 +22,8 @@ const useStyles = makeStyles((_theme) => ({
   },
   searchBtn: {
     height: 30,
-    borderRadius: 4,
     padding: '5px 10px',
+    borderRadius: 4,
     backgroundColor: '#ffffff',
     boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.12)',
     '&:hover': {
@@ -43,19 +43,19 @@ const useStyles = makeStyles((_theme) => ({
   },
   inputBox: {
     width: 220,
-    borderRadius: 4,
     padding: '5px 10px',
+    borderRadius: 4,
     backgroundColor: '#ffffff',
     boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12)',
   },
   textfield: {
     width: '100%',
     height: 28,
-    borderRadius: '4px',
     padding: '3px 7px',
-    outline: 'none',
+    borderRadius: '4px',
     border: 'solid 1px #e9ecef',
     backgroundColor: '#f1f3f5',
+    outline: 'none',
     '&:focus': { border: '1px solid #2083ff' },
   },
   marginBottom10: {

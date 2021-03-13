@@ -1,6 +1,7 @@
-import { updateToken, queryInfoData } from '@modules/token'
 import Axios from 'axios'
 import { SERVER_TOKEN, SERVER_TOKEN_NOT_VALID, LOGIN_REQUIRED_VALID } from 'setting'
+
+import { updateToken, queryInfoData } from '@modules/token'
 
 import { getAccessToken, getRefreshToken, setAccessToken, removeAccessToken } from './auth'
 import queryFilter from './queryFilter'
@@ -21,13 +22,7 @@ export const axiosSetting = {
   api: '/api/v1',
   port: '',
   server: function () {
-    return (
-      (this.scheme ? this.scheme + ':' : '') +
-      '//' +
-      this.host +
-      this.api +
-      (this.port ? ':' + this.port : '')
-    )
+    return (this.scheme ? this.scheme + ':' : '') + '//' + this.host + this.api + (this.port ? ':' + this.port : '')
   },
   redirectPage: () => {
     window.location.reload()

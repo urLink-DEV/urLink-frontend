@@ -1,11 +1,13 @@
 import { useEffect } from 'react'
+
 import { useDispatch, useSelector } from 'react-redux'
+
 import { alaramNoticeConnection } from '@modules/alarmNotice'
-import { alarmSocket } from '@commons/http/ws'
+import { alarmSocket } from '@utils/http/ws'
 
 const OPEN = 1
 const CLOSED = 3
-const LIMIT_RETRY_CONNECT_COUNT = 1;
+const LIMIT_RETRY_CONNECT_COUNT = 1
 
 export function useAlaramNoticeConnection() {
   const dispatch = useDispatch()
@@ -19,10 +21,7 @@ export function useAlaramNoticeConnection() {
         .setOnmessage((event) => dispatch(alaramNoticeConnection.request({ event })))
         .setOnerror(
           function (event) {
-            if (
-              this.ws.readyState === CLOSED &&
-              this.connectionRetry <= LIMIT_RETRY_CONNECT_COUNT
-            ) {
+            if (this.ws.readyState === CLOSED && this.connectionRetry <= LIMIT_RETRY_CONNECT_COUNT) {
               setTimeout(() => {
                 this.onConnection(this.ws)
                 this.connectionRetry++

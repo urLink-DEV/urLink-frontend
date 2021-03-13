@@ -24,6 +24,6 @@ const queryInfoData = {
       token: '',
     },
   },
-};
+}
 
-export default queryInfoData;
+export default queryInfoData

@@ -30,7 +30,7 @@ const queryInfoData = {
         day: '',
         hour: '',
         minute: '',
-      }
+      },
     },
     urlQuery: {
       categoryId: '',

@@ -81,7 +81,7 @@ const queryInfoData = {
       userId: '',
     },
     replaceAPI({ userId }) {
-      return this.API.replace('{userId}/', userId ? `${userId}/` : '');
+      return this.API.replace('{userId}/', userId ? `${userId}/` : '')
     },
   },
 
@@ -103,7 +103,7 @@ const queryInfoData = {
       userId: '',
     },
     replaceAPI({ userId }) {
-      return this.API.replace('{userId}/', userId ? `${userId}/` : '');
+      return this.API.replace('{userId}/', userId ? `${userId}/` : '')
     },
   },
 
@@ -119,6 +119,6 @@ const queryInfoData = {
       userId: '',
     },
   },
-};
+}
 
-export default queryInfoData;
+export default queryInfoData

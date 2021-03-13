@@ -1,2 +1,2 @@
-export { default as TermsModal } from './TermsModal';
-export { default as AlertModal } from './AlertModal';
+export { default as TermsModal } from './TermsModal'
+export { default as AlertModal } from './AlertModal'

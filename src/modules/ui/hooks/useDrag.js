@@ -1,7 +1,9 @@
 import { useCallback } from 'react'
+
 import { useDispatch, useSelector } from 'react-redux'
 
 import { DRAG, setDrag, clearDrag, uiSelector } from '@modules/ui'
+
 const { DRAG_STATUS } = DRAG
 
 const useDrag = (type) => {

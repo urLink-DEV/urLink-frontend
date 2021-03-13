@@ -1,12 +1,11 @@
-import React from 'react';
-import { StyledFab } from './style';
+import React from 'react'
+
+import { StyledFab } from './style'
 
 function ExtendedFab(props) {
-  const isExtended = React.Children.toArray(props.children).find(
-    (child) => typeof child === 'string'
-  );
+  const isExtended = React.Children.toArray(props.children).find((child) => typeof child === 'string')
 
-  return <StyledFab variant={isExtended && 'extended'} {...props} />;
+  return <StyledFab variant={isExtended && 'extended'} {...props} />
 }
 
-export default ExtendedFab;
+export default ExtendedFab

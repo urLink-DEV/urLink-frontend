@@ -1,13 +1,16 @@
 import React from 'react'
-import clsx from 'clsx'
+
 import { ArrowUpward as ArrowUpwardIcon } from '@material-ui/icons'
+import clsx from 'clsx'
+
 import ExtendedFab from '@components/ExtendedFab'
+
 import useStyles from './style'
 
 function ScrollUpButton({ targetRef, className, open }) {
   const classes = useStyles()
 
-  const handleScrollUp = (_e) => {
+  const handleScrollUp = () => {
     scrollTo(targetRef.current, 0, 1000)
   }
 

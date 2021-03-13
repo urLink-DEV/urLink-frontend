@@ -1,19 +1,26 @@
-import React from 'react';
+import React from 'react'
 
-import useStyles from './style.js';
+import clsx from 'clsx'
 
-import checkTrueImg from '@images/check-true.png';
-import checkFalseImg from '@images/check-false.png';
+import checkFalseImg from '@assets/images/check-false.png'
+import checkTrueImg from '@assets/images/check-true.png'
+
+import useStyles from './style.js'
 
 function ValidationMessage({ msg, check }) {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
-    <div className={classes.checkValidation + ' ' + (msg && (check ? classes.checkFalse : classes.checkTrue))}>
-      <img src={check ? checkFalseImg : checkTrueImg} alt={check ? classes.checkFalse : classes.checkTrue}></img>
+    <div
+      className={clsx(classes.checkValidation, {
+        [classes.checkFalse]: msg && check,
+        [classes.checkTrue]: msg && !check,
+      })}
+    >
+      <img src={check ? checkFalseImg : checkTrueImg} alt={check ? 'validation  error' : 'validation success'}></img>
       {msg}
     </div>
-  );
+  )
 }
 
-export default ValidationMessage;
+export default ValidationMessage

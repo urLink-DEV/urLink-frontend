@@ -1,6 +1,7 @@
+import queryFilter from '@utils/http/queryFilter'
+import { alarmSocket } from '@utils/http/ws'
+
 import queryInfoData from './queryInfoData'
-import queryFilter from '@commons/http/queryFilter'
-import { alarmSocket } from '@commons/http/ws'
 
 export const alarmReadNotice = (data = {}) => {
   const queryData = queryInfoData['alarmReadNotice']

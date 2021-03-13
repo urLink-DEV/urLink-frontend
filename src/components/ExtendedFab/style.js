@@ -1,14 +1,14 @@
-import { withStyles } from '@material-ui/core/styles';
-import { Fab } from '@material-ui/core';
+import { Fab } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 
 export const StyledFab = withStyles((theme) => ({
   root: {
-    borderRadius: '50%',
+    position: 'absolute',
+    bottom: 7,
+    right: 5,
     width: 40,
     height: 40,
     margin: 0,
-    bottom: 7,
-    right: 5,
-    position: 'absolute',
+    borderRadius: '50%',
   },
-}))(Fab);
+}))(Fab)

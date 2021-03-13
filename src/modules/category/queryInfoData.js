@@ -42,7 +42,7 @@ const queryInfoData = {
       id: '',
     },
     replaceAPI({ id }) {
-      return this.API.replace('{id}/', id ? `${id}/` : '');
+      return this.API.replace('{id}/', id ? `${id}/` : '')
     },
   },
 
@@ -59,9 +59,9 @@ const queryInfoData = {
       id: '',
     },
     replaceAPI({ id }) {
-      return this.API.replace('{id}/', id ? `${id}/` : '');
+      return this.API.replace('{id}/', id ? `${id}/` : '')
     },
   },
-};
+}
 
-export default queryInfoData;
+export default queryInfoData

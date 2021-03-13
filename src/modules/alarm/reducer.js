@@ -1,4 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
+
 import { createRequestAction, createRequestThunk } from '../helpers'
 
 export const ALARM = 'ALARM'

@@ -1,7 +1,8 @@
-import React from 'react';
-import { Snackbar, IconButton, Slide, Grow, Fade } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import Alert from '@material-ui/lab/Alert';
+import React from 'react'
+
+import { Snackbar, IconButton, Slide, Grow, Fade } from '@material-ui/core'
+import CloseIcon from '@material-ui/icons/Close'
+import Alert from '@material-ui/lab/Alert'
 
 function SnackbarTrasition({ transition, direction, ...rest }) {
   return (
@@ -10,7 +11,7 @@ function SnackbarTrasition({ transition, direction, ...rest }) {
       TransitionProps={{ direction }}
       {...rest}
     />
-  );
+  )
 }
 
 function Toast({ open, type, message, close, ...props }) {
@@ -39,7 +40,7 @@ function Toast({ open, type, message, close, ...props }) {
         </Alert>
       )}
     </SnackbarTrasition>
-  );
+  )
 }
 
-export default Toast;
+export default Toast

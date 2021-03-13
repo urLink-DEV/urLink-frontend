@@ -1,7 +1,8 @@
 import { call, takeLatest } from 'redux-saga/effects'
+
 import { createRequestSaga } from '../helpers'
-import { categoriesRead, categoryCreate, categoryModify, categoryRemove } from './reducer'
 import * as api from './api'
+import { categoriesRead, categoryCreate, categoryModify, categoryRemove } from './reducer'
 
 const watchCategoriesRead = createRequestSaga(categoriesRead, function* () {
   const { data } = yield call(api.categoriesRead)

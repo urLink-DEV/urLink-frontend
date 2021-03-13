@@ -1,3 +1,3 @@
-export * from './reducer';
-export * from './saga';
-export * from './hooks/useCategories';
+export * from './reducer'
+export * from './saga'
+export * from './hooks/useCategories'

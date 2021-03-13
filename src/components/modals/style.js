@@ -1,12 +1,12 @@
-import { withStyles } from '@material-ui/core/styles';
-import { Dialog, DialogActions, DialogContent, DialogContentText } from '@material-ui/core';
+import { Dialog, DialogActions, DialogContent, DialogContentText } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 
 export const StyledDialog = withStyles((theme) => ({
   paperWidthSm: {
     width: 340,
     height: 216,
   },
-}))(Dialog);
+}))(Dialog)
 
 export const StyledDialogContent = withStyles((theme) => ({
   root: {
@@ -15,7 +15,7 @@ export const StyledDialogContent = withStyles((theme) => ({
       overflowY: 'hidden',
     },
   },
-}))(DialogContent);
+}))(DialogContent)
 
 export const StyledDialogContentText = withStyles((theme) => ({
   root: {
@@ -25,7 +25,7 @@ export const StyledDialogContentText = withStyles((theme) => ({
 
     fontSize: 14,
   },
-}))(DialogContentText);
+}))(DialogContentText)
 
 export const StyledDialogActions = withStyles((theme) => ({
   root: {
@@ -38,4 +38,4 @@ export const StyledDialogActions = withStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'space-around',
   },
-}))(DialogActions);
+}))(DialogActions)

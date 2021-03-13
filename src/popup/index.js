@@ -1,104 +1,98 @@
-import { getTabsQuery } from '@commons/chromeApis/tab';
-import { getAccessToken } from '@commons/http/auth';
-import { categoriesRead } from '@modules/category';
-import { linkCreate } from '@modules/link';
-
-import '@assets/css/default.css';
-import '@assets/css/popup.css';
-
-import emptyImg from '@images/group-26.svg';
-import loginImg from '@images/group-25.svg';
-import starImg from '@images/group-27.svg';
-import checkImg from '@images/white.svg';
+import '@assets/css/default.css'
+import '@assets/css/popup.css'
+import loginImg from '@assets/images/group-25.svg'
+import emptyImg from '@assets/images/group-26.svg'
+import starImg from '@assets/images/group-27.svg'
+import checkImg from '@assets/images/white.svg'
+import { categoriesRead } from '@modules/category/api'
+import { linkCreate } from '@modules/link/api'
+import { getTabsQuery } from '@utils/chromeApis/tab'
+import { getAccessToken } from '@utils/http/auth'
 
 window.addEventListener('DOMContentLoaded', () => {
   if (getAccessToken()) {
-    APILoad.categoryListAppend();
-    EventSetting.linkSaveEventSetting();
+    APILoad.categoryListAppend()
+    EventSetting.linkSaveEventSetting()
   } else {
-    document.getElementById('categoryList').innerHTML = Template.loginRequired();
+    document.getElementById('categoryList').innerHTML = Template.loginRequired()
   }
-});
+})
 
 const APILoad = {
   async categoryListAppend() {
-    const categoryListElement = document.getElementById('categoryList');
+    const categoryListElement = document.getElementById('categoryList')
     try {
-      const { data } = await categoriesRead();
+      const { data } = await categoriesRead()
       if (data?.length) {
-        categoryListElement.innerHTML = data.map((item) => Template.categoryItem(item)).join('');
-        data.map((item) => EventSetting.categoryEventSetting(item));
+        categoryListElement.innerHTML = data.map((item) => Template.categoryItem(item)).join('')
+        data.map((item) => EventSetting.categoryEventSetting(item))
       } else {
-        categoryListElement.innerHTML = Template.categoryEmpty();
+        categoryListElement.innerHTML = Template.categoryEmpty()
       }
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   },
 
   async linkWrite(categoryId, path) {
-    const categoryCardElement = document.getElementById(`category${categoryId}`);
+    const categoryCardElement = document.getElementById(`category${categoryId}`)
     try {
-      const { data } = await linkCreate({ categoryId, path });
+      const { data } = await linkCreate({ categoryId, path })
       if (data?.length) {
-        categoryCardElement.classList.add('upload-finish');
-        popupMessage({ message: '링크가 이동 되었습니다.' });
+        categoryCardElement.classList.add('upload-finish')
+        popupMessage({ message: '링크가 이동 되었습니다.' })
       }
     } catch (error) {
-      categoryCardElement.classList.remove('check');
-      if (error.response?.status === 500) popupMessage({ message: '유효하지 않은 링크 입니다.' });
+      categoryCardElement.classList.remove('check')
+      if (error.response?.status === 500) popupMessage({ message: '유효하지 않은 링크 입니다.' })
       else if (error?.response?.data?.message) {
-        popupMessage({ message: error.response.data.message });
+        popupMessage({ message: error.response.data.message })
       }
     }
   },
-};
+}
 
 const EventListener = {
   categoryEventListener(data, e) {
-    const currentCategoryElement = e.currentTarget;
-    const linkSaveElement = document.getElementById('linkSave');
-    const categoryListElement = document.getElementsByClassName('category-card');
-    Array.prototype.map.call(categoryListElement, (category) => category.classList.remove('check'));
-    currentCategoryElement.classList.add('check');
-    if (!linkSaveElement.classList.contains('active')) linkSaveElement.classList.add('active');
-    linkSaveElement.dataset.categoryId = data.id;
+    const currentCategoryElement = e.currentTarget
+    const linkSaveElement = document.getElementById('linkSave')
+    const categoryListElement = document.getElementsByClassName('category-card')
+    Array.prototype.map.call(categoryListElement, (category) => category.classList.remove('check'))
+    currentCategoryElement.classList.add('check')
+    if (!linkSaveElement.classList.contains('active')) linkSaveElement.classList.add('active')
+    linkSaveElement.dataset.categoryId = data.id
   },
 
   async linkSaveEventListener(e) {
     try {
-      e.preventDefault();
-      const linkSaveElement = document.getElementById('linkSave');
+      e.preventDefault()
+      const linkSaveElement = document.getElementById('linkSave')
       if (linkSaveElement.classList.contains('active')) {
-        const categoryId = linkSaveElement.dataset.categoryId;
-        const tabs = await getTabsQuery();
-        await APILoad.linkWrite(categoryId, [tabs[0].url]);
-        linkSaveElement.classList.toggle('active');
-        await APILoad.categoryListAppend();
+        const categoryId = linkSaveElement.dataset.categoryId
+        const tabs = await getTabsQuery()
+        await APILoad.linkWrite(categoryId, [tabs[0].url])
+        linkSaveElement.classList.toggle('active')
+        await APILoad.categoryListAppend()
       }
     } catch (error) {
-      popupMessage({ message: error.message });
+      popupMessage({ message: error.message })
     }
   },
-};
+}
 
 const EventSetting = {
   categoryEventSetting(data) {
-    const categoryCardElement = document.getElementById(`category${data.id}`);
-    categoryCardElement.removeEventListener('click', EventListener.categoryEventListener);
-    categoryCardElement.addEventListener(
-      'click',
-      EventListener.categoryEventListener.bind(null, data),
-      false
-    );
+    const categoryCardElement = document.getElementById(`category${data.id}`)
+    categoryCardElement.removeEventListener('click', EventListener.categoryEventListener)
+    categoryCardElement.addEventListener('click', EventListener.categoryEventListener.bind(null, data), false)
   },
 
   linkSaveEventSetting() {
-    const linkSaveElement = document.getElementById('linkSave');
-    linkSaveElement.removeEventListener('click', EventListener.linkSaveEventListener);
-    linkSaveElement.addEventListener('click', EventListener.linkSaveEventListener, false);
+    const linkSaveElement = document.getElementById('linkSave')
+    linkSaveElement.removeEventListener('click', EventListener.linkSaveEventListener)
+    linkSaveElement.addEventListener('click', EventListener.linkSaveEventListener, false)
   },
-};
+}
 
 const Template = {
   categoryItem(data) {
@@ -114,7 +108,7 @@ const Template = {
         <div class="tab-text">${data.url_count ? data.url_count + ' 링크' : '링크 없음'}</div>
         ${data.is_favorited ? `<img src="${starImg}">` : ''}
       </div>
-    `;
+    `
   },
 
   categoryEmpty() {
@@ -122,7 +116,7 @@ const Template = {
       <div class="category-empty-contanier">
         <img class="category-empty" src="${emptyImg}">
       </div>
-    `;
+    `
   },
 
   loginRequired() {
@@ -130,7 +124,7 @@ const Template = {
       <div class="login-required-container">
         <img src="${loginImg}" >
       </div>
-    `;
+    `
   },
 
   popup(data) {
@@ -141,16 +135,16 @@ const Template = {
           ${data.message}
         </div>
       </div>
-    `;
+    `
   },
-};
+}
 
 function popupMessage(data) {
-  const categoryPopupElement = document.getElementById('categoryPopup');
-  categoryPopupElement.style.display = 'flex';
-  categoryPopupElement.innerHTML = Template.popup({ message: data.message });
+  const categoryPopupElement = document.getElementById('categoryPopup')
+  categoryPopupElement.style.display = 'flex'
+  categoryPopupElement.innerHTML = Template.popup({ message: data.message })
   setTimeout(() => {
-    categoryPopupElement.style.display = 'none';
-    categoryPopupElement.innerHTML = '';
-  }, 1000);
+    categoryPopupElement.style.display = 'none'
+    categoryPopupElement.innerHTML = ''
+  }, 1000)
 }

@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   termsModal: {
@@ -6,9 +6,9 @@ const useStyles = makeStyles((theme) => ({
     height: '500px',
   },
   alertModal: {
-    lignItems: 'center',
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
     fontWeight: 'bold',
   },
   alertIcon: {
@@ -19,6 +19,6 @@ const useStyles = makeStyles((theme) => ({
   alertModalBtn: {
     width: '100%',
   },
-}));
+}))
 
-export default useStyles;
+export default useStyles
