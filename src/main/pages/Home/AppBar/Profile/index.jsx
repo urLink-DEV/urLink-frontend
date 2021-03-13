@@ -4,7 +4,7 @@ import { Typography, Grid, Card, CardContent, CardActions, Avatar, Button } from
 import { useDispatch } from 'react-redux'
 
 import defaultProfileImg from '@assets/images/logo/profileImg.png'
-import { TermsModal, AlertModal } from '@components/modals'
+import { TermsModal, AlertModal } from '@main/components/modals'
 import { useDialog, useToast, MODAL_NAME } from '@modules/ui'
 import { useUserData, userRemoveThunk, userLogoutThunk } from '@modules/user'
 

@@ -8,7 +8,7 @@ import {
   StyledDialogContent,
   StyledDialogContentText,
   StyledDialogActions,
-} from '@components/modals/style'
+} from '@main/components/modals/style'
 
 import useStyles from './style'
 

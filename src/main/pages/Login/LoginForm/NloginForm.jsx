@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
 
-import ValidationMessage from '@components/ValidationMessage'
+import ValidationMessage from '@main/components/ValidationMessage'
 import Register from '@main/pages/Register'
 import { useToast } from '@modules/ui'
 import { userLoginThunk } from '@modules/user'

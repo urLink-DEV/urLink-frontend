@@ -5,7 +5,7 @@ import { Refresh as RefreshIcon } from '@material-ui/icons'
 import { debounce } from 'lodash'
 import { useSelector, useDispatch } from 'react-redux'
 
-import SearchButton from '@components/SearchButton'
+import SearchButton from '@main/components/SearchButton'
 import { selectSelectedCategory } from '@modules/category'
 import { useLinks, linkSearchFilterChangeState } from '@modules/link'
 

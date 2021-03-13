@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Router } from 'react-chrome-extension-router'
 
-import Snackbar from '@components/Toast'
+import Snackbar from '@main/components/Toast'
 import Home from '@main/pages/Home'
 import { useToast } from '@modules/ui'
 import { getAccessToken } from '@utils/http/auth'

@@ -7,7 +7,7 @@ import {
   StyledDialogContent,
   StyledDialogContentText,
   StyledDialogActions,
-} from '@components/modals/style'
+} from '@main/components/modals/style'
 
 import textInfo from './textInfo'
 
