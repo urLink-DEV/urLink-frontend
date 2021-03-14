@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import urlinkLogo from '@assets/images/logo-urlink-full.png'
 import { useCategories, categorySelector, categoriesReadThunk, categoryModifyThunk } from '@modules/category'
-import { linkCreateThunk } from '@modules/link'
+import { linkCreateThunk, linksRead } from '@modules/link'
 import { useToast } from '@modules/ui'
 import { DRAG, useDrag } from '@modules/ui'
 
@@ -19,142 +19,121 @@ import FirstCategoryDropZone from './FirstCategoryDropZone'
 import FirstFavoriteDropZone from './FirstFavoriteDropZone'
 import useStyles from './style'
 
-const { CATEGORY } = DRAG
+const { CATEGORY, LINK } = DRAG
 
 function CategoryList(props) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { error, favoritedArr, notFavoritedArr } = useCategories()
   const selectedCategory = useSelector(categorySelector.selectedCategory)
-  const { setDragData, clearDragData, dragType, data: dragData, listData } = useDrag(CATEGORY)
-  const draggedCategory = useRef(null)
+  const { setDragData, clearDragData, dragType, data: dragData } = useDrag(CATEGORY)
+  const { listData: linkListData } = useDrag(LINK)
   const { openToast } = useToast()
+
+  const { isEditCategoryTitle, editCategoryTitle } = props // 추후 삭제 예정
+  const draggedCategoryRef = useRef(null)
   const [linkHoverTabId, setLinkHoverTabId] = useState(null)
-
-  // 추후 삭제 예정
-  const { isEditCategoryTitle, editCategoryTitle } = props
-
-  const { draggedId, draggedName, draggedOrder, dragFinished, hoverTabOrder, hoverTabFavorite, hoverTabId } = dragData
-
-  const dispatchLinkCreate = useCallback(async () => {
-    const promises = []
-    listData.forEach((link) =>
-      promises.push(
-        dispatch(
-          linkCreateThunk({
-            categoryId: linkHoverTabId,
-            path: link.path,
-          })
-        )
-      )
-    )
-    return Promise.all(promises)
-  }, [dispatch, linkHoverTabId, listData])
 
   const handleDragOverFirstFavorite = useCallback(
     (e) => {
       e.stopPropagation()
       e.preventDefault()
-      if (!hoverTabFavorite) {
+      if (!dragData.is_favorited) {
         setDragData({
           ...dragData,
-          hoverTabFavorite: true,
-          hoverTabOrder: draggedOrder,
+          order: 1,
+          is_favorited: true,
         })
       }
     },
-    [dragData, draggedOrder, hoverTabFavorite, setDragData]
+    [dragData, setDragData]
   )
 
   const handleDragOverFirstCategory = useCallback(
     (e) => {
       e.stopPropagation()
       e.preventDefault()
-      if (hoverTabFavorite) {
+      if (dragData.is_favorited) {
         setDragData({
           ...dragData,
-          hoverTabFavorite: false,
-          hoverTabOrder: draggedOrder,
+          order: 1,
+          is_favorited: false,
         })
       }
     },
-    [dragData, draggedOrder, hoverTabFavorite, setDragData]
+    [dragData, setDragData]
   )
 
   const handleDragStart = useCallback(
-    (id, name, order, ref) => (e) => {
+    (categoryData, categoryRef) => (e) => {
       e.stopPropagation()
-      if (!ref.current) return
-      ref.current.style.opacity = 0.3
+      if (!categoryRef.current) return
+      draggedCategoryRef.current = categoryRef.current
+      draggedCategoryRef.current.style.opacity = 0.3
       setDragData({
-        draggedId: id,
-        draggedName: name,
-        draggedOrder: order,
+        ...dragData,
+        id: categoryData.id,
+        name: categoryData.name,
+        order: categoryData.order,
+        is_favorited: categoryData.is_favorited,
       })
-      draggedCategory.current = ref.current
     },
-    [setDragData]
+    [dragData, setDragData]
   )
 
   const handleDragOver = useCallback(
-    (id, order, favorited, ref) => (e) => {
+    (tagetCategoryData, dragLineRef) => (e) => {
       e.preventDefault()
       e.stopPropagation()
-      if (dragType === 'link' && !!listData?.length) {
-        if (id !== linkHoverTabId) {
-          setLinkHoverTabId(id)
-        }
-      } else if (dragType === 'category' && draggedCategory?.current) {
-        if (order !== hoverTabOrder) {
-          setDragData({
-            ...dragData,
-            hoverTabOrder: order,
-            hoverTabFavorite: favorited,
-          })
-        }
-        ref.current.style.opacity = 1
+      if (dragType === LINK) {
+        setLinkHoverTabId(tagetCategoryData.id)
+      } else if (dragType === CATEGORY) {
+        const order = dragData.order < tagetCategoryData.order ? tagetCategoryData.order - 1 : tagetCategoryData.order
+        setDragData({
+          ...dragData,
+          order,
+          is_favorited: tagetCategoryData.is_favorited,
+        })
+        dragLineRef.current.style.opacity = 1
       }
     },
-    [dragData, listData, dragType, linkHoverTabId, hoverTabOrder, setDragData]
+    [dragData, dragType, setDragData]
   )
 
-  const handleDragLeave = (ref) => () => {
-    ref.current.style.opacity = 0
-  }
+  const handleDragLeave = useCallback(
+    (dragLineRef) => () => {
+      dragLineRef.current.style.opacity = 0
+    },
+    []
+  )
 
   const handleDragEnd = useCallback(() => {
-    draggedCategory.current.style.opacity = 1
-  }, [draggedCategory])
+    draggedCategoryRef.current.style.opacity = 1
+  }, [draggedCategoryRef])
 
   const handleDragDrop = useCallback(
-    (ref) => async (e) => {
+    (dragLineRef) => async (e) => {
       e.stopPropagation()
       e.preventDefault()
       try {
-        if (dragType === 'category') {
-          if (ref) ref.current.style.opacity = 0
-
-          if (draggedCategory?.current) {
-            await dispatch(
-              categoryModifyThunk({
-                id: draggedId,
-                name: draggedName,
-                order: hoverTabOrder,
-                is_favorited: hoverTabFavorite,
-              })
-            )
-            await dispatch(categoriesReadThunk())
-            setDragData({
-              ...dragData,
-              dragFinished: true,
+        if (dragType === CATEGORY) {
+          if (dragLineRef) dragLineRef.current.style.opacity = 0
+          await dispatch(
+            categoryModifyThunk({
+              id: dragData.id,
+              name: dragData.name,
+              order: dragData.order,
+              is_favorited: dragData.is_favorited,
             })
-          }
-        } else if (dragType === 'link') {
-          await dispatchLinkCreate()
+          )
           await dispatch(categoriesReadThunk())
-          setDragData({
-            dragFinished: true,
-          })
+          setDragData({ ...dragData, dragFinished: true })
+        } else if (dragType === LINK) {
+          const path = linkListData.reduce((prev, data) => prev.concat(data.path), [])
+          await dispatch(linkCreateThunk({ categoryId: linkHoverTabId, path }))
+          if (selectedCategory?.id === linkHoverTabId) dispatch(linksRead.request({ categoryId: linkHoverTabId }))
+          await dispatch(categoriesReadThunk())
+          setDragData({ ...dragData, dragFinished: true })
         }
         setTimeout(() => {
           clearDragData()
@@ -165,90 +144,91 @@ function CategoryList(props) {
       }
     },
     [
-      clearDragData,
-      dispatchLinkCreate,
-      openToast,
+      dragType,
       dispatch,
       dragData,
       setDragData,
-      dragType,
-      draggedId,
-      draggedName,
-      hoverTabOrder,
-      hoverTabFavorite,
+      linkListData,
+      linkHoverTabId,
+      selectedCategory?.id,
+      clearDragData,
+      openToast,
     ]
   )
 
-  const handleDragFunctions = {
-    handleDragStart,
-    handleDragOver,
-    handleDragLeave,
-    handleDragDrop,
-    handleDragEnd,
-    handleDragOverFirstFavorite,
-    handleDragOverFirstCategory,
-  }
-
   return (
-    <div>
-      <nav className={classes.drawer}>
-        <Drawer classes={{ paper: classes.drawerPaper }} variant="permanent" open>
-          {error ? (
-            <div className={classes.flexCenterBackground}>
-              <ErrorIcon color="primary" fontSize="large" />
-              <p>카테고리를 불러오지 못했습니다.</p>
-            </div>
-          ) : (
-            <div>
-              <div className={classes.layout}>
-                <img className={classes.logo} src={urlinkLogo} alt="URLink" />
-                <CategoryHeader type="favorite" />
-                {!favoritedArr?.length && <FirstFavoriteDropZone handleDragFunctions={handleDragFunctions} />}
-                <List>
-                  {favoritedArr?.map((data) => (
-                    <CategoryItemWrapper
-                      key={data.id}
-                      data={data}
-                      handleDragFunctions={handleDragFunctions}
-                      draggedOrder={draggedOrder}
-                    >
-                      <CategoryItem
-                        data={data}
-                        selected={data.id === selectedCategory?.id}
-                        isEditTitle={isEditCategoryTitle}
-                        dragFinished={data.id === draggedId || data.id === linkHoverTabId ? dragFinished : false}
-                        selectedCategoryTitle={isEditCategoryTitle ? editCategoryTitle : selectedCategory?.name}
-                      />
-                    </CategoryItemWrapper>
-                  ))}
-                </List>
-                <CategoryHeader type="category" />
-                <CategoryButtonGroup />
-                <FirstCategoryDropZone notFavoritedArr={notFavoritedArr} handleDragFunctions={handleDragFunctions} />
-                <List>
-                  {notFavoritedArr?.map((data) => (
-                    <CategoryItemWrapper
-                      key={data.id}
-                      data={data}
-                      handleDragFunctions={handleDragFunctions}
-                      draggedOrder={draggedOrder}
-                    >
-                      <CategoryItem
-                        data={data}
-                        selected={data.id === selectedCategory?.id}
-                        isEditTitle={isEditCategoryTitle}
-                        dragFinished={data.id === draggedId || data.id === linkHoverTabId ? dragFinished : false}
-                        selectedCategoryTitle={isEditCategoryTitle ? editCategoryTitle : selectedCategory?.name}
-                      />
-                    </CategoryItemWrapper>
-                  ))}
-                </List>
-              </div>
-            </div>
-          )}
-        </Drawer>
-      </nav>
-    </div>
+    <Drawer className={classes.drawer} classes={{ paper: classes.drawerPaper }} variant="permanent" open>
+      {error ? (
+        <div className={classes.flexCenterBackground}>
+          <ErrorIcon color="primary" fontSize="large" />
+          <p>카테고리를 불러오지 못했습니다.</p>
+        </div>
+      ) : (
+        <div>
+          <div className={classes.layout}>
+            <img className={classes.logo} src={urlinkLogo} alt="URLink logo" />
+            <CategoryHeader type="favorite" />
+            {!favoritedArr?.length && (
+              <FirstFavoriteDropZone
+                handleDragDrop={handleDragDrop}
+                handleDragOverFirstFavorite={handleDragOverFirstFavorite}
+              />
+            )}
+            <List>
+              {favoritedArr?.map((data) => (
+                <CategoryItemWrapper
+                  key={data.id}
+                  data={data}
+                  draggedOrder={dragData.order}
+                  handleDragStart={handleDragStart}
+                  handleDragOver={handleDragOver}
+                  handleDragLeave={handleDragLeave}
+                  handleDragDrop={handleDragDrop}
+                  handleDragEnd={handleDragEnd}
+                >
+                  <CategoryItem
+                    data={data}
+                    selected={data.id === selectedCategory?.id}
+                    isEditTitle={isEditCategoryTitle}
+                    dragFinished={dragData.dragFinished && data.id === dragData.id}
+                    selectedCategoryTitle={isEditCategoryTitle ? editCategoryTitle : selectedCategory?.name}
+                  />
+                </CategoryItemWrapper>
+              ))}
+            </List>
+            <CategoryHeader type="category" />
+            <CategoryButtonGroup />
+            <FirstCategoryDropZone
+              openDropZone={!Boolean(notFavoritedArr.length)}
+              handleDragDrop={handleDragDrop}
+              handleDragOverFirstCategory={handleDragOverFirstCategory}
+            />
+            <List>
+              {notFavoritedArr?.map((data) => (
+                <CategoryItemWrapper
+                  key={data.id}
+                  data={data}
+                  draggedOrder={dragData.order}
+                  handleDragStart={handleDragStart}
+                  handleDragOver={handleDragOver}
+                  handleDragLeave={handleDragLeave}
+                  handleDragDrop={handleDragDrop}
+                  handleDragEnd={handleDragEnd}
+                >
+                  <CategoryItem
+                    data={data}
+                    selected={data.id === selectedCategory?.id}
+                    isEditTitle={isEditCategoryTitle}
+                    dragFinished={dragData.dragFinished && data.id === dragData.id}
+                    selectedCategoryTitle={isEditCategoryTitle ? editCategoryTitle : selectedCategory?.name}
+                  />
+                </CategoryItemWrapper>
+              ))}
+            </List>
+          </div>
+        </div>
+      )}
+    </Drawer>
   )
 }
 

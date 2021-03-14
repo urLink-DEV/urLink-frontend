@@ -5,9 +5,16 @@ import { DRAG } from '@modules/ui'
 import useStyles from './style'
 const { CATEGORY } = DRAG
 
-function CategoryItemWrapper({ data, handleDragFunctions, draggedOrder, children }) {
+function CategoryItemWrapper({
+  data,
+  handleDragStart,
+  handleDragOver,
+  handleDragLeave,
+  handleDragDrop,
+  handleDragEnd,
+  children,
+}) {
   const classes = useStyles()
-  const { handleDragStart, handleDragOver, handleDragLeave, handleDragDrop, handleDragEnd } = handleDragFunctions
 
   const dragLineRef = useRef(null)
   const categoryRef = useRef(null)
@@ -19,13 +26,8 @@ function CategoryItemWrapper({ data, handleDragFunctions, draggedOrder, children
         ref={categoryRef}
         data-type={CATEGORY}
         draggable="true"
-        onDragStart={handleDragStart(data.id, data.name, data.order, categoryRef)}
-        onDragOver={handleDragOver(
-          data.id,
-          draggedOrder < data.order ? data.order - 1 : data.order,
-          data.is_favorited,
-          dragLineRef
-        )}
+        onDragStart={handleDragStart(data, categoryRef)}
+        onDragOver={handleDragOver(data, dragLineRef)}
         onDragLeave={handleDragLeave(dragLineRef)}
         onDrop={handleDragDrop(dragLineRef)}
         onDragEnd={handleDragEnd}

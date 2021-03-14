@@ -2,9 +2,8 @@ import React from 'react'
 
 import useStyles from './style'
 
-function FirstCategoryDropZone({ openDropZone, handleDragFunctions }) {
+function FirstCategoryDropZone({ openDropZone, handleDragDrop, handleDragOverFirstCategory }) {
   const classes = useStyles()
-  const { handleDragDrop, handleDragOverFirstCategory } = handleDragFunctions
 
   return (
     <div

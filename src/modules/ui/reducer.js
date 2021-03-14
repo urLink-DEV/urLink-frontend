@@ -25,17 +25,32 @@ const initialState = {
   drag: {
     type: '',
     status: '',
-    listData: [],
-    data: {},
+    link: {
+      listData: [],
+      data: {
+        id: -1,
+        path: '',
+      },
+    },
+    category: {
+      listData: [],
+      data: {
+        id: -1,
+        name: '',
+        order: -1,
+        is_favorited: undefined, // true | false
+        dragFinished: undefined, // true | false
+      },
+    },
   },
 }
 export const uiReducer = createReducer(initialState, {
-  [openDialog.type]: (state, { payload }) => {
+  [openDialog]: (state, { payload }) => {
     if (!state.dialogs.find((dialog) => dialog.type === payload.type)) {
       state.dialogs.push(payload)
     }
   },
-  [closeDialog.type]: (state, { payload }) => {
+  [closeDialog]: (state, { payload }) => {
     state.dialogs = state.dialogs.filter((dialog) => {
       if (payload.meta?.key) {
         return dialog.meta?.key !== payload.meta?.key
@@ -43,18 +58,18 @@ export const uiReducer = createReducer(initialState, {
       return dialog.type !== payload.type
     })
   },
-  [closeAllDialogs.type]: (state) => {
+  [closeAllDialogs]: (state) => {
     state.dialogs = initialState.dialogs
   },
-  [setToast.type]: (state, { payload }) => {
+  [setToast]: (state, { payload }) => {
     state.toast = { ...state.toast, ...payload }
   },
-  [openDropZone.type]: (state, { payload }) => {
+  [openDropZone]: (state, { payload }) => {
     if (!state.dropZones.find((dropZone) => dropZone.type === payload.type)) {
       state.dropZones.push(payload)
     }
   },
-  [closeDropZone.type]: (state, { payload }) => {
+  [closeDropZone]: (state, { payload }) => {
     state.dropZones = state.dropZones.filter((dropZone) => {
       if (payload.meta?.key) {
         return dropZone.meta?.key !== payload.meta?.key
@@ -62,13 +77,15 @@ export const uiReducer = createReducer(initialState, {
       return dropZone.type !== payload.type
     })
   },
-  [closeAllDropZones.type]: (state) => {
+  [closeAllDropZones]: (state) => {
     state.dropZones = initialState.dropZones
   },
-  [setDrag.type]: (state, { payload }) => {
-    state.drag = { ...state.drag, ...payload }
+  [setDrag]: (state, { payload: { type, status, ...props } }) => {
+    state.drag.type = type
+    state.drag.status = status
+    state.drag[type] = { ...state.drag[type], ...props }
   },
-  [clearDrag.type]: (state) => {
+  [clearDrag]: (state) => {
     state.drag = initialState.drag
   },
 })

@@ -2,9 +2,8 @@ import React from 'react'
 
 import useStyles from './style'
 
-function FirstFavoriteDropZone({ handleDragFunctions }) {
+function FirstFavoriteDropZone({ handleDragDrop, handleDragOverFirstFavorite }) {
   const classes = useStyles()
-  const { handleDragDrop, handleDragOverFirstFavorite } = handleDragFunctions
 
   return (
     <div
