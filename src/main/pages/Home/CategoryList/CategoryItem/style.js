@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
     outline: 'none',
   },
   title: {
-    fontFamily: 'SpoqaHanSans',
     fontSize: 16,
     maxWidth: '60%',
     color: '#212529',
@@ -30,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
   selectedTitle: {
     color: '#2083ff',
     fontWeight: 'bold',
+    maxWidth: '65%',
   },
   selectedItem: {
     fontSize: 16,
@@ -45,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
   urlCountBox: {
     display: 'inline-block',
     fontSize: 12,
-    fontFamily: 'SpoqaHanSans',
     color: '#868e96',
     textAlign: 'center',
   },
@@ -90,29 +89,10 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: '4px',
       animationFillMode: 'none',
       animation: `$dragFinished 0.7s ease-in-out forwards 1`,
-      '&::-webkit-transform-origin': '100% 0%',
       '&::transform-origin': '100% 0%',
-      '&::-webkit-animation': `$dragFinished 0.7s ease-in-out forwards 1`,
+      '&::animation': `$dragFinished 0.7s ease-in-out forwards 1`,
     },
   },
-  '@-webkit-keyframes dragFinished': {
-    '0%': {
-      width: 0,
-    },
-    '70%': {
-      width: '100%',
-      opacity: 1,
-    },
-    '90%': {
-      opacity: 0,
-      width: '100%',
-    },
-    '100%': {
-      opacity: 0,
-      width: 0,
-    },
-  },
-
   '@keyframes dragFinished': {
     '0%': {
       width: 0,
@@ -129,21 +109,6 @@ const useStyles = makeStyles((theme) => ({
       opacity: 0,
       width: 0,
     },
-    // '0%': {
-    //   width: 0,
-    // },
-    // '70%': {
-    //   width: '100%',
-    //   opacity: 1,
-    // },
-    // '90%': {
-    //   opacity: 0,
-    //   width: '100%',
-    // },
-    // '100%': {
-    //   opacity: 0,
-    //   width: 0,
-    // },
   },
 }))
 

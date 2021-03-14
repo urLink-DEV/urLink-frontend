@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, Fragment } from 'react'
 
 import Button from '@material-ui/core/Button'
 import InputBase from '@material-ui/core/InputBase'
@@ -73,7 +73,7 @@ function CategoryButtonGroup() {
 
   const handleKeyUpAddTab = useCallback(
     (e) => {
-      if (e.keyCode === 13) handleClickAdd(e)
+      if (e.key === 'Enter') handleClickAdd(e)
     },
     [handleClickAdd]
   )
@@ -113,7 +113,7 @@ function CategoryButtonGroup() {
   }, [selectedCategory])
 
   return (
-    <>
+    <Fragment>
       {buttonState === BUTTON_STATE.addOpen && (
         <Button className={classes.addButton} variant="contained" onClick={handleClickOpenEnterTab}>
           <AddCircleOutlineIcon className={classes.addCircleIcon} />
@@ -153,7 +153,7 @@ function CategoryButtonGroup() {
         handleClose={deleteCategoryClose}
         handleYesClick={handleClickdDelete}
       />
-    </>
+    </Fragment>
   )
 }
 

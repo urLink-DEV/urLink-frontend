@@ -2,13 +2,13 @@ import React from 'react'
 
 import useStyles from './style'
 
-function FirstCategoryDropZone({ notFavoritedArr, handleDragFunctions }) {
+function FirstCategoryDropZone({ openDropZone, handleDragFunctions }) {
   const classes = useStyles()
   const { handleDragDrop, handleDragOverFirstCategory } = handleDragFunctions
 
   return (
     <div
-      className={!notFavoritedArr?.length ? classes.hiddenCategoryDropZone : classes.hidden}
+      className={openDropZone ? classes.categoryDropZone : classes.hidden}
       data-dropzone="first-cateogory-dropzone"
       onDragOver={handleDragOverFirstCategory}
       onDrop={handleDragDrop()}

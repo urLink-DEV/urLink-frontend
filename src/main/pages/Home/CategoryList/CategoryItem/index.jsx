@@ -18,6 +18,7 @@ function CategoryItem({
 }) {
   const classes = useStyles()
   const dispatch = useDispatch()
+
   const [categoryTitle, setCategoryTitle] = useState(data.name)
 
   const handleClickCategory = useCallback(
@@ -33,8 +34,6 @@ function CategoryItem({
       setCategoryTitle(selectedCategoryTitle)
     }
   }, [selected, selectedCategoryTitle])
-
-  console.log(dragFinished)
 
   return (
     <div>

@@ -4,7 +4,7 @@ const useStyles = makeStyles((theme) => ({
   hidden: {
     display: 'none',
   },
-  hiddenCategoryDropZone: {
+  categoryDropZone: {
     width: '212px',
     height: '100vh',
   },
