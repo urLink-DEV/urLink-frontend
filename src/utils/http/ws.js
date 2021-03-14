@@ -2,7 +2,7 @@ import { getAccessToken } from './auth'
 import { axiosSetting } from './client'
 
 export const socketInfoData = {
-  host: `ws://${axiosSetting.host}/ws/connection/?token={token}`,
+  host: `wss://${axiosSetting.host}/ws/connection/?token={token}`,
   replaceWS(token) {
     return this.host.replace('{token}', token)
   },

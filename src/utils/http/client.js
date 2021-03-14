@@ -17,8 +17,8 @@ import queryFilter from './queryFilter'
 */
 
 export const axiosSetting = {
-  scheme: 'http',
-  host: '15.165.198.243',
+  scheme: 'https',
+  host: 'urlink-official.com',
   api: '/api/v1',
   port: '',
   server: function () {
@@ -27,30 +27,6 @@ export const axiosSetting = {
   redirectPage: () => {
     window.location.reload()
   },
-}
-
-export const api = {
-  GET_TOKEN: 'user/token/', // * 토근 생성
-  UPDATE_TOKEN: 'user/token/refresh/', // * 토큰 갱신
-  CHECK_TOKEN: 'user/token/verify/', // * 토큰 검사
-
-  G_MEMBER_REGISTER: 'user/google/sign-up/', // * 구글 회원가입
-  G_MEMBER_LOGIN: 'user/google/sign-in/', // * 구글 로그인
-
-  N_MEMBER_REGISTER: 'user/sign-up/', // * 일반 회원가입
-  N_MEMBER_LOGIN: 'user/sign-in/', // * 일반 로그인
-
-  MEMBER_LOGOUT: 'user/sign-out/', // * 로그아웃
-
-  MEMBER: 'user/',
-
-  CATEGORY: 'category/',
-
-  LINK: 'url/',
-
-  ALARM: 'alarm/',
-
-  SOCKET_ALARM: `ws://${axiosSetting.host}/ws/connection/`,
 }
 
 export const axios = Axios.create({
@@ -74,9 +50,7 @@ axios.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (!error.response) {
-      error.response = {
-        data: { message: '네트워크 연결이 끊어져 있습니다.' },
-      }
+      error.response = { data: { message: '네트워크 연결이 끊어져 있습니다.' } }
     }
     const UPDATE_TOKEN_API = queryInfoData['updateToken'].API
     const CHECK_TOKEN_API = queryInfoData['checkToken'].API
@@ -110,6 +84,7 @@ axios.interceptors.response.use(
           return axios.request(originalRequest)
         }
       } catch (error) {
+        console.dir(error)
         removeAccessToken()
         axiosSetting.redirectPage() // token_not_valid login => go login!!
       }
