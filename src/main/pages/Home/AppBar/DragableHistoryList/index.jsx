@@ -48,7 +48,7 @@ function DragableHistoryList() {
       const dragListData = selectedList
       const isSelectedItem = selectedList.find((selected) => selected.id === id)
       if (!isSelectedItem) {
-        setSelectedList((listData) => listData.concat({ id, path }))
+        setSelectedList(selectedList.concat({ id, path }))
         dragListData.push({ id, path })
       }
       setDragData(dragListData)
@@ -69,7 +69,7 @@ function DragableHistoryList() {
   const handleToogleSelectIem = useCallback(
     ({ id, url: path }) => () => {
       const isSelected = selectedList.find((item) => item.id === id)
-      if (isSelected) setSelectedList((listData) => listData.filter((data) => data.id !== id))
+      if (isSelected) setSelectedList(selectedList.filter((data) => data.id !== id))
       else setSelectedList((listData) => listData.concat({ id, path }))
     },
     [selectedList]
