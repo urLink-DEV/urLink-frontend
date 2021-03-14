@@ -4,8 +4,8 @@ import loginImg from '@assets/images/group-25.svg'
 import emptyImg from '@assets/images/group-26.svg'
 import starImg from '@assets/images/group-27.svg'
 import checkImg from '@assets/images/white.svg'
-import { categoriesRead } from '@modules/category/api'
-import { linkCreate } from '@modules/link/api'
+import { requestCategoriesRead } from '@modules/category/api'
+import { requestLinkCreate } from '@modules/link/api'
 import { getTabsQuery } from '@utils/chromeApis/tab'
 import { getAccessToken } from '@utils/http/auth'
 
@@ -22,7 +22,7 @@ const APILoad = {
   async categoryListAppend() {
     const categoryListElement = document.getElementById('categoryList')
     try {
-      const { data } = await categoriesRead()
+      const { data } = await requestCategoriesRead()
       if (data?.length) {
         categoryListElement.innerHTML = data.map((item) => Template.categoryItem(item)).join('')
         data.map((item) => EventSetting.categoryEventSetting(item))
@@ -37,7 +37,7 @@ const APILoad = {
   async linkWrite(categoryId, path) {
     const categoryCardElement = document.getElementById(`category${categoryId}`)
     try {
-      const { data } = await linkCreate({ categoryId, path })
+      const { data } = await requestLinkCreate({ categoryId, path })
       if (data?.length) {
         categoryCardElement.classList.add('upload-finish')
         popupMessage({ message: '링크가 이동 되었습니다.' })

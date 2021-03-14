@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as yup from 'yup'
 
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
-import { categorySelect, selectSelectedCategory, categoryModifyThunk } from '@modules/category'
+import { categorySelect, categorySelector, categoryModifyThunk } from '@modules/category'
 import { isObjkeysEmpty } from '@utils/filter'
 
 import useStyles from './style'
@@ -25,7 +25,7 @@ const CATEGORY_SCHEMA = yup.object({
 function EditableCategoryTitle() {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const category = useSelector(selectSelectedCategory)
+  const category = useSelector(categorySelector.selectedCategory)
   const defaultValues = useMemo(() => {
     return { name: category?.name }
   }, [category])

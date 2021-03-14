@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import useEventListener from '@hooks/useEventListener'
 import { AlertModal } from '@main/components/modals'
-import { selectSelectedCategory, categoriesRead, categoryCreateThunk, categoryRemoveThunk } from '@modules/category'
+import { categorySelector, categoriesRead, categoryCreateThunk, categoryRemoveThunk } from '@modules/category'
 import { useDialog, useToast, MODAL_NAME } from '@modules/ui'
 
 import useStyles from './style'
@@ -27,7 +27,7 @@ function CategoryButtonGroup() {
   const { open: deleteCategoryOpen, toggle: deleteCategoryToggle, close: deleteCategoryClose } = useDialog(
     MODAL_NAME.DELETE_CATEGORY_ALERT_MODAL
   )
-  const selectedCategory = useSelector(selectSelectedCategory)
+  const selectedCategory = useSelector(categorySelector.selectedCategory)
 
   const [buttonState, setButtonState] = useState(BUTTON_STATE.addOpen)
   const [categoryName, setCategoryName] = useState('')

@@ -3,14 +3,18 @@ import { useEffect, useCallback } from 'react'
 import moment from 'moment'
 import { useDispatch, useSelector } from 'react-redux'
 
+import { ERROR } from '@modules/error'
 import { historyLinkListRead, historyLinkSelector, setHistoryLinkChnageFilter } from '@modules/historyLink'
+import { INIT, PENDING } from '@modules/pending'
 
-export function useHistoryLinkListData() {
+const MIN_TIME = new Date(moment().add(-1, 'year')).getTime()
+
+const useHistoryLinks = () => {
   const dispatch = useDispatch()
+  const pending = useSelector((state) => state[PENDING][historyLinkListRead.TYPE])
+  const error = useSelector((state) => state[ERROR][historyLinkListRead.TYPE])
   const filter = useSelector(historyLinkSelector.filter)
   const listData = useSelector(historyLinkSelector.listData)
-  const pending = useSelector((state) => state.pending[historyLinkListRead.TYPE])
-  const error = useSelector((state) => state.error[historyLinkListRead.TYPE])
 
   const reload = useCallback(() => {
     dispatch(
@@ -48,7 +52,7 @@ export function useHistoryLinkListData() {
   }, [dispatch, filter.startTime])
 
   useEffect(() => {
-    if (pending === undefined) reload()
+    if (pending === INIT) reload()
   }, [pending, reload])
 
   useEffect(() => {
@@ -60,4 +64,4 @@ export function useHistoryLinkListData() {
   return { pending, error, filter, listData, reload, search, next }
 }
 
-const MIN_TIME = new Date(moment().add(-1, 'year')).getTime()
+export default useHistoryLinks

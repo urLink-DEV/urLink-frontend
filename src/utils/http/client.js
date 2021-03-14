@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import { SERVER_TOKEN, SERVER_TOKEN_NOT_VALID, LOGIN_REQUIRED_VALID } from 'setting'
 
-import { updateToken, queryInfoData } from '@modules/token'
+import { requestUpdateToken, queryInfoData } from '@modules/token'
 
 import { getAccessToken, getRefreshToken, setAccessToken, removeAccessToken } from './auth'
 import queryFilter from './queryFilter'
@@ -96,7 +96,7 @@ axios.interceptors.response.use(
         const refresh = getRefreshToken()
         if (!refresh) throw new Error()
 
-        const response = await updateToken({ refresh })
+        const response = await requestUpdateToken({ refresh })
         if (!response.data) throw new Error()
         else {
           setAccessToken(response.data)

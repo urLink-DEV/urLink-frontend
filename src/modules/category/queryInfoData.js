@@ -8,6 +8,10 @@ const queryInfoData = {
     API: 'category/',
     method: 'get',
     bodyQuery: {},
+    urlQuery: {},
+    replaceAPI() {
+      return this.API
+    },
   },
 
   /**
@@ -21,6 +25,10 @@ const queryInfoData = {
     bodyQuery: {
       name: '',
       is_favorited: '',
+    },
+    urlQuery: {},
+    replaceAPI() {
+      return this.API
     },
   },
 
@@ -42,7 +50,8 @@ const queryInfoData = {
       id: '',
     },
     replaceAPI({ id }) {
-      return this.API.replace('{id}/', id ? `${id}/` : '')
+      if (!id) return
+      return this.API.replace('{id}', id)
     },
   },
 
@@ -59,7 +68,8 @@ const queryInfoData = {
       id: '',
     },
     replaceAPI({ id }) {
-      return this.API.replace('{id}/', id ? `${id}/` : '')
+      if (!id) return
+      return this.API.replace('{id}', id)
     },
   },
 }

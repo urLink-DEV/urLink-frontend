@@ -6,7 +6,7 @@ import { debounce } from 'lodash'
 import { useSelector, useDispatch } from 'react-redux'
 
 import SearchButton from '@main/components/SearchButton'
-import { selectSelectedCategory } from '@modules/category'
+import { categorySelector } from '@modules/category'
 import { useLinks, linkSearchFilterChangeState } from '@modules/link'
 
 import EditableCategoryTitle from './EditableCategoryTitle'
@@ -21,8 +21,8 @@ const listSearchFilter = [
 function Header() {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const selectedCategory = useSelector(selectSelectedCategory)
-  const { refresh } = useLinks({ categoryId: selectedCategory?.id })
+  const selectedCategory = useSelector(categorySelector.selectedCategory)
+  const { reload } = useLinks({ categoryId: selectedCategory?.id })
 
   const [selectedName, setSelectedName] = useState(listSearchFilter[0].search)
 
@@ -42,7 +42,7 @@ function Header() {
   }, [])
 
   const handleReload = debounce(() => {
-    refresh()
+    reload()
   }, 400)
 
   return (

@@ -1,4 +1,4 @@
-import { createReducer, createSelector } from '@reduxjs/toolkit'
+import { createReducer } from '@reduxjs/toolkit'
 
 import { createRequestAction, createRequestThunk } from '../helpers'
 
@@ -29,12 +29,6 @@ export const alaramNoticeReducer = createReducer(initialState, {
 })
 
 // Select
-const selectAllState = createSelector(
-  (state) => state,
-  (state) => {
-    return state
-  }
-)
 export const alaramNoticeSelector = {
-  listData: (state) => selectAllState(state[ALARM_NOTICE].listData),
+  listData: (state) => state[ALARM_NOTICE].listData,
 }

@@ -17,13 +17,13 @@ import {
 } from './reducer'
 
 const watchUserRegister = createRequestSaga(userRegister, function* (action) {
-  const { data } = yield call(api.nRegister, action.payload)
+  const { data } = yield call(api.requestNregister, action.payload)
   yield call(setAccessToken, data.token)
   return data
 })
 
 const watchUserLogin = createRequestSaga(userLogin, function* (action) {
-  const { data } = yield call(api.nLogin, action.payload)
+  const { data } = yield call(api.requestNlogin, action.payload)
   yield call(setAccessToken, data.token)
   return data
 })
@@ -36,7 +36,7 @@ const watchUserGregister = createRequestSaga(userGregister, function* (_action) 
   let token
   try {
     token = yield call(getAuthToken)
-    const { data } = yield call(api.gRegister, { token })
+    const { data } = yield call(api.requestGregister, { token })
     yield call(setAccessToken, data.token)
     return data
   } catch (error) {
@@ -51,7 +51,7 @@ const watchUserGlogin = createRequestSaga(userGlogin, function* (_action) {
   let token
   try {
     token = yield call(getAuthToken)
-    const { data } = yield call(api.gLogin, { token })
+    const { data } = yield call(api.requestGLogin, { token })
     yield call(setAccessToken, data.token)
     return data
   } catch (error) {
@@ -63,17 +63,17 @@ const watchUserGlogin = createRequestSaga(userGlogin, function* (_action) {
 })
 
 const watchUserRead = createRequestSaga(userRead, function* (action) {
-  const { data } = yield call(api.userRead, action.payload, null)
+  const { data } = yield call(api.requestUserRead, action.payload, null)
   return data
 })
 
 const watchUserModify = createRequestSaga(userModify, function* (action) {
-  const { data } = yield call(api.userModiify, action.payload, null)
+  const { data } = yield call(api.requestUserModiify, action.payload, null)
   return data
 })
 
 const watchUserRemove = createRequestSaga(userRemove, function* (action) {
-  const { data } = yield call(api.userRemove, action.payload)
+  const { data } = yield call(api.requestUserRemove, action.payload)
   yield call(removeAccessToken)
   return data
 })

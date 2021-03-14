@@ -1,4 +1,4 @@
-import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
+import { createAction, createReducer } from '@reduxjs/toolkit'
 
 import { createRequestAction } from '../helpers'
 
@@ -33,29 +33,7 @@ export const historyLinkReducer = createReducer(initialState, {
 })
 
 // Select
-const selectAllState = createSelector(
-  (state) => state,
-  (state) => {
-    return state
-  }
-)
-const selectfilterState = createSelector(
-  (state) => state.text,
-  (state) => state.startTime,
-  (state) => state.endTime,
-  (state) => state.maxResults,
-  (state) => state.isNext,
-  (text, startTime, endTime, maxResults, isNext) => {
-    return {
-      text,
-      startTime,
-      endTime,
-      maxResults,
-      isNext,
-    }
-  }
-)
 export const historyLinkSelector = {
-  listData: (state) => selectAllState(state[HISTORY_LINK].listData),
-  filter: (state) => selectfilterState(state[HISTORY_LINK].filter),
+  listData: (state) => state[HISTORY_LINK].listData,
+  filter: (state) => state[HISTORY_LINK].filter,
 }

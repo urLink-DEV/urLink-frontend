@@ -30,11 +30,11 @@ const watchAlarmNoticeConnection = createRequestSaga(alaramNoticeConnection, fun
 })
 
 const watchAlarmNoticeReadNotice = createRequestSaga(alaramNoticeReadNotice, function* (action) {
-  yield call(ws.alarmReadNotice, action.payload)
+  yield call(ws.requestAlarmReadNotice, action.payload)
 })
 
 const watchAlarmNoticNoReturnNotice = createRequestSaga(alaramNoticeNoReturnNotice, function* (action) {
-  yield call(ws.alarmNoReturn, action.payload)
+  yield call(ws.requestAlarmNoReturn, action.payload)
 })
 
 export function* alarmNoticeSaga() {

@@ -1,4 +1,4 @@
-import { createReducer, createSelector } from '@reduxjs/toolkit'
+import { createReducer } from '@reduxjs/toolkit'
 
 import { createRequestAction, createRequestThunk } from '../helpers'
 
@@ -45,12 +45,6 @@ export const userReducer = createReducer(initialState, {
 })
 
 // Select
-const selectAllState = createSelector(
-  (state) => state,
-  (state) => {
-    return state
-  }
-)
 export const userSelector = {
-  data: (state) => selectAllState(state[USER].data),
+  data: (state) => state[USER].data,
 }

@@ -6,7 +6,7 @@ import ErrorIcon from '@material-ui/icons/Error'
 import { useDispatch, useSelector } from 'react-redux'
 
 import urlinkLogo from '@assets/images/logo-urlink-full.png'
-import { useCategories, selectSelectedCategory, categoriesReadThunk, categoryModifyThunk } from '@modules/category'
+import { useCategories, categorySelector, categoriesReadThunk, categoryModifyThunk } from '@modules/category'
 import { linkCreateThunk } from '@modules/link'
 import { useToast } from '@modules/ui'
 import { DRAG, useDrag } from '@modules/ui'
@@ -25,7 +25,7 @@ function CategoryList(props) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { error, favoritedArr, notFavoritedArr } = useCategories()
-  const selectedCategory = useSelector(selectSelectedCategory)
+  const selectedCategory = useSelector(categorySelector.selectedCategory)
   const { setDragData, clearDragData, dragType, data: dragData, listData } = useDrag(CATEGORY)
   const draggedCategory = useRef(null)
   const { openToast } = useToast()

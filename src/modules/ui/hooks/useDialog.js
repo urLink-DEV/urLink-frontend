@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { openDialog, closeDialog, closeAllDialogs, uiSelector } from '@modules/ui'
 
 const useDialog = (type) => {
-  const dialogs = useSelector(uiSelector.dialogs)
   const dispatch = useDispatch()
+  const dialogs = useSelector(uiSelector.dialogs)
   const open = !!dialogs.find((dialog) => dialog.type === type)
 
   const toggle = useCallback(() => {

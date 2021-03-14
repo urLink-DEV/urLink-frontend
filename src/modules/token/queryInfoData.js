@@ -10,6 +10,9 @@ const queryInfoData = {
     bodyQuery: {
       refresh: '',
     },
+    repaceAPI() {
+      return this.API
+    },
   },
 
   /**
@@ -22,6 +25,9 @@ const queryInfoData = {
     method: 'post',
     bodyQuery: {
       token: '',
+    },
+    repaceAPI() {
+      return this.API
     },
   },
 }

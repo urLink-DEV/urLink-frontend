@@ -4,7 +4,7 @@ import { AddToPhotos as AddToPhotosIcon } from '@material-ui/icons'
 import clsx from 'clsx'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { selectSelectedCategory, categoriesReadThunk } from '@modules/category'
+import { categorySelector, categoriesReadThunk } from '@modules/category'
 import { linkCreateThunk, linksRead } from '@modules/link'
 import { DROP_ZONE, DRAG, useDrag, useDropZone } from '@modules/ui'
 
@@ -16,7 +16,7 @@ const { LINK_DROP_ZONE } = DROP_ZONE
 function LinkDropZone() {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const selectedCategory = useSelector(selectSelectedCategory)
+  const selectedCategory = useSelector(categorySelector.selectedCategory)
   const { listData } = useDrag(LINK)
   const { open } = useDropZone(LINK_DROP_ZONE)
 

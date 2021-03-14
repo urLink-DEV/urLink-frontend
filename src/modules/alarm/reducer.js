@@ -14,5 +14,3 @@ export const alarmRemove = createRequestAction(`${ALARM}/REMOVE`)
 // Reducer
 const initialState = {}
 export const alarmReducer = createReducer(initialState, {})
-
-// Select

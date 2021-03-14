@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { openDropZone, closeDropZone, closeAllDropZones, uiSelector } from '@modules/ui'
 
 const useDropZone = (type) => {
-  const dropZones = useSelector(uiSelector.dropZones)
   const dispatch = useDispatch()
+  const dropZones = useSelector(uiSelector.dropZones)
   const open = !!dropZones.find((dropZone) => dropZone.type === type)
 
   const toggle = useCallback(() => {

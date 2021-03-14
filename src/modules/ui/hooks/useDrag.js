@@ -7,8 +7,8 @@ import { DRAG, setDrag, clearDrag, uiSelector } from '@modules/ui'
 const { DRAG_STATUS } = DRAG
 
 const useDrag = (type) => {
-  const { type: dragType, status: dragStatus, listData, data } = useSelector(uiSelector.drag)
   const dispatch = useDispatch()
+  const { type: dragType, status: dragStatus, listData, data } = useSelector(uiSelector.drag)
 
   const setDragData = useCallback(
     (dragData) => {

@@ -2,21 +2,21 @@ import { useEffect, useCallback } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 
+import { ERROR } from '@modules/error'
 import { linksRead, linkSelector } from '@modules/link'
+import { INIT, PENDING } from '@modules/pending'
 
-const INIT = undefined
-
-export function useLinks({ detact = false, categoryId, selectedName, keyword }) {
+const useLinks = ({ detact = false, categoryId, selectedName, keyword }) => {
   const dispatch = useDispatch()
+  const pending = useSelector((state) => state[PENDING][linksRead.TYPE])
+  const error = useSelector((state) => state[ERROR][linksRead.TYPE])
   const links = useSelector(linkSelector.listData)
-  const pending = useSelector((state) => state.pending[linksRead.TYPE])
-  const error = useSelector((state) => state.error[linksRead.TYPE])
 
-  const refresh = useCallback(() => {
+  const reload = useCallback(() => {
     if (categoryId) dispatch(linksRead.request({ categoryId }))
   }, [dispatch, categoryId])
 
-  const reload = useCallback(() => {
+  const filterChangeLoad = useCallback(() => {
     if (categoryId) {
       dispatch(
         linksRead.request({
@@ -29,15 +29,17 @@ export function useLinks({ detact = false, categoryId, selectedName, keyword }) 
 
   useEffect(() => {
     if (pending === INIT) {
-      refresh()
+      reload()
     }
-  }, [pending, refresh])
+  }, [pending, reload])
 
   useEffect(() => {
     if (detact) {
-      reload()
+      filterChangeLoad()
     }
-  }, [detact, reload])
+  }, [detact, filterChangeLoad])
 
-  return { pending, error, links, reload, refresh }
+  return { pending, error, links, reload }
 }
+
+export default useLinks

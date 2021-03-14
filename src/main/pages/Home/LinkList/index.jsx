@@ -8,7 +8,7 @@ import linkListSearchEmptyImg from '@assets/images/group-17.png'
 import CategoryEmptyImg from '@assets/images/group-5.svg'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import ScrollUpButton from '@main/components/ScrollUpButton'
-import { useCategories, selectSelectedCategory } from '@modules/category'
+import { useCategories, categorySelector } from '@modules/category'
 import { useLinks, linkSelector, linkClearSelect, linkSearchFilterInit } from '@modules/link'
 
 import Header from './Header'
@@ -23,7 +23,7 @@ function LinkList() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { categories } = useCategories()
-  const selectedCategory = useSelector(selectSelectedCategory)
+  const selectedCategory = useSelector(categorySelector.selectedCategory)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
   const searchFilter = useSelector(linkSelector.searchFilter)
   const { links } = useLinks({

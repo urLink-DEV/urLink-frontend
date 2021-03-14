@@ -1,4 +1,4 @@
-import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
+import { createAction, createReducer } from '@reduxjs/toolkit'
 
 export const UI = 'UI'
 
@@ -74,15 +74,9 @@ export const uiReducer = createReducer(initialState, {
 })
 
 // Select
-const selectAllState = createSelector(
-  (state) => state,
-  (state) => {
-    return state
-  }
-)
 export const uiSelector = {
-  dialogs: (state) => selectAllState(state[UI].dialogs),
-  toast: (state) => selectAllState(state[UI].toast),
-  dropZones: (state) => selectAllState(state[UI].dropZones),
-  drag: (state) => selectAllState(state[UI].drag),
+  dialogs: (state) => state[UI].dialogs,
+  toast: (state) => state[UI].toast,
+  dropZones: (state) => state[UI].dropZones,
+  drag: (state) => state[UI].drag,
 }

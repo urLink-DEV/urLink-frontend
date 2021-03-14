@@ -4,7 +4,7 @@ import { Button } from '@material-ui/core'
 import clsx from 'clsx'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { selectSelectedCategory, categoriesRead } from '@modules/category'
+import { categorySelector, categoriesRead } from '@modules/category'
 import { linkSelector, linkClearSelect, linksRead, linksRemoveThunk } from '@modules/link'
 import { useToast } from '@modules/ui'
 import { createTabList } from '@utils/chromeApis/tab'
@@ -14,7 +14,7 @@ import useStyles from './style'
 function TabButtonGroup() {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const selectedCategory = useSelector(selectSelectedCategory)
+  const selectedCategory = useSelector(categorySelector.selectedCategory)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
   const { openToast } = useToast()
 
