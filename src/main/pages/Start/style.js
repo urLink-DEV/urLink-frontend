@@ -4,11 +4,8 @@ import mainBackground from '@assets/images/mainBackground2.png'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '&::-webkit-scrollbar': {
-      display: 'none !important',
-    },
     overflow: 'hidden',
-    padding: '40px',
+    padding: 40,
     display: 'flex',
     height: '100vh',
     flexDirection: 'column',
@@ -16,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     backgroundImage: `url(${mainBackground}), linear-gradient(to top, #0260d8, #157cff 68%)`,
     backgroundSize: '100%',
+    '&::-webkit-scrollbar': {
+      display: 'none !important',
+    },
   },
   titleCenter: {
     display: 'flex',
@@ -37,13 +37,8 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
   },
   getStartText: {
-    fontFamily: 'SpoqaHanSans',
     fontSize: '24px',
     fontWeight: 'bold',
-    fontStretch: 'normal',
-    fontStyle: 'normal',
-    lineHeight: 'normal',
-    letterSpacing: 'normal',
   },
   textBlack: {
     color: '#212529',
@@ -55,27 +50,21 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '20px',
-    padding: '10px',
+    marginTop: 20,
   },
   textCenter: {
     textAlign: 'center',
-    height: '29px',
+    height: 29,
 
-    fontFamily: 'SpoqaHanSans',
-    fontSize: '15px',
-    fontWeight: 'normal',
-    fontStretch: 'normal',
-    fontStyle: 'normal',
-    lineHeight: 'normal',
-    letterSpacing: '-0.47px',
+    fontSize: 15,
+    letterSpacing: -0.47,
     color: '#ffffff',
   },
   textBold: {
     fontWeight: 'bold',
   },
   imgCenter: {
-    paddingTop: '20px',
+    paddingTop: 20,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',

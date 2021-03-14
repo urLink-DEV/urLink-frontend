@@ -18,7 +18,7 @@ import useStyles from './style'
 const swiperSetting = {
   slidesPerView: 1,
   loop: false,
-  spaceBetween: 120,
+  spaceBetween: 30,
   pagination: {
     el: '.swiper-pagination.slide-pagination',
     clickable: true,
