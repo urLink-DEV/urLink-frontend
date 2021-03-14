@@ -38,7 +38,7 @@ function CategoryList(props) {
     (e) => {
       e.stopPropagation()
       e.preventDefault()
-      if (!dragData.is_favorited) {
+      if (dragType === CATEGORY && !dragData.is_favorited) {
         setDragData({
           ...dragData,
           order: 1,
@@ -46,14 +46,14 @@ function CategoryList(props) {
         })
       }
     },
-    [dragData, setDragData]
+    [dragData, dragType, setDragData]
   )
 
   const handleDragOverFirstCategory = useCallback(
     (e) => {
       e.stopPropagation()
       e.preventDefault()
-      if (dragData.is_favorited) {
+      if (dragType === CATEGORY && dragData.is_favorited) {
         setDragData({
           ...dragData,
           order: 1,
@@ -61,7 +61,7 @@ function CategoryList(props) {
         })
       }
     },
-    [dragData, setDragData]
+    [dragData, dragType, setDragData]
   )
 
   const handleDragStart = useCallback(
@@ -128,7 +128,7 @@ function CategoryList(props) {
           )
           await dispatch(categoriesReadThunk())
           setDragData({ ...dragData, dragFinished: true })
-        } else if (dragType === LINK) {
+        } else if (dragType === LINK && dragData.id) {
           const path = linkListData.reduce((prev, data) => prev.concat(data.path), [])
           await dispatch(linkCreateThunk({ categoryId: linkHoverTabId, path }))
           if (selectedCategory?.id === linkHoverTabId) dispatch(linksRead.request({ categoryId: linkHoverTabId }))

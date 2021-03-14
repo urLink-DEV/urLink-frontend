@@ -28,16 +28,16 @@ const initialState = {
     link: {
       listData: [],
       data: {
-        id: -1,
+        id: undefined, // number
         path: '',
       },
     },
     category: {
       listData: [],
       data: {
-        id: -1,
+        id: undefined, // number
         name: '',
-        order: -1,
+        order: undefined, // number
         is_favorited: undefined, // true | false
         dragFinished: undefined, // true | false
       },
