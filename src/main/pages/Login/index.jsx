@@ -1,7 +1,8 @@
 import React from 'react'
 
-import LoginForm from './LoginForm'
 import '@assets/scss/LoginSignup.scss'
+
+import LoginForm from './LoginForm'
 
 function Login() {
   return (

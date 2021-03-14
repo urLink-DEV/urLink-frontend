@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormControlLabel, Button, Checkbox } from '@material-ui/core'
@@ -13,7 +13,7 @@ import Login from '@main/pages/Login'
 import { useToast } from '@modules/ui'
 import { userRegisterThunk } from '@modules/user'
 
-const SCHEMA = yup.object().shape({
+const SCHEMA = yup.object({
   email: yup.string().email('올바르지 않은 이메일 양식입니다.').required('이메일은 필수 입력입니다.'),
   username: yup.string().max(8, '8자 이내로 작성해주세요.').required('닉네임은 필수 입력입니다.'),
   password: yup
@@ -35,7 +35,6 @@ const SCHEMA = yup.object().shape({
 function NregisterForm() {
   const disptach = useDispatch()
   const { openToast } = useToast()
-  const [registerModalOpen, setRegisterModalOpen] = useState(false)
   const { register, handleSubmit, setValue, errors, control, formState } = useForm({
     defaultValues: {
       email: '',
@@ -48,14 +47,19 @@ function NregisterForm() {
     resolver: yupResolver(SCHEMA),
   })
 
-  const handleSignup = async (formData) => {
-    try {
-      await disptach(userRegisterThunk(formData))
-      window.location.href = '/index.html'
-    } catch (error) {
-      openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
-    }
-  }
+  const [registerModalOpen, setRegisterModalOpen] = useState(false)
+
+  const handleSignup = useCallback(
+    async (formData) => {
+      try {
+        await disptach(userRegisterThunk(formData))
+        window.location.href = '/index.html'
+      } catch (error) {
+        openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
+      }
+    },
+    [disptach, openToast]
+  )
 
   return (
     <form onSubmit={handleSubmit(handleSignup)}>

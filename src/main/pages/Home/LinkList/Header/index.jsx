@@ -1,4 +1,4 @@
-import React, { useCallback, memo, useState } from 'react'
+import React, { useCallback, memo, useState, useMemo } from 'react'
 
 import { IconButton, Toolbar } from '@material-ui/core'
 import { Refresh as RefreshIcon } from '@material-ui/icons'
@@ -41,9 +41,11 @@ function Header() {
     setSelectedName(name)
   }, [])
 
-  const handleReload = debounce(() => {
-    reload()
-  }, 400)
+  const handleReload = useMemo(() => {
+    return debounce(() => {
+      reload()
+    }, 400)
+  }, [reload])
 
   return (
     <Toolbar className={classes.toolbar}>

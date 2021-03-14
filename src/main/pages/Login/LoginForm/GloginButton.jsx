@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 
 import Button from '@material-ui/core/Button'
 import { useDispatch } from 'react-redux'
@@ -11,15 +11,18 @@ function GloginButton() {
   const dispatch = useDispatch()
   const { openToast } = useToast()
 
-  const handleGoogleLogin = async (e) => {
-    e.preventDefault()
-    try {
-      await dispatch(userGloginThunk())
-      window.location.href = '/index.html'
-    } catch (error) {
-      openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
-    }
-  }
+  const handleGoogleLogin = useCallback(
+    async (e) => {
+      e.preventDefault()
+      try {
+        await dispatch(userGloginThunk())
+        window.location.href = '/index.html'
+      } catch (error) {
+        openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
+      }
+    },
+    [dispatch, openToast]
+  )
 
   return (
     <Button

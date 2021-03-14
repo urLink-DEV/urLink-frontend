@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 
 import { IconButton, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@material-ui/core'
 import clsx from 'clsx'
@@ -15,18 +15,25 @@ import useStyles from './style'
 function History({ isSelected = false, data = {}, ...props }) {
   const classes = useStyles()
   const { openToast } = useToast()
+
   const [faviconLink, setFaviconLink] = useState(`https://www.google.com/s2/favicons?domain=${data.hostName}`)
 
-  const handleNewTab = (e) => {
-    e.stopPropagation()
-    createTab(data.url)
-  }
+  const handleNewTab = useCallback(
+    (e) => {
+      e.stopPropagation()
+      createTab(data.url)
+    },
+    [data.url]
+  )
 
-  const handleLinkCopy = (e) => {
-    e.stopPropagation()
-    copyLink(data.url)
-    openToast({ type: 'success', message: '링크가 복사 되었습니다.' })
-  }
+  const handleLinkCopy = useCallback(
+    (e) => {
+      e.stopPropagation()
+      copyLink(data.url)
+      openToast({ type: 'success', message: '링크가 복사 되었습니다.' })
+    },
+    [data.url, openToast]
+  )
 
   return (
     <ListItem
@@ -63,4 +70,4 @@ function History({ isSelected = false, data = {}, ...props }) {
   )
 }
 
-export default History
+export default memo(History)

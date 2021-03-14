@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 
 import Button from '@material-ui/core/Button'
 import { useDispatch } from 'react-redux'
@@ -11,15 +11,18 @@ function GregisterButton() {
   const disptach = useDispatch()
   const { openToast } = useToast()
 
-  const handleGoogleSignup = async (e) => {
-    e.preventDefault()
-    try {
-      await disptach(userGregisterThunk())
-      window.location.href = '/index.html'
-    } catch (error) {
-      openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
-    }
-  }
+  const handleGoogleSignup = useCallback(
+    async (e) => {
+      e.preventDefault()
+      try {
+        await disptach(userGregisterThunk())
+        window.location.href = '/index.html'
+      } catch (error) {
+        openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
+      }
+    },
+    [disptach, openToast]
+  )
 
   return (
     <Button

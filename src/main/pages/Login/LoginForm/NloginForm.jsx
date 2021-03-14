@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from '@material-ui/core'
@@ -29,14 +29,17 @@ function NloginForm() {
     resolver: yupResolver(SCHEMA),
   })
 
-  const handleLogin = async (formData) => {
-    try {
-      await dispatch(userLoginThunk(formData))
-      window.location.href = '/index.html'
-    } catch (error) {
-      openToast({ type: 'error', message: error.response?.data?.message || '네트워크 오류!!' })
-    }
-  }
+  const handleLogin = useCallback(
+    async (formData) => {
+      try {
+        await dispatch(userLoginThunk(formData))
+        window.location.href = '/index.html'
+      } catch (error) {
+        openToast({ type: 'error', message: error.response?.data?.message || '네트워크 오류!!' })
+      }
+    },
+    [dispatch, openToast]
+  )
 
   return (
     <form onSubmit={handleSubmit(handleLogin)}>

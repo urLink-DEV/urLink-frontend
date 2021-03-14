@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, Fragment } from 'react'
 
 import { Typography, Grid, Card, CardContent, CardActions, Avatar, Button } from '@material-ui/core'
 import { useDispatch } from 'react-redux'
@@ -10,36 +10,37 @@ import { useUserData, userRemoveThunk, userLogoutThunk } from '@modules/user'
 
 import useStyles from './style'
 
+const { TERMS_MODAL } = MODAL_NAME
+const { REMOVE_USER_ALERT_MODAL } = MODAL_NAME
+
 function Profile() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { data } = useUserData()
-  const { open: termsOpen, toggle: termsToggle, close: termsClose } = useDialog(MODAL_NAME.TERMS_MODAL)
-  const { open: removUserOpen, toggle: removUserToggle, close: removUserClose } = useDialog(
-    MODAL_NAME.REMOVE_USER_ALERT_MODAL
-  )
+  const { open: termsOpen, toggle: termsToggle, close: termsClose } = useDialog(TERMS_MODAL)
+  const { open: removUserOpen, toggle: removUserToggle, close: removUserClose } = useDialog(REMOVE_USER_ALERT_MODAL)
   const { openToast } = useToast()
 
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
     try {
       await dispatch(userLogoutThunk())
       window.location.href = '/index.html'
     } catch (error) {
       openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
     }
-  }
+  }, [dispatch, openToast])
 
-  const handleRemoveUser = async () => {
+  const handleRemoveUser = useCallback(async () => {
     try {
       await dispatch(userRemoveThunk())
       window.location.href = '/index.html'
     } catch (error) {
       openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
     }
-  }
+  }, [dispatch, openToast])
 
   return (
-    <>
+    <Fragment>
       <Card className={classes.root}>
         <CardContent>
           <Typography className={classes.title}>내 정보</Typography>
@@ -83,7 +84,7 @@ function Profile() {
           handleYesClick={handleRemoveUser}
         />
       )}
-    </>
+    </Fragment>
   )
 }
 

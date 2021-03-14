@@ -1,7 +1,8 @@
 import React from 'react'
 
-import RegisterForm from './RegisterForm'
 import '@assets/scss/LoginSignup.scss'
+
+import RegisterForm from './RegisterForm'
 
 function Register() {
   return (

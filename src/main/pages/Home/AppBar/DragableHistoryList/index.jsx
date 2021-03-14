@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState, useEffect, useCallback } from 'react'
+import React, { Fragment, useRef, useState, useEffect, useCallback, useMemo } from 'react'
 
 import { Card, CardContent, CardMedia, IconButton, List, Typography } from '@material-ui/core'
 import { Refresh as RefreshIcon } from '@material-ui/icons'
@@ -10,7 +10,7 @@ import linkListEmptyImg from '@assets/images/group-19.png'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import ScrollUpButton from '@main/components/ScrollUpButton'
 import SearchButton from '@main/components/SearchButton'
-import { useHistoryLinkListData } from '@modules/historyLink'
+import { useHistoryLinks } from '@modules/historyLink'
 import { DROP_ZONE, DRAG, useDrag, useDropZone } from '@modules/ui'
 import { createTabList } from '@utils/chromeApis/tab'
 
@@ -18,19 +18,22 @@ import History from './History'
 import HistoryDateTitle from './HistoryDateTitle'
 import HistoryDragBox from './HistoryDragBox'
 import useStyles from './style'
+
 const { LINK } = DRAG
 const { LINK_DROP_ZONE } = DROP_ZONE
 
 function DragableHistoryList() {
   const classes = useStyles()
-  const [selectedList, setSelectedList] = useState([])
-  const { filter, listData, reload, search, next } = useHistoryLinkListData()
+  const { filter, listData, reload, search, next } = useHistoryLinks()
   const { setDragData, clearDragData } = useDrag(LINK)
   const { open, toggle, close } = useDropZone(LINK_DROP_ZONE)
+
+  const [selectedList, setSelectedList] = useState([])
   const [buttonOpen, setButtonOpen] = useState(null)
   const historyRootRef = useRef(null)
   const historyContentRef = useRef(null)
   const dragBoxRef = useRef(null)
+
   useOutsideAlerter(
     historyRootRef,
     !!selectedList.length,
@@ -39,55 +42,73 @@ function DragableHistoryList() {
     }, [])
   )
 
-  const handleDragStart = ({ id, url: path }) => (e) => {
-    e.stopPropagation()
-    const dragListData = selectedList
-    const isSelectedItem = selectedList.find((selected) => selected.id === id)
-    if (!isSelectedItem) {
-      setSelectedList((listData) => listData.concat({ id, path }))
-      dragListData.push({ id, path })
-    }
-    setDragData(dragListData)
-    e.dataTransfer.setDragImage(dragBoxRef.current, 110, 35)
-  }
+  const handleDragStart = useCallback(
+    ({ id, url: path }) => (e) => {
+      e.stopPropagation()
+      const dragListData = selectedList
+      const isSelectedItem = selectedList.find((selected) => selected.id === id)
+      if (!isSelectedItem) {
+        setSelectedList((listData) => listData.concat({ id, path }))
+        dragListData.push({ id, path })
+      }
+      setDragData(dragListData)
+      e.dataTransfer.setDragImage(dragBoxRef.current, 110, 35)
+    },
+    [selectedList, setDragData]
+  )
 
-  const handleDragEnd = (_) => (e) => {
-    e.stopPropagation()
-    setSelectedList([])
-    clearDragData()
-  }
+  const handleDragEnd = useCallback(
+    () => (e) => {
+      e.stopPropagation()
+      setSelectedList([])
+      clearDragData()
+    },
+    [clearDragData]
+  )
 
-  const handleToogleSelectIem = ({ id, url: path }) => (_e) => {
-    const isSelected = selectedList.find((item) => item.id === id)
-    if (isSelected) setSelectedList((listData) => listData.filter((data) => data.id !== id))
-    else setSelectedList((listData) => listData.concat({ id, path }))
-  }
+  const handleToogleSelectIem = useCallback(
+    ({ id, url: path }) => () => {
+      const isSelected = selectedList.find((item) => item.id === id)
+      if (isSelected) setSelectedList((listData) => listData.filter((data) => data.id !== id))
+      else setSelectedList((listData) => listData.concat({ id, path }))
+    },
+    [selectedList]
+  )
 
-  const handleHistoryListScroll = (e) => {
-    const scrollTop = e.currentTarget.scrollTop
-    const scrollHeight = e.currentTarget.scrollHeight
-    const clientHeight = e.currentTarget.clientHeight
-    setButtonOpen(scrollTop + clientHeight / 2 > clientHeight)
-    if (Math.ceil(scrollTop + clientHeight) >= scrollHeight) next()
-  }
+  const handleHistoryListScroll = useCallback(
+    (e) => {
+      const scrollTop = e.currentTarget.scrollTop
+      const scrollHeight = e.currentTarget.scrollHeight
+      const clientHeight = e.currentTarget.clientHeight
+      setButtonOpen(scrollTop + clientHeight / 2 > clientHeight)
+      if (Math.ceil(scrollTop + clientHeight) >= scrollHeight) next()
+    },
+    [next]
+  )
 
-  const handleHistorySearch = (e) => {
-    const { keyCode } = e
-    const { value } = e.currentTarget
-    if (keyCode === 13) {
-      historyContentRef.current.scrollTop = 0
-      search(value)
-    }
-  }
+  const handleHistorySearch = useCallback(
+    (e) => {
+      const { key, currentTarget } = e
+      const { value } = currentTarget
+      if (key === 'Enter') {
+        historyContentRef.current.scrollTop = 0
+        search(value)
+      }
+    },
+    [search]
+  )
 
-  const handleOpenNewTab = (_e) => {
+  const handleOpenNewTab = useCallback(() => {
     createTabList(selectedList.reduce((list, link) => list.concat(link.path), []))
-  }
+  }, [selectedList])
 
-  const handleReload = debounce(() => {
-    historyContentRef.current.scrollTop = 0
-    reload()
-  }, 400)
+  const handleReload = useMemo(() => {
+    return debounce(() => {
+      historyContentRef.current.scrollTop = 0
+      setSelectedList([])
+      reload()
+    }, 400)
+  }, [reload])
 
   useEffect(() => {
     if (!open && selectedList.length) toggle()
