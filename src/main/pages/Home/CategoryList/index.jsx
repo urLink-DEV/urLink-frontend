@@ -128,7 +128,7 @@ function CategoryList(props) {
           )
           await dispatch(categoriesReadThunk())
           setDragData({ ...dragData, dragFinished: true })
-        } else if (dragType === LINK && dragData.id) {
+        } else if (dragType === LINK && linkHoverTabId) {
           const path = linkListData.reduce((prev, data) => prev.concat(data.path), [])
           await dispatch(linkCreateThunk({ categoryId: linkHoverTabId, path }))
           if (selectedCategory?.id === linkHoverTabId) dispatch(linksRead.request({ categoryId: linkHoverTabId }))

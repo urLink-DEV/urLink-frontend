@@ -1,4 +1,4 @@
-import { call, takeLatest } from 'redux-saga/effects'
+import { call, debounce, takeLatest } from 'redux-saga/effects'
 
 import { createRequestSaga } from '../helpers'
 import * as api from './api'
@@ -25,7 +25,7 @@ const watchCategoryRemove = createRequestSaga(categoryRemove, function* (action)
 })
 
 export function* categorySaga() {
-  yield takeLatest(categoriesRead.REQUEST, watchCategoriesRead)
+  yield debounce(100, categoriesRead.REQUEST, watchCategoriesRead)
   yield takeLatest(categoryCreate.REQUEST, watchCategoryCreate)
   yield takeLatest(categoryModify.REQUEST, watchCategoryModify)
   yield takeLatest(categoryRemove.REQUEST, watchCategoryRemove)
