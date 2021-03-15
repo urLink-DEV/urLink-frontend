@@ -5,7 +5,7 @@ import List from '@material-ui/core/List'
 import ErrorIcon from '@material-ui/icons/Error'
 import { useDispatch, useSelector } from 'react-redux'
 
-import urlinkLogo from '@assets/images/logo-urlink-full.png'
+import urlinkLogoImg from '@assets/images/logo-urlink-full.png'
 import { useCategories, categorySelector, categoriesReadThunk, categoryModifyThunk } from '@modules/category'
 import { linkCreateThunk, linksRead } from '@modules/link'
 import { useToast } from '@modules/ui'
@@ -157,75 +157,73 @@ function CategoryList(props) {
   )
 
   return (
-    <Drawer className={classes.drawer} classes={{ paper: classes.drawerPaper }} variant="permanent" open>
+    <Drawer classes={{ paper: classes.drawerPaper }} variant="permanent">
       {error ? (
         <div className={classes.flexCenterBackground}>
           <ErrorIcon color="primary" fontSize="large" />
           <p>카테고리를 불러오지 못했습니다.</p>
         </div>
       ) : (
-        <div>
-          <div className={classes.layout}>
-            <img className={classes.logo} src={urlinkLogo} alt="URLink logo" />
-            <CategoryHeader type="favorite" />
-            {!favoritedArr?.length && (
-              <FirstFavoriteDropZone
-                handleDragDrop={handleDragDrop}
-                handleDragOverFirstFavorite={handleDragOverFirstFavorite}
-              />
-            )}
-            <List>
-              {favoritedArr?.map((data) => (
-                <CategoryItemWrapper
-                  key={data.id}
-                  data={data}
-                  draggedOrder={dragData.order}
-                  handleDragStart={handleDragStart}
-                  handleDragOver={handleDragOver}
-                  handleDragLeave={handleDragLeave}
-                  handleDragDrop={handleDragDrop}
-                  handleDragEnd={handleDragEnd}
-                >
-                  <CategoryItem
-                    data={data}
-                    selected={data.id === selectedCategory?.id}
-                    isEditTitle={isEditCategoryTitle}
-                    dragFinished={dragData.dragFinished && data.id === dragData.id}
-                    selectedCategoryTitle={isEditCategoryTitle ? editCategoryTitle : selectedCategory?.name}
-                  />
-                </CategoryItemWrapper>
-              ))}
-            </List>
-            <CategoryHeader type="category" />
-            <CategoryButtonGroup />
-            <FirstCategoryDropZone
-              openDropZone={!Boolean(notFavoritedArr.length)}
+        <div className={classes.layout}>
+          <img className={classes.logo} src={urlinkLogoImg} alt="URLink logo" />
+          <CategoryHeader type="favorite" />
+          {!favoritedArr?.length && (
+            <FirstFavoriteDropZone
               handleDragDrop={handleDragDrop}
-              handleDragOverFirstCategory={handleDragOverFirstCategory}
+              handleDragOverFirstFavorite={handleDragOverFirstFavorite}
             />
-            <List>
-              {notFavoritedArr?.map((data) => (
-                <CategoryItemWrapper
-                  key={data.id}
+          )}
+          <List>
+            {favoritedArr?.map((data) => (
+              <CategoryItemWrapper
+                key={data.id}
+                data={data}
+                draggedOrder={dragData.order}
+                handleDragStart={handleDragStart}
+                handleDragOver={handleDragOver}
+                handleDragLeave={handleDragLeave}
+                handleDragDrop={handleDragDrop}
+                handleDragEnd={handleDragEnd}
+              >
+                <CategoryItem
                   data={data}
-                  draggedOrder={dragData.order}
-                  handleDragStart={handleDragStart}
-                  handleDragOver={handleDragOver}
-                  handleDragLeave={handleDragLeave}
-                  handleDragDrop={handleDragDrop}
-                  handleDragEnd={handleDragEnd}
-                >
-                  <CategoryItem
-                    data={data}
-                    selected={data.id === selectedCategory?.id}
-                    isEditTitle={isEditCategoryTitle}
-                    dragFinished={dragData.dragFinished && data.id === dragData.id}
-                    selectedCategoryTitle={isEditCategoryTitle ? editCategoryTitle : selectedCategory?.name}
-                  />
-                </CategoryItemWrapper>
-              ))}
-            </List>
-          </div>
+                  selected={data.id === selectedCategory?.id}
+                  isEditTitle={isEditCategoryTitle}
+                  dragFinished={dragData.dragFinished && data.id === dragData.id}
+                  selectedCategoryTitle={isEditCategoryTitle ? editCategoryTitle : selectedCategory?.name}
+                />
+              </CategoryItemWrapper>
+            ))}
+          </List>
+          <CategoryHeader type="category" />
+          <CategoryButtonGroup />
+          <FirstCategoryDropZone
+            openDropZone={!Boolean(notFavoritedArr.length)}
+            handleDragDrop={handleDragDrop}
+            handleDragOverFirstCategory={handleDragOverFirstCategory}
+          />
+          <List>
+            {notFavoritedArr?.map((data) => (
+              <CategoryItemWrapper
+                key={data.id}
+                data={data}
+                draggedOrder={dragData.order}
+                handleDragStart={handleDragStart}
+                handleDragOver={handleDragOver}
+                handleDragLeave={handleDragLeave}
+                handleDragDrop={handleDragDrop}
+                handleDragEnd={handleDragEnd}
+              >
+                <CategoryItem
+                  data={data}
+                  selected={data.id === selectedCategory?.id}
+                  isEditTitle={isEditCategoryTitle}
+                  dragFinished={dragData.dragFinished && data.id === dragData.id}
+                  selectedCategoryTitle={isEditCategoryTitle ? editCategoryTitle : selectedCategory?.name}
+                />
+              </CategoryItemWrapper>
+            ))}
+          </List>
         </div>
       )}
     </Drawer>

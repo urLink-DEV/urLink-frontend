@@ -4,9 +4,9 @@ const useStyles = makeStyles((theme) => ({
   addButton: {
     width: 208,
     height: 52,
+    display: 'block',
+    margin: '10px auto',
     borderRadius: 4,
-    marginLeft: 5,
-    marginTop: 10,
     boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)',
     backgroundColor: '#f1f3f5',
     '&:hover': {
@@ -16,9 +16,9 @@ const useStyles = makeStyles((theme) => ({
   deleteButton: {
     width: 208,
     height: 52,
+    display: 'block',
+    margin: '10px auto',
     borderRadius: 4,
-    marginLeft: 5,
-    marginTop: 10,
     boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)',
     backgroundColor: '#f1f3f5',
     '&:hover': {
@@ -35,9 +35,9 @@ const useStyles = makeStyles((theme) => ({
     padding: '0 12px',
     width: 122,
     height: 28,
-    borderRadius: 4,
     marginRight: 4,
     marginLeft: 4,
+    borderRadius: 4,
     backgroundColor: '#f1f3f5',
     fontSize: 14,
   },
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
   },
   enterTab: {
-    width: 208,
+    width: 210,
     height: 52,
     alignItems: 'center',
     justifyCntent: 'space-around',

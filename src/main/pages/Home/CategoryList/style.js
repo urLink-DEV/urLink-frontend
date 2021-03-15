@@ -1,20 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles'
 
-const drawerWidth = 260
-
 const useStyles = makeStyles((theme) => ({
   logo: {
     width: 95,
     margin: '28px 5px',
   },
-  drawer: {
-    [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-  },
   drawerPaper: {
-    width: drawerWidth,
+    width: 260,
     scrollbarWidth: 'none',
     '&::-webkit-scrollbar': {
       display: 'none',
@@ -22,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
   layout: {
     width: 240,
-    margin: 'auto',
+    margin: '0px auto',
     padding: '0 10px',
     backgroundColor: '#fff',
   },

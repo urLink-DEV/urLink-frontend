@@ -3,11 +3,18 @@ import { makeStyles } from '@material-ui/core/styles'
 export const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: 5,
-    paddingLeft: 28,
-    paddingRight: 20,
+    paddingLeft: 20,
+    paddingRight: 15,
     height: '100vh',
     backgroundColor:
       theme.palette.type !== 'dark' ? theme.palette.colorGroup.lightGrey : theme.palette.background.default,
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: 10,
+      paddingRight: 10,
+    },
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: 15,
+    },
   },
   content: {
     maxHeight: 'calc(100vh - 61px);',

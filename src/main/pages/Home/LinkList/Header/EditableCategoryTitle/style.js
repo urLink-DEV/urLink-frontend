@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 export const useStyles = makeStyles((_theme) => ({
   root: {
+    flexShrink: 0,
     height: 36,
   },
   editIconActive: {

@@ -15,12 +15,13 @@ export const StyledToggleButtonGroup = withStyles((theme) => ({
   },
 }))(ToggleButtonGroup)
 
-const useStyles = makeStyles((_theme) => ({
+const useStyles = makeStyles((theme) => ({
   flex: {
     display: 'flex',
     flexDirection: 'column',
   },
   searchBtn: {
+    flexShrink: 0,
     height: 30,
     padding: '5px 10px',
     borderRadius: 4,

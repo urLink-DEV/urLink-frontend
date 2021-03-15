@@ -12,14 +12,14 @@ export default function Home() {
 
   return (
     <div className={classes.root}>
-      <section>
+      <section className={classes.categoryList}>
         <CategoryList />
       </section>
       <main className={classes.main}>
         <LinkDropZone />
         <LinkList />
       </main>
-      <section>
+      <section className={classes.appBar}>
         <CategoryAppBar />
       </section>
     </div>
