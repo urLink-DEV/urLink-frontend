@@ -3,13 +3,7 @@
   "version": "1.0",
   "manifest_version": 2,
   "description": "url collection",
-  "permissions": [
-    "tabs", 
-    "<all_urls>",
-    "identity",
-    "history",
-    "notifications"
-  ],
+  "permissions": ["tabs", "<all_urls>", "identity", "history", "notifications"],
   "icons": {
     "16": "images/logo/logo16.png",
     "24": "images/logo/logo24.png",
@@ -24,15 +18,11 @@
   },
   "background": {
     "page": "background.html",
-    "persistent": false
+    "persistent": true
   },
   "oauth2": {
     "client_id": "683415540436-aimi7aksc043mre0pdj2nejtr08fkchs.apps.googleusercontent.com",
-    "scopes": [
-      "https://www.googleapis.com/auth/contacts.readonly",
-      "profile",
-      "email"
-    ]
+    "scopes": ["https://www.googleapis.com/auth/contacts.readonly", "profile", "email"]
   },
   "content_security_policy": "script-src 'self' https://apis.google.com 'sha256-34M3HxxCd7web+UMuTvWUlRtVdx6QrTGItv3k4d183Y='; object-src 'self'"
 }

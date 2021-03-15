@@ -2,13 +2,13 @@
   "javascript.format.enable": false,
   "editor.formatOnSave": false,
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+   "editor.formatOnSave": true
   },
   "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+   "editor.formatOnSave": true
   },
   "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+   "editor.formatOnSave": true
   },
   "eslint.options": {
     "extensions": [

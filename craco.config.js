@@ -1,7 +1,10 @@
-const { whenDev } = require('@craco/craco');
-const ManifestPlugin = require('webpack-manifest-plugin');
-const CracoAlias = require('craco-alias');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path')
+
+const { whenDev, whenProd } = require('@craco/craco')
+const CracoAlias = require('craco-alias')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const ManifestPlugin = require('webpack-manifest-plugin')
 
 module.exports = {
   babel: {
@@ -21,96 +24,82 @@ module.exports = {
     configure: (webpackConfig, { paths }) => {
       // multiple entry point config
       const entries = {
-        index: [`${paths.appSrc}/index.js`],
-        popup: [`${paths.appSrc}/popup/index.js`],
-        background: [`${paths.appSrc}/background/index.js`],
-      };
+        index: [path.resolve(__dirname, 'src/main/index.js')],
+        popup: [path.resolve(__dirname, 'src/popup/index.js')],
+        background: [path.resolve(__dirname, 'src/background/index.js')],
+      }
+      webpackConfig.entry = entries
 
-      webpackConfig.entry = entries;
+      // appIndexJs entry config
+      paths.appIndexJs = entries.index[0]
 
       // multiple html config
       const htmlWebpackPluginSetting = webpackConfig.plugins.find(
         ({ constructor }) => constructor.name === 'HtmlWebpackPlugin'
-      );
-
+      )
       const htmlPlugin = Object.keys(entries).map((item) => {
         return new HtmlWebpackPlugin({
           ...htmlWebpackPluginSetting,
           template: `${paths.appPublic}/${item}.html`,
           filename: item + '.html',
           chunks: [item],
-        });
-      });
+        })
+      })
 
       // manifest entry point setting
-      // 단일 진입 점을 지원 하도록 구성 되어 있어 수정해야 함
+      // 단일 진입 점을 지원 하도록 구성 되어 있어 entries key 기준으로 다시 구성
       const multipleEntriesManifestPlugin = new ManifestPlugin({
         fileName: 'asset-manifest.json',
         publicPath: paths.publicUrlOrPath,
 
         generate: (seed, files, entrypoints) => {
           const manifestFiles = files.reduce((manifest, file) => {
-            manifest[file.name] = file.path;
-            return manifest;
-          }, seed);
+            manifest[file.name] = file.path
+            return manifest
+          }, seed)
 
           // Keep the existing entry point
-          const indexEntrypointFiles = entrypoints.index.filter(
-            (fileName) => !fileName.endsWith('.map')
-          );
-          let { index, ...pagesAllEntryPointFiles } = entrypoints;
+          const indexEntrypointFiles = entrypoints.index.filter((fileName) => !fileName.endsWith('.map'))
+          let { index, ...pagesAllEntryPointFiles } = entrypoints
 
           // Create our pages entry points
-          const pagesEntryPointFiles = Object.keys(pagesAllEntryPointFiles).reduce(
-            (filtered, entryKey) => {
-              filtered[entryKey] = pagesAllEntryPointFiles[entryKey].filter(
-                (fileName) => !fileName.endsWith('.map')
-              );
-              return filtered;
-            },
-            {}
-          );
+          const pagesEntryPointFiles = Object.keys(pagesAllEntryPointFiles).reduce((filtered, entryKey) => {
+            filtered[entryKey] = pagesAllEntryPointFiles[entryKey].filter((fileName) => !fileName.endsWith('.map'))
+            return filtered
+          }, {})
 
           return {
             files: manifestFiles,
             entrypoints: indexEntrypointFiles,
             pages: pagesEntryPointFiles,
-          };
+          }
         },
-      });
+      })
 
       // Substitute htmlWebpackPlugin
-      const htmlWebpackIdx = webpackConfig.plugins.findIndex(
-        ({ constructor }) => constructor.name === 'HtmlWebpackPlugin'
-      );
-      webpackConfig.plugins.splice(htmlWebpackIdx, 1, ...htmlPlugin);
+      const htmlIdx = webpackConfig.plugins.findIndex(({ constructor }) => constructor.name === 'HtmlWebpackPlugin')
+      webpackConfig.plugins.splice(htmlIdx, 1, ...htmlPlugin)
 
       // Substitute ManifestPlugin
-      const ManifestIdx = webpackConfig.plugins.findIndex(
-        ({ constructor }) => constructor.name === 'ManifestPlugin'
-      );
-      webpackConfig.plugins.splice(ManifestIdx, 1, multipleEntriesManifestPlugin);
+      const manifestIdx = webpackConfig.plugins.findIndex(({ constructor }) => constructor.name === 'ManifestPlugin')
+      webpackConfig.plugins.splice(manifestIdx, 1, multipleEntriesManifestPlugin)
 
       // Substitute InlineChunkHtmlPlugin
-      const InlineChunkHtmlIdx = webpackConfig.plugins.findIndex(
+      const inlineChunkHtmlIdx = webpackConfig.plugins.findIndex(
         ({ constructor }) => constructor.name === 'InlineChunkHtmlPlugin'
-      );
-      webpackConfig.plugins.splice(InlineChunkHtmlIdx, 1);
+      )
+      webpackConfig.plugins.splice(inlineChunkHtmlIdx, 1)
 
       whenDev(() => {
-        webpackConfig.output.publicPath = process.env.PUBLIC_PATH;
-        webpackConfig.optimization.runtimeChunk = 'single';
+        webpackConfig.optimization.runtimeChunk = 'single'
+        webpackConfig.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'server', openAnalyzer: false }))
+      })
 
-        // HMRwebpackHotDevClient을 지원
-        const webpackHotDevClientPath = require.resolve('react-dev-utils/webpackHotDevClient');
-        Object.keys(entries).forEach((entryKey) => {
-          if (!entries[entryKey].includes(webpackHotDevClientPath)) {
-            entries[entryKey].unshift(webpackHotDevClientPath);
-          }
-        });
-      });
+      whenProd(() => {
+        webpackConfig.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'static' }))
+      })
 
-      return webpackConfig;
+      return webpackConfig
     },
   },
 
@@ -123,4 +112,4 @@ module.exports = {
       },
     },
   ],
-};
+}

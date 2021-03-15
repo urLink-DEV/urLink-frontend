@@ -3,14 +3,14 @@
     "baseUrl": "src",
     "paths": {
       "@/*": ["./*"],
+      "@background/*": ["background/*"],
       "@main/*": ["main/*"],
       "@popup/*": ["popup/*"],
-
       "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
       "@modules/*": ["modules/*"],
-      "@utils/*": ["utils/*"],
+      "@utils/*": ["utils/*"]
     }
   }
 }
