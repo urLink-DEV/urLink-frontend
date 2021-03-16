@@ -1,5 +1,3 @@
-/* global chrome */
-
 /**
  * * Get Chrome History List information -> promise Pattern
  * @param {String} text String
@@ -19,10 +17,10 @@
  */
 export function getHistoryList({ text, startTime = 0, endTime = Date.now(), maxResults }) {
   return new Promise((resolve, _reject) => {
-    const search = chrome.history?.search
-    if (!search) resolve(urlTempList)
+    const idCheck = chrome.runtime?.id
+    if (!idCheck) resolve(urlTempList)
     else {
-      search({ text, startTime, endTime, maxResults }, (historyList) => {
+      chrome.history.search({ text, startTime, endTime, maxResults }, (historyList) => {
         historyList = historyList.filter(
           (history) => startTime <= history.lastVisitTime && history.lastVisitTime <= endTime
         )
