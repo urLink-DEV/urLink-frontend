@@ -1,4 +1,5 @@
-import { createReducer, createAction } from '@reduxjs/toolkit'
+import { createReducer, createAction, createSelector } from '@reduxjs/toolkit'
+
 import { createRequestAction, createRequestThunk } from '../helpers'
 
 export const CATEGORY = 'CATEGORY'
@@ -19,13 +20,12 @@ export const categorySelect = createAction(`${CATEGORY}/SELECT`)
 
 // Reducer
 const initialState = {
-  data: [],
+  listData: [],
   selectedCategory: {},
 }
-
 export const categoryReducer = createReducer(initialState, {
   [categoriesRead.SUCCESS]: (state, { payload, meta }) => {
-    state.data = payload
+    state.listData = payload
 
     if (meta?.key === 'isFirstCategory') {
       state.selectedCategory = {
@@ -41,9 +41,21 @@ export const categoryReducer = createReducer(initialState, {
 })
 
 // Select
-export const selectCategories = (state) => state[CATEGORY].data
-export const selectFavoriteCategories = (state) =>
-  state[CATEGORY].data.filter((item) => Boolean(item.is_favorited))
-export const selectNotFavoriteCategories = (state) =>
-  state[CATEGORY].data.filter((item) => !Boolean(item.is_favorited))
-export const selectSelectedCategory = (state) => state[CATEGORY].selectedCategory
+const selectFavoriteCategoriesState = createSelector(
+  (state) => state.listData,
+  (listData) => {
+    return listData.filter((item) => Boolean(item.is_favorited))
+  }
+)
+const selectNormalCategoriesState = createSelector(
+  (state) => state.listData,
+  (listData) => {
+    return listData.filter((item) => !Boolean(item.is_favorited))
+  }
+)
+export const categorySelector = {
+  listData: (state) => state[CATEGORY].listData,
+  favoriteCategories: (state) => selectFavoriteCategoriesState(state[CATEGORY]),
+  normalCategories: (state) => selectNormalCategoriesState(state[CATEGORY]),
+  selectedCategory: (state) => state[CATEGORY].selectedCategory,
+}

@@ -1,19 +1,18 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-  categoriesRead,
-  selectCategories,
-  selectFavoriteCategories,
-  selectNotFavoriteCategories,
-} from '@modules/category'
 
-export function useCategories() {
+import { useDispatch, useSelector } from 'react-redux'
+
+import { categoriesRead, categorySelector } from '@modules/category'
+import { ERROR } from '@modules/error'
+import { PENDING } from '@modules/pending'
+
+const useCategories = () => {
   const dispatch = useDispatch()
-  const categories = useSelector(selectCategories)
-  const favoritedArr = useSelector(selectFavoriteCategories)
-  const notFavoritedArr = useSelector(selectNotFavoriteCategories)
-  const pending = useSelector((state) => state.pending[categoriesRead.TYPE]?.['isFirstCategory'])
-  const error = useSelector((state) => state.error[categoriesRead.TYPE]?.['isFirstCategory'])
+  const pending = useSelector((state) => state[PENDING][categoriesRead.TYPE]?.['isFirstCategory'])
+  const error = useSelector((state) => state[ERROR][categoriesRead.TYPE]?.['isFirstCategory'])
+  const categories = useSelector(categorySelector.listData)
+  const favoritedArr = useSelector(categorySelector.favoriteCategories)
+  const notFavoritedArr = useSelector(categorySelector.normalCategories)
 
   const reload = () => {
     dispatch(categoriesRead.request())
@@ -25,3 +24,5 @@ export function useCategories() {
 
   return { pending, error, categories, favoritedArr, notFavoritedArr, reload }
 }
+
+export default useCategories

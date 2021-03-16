@@ -1,12 +1,20 @@
 import { useCallback } from 'react'
+
 import { useDispatch, useSelector } from 'react-redux'
 
-import { DRAG, setDrag, clearDrag, uiSelector } from '@modules/ui'
+import { UI, DRAG, setDrag, clearDrag } from '@modules/ui'
+
 const { DRAG_STATUS } = DRAG
 
 const useDrag = (type) => {
-  const { type: dragType, status: dragStatus, listData, data } = useSelector(uiSelector.drag)
   const dispatch = useDispatch()
+  const { type: dragType, status: dragStatus, listData, data } = useSelector((state) => {
+    return {
+      type: state[UI].drag.type,
+      status: state[UI].drag.status,
+      ...state[UI].drag?.[type],
+    }
+  })
 
   const setDragData = useCallback(
     (dragData) => {

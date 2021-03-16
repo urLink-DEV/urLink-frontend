@@ -1,4 +1,4 @@
-import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
+import { createAction, createReducer } from '@reduxjs/toolkit'
 
 export const UI = 'UI'
 
@@ -25,17 +25,32 @@ const initialState = {
   drag: {
     type: '',
     status: '',
-    listData: [],
-    data: {},
+    link: {
+      listData: [],
+      data: {
+        id: undefined, // number
+        path: '',
+      },
+    },
+    category: {
+      listData: [],
+      data: {
+        id: undefined, // number
+        name: '',
+        order: undefined, // number
+        is_favorited: undefined, // true | false
+        dragFinished: undefined, // true | false
+      },
+    },
   },
 }
 export const uiReducer = createReducer(initialState, {
-  [openDialog.type]: (state, { payload }) => {
+  [openDialog]: (state, { payload }) => {
     if (!state.dialogs.find((dialog) => dialog.type === payload.type)) {
       state.dialogs.push(payload)
     }
   },
-  [closeDialog.type]: (state, { payload }) => {
+  [closeDialog]: (state, { payload }) => {
     state.dialogs = state.dialogs.filter((dialog) => {
       if (payload.meta?.key) {
         return dialog.meta?.key !== payload.meta?.key
@@ -43,18 +58,18 @@ export const uiReducer = createReducer(initialState, {
       return dialog.type !== payload.type
     })
   },
-  [closeAllDialogs.type]: (state) => {
+  [closeAllDialogs]: (state) => {
     state.dialogs = initialState.dialogs
   },
-  [setToast.type]: (state, { payload }) => {
+  [setToast]: (state, { payload }) => {
     state.toast = { ...state.toast, ...payload }
   },
-  [openDropZone.type]: (state, { payload }) => {
+  [openDropZone]: (state, { payload }) => {
     if (!state.dropZones.find((dropZone) => dropZone.type === payload.type)) {
       state.dropZones.push(payload)
     }
   },
-  [closeDropZone.type]: (state, { payload }) => {
+  [closeDropZone]: (state, { payload }) => {
     state.dropZones = state.dropZones.filter((dropZone) => {
       if (payload.meta?.key) {
         return dropZone.meta?.key !== payload.meta?.key
@@ -62,27 +77,23 @@ export const uiReducer = createReducer(initialState, {
       return dropZone.type !== payload.type
     })
   },
-  [closeAllDropZones.type]: (state) => {
+  [closeAllDropZones]: (state) => {
     state.dropZones = initialState.dropZones
   },
-  [setDrag.type]: (state, { payload }) => {
-    state.drag = { ...state.drag, ...payload }
+  [setDrag]: (state, { payload: { type, status, ...props } }) => {
+    state.drag.type = type
+    state.drag.status = status
+    state.drag[type] = { ...state.drag[type], ...props }
   },
-  [clearDrag.type]: (state) => {
+  [clearDrag]: (state) => {
     state.drag = initialState.drag
   },
 })
 
 // Select
-const selectAllState = createSelector(
-  (state) => state,
-  (state) => {
-    return state
-  }
-)
 export const uiSelector = {
-  dialogs: (state) => selectAllState(state[UI].dialogs),
-  toast: (state) => selectAllState(state[UI].toast),
-  dropZones: (state) => selectAllState(state[UI].dropZones),
-  drag: (state) => selectAllState(state[UI].drag),
+  dialogs: (state) => state[UI].dialogs,
+  toast: (state) => state[UI].toast,
+  dropZones: (state) => state[UI].dropZones,
+  drag: (state) => state[UI].drag,
 }

@@ -1,0 +1,17 @@
+:root {
+  --maincolor: #2083ff;
+  --lightblue: #77caff;
+  --powder-blue: #afe7ff;
+  --pale-sky-blue: #c2e8ff;
+  --maintext: #212529;
+  --battleship-grey: #737b84;
+  --blue-grey: #868e96;
+  --very-light-blue: #e9ecef;
+  --pale-grey: #f6f7f9;
+  --salmon: #ff6b6b;
+  --green-blue: #00b381;
+}
+
+@import url(http://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);
+@import url(http://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css);
+@import url(http://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);

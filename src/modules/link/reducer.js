@@ -1,4 +1,5 @@
-import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
+import { createAction, createReducer } from '@reduxjs/toolkit'
+
 import { createRequestAction, createRequestThunk } from '../helpers'
 
 export const LINK = 'LINK'
@@ -57,26 +58,8 @@ export const linkReducer = createReducer(initialState, {
 })
 
 // Select
-const selectAllState = createSelector(
-  (state) => state,
-  (state) => {
-    return state
-  }
-)
-
-const selectSearchFilterState = createSelector(
-  (state) => state.selectedName,
-  (state) => state.keyword,
-  (selectedName, keyword) => {
-    return {
-      selectedName,
-      keyword,
-    }
-  }
-)
-
 export const linkSelector = {
-  listData: (state) => selectAllState(state[LINK].listData),
-  selectSelectedLink: (state) => selectAllState(state[LINK].selectedLink),
-  searchFilter: (state) => selectSearchFilterState(state[LINK].searchFilter),
+  listData: (state) => state[LINK].listData,
+  selectSelectedLink: (state) => state[LINK].selectedLink,
+  searchFilter: (state) => state[LINK].searchFilter,
 }

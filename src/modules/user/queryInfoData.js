@@ -13,6 +13,10 @@ const queryInfoData = {
       username: '',
       password: '',
     },
+    urlQuery: {},
+    replaceAPI() {
+      return this.API
+    },
   },
 
   /**
@@ -27,6 +31,10 @@ const queryInfoData = {
       email: '',
       password: '',
     },
+    urlQuery: {},
+    replaceAPI() {
+      return this.API
+    },
   },
 
   /**
@@ -39,6 +47,10 @@ const queryInfoData = {
     method: 'post',
     bodyQuery: {
       token: '',
+    },
+    urlQuery: {},
+    replaceAPI() {
+      return this.API
     },
   },
 
@@ -54,6 +66,10 @@ const queryInfoData = {
     bodyQuery: {
       token: '',
     },
+    urlQuery: {},
+    replaceAPI() {
+      return this.API
+    },
   },
 
   /**
@@ -66,6 +82,10 @@ const queryInfoData = {
     API: '/user/sign-out/',
     method: 'post',
     bodyQuery: {},
+    urlQuery: {},
+    replaceAPI() {
+      return this.API
+    },
   },
 
   /**
@@ -81,7 +101,7 @@ const queryInfoData = {
       userId: '',
     },
     replaceAPI({ userId }) {
-      return this.API.replace('{userId}/', userId ? `${userId}/` : '');
+      return this.API.replace('{userId}/', userId ? `${userId}/` : '')
     },
   },
 
@@ -103,7 +123,7 @@ const queryInfoData = {
       userId: '',
     },
     replaceAPI({ userId }) {
-      return this.API.replace('{userId}/', userId ? `${userId}/` : '');
+      return this.API.replace('{userId}/', userId ? `${userId}/` : '')
     },
   },
 
@@ -115,10 +135,14 @@ const queryInfoData = {
   userRemove: {
     API: 'user/{userId}/',
     method: 'delete',
+    bodyQuery: {},
     urlQuery: {
       userId: '',
     },
+    replaceAPI({ userId }) {
+      return this.API.replace('{userId}/', userId ? `${userId}/` : '')
+    },
   },
-};
+}
 
-export default queryInfoData;
+export default queryInfoData

@@ -1,29 +1,30 @@
-import { axios } from '@commons/http/client'
-import queryFilter from '@commons/http/queryFilter'
+import { axios } from '@utils/http/client'
+import queryFilter from '@utils/http/queryFilter'
+
 import queryInfoData from './queryInfoData'
 
-export const linksRead = (data = {}) => {
+export const requestLinksRead = (data = {}) => {
   const queryData = queryInfoData['linksRead']
   const info = queryFilter({ queryData, originDataInfo: data })
   const urlData = queryFilter({ queryData, queryType: 'urlQuery', originDataInfo: data })
   return axios[queryData.method](queryData.replaceAPI({ ...urlData }), info)
 }
 
-export const linkModify = (data = {}) => {
+export const requestLinkModify = (data = {}) => {
   const queryData = queryInfoData['linkModify']
   const info = queryFilter({ queryData, originDataInfo: data })
   const urlData = queryFilter({ queryData, queryType: 'urlQuery', originDataInfo: data })
   return axios[queryData.method](queryData.replaceAPI({ ...urlData }), info)
 }
 
-export const linkRemove = (data = {}) => {
+export const requestLinkRemove = (data = {}) => {
   const queryData = queryInfoData['linkRemove']
   const info = queryFilter({ queryData, originDataInfo: data })
   const urlData = queryFilter({ queryData, queryType: 'urlQuery', originDataInfo: data })
   return axios[queryData.method](queryData.replaceAPI({ ...urlData }), info)
 }
 
-export const linkCreate = (data = {}) => {
+export const requestLinkCreate = (data = {}) => {
   const queryData = queryInfoData['linkCreate']
   const info = queryFilter({ queryData, originDataInfo: data })
   const urlData = queryFilter({ queryData, queryType: 'urlQuery', originDataInfo: data })

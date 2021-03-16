@@ -1,32 +1,33 @@
-import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useCallback } from 'react'
 
-import { openDialog, closeDialog, closeAllDialogs, uiSelector } from '@modules/ui';
+import { useDispatch, useSelector } from 'react-redux'
+
+import { openDialog, closeDialog, closeAllDialogs, uiSelector } from '@modules/ui'
 
 const useDialog = (type) => {
-  const dialogs = useSelector(uiSelector.dialogs);
-  const dispatch = useDispatch();
-  const open = !!dialogs.find((dialog) => dialog.type === type);
+  const dispatch = useDispatch()
+  const dialogs = useSelector(uiSelector.dialogs)
+  const open = !!dialogs.find((dialog) => dialog.type === type)
 
   const toggle = useCallback(() => {
     if (open) {
-      dispatch(closeDialog({ type }));
+      dispatch(closeDialog({ type }))
     } else {
-      dispatch(openDialog({ type }));
+      dispatch(openDialog({ type }))
     }
-  }, [open, type, dispatch]);
+  }, [open, type, dispatch])
 
   const close = useCallback(() => {
-    dispatch(closeDialog({ type }));
-  }, [dispatch, type]);
+    dispatch(closeDialog({ type }))
+  }, [dispatch, type])
 
   const closeAll = useCallback(() => {
     if (dialogs.length) {
-      dispatch(closeAllDialogs());
+      dispatch(closeAllDialogs())
     }
-  }, [dispatch, dialogs]);
+  }, [dispatch, dialogs])
 
-  return { open, toggle, close, closeAll };
-};
+  return { open, toggle, close, closeAll }
+}
 
-export default useDialog;
+export default useDialog
