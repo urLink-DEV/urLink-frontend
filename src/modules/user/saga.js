@@ -1,6 +1,8 @@
 import { call, takeLatest } from 'redux-saga/effects'
 
 import { getAuthToken, removeCachedAuthToken } from '@utils/chromeApis/OAuth'
+import { UPDATE_TOKEN } from '@utils/chromeApis/onMessage'
+import { sendMessage } from '@utils/chromeApis/sendMessage'
 import { setAccessToken, removeAccessToken } from '@utils/http/auth'
 
 import { createRequestSaga } from '../helpers'
@@ -19,12 +21,14 @@ import {
 const watchUserRegister = createRequestSaga(userRegister, function* (action) {
   const { data } = yield call(api.requestNregister, action.payload)
   yield call(setAccessToken, data.token)
+  yield call(sendMessage, { message: UPDATE_TOKEN })
   return data
 })
 
 const watchUserLogin = createRequestSaga(userLogin, function* (action) {
   const { data } = yield call(api.requestNlogin, action.payload)
   yield call(setAccessToken, data.token)
+  yield call(sendMessage, { message: UPDATE_TOKEN })
   return data
 })
 
@@ -38,6 +42,7 @@ const watchUserGregister = createRequestSaga(userGregister, function* (_action) 
     token = yield call(getAuthToken)
     const { data } = yield call(api.requestGregister, { token })
     yield call(setAccessToken, data.token)
+    yield call(sendMessage, { message: UPDATE_TOKEN })
     return data
   } catch (error) {
     if (token && error.response?.status >= 400) {
@@ -53,6 +58,7 @@ const watchUserGlogin = createRequestSaga(userGlogin, function* (_action) {
     token = yield call(getAuthToken)
     const { data } = yield call(api.requestGLogin, { token })
     yield call(setAccessToken, data.token)
+    yield call(sendMessage, { message: UPDATE_TOKEN })
     return data
   } catch (error) {
     if (token && error.response?.status >= 400) {
