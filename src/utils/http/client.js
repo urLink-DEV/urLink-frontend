@@ -3,6 +3,8 @@ import { SERVER_TOKEN, SERVER_TOKEN_NOT_VALID, LOGIN_REQUIRED_VALID } from 'sett
 
 import { requestUpdateToken, queryInfoData } from '@modules/token'
 
+import { UPDATE_TOKEN } from '../chromeApis/onMessage'
+import { sendMessage } from '../chromeApis/sendMessage'
 import { getAccessToken, getRefreshToken, setAccessToken, removeAccessToken } from './auth'
 import queryFilter from './queryFilter'
 
@@ -74,6 +76,7 @@ axios.interceptors.response.use(
         if (!response.data) throw new Error()
         else {
           setAccessToken(response.data)
+          sendMessage({ message: UPDATE_TOKEN })
           // 만약 이전에 보냈던 url이 TOKEN 검사 요청이었을 때
           if (url.indexOf(CHECK_TOKEN_API) > -1) {
             const token = getAccessToken()

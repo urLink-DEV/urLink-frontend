@@ -16,6 +16,9 @@ module.exports = {
       jsx: true,
     },
   },
+  globals: {
+    chrome: 'readonly',
+  },
   settings: {
     'import/resolver': {
       alias: {
