@@ -1,7 +1,6 @@
 import { requestAlarmReadNotice } from '@/modules/alarmNotice'
 import { createTab } from '@/utils/chromeApis/tab'
 import { getAccessToken } from '@/utils/http/auth'
-import { notifications, notificationsAddListener } from '@utils/chromeApis/notifications'
 import { onMessage, REMOVE_TOKEN, UPDATE_TOKEN } from '@utils/chromeApis/onMessage'
 import { alarmSocket } from '@utils/http/ws'
 
@@ -12,16 +11,14 @@ function connectionWS() {
     alarmSocket.onConnection().setOnmessage((event) => {
       const { message, status } = JSON.parse(event.data)
       if (status === 'alarm') {
-        notifications('alarm', {
-          type: 'basic',
-          title: 'urLink 알람이 도착했습니다.',
-          message: message.url_title,
-          iconUrl: message.url_favicon_path,
+        const notification = new Notification('urLink 알람이 도착했습니다.', {
+          icon: message.url_favicon_path,
+          body: message.url_title,
         })
-        notificationsAddListener(() => {
+        notification.onclick = () => {
           requestAlarmReadNotice({ alarm_id: message.id })
           createTab(message.url_path)
-        })
+        }
       }
     })
   } catch (error) {
