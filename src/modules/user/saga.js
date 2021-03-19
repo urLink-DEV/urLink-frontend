@@ -1,7 +1,7 @@
 import { call, takeLatest } from 'redux-saga/effects'
 
 import { getAuthToken, removeCachedAuthToken } from '@utils/chromeApis/OAuth'
-import { UPDATE_TOKEN } from '@utils/chromeApis/onMessage'
+import { REMOVE_TOKEN, UPDATE_TOKEN } from '@utils/chromeApis/onMessage'
 import { sendMessage } from '@utils/chromeApis/sendMessage'
 import { setAccessToken, removeAccessToken } from '@utils/http/auth'
 
@@ -34,6 +34,7 @@ const watchUserLogin = createRequestSaga(userLogin, function* (action) {
 
 const watchUserLogout = createRequestSaga(userLogout, function* (_action) {
   yield call(removeAccessToken)
+  yield call(sendMessage, { message: REMOVE_TOKEN })
 })
 
 const watchUserGregister = createRequestSaga(userGregister, function* (_action) {
