@@ -12,7 +12,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as yup from 'yup'
 
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
-import { categorySelect, categorySelector, categoryModifyThunk } from '@modules/category'
+import {
+  categoryEdit,
+  categoryClearEdit,
+  categorySelect,
+  categorySelector,
+  categoryModifyThunk,
+  categoriesReadThunk,
+} from '@modules/category'
 import { isObjkeysEmpty } from '@utils/filter'
 
 import useStyles from './style'
@@ -42,13 +49,25 @@ function EditableCategoryTitle() {
     reset(defaultValues)
   }, [reset, defaultValues])
 
+  const handleChangeInput = useCallback(
+    (e) => {
+      const name = e.target.value
+      if (name || name === '') {
+        dispatch(categoryEdit({ name }))
+      }
+    },
+    [dispatch]
+  )
+
   const handleShowEdit = useCallback(() => {
     setIsEditable(true)
-  }, [])
+    dispatch(categoryEdit({ id: category?.id, name: category?.name }))
+  }, [dispatch, category])
 
   const handleCancelEdit = useCallback(() => {
     setIsEditable(false)
-  }, [])
+    dispatch(categoryClearEdit())
+  }, [dispatch])
 
   const handleEditDone = useMemo(() => {
     return checkSubmit(async (formData) => {
@@ -58,7 +77,9 @@ function EditableCategoryTitle() {
           name: formData.name,
         })
       )
+      await dispatch(categoriesReadThunk())
       dispatch(categorySelect({ ...response }))
+      dispatch(categoryClearEdit())
       setIsEditable(false)
     })
   }, [category, checkSubmit, dispatch])
@@ -81,6 +102,7 @@ function EditableCategoryTitle() {
           <InputBase
             name="name"
             onKeyUp={handleEditKeyUp}
+            onChange={handleChangeInput}
             autoFocus
             inputProps={{
               maxLength: CATEGORY_NAME_MAX_LENTH,

@@ -17,11 +17,14 @@ export const categoryRemove = createRequestAction(`${CATEGORY}/REMOVE`)
 export const categoryRemoveThunk = createRequestThunk(categoryRemove)
 
 export const categorySelect = createAction(`${CATEGORY}/SELECT`)
+export const categoryEdit = createAction(`${CATEGORY}/EDIT`)
+export const categoryClearEdit = createAction(`${CATEGORY}/CLEAR_EDIT`)
 
 // Reducer
 const initialState = {
   listData: [],
   selectedCategory: {},
+  editedCategory: {},
 }
 export const categoryReducer = createReducer(initialState, {
   [categoriesRead.SUCCESS]: (state, { payload, meta }) => {
@@ -37,6 +40,12 @@ export const categoryReducer = createReducer(initialState, {
 
   [categorySelect]: (state, { payload }) => {
     state.selectedCategory = { ...state.selectedCategory, ...payload }
+  },
+  [categoryEdit]: (state, { payload }) => {
+    state.editedCategory = { ...state.editedCategory, ...payload }
+  },
+  [categoryClearEdit]: (state) => {
+    state.editedCategory = initialState.state
   },
 })
 
@@ -58,4 +67,5 @@ export const categorySelector = {
   favoriteCategories: (state) => selectFavoriteCategoriesState(state[CATEGORY]),
   normalCategories: (state) => selectNormalCategoriesState(state[CATEGORY]),
   selectedCategory: (state) => state[CATEGORY].selectedCategory,
+  editedCategory: (state) => state[CATEGORY].editedCategory,
 }

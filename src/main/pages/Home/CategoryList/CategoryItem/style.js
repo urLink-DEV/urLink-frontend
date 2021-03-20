@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '60%',
     color: '#212529',
     padding: 18,
+    height: 58,
   },
   selectedTitle: {
     color: '#2083ff',

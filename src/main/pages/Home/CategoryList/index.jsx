@@ -30,7 +30,6 @@ function CategoryList(props) {
   const { listData: linkListData } = useDrag(LINK)
   const { openToast } = useToast()
 
-  const { isEditCategoryTitle, editCategoryTitle } = props // 추후 삭제 예정
   const draggedCategoryRef = useRef(null)
   const [linkHoverTabId, setLinkHoverTabId] = useState(null)
 
@@ -188,9 +187,7 @@ function CategoryList(props) {
                 <CategoryItem
                   data={data}
                   selected={data.id === selectedCategory?.id}
-                  isEditTitle={isEditCategoryTitle}
                   dragFinished={dragData.dragFinished && data.id === dragData.id}
-                  selectedCategoryTitle={isEditCategoryTitle ? editCategoryTitle : selectedCategory?.name}
                 />
               </CategoryItemWrapper>
             ))}
@@ -217,9 +214,7 @@ function CategoryList(props) {
                 <CategoryItem
                   data={data}
                   selected={data.id === selectedCategory?.id}
-                  isEditTitle={isEditCategoryTitle}
                   dragFinished={dragData.dragFinished && data.id === dragData.id}
-                  selectedCategoryTitle={isEditCategoryTitle ? editCategoryTitle : selectedCategory?.name}
                 />
               </CategoryItemWrapper>
             ))}
