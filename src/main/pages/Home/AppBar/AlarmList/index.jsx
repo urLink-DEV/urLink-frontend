@@ -34,7 +34,8 @@ function AlarmList() {
   const { openToast } = useToast()
 
   const handleClickAlarm = useCallback(
-    (alarm) => () => {
+    (alarm) => (e) => {
+      e.stopPropagation()
       dispatch(alaramNoticeReadNotice.request({ alarm_id: alarm.id }))
       createTab(alarm.url_path)
     },
@@ -42,8 +43,9 @@ function AlarmList() {
   )
 
   const handleDeleteAlarm = useCallback(
-    (alarm_id) => async () => {
+    (alarm_id) => async (e) => {
       try {
+        e.stopPropagation()
         await dispatch(alaramNoticeNoReturnNoticeThunk({ alarm_id }))
         openToast({ type: 'success', message: '알람을 삭제했습니다.' })
       } catch (error) {
