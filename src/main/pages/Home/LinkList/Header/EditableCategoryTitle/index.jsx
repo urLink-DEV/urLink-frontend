@@ -36,7 +36,7 @@ function EditableCategoryTitle() {
   const defaultValues = useMemo(() => {
     return { name: category?.name }
   }, [category])
-  const { register, handleSubmit: checkSubmit, reset, errors } = useForm({
+  const { register, handleSubmit: checkSubmit, reset, errors, watch } = useForm({
     mode: 'all',
     defaultValues,
     resolver: yupResolver(CATEGORY_SCHEMA),
@@ -45,19 +45,17 @@ function EditableCategoryTitle() {
   const rootRef = useRef(null)
   const [isEditable, setIsEditable] = useState(false)
 
+  const editedName = watch('name')
+
+  useEffect(() => {
+    if (isEditable && Boolean(editedName || editedName === '')) {
+      dispatch(categoryEdit({ name: editedName }))
+    }
+  }, [isEditable, editedName, dispatch])
+
   useEffect(() => {
     reset(defaultValues)
   }, [reset, defaultValues])
-
-  const handleChangeInput = useCallback(
-    (e) => {
-      const name = e.target.value
-      if (name || name === '') {
-        dispatch(categoryEdit({ name }))
-      }
-    },
-    [dispatch]
-  )
 
   const handleShowEdit = useCallback(() => {
     setIsEditable(true)
@@ -102,7 +100,6 @@ function EditableCategoryTitle() {
           <InputBase
             name="name"
             onKeyUp={handleEditKeyUp}
-            onChange={handleChangeInput}
             autoFocus
             inputProps={{
               maxLength: CATEGORY_NAME_MAX_LENTH,
