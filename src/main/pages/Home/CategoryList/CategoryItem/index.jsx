@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 
 import Paper from '@material-ui/core/Paper'
 import clsx from 'clsx'
@@ -13,7 +13,7 @@ function CategoryItem({ data = {}, selected = false, dragFinished = false }) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const editedCategory = useSelector(categorySelector.editedCategory)
-  const isEditingTitle = Boolean(editedCategory?.id === data?.id)
+  const isEditingTitle = useMemo(() => Boolean(editedCategory?.id === data?.id), [editedCategory, data])
 
   const handleClickCategory = useCallback(
     (e) => {
