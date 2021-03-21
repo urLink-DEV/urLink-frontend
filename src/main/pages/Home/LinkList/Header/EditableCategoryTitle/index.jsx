@@ -24,9 +24,11 @@ import { isObjkeysEmpty } from '@utils/filter'
 
 import useStyles from './style'
 
-const CATEGORY_NAME_MAX_LENTH = 6
+const CHECK_CATEGORY_NAME = /[a-zA-Z]/
+const CATEGORY_NAME_EN_MAX_LENTH = 13
+const CATEGORY_NAME_KO_MAX_LENTH = 6
 const CATEGORY_SCHEMA = yup.object({
-  name: yup.string().max(CATEGORY_NAME_MAX_LENTH).required(),
+  name: yup.string().max(CATEGORY_NAME_EN_MAX_LENTH).required(),
 })
 
 function EditableCategoryTitle() {
@@ -43,14 +45,16 @@ function EditableCategoryTitle() {
   })
 
   const rootRef = useRef(null)
+  const [categoryNameMaxLength, setCategoyNameMaxLength] = useState(CATEGORY_NAME_EN_MAX_LENTH)
   const [isEditable, setIsEditable] = useState(false)
 
-  const editedName = watch('name')
+  const editedName = watch('name') || ''
 
   useEffect(() => {
-    if (isEditable && Boolean(editedName || editedName === '')) {
-      dispatch(categoryEdit({ name: editedName }))
-    }
+    if (CHECK_CATEGORY_NAME.test(editedName)) setCategoyNameMaxLength(CATEGORY_NAME_EN_MAX_LENTH)
+    else setCategoyNameMaxLength(CATEGORY_NAME_KO_MAX_LENTH)
+
+    if (isEditable) dispatch(categoryEdit({ name: editedName }))
   }, [isEditable, editedName, dispatch])
 
   useEffect(() => {
@@ -102,7 +106,7 @@ function EditableCategoryTitle() {
             onKeyUp={handleEditKeyUp}
             autoFocus
             inputProps={{
-              maxLength: CATEGORY_NAME_MAX_LENTH,
+              maxLength: categoryNameMaxLength,
             }}
             inputRef={register}
           />
