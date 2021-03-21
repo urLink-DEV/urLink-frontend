@@ -12,7 +12,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as yup from 'yup'
 
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
-import { categorySelect, categorySelector, categoryModifyThunk } from '@modules/category'
+import {
+  categoryEdit,
+  categoryClearEdit,
+  categorySelect,
+  categorySelector,
+  categoryModifyThunk,
+  categoriesReadThunk,
+} from '@modules/category'
 import { isObjkeysEmpty } from '@utils/filter'
 
 import useStyles from './style'
@@ -29,7 +36,7 @@ function EditableCategoryTitle() {
   const defaultValues = useMemo(() => {
     return { name: category?.name }
   }, [category])
-  const { register, handleSubmit: checkSubmit, reset, errors } = useForm({
+  const { register, handleSubmit: checkSubmit, reset, errors, watch } = useForm({
     mode: 'all',
     defaultValues,
     resolver: yupResolver(CATEGORY_SCHEMA),
@@ -38,17 +45,27 @@ function EditableCategoryTitle() {
   const rootRef = useRef(null)
   const [isEditable, setIsEditable] = useState(false)
 
+  const editedName = watch('name')
+
+  useEffect(() => {
+    if (isEditable && Boolean(editedName || editedName === '')) {
+      dispatch(categoryEdit({ name: editedName }))
+    }
+  }, [isEditable, editedName, dispatch])
+
   useEffect(() => {
     reset(defaultValues)
   }, [reset, defaultValues])
 
   const handleShowEdit = useCallback(() => {
     setIsEditable(true)
-  }, [])
+    dispatch(categoryEdit({ id: category?.id, name: category?.name }))
+  }, [dispatch, category])
 
   const handleCancelEdit = useCallback(() => {
     setIsEditable(false)
-  }, [])
+    dispatch(categoryClearEdit())
+  }, [dispatch])
 
   const handleEditDone = useMemo(() => {
     return checkSubmit(async (formData) => {
@@ -58,7 +75,9 @@ function EditableCategoryTitle() {
           name: formData.name,
         })
       )
+      await dispatch(categoriesReadThunk())
       dispatch(categorySelect({ ...response }))
+      dispatch(categoryClearEdit())
       setIsEditable(false)
     })
   }, [category, checkSubmit, dispatch])

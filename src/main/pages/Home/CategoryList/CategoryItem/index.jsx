@@ -1,25 +1,19 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 
 import Paper from '@material-ui/core/Paper'
 import clsx from 'clsx'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import starImg from '@assets/images/star.svg'
-import { categorySelect } from '@modules/category'
+import { categorySelect, categorySelector } from '@modules/category'
 
 import useStyles from './style'
 
-function CategoryItem({
-  data = {},
-  selected = false,
-  isEditTitle = false,
-  dragFinished = false,
-  selectedCategoryTitle = '',
-}) {
+function CategoryItem({ data = {}, selected = false, dragFinished = false }) {
   const classes = useStyles()
   const dispatch = useDispatch()
-
-  const [categoryTitle, setCategoryTitle] = useState(data.name)
+  const editedCategory = useSelector(categorySelector.editedCategory)
+  const isEditingTitle = useMemo(() => Boolean(editedCategory?.id === data?.id), [editedCategory, data])
 
   const handleClickCategory = useCallback(
     (e) => {
@@ -29,19 +23,13 @@ function CategoryItem({
     [dispatch, data]
   )
 
-  useEffect(() => {
-    if (selected) {
-      setCategoryTitle(selectedCategoryTitle)
-    }
-  }, [selected, selectedCategoryTitle])
-
   return (
     <div>
       <div
         onClick={handleClickCategory}
         className={clsx(classes.listTab, {
           [classes.selectedItem]: Boolean(selected),
-          [classes.modifying]: Boolean(selected && isEditTitle),
+          [classes.modifying]: Boolean(selected && isEditingTitle),
         })}
       >
         <Paper
@@ -55,7 +43,7 @@ function CategoryItem({
               [classes.selectedTitle]: Boolean(selected),
             })}
           >
-            {categoryTitle}
+            {isEditingTitle ? editedCategory?.name : data?.name}
           </div>
 
           <div className={classes.linkBox}>
