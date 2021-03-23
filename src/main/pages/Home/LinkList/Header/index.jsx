@@ -6,6 +6,7 @@ import { debounce } from 'lodash'
 import { useSelector, useDispatch } from 'react-redux'
 
 import SearchButton from '@main/components/SearchButton'
+import SearchBar from '@main/components/SearchBar'
 import { categorySelector } from '@modules/category'
 import { useLinks, linkSearchFilterChangeState } from '@modules/link'
 
@@ -58,10 +59,11 @@ function Header() {
         onSelectButton={handleSelectButton}
         selectedName={selectedName}
       />
-      <TabButtonGroup />
+      <TabButtonGroup />
       <IconButton onClick={handleReload}>
         <RefreshIcon />
       </IconButton>
+      <SearchBar />
     </Toolbar>
   )
 }
