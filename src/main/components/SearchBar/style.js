@@ -1,6 +1,18 @@
 import { fade, makeStyles } from '@material-ui/core/styles'
 
 export const useStyles = makeStyles((theme) => ({
+  searchBar: {
+    marginLeft: 0,
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: 'white',
+  },
+  searchInput: {
+    width: '100%',
+    color: 'black',
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingLeft: `calc(${theme.spacing(1)}px)`,
+  },
+  // old
   search: {
     position: 'relative',
     width: '100%',
