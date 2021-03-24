@@ -3,14 +3,31 @@ import { fade, makeStyles } from '@material-ui/core/styles'
 export const useStyles = makeStyles((theme) => ({
   searchBar: {
     marginLeft: 0,
+    padding: theme.spacing(0.5, 0),
     borderRadius: theme.shape.borderRadius,
     backgroundColor: 'white',
+
+    '& > .MuiInput-underline:before': {
+      left: 0,
+      right: 0,
+      bottom: 0,
+      position: 'absolute',
+      transition: 'border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+      borderBottom: '0px',
+      pointerEvents: 'none',
+    },
   },
   searchInput: {
     width: '100%',
     color: 'black',
-    padding: theme.spacing(1, 1, 1, 0),
+    padding: theme.spacing(0, 0, 1, 0),
     paddingLeft: `calc(${theme.spacing(1)}px)`,
+  },
+  inputSelect: {
+    padding: theme.spacing(0, 1.5),
+  },
+  menuItem: {
+    padding: theme.spacing(0, 3),
   },
   // old
   search: {
