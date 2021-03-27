@@ -21,7 +21,7 @@ import useStyles from './style'
 
 const { CATEGORY, LINK } = DRAG
 
-function CategoryList(props) {
+function CategoryList() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { error, favoritedArr, notFavoritedArr } = useCategories()
@@ -133,6 +133,7 @@ function CategoryList(props) {
           if (selectedCategory?.id === linkHoverTabId) dispatch(linksRead.request({ categoryId: linkHoverTabId }))
           await dispatch(categoriesReadThunk())
           setDragData({ ...dragData, dragFinished: true })
+          openToast({ type: 'success', message: '링크가 저장 되었습니다.' })
         }
         setTimeout(() => {
           clearDragData()
@@ -187,7 +188,10 @@ function CategoryList(props) {
                 <CategoryItem
                   data={data}
                   selected={data.id === selectedCategory?.id}
-                  dragFinished={dragData.dragFinished && data.id === dragData.id}
+                  dragFinished={
+                    Boolean(dragData.dragFinished && data.id === linkHoverTabId) ||
+                    Boolean(dragData.dragFinished && data.id === dragData.id)
+                  }
                 />
               </CategoryItemWrapper>
             ))}
@@ -214,7 +218,10 @@ function CategoryList(props) {
                 <CategoryItem
                   data={data}
                   selected={data.id === selectedCategory?.id}
-                  dragFinished={dragData.dragFinished && data.id === dragData.id}
+                  dragFinished={
+                    Boolean(dragData.dragFinished && data.id === linkHoverTabId) ||
+                    Boolean(dragData.dragFinished && data.id === dragData.id)
+                  }
                 />
               </CategoryItemWrapper>
             ))}
