@@ -2,10 +2,13 @@ import { fade, makeStyles } from '@material-ui/core/styles'
 
 export const useStyles = makeStyles((theme) => ({
   searchBar: {
-    marginLeft: 0,
-    padding: theme.spacing(0.5, 0),
+    display: 'flex',
+    width: 386,
+    padding: 0,
+    margin: 'auto 0',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: 'white',
+    border: theme.spacing(0.5, 0),
 
     '& > .MuiInput-underline:before': {
       left: 0,
@@ -18,9 +21,8 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   searchInput: {
-    width: '100%',
+    width: 260,
     color: 'black',
-    padding: theme.spacing(0, 0, 1, 0),
     paddingLeft: `calc(${theme.spacing(1)}px)`,
   },
   inputSelect: {
@@ -29,45 +31,18 @@ export const useStyles = makeStyles((theme) => ({
   menuItem: {
     padding: theme.spacing(0, 3),
   },
-  // old
-  search: {
-    position: 'relative',
-    width: '100%',
-    marginLeft: 0,
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade('#2083ff', 0.75),
-    '&:hover': {
-      backgroundColor: fade('#2083ff', 0.5),
-    },
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto',
-    },
+  divider: {
+    margin: theme.spacing(0.5, 0),
   },
   searchIcon: {
-    position: 'absolute',
-    height: '100%',
-    padding: theme.spacing(0, 2),
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: 40,
+    padding: theme.spacing(0.5, 0),
     color: 'white',
-  },
-  inputRoot: {
-    color: 'white',
-  },
-  inputInput: {
-    width: '100%',
-    // vertical padding + font size from searchIcon
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
+    background: '#2179FD',
+    borderRadius: '0px 4px 4px 0px',
+
+    '& > .MuiSvgIcon-root': {
+      marginTop: 5,
     },
   },
 }))
