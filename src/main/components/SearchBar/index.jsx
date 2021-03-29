@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
+import RootRef from '@material-ui/core/RootRef'
 import Container from '@material-ui/core/Container'
 import InputBase from '@material-ui/core/InputBase'
 import Select from '@material-ui/core/Select'
@@ -13,44 +14,60 @@ import useStyles from './style'
 function SearchBar() {
   const classes = useStyles()
   const [menu, setMenu] = useState(10)
+  const domRef = useRef()
+
+  useEffect(() => {
+    console.log(domRef.current.children); // DOM node
+  }, []);
+
   const handleChange = (event) => {
     setMenu(event.target.value)
   }
 
   return (
-    <Container className={classes.searchBar} 
-      boxShadow={2}
-    >
-      <Select className={classes.inputSelect}
-        MenuProps={{
-            anchorOrigin: {
-              vertical: "bottom",
-              horizontal: "left"
-            },
-            getContentAnchorEl: null
-          }}
-        labelId="demo-customized-select-label"
-        id="demo-customized-select"
-        value={menu}
-        onChange={handleChange}
-        // input={<BootstrapInput />}
+    <RootRef rootRef={domRef}>
+      <Container className={classes.searchBar} 
+        boxShadow={2}
       >
-        <MenuItem className={classes.menuItem} value={10}>제목</MenuItem>
-        <MenuItem className={classes.menuItem} value={20}>주소</MenuItem>
-      </Select>
-      <Divider className={classes.divider}
-        orientation="vertical"
-        flexItem="true"
-      />
-      <InputBase
-        placeholder="웹사이트 주소나 제목을 검색하세요"
-        classes={{input: classes.searchInput}}
-        inputProps={{ 'aria-label': 'search' }}
-      />
-      <IconButton className={classes.searchIcon}>
-        <SearchIcon />
-      </IconButton>
-    </Container>
+        <Select className={classes.inputSelect}
+          MenuProps={{
+              anchorOrigin: {
+                vertical: "bottom",
+                horizontal: "left"
+              },
+              getContentAnchorEl: null
+            }}
+          labelId="demo-customized-select-label"
+          id="demo-customized-select"
+          value={menu}
+          onChange={handleChange}
+          // input={<BootstrapInput />}
+        >
+          <MenuItem className={classes.menuItem} 
+            value={10}
+          >
+            제목
+          </MenuItem>
+          <MenuItem className={classes.menuItem} 
+            value={20}
+          >
+            주소
+          </MenuItem>
+        </Select>
+        <Divider className={classes.divider}
+          orientation="vertical"
+          flexItem="true"
+        />
+        <InputBase
+          placeholder="웹사이트 주소나 제목을 검색하세요"
+          classes={{input: classes.searchInput}}
+          inputProps={{ 'aria-label': 'search' }}
+        />
+        <IconButton className={classes.searchIcon}>
+          <SearchIcon />
+        </IconButton>
+      </Container>
+    </RootRef>
   )
 }
 
