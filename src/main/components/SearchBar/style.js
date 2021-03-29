@@ -26,7 +26,15 @@ export const useStyles = makeStyles((theme) => ({
     paddingLeft: `calc(${theme.spacing(1)}px)`,
   },
   inputSelect: {
-    padding: theme.spacing(0, 1.5),
+    width: 100,
+
+    '& > .MuiSelect-select.MuiSelect-select': {
+      padding: '0 10px 0 10px',
+    },
+
+    '& > .MuiInputBase-input': {
+      height: 20,
+    },
   },
   menuItem: {
     padding: theme.spacing(0, 3),
