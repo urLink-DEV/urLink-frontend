@@ -156,6 +156,8 @@ function CategoryList() {
     ]
   )
 
+  console.log(linkHoverTabId)
+
   return (
     <Drawer classes={{ paper: classes.drawerPaper }} variant="permanent">
       {error ? (
@@ -164,69 +166,71 @@ function CategoryList() {
           <p>카테고리를 불러오지 못했습니다.</p>
         </div>
       ) : (
-        <div className={classes.layout}>
+        <>
           <img className={classes.logo} src={urlinkLogoImg} alt="URLink logo" />
-          <CategoryHeader type="favorite" />
-          {!favoritedArr?.length && (
-            <FirstFavoriteDropZone
+          <div className={classes.layout}>
+            <CategoryHeader type="favorite" />
+            {!favoritedArr?.length && (
+              <FirstFavoriteDropZone
+                handleDragDrop={handleDragDrop}
+                handleDragOverFirstFavorite={handleDragOverFirstFavorite}
+              />
+            )}
+            <List>
+              {favoritedArr?.map((data) => (
+                <CategoryItemWrapper
+                  key={data.id}
+                  data={data}
+                  draggedOrder={dragData.order}
+                  handleDragStart={handleDragStart}
+                  handleDragOver={handleDragOver}
+                  handleDragLeave={handleDragLeave}
+                  handleDragDrop={handleDragDrop}
+                  handleDragEnd={handleDragEnd}
+                >
+                  <CategoryItem
+                    data={data}
+                    selected={data.id === selectedCategory?.id}
+                    dragFinished={
+                      Boolean(dragData.dragFinished && data.id === linkHoverTabId) ||
+                      Boolean(dragData.dragFinished && data.id === dragData.id)
+                    }
+                  />
+                </CategoryItemWrapper>
+              ))}
+            </List>
+            <CategoryHeader type="category" />
+            <CategoryButtonGroup />
+            <FirstCategoryDropZone
+              openDropZone={!Boolean(notFavoritedArr.length)}
               handleDragDrop={handleDragDrop}
-              handleDragOverFirstFavorite={handleDragOverFirstFavorite}
+              handleDragOverFirstCategory={handleDragOverFirstCategory}
             />
-          )}
-          <List>
-            {favoritedArr?.map((data) => (
-              <CategoryItemWrapper
-                key={data.id}
-                data={data}
-                draggedOrder={dragData.order}
-                handleDragStart={handleDragStart}
-                handleDragOver={handleDragOver}
-                handleDragLeave={handleDragLeave}
-                handleDragDrop={handleDragDrop}
-                handleDragEnd={handleDragEnd}
-              >
-                <CategoryItem
+            <List>
+              {notFavoritedArr?.map((data) => (
+                <CategoryItemWrapper
+                  key={data.id}
                   data={data}
-                  selected={data.id === selectedCategory?.id}
-                  dragFinished={
-                    Boolean(dragData.dragFinished && data.id === linkHoverTabId) ||
-                    Boolean(dragData.dragFinished && data.id === dragData.id)
-                  }
-                />
-              </CategoryItemWrapper>
-            ))}
-          </List>
-          <CategoryHeader type="category" />
-          <CategoryButtonGroup />
-          <FirstCategoryDropZone
-            openDropZone={!Boolean(notFavoritedArr.length)}
-            handleDragDrop={handleDragDrop}
-            handleDragOverFirstCategory={handleDragOverFirstCategory}
-          />
-          <List>
-            {notFavoritedArr?.map((data) => (
-              <CategoryItemWrapper
-                key={data.id}
-                data={data}
-                draggedOrder={dragData.order}
-                handleDragStart={handleDragStart}
-                handleDragOver={handleDragOver}
-                handleDragLeave={handleDragLeave}
-                handleDragDrop={handleDragDrop}
-                handleDragEnd={handleDragEnd}
-              >
-                <CategoryItem
-                  data={data}
-                  selected={data.id === selectedCategory?.id}
-                  dragFinished={
-                    Boolean(dragData.dragFinished && data.id === linkHoverTabId) ||
-                    Boolean(dragData.dragFinished && data.id === dragData.id)
-                  }
-                />
-              </CategoryItemWrapper>
-            ))}
-          </List>
-        </div>
+                  draggedOrder={dragData.order}
+                  handleDragStart={handleDragStart}
+                  handleDragOver={handleDragOver}
+                  handleDragLeave={handleDragLeave}
+                  handleDragDrop={handleDragDrop}
+                  handleDragEnd={handleDragEnd}
+                >
+                  <CategoryItem
+                    data={data}
+                    selected={data.id === selectedCategory?.id}
+                    dragFinished={
+                      Boolean(dragData.dragFinished && data.id === linkHoverTabId) ||
+                      Boolean(dragData.dragFinished && data.id === dragData.id)
+                    }
+                  />
+                </CategoryItemWrapper>
+              ))}
+            </List>
+          </div>
+        </>
       )}
     </Drawer>
   )
