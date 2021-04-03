@@ -43,23 +43,24 @@ urlink(유어링크)는 인터넷에서 리서치할 때, 나중에 다시 보�
 
 ![feature02](https://user-images.githubusercontent.com/51507260/113473992-00934480-94a8-11eb-8c00-2b26211e87c4.gif)
 
-### 2. 한 눈에 내가 보관한 웹사이트를 확인하세요
+### 2. 자주 보고 싶은 정보는 카드에 있는 페이보릿 버튼을 클릭하여 보관하세요.
 
-유어링크에 보관한 웹사이트 링크는 카드 형태로 보관돼요. 웹사이트의 대표이미지와 제목, 그리고 본문까지 포함하는 카드 형태로 정보를 저장하면 내가 보관했던 링크가 무엇인지 기억하기 훨씬 수월하죠.
+카테고리 페이지 최상단에 카드가 배치 되어 내가 원하는 정보에 쉽게 접근할 수 있어요.
 
-![feature03](https://user-images.githubusercontent.com/51507260/113473994-01c47180-94a8-11eb-8333-287c99ea572d.png)
+![image](https://user-images.githubusercontent.com/51507260/113474270-00944400-94aa-11eb-8ed3-30fb34f4abd2.png)
 
 ### 3. 까먹어도 괜찮아요! 알람이 알려줄 거에요.
 
 보고싶은 정보를 원하는 시간에 받아보세요. 알람 기능을 이용해 원하는 날짜와 시간을 입력하면, 그 시간에 내가 읽고싶은 정보를 보내드려요. 알람을 이용해 잊혀지던 정보를 효율적으로 사용하세요.
 
-![feature04](https://user-images.githubusercontent.com/51507260/113473997-04bf6200-94a8-11eb-8065-6e89888af2f9.gif)
+<div style="display: flex; flex-direction: row; align-items: flex-start">
 
-### 4. 자주 보고 싶은 정보는 카드에 있는 페이보릿 버튼을 클릭하여 보관하세요.
+<img style="width: 60%; margin-right:20px" src="https://user-images.githubusercontent.com/51507260/113473997-04bf6200-94a8-11eb-8065-6e89888af2f9.gif" />
+<img  style="width: 40%; " src="https://user-images.githubusercontent.com/51507260/113476268-6934ee00-94b5-11eb-8d1e-14f08e99334a.gif" />
 
-카테고리 페이지 최상단에 카드가 배치 되어 내가 원하는 정보에 쉽게 접근할 수 있어요.
+</div>
 
-![image](https://user-images.githubusercontent.com/51507260/113474270-00944400-94aa-11eb-8ed3-30fb34f4abd2.png)
+
 
 <br><br>
 
