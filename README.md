@@ -55,8 +55,8 @@ urlink(유어링크)는 인터넷에서 리서치할 때, 나중에 다시 보�
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/51507260/113473997-04bf6200-94a8-11eb-8065-6e89888af2f9.gif"
-  width="300" />
-  <img src="https://user-images.githubusercontent.com/51507260/113476268-6934ee00-94b5-11eb-8d1e-14f08e99334a.gif" width="250" />
+  width="500" />
+  <img src="https://user-images.githubusercontent.com/51507260/113476268-6934ee00-94b5-11eb-8d1e-14f08e99334a.gif" width="300" />
 </p>
 
 <br><br>
