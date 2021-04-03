@@ -1,4 +1,4 @@
-# UrLink Chrome Extension
+# urLink Chrome Extension
 
 ![image](https://user-images.githubusercontent.com/51507260/113473528-fb80c600-94a4-11eb-96da-b84e7d561bf9.png)
 
