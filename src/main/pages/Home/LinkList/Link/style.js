@@ -31,7 +31,7 @@ const useStyles = makeStyles({
     boxOrient: 'vertical',
     overflow: 'hidden',
     width: '100%',
-    height: 54,
+    height: 52,
     fontSize: 12,
     whiteSpace: 'pre-line',
     lineClamp: 3,
