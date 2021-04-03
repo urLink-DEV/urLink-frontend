@@ -53,14 +53,11 @@ urlink(유어링크)는 인터넷에서 리서치할 때, 나중에 다시 보�
 
 보고싶은 정보를 원하는 시간에 받아보세요. 알람 기능을 이용해 원하는 날짜와 시간을 입력하면, 그 시간에 내가 읽고싶은 정보를 보내드려요. 알람을 이용해 잊혀지던 정보를 효율적으로 사용하세요.
 
-<div style="display: flex; flex-direction: row; align-items: flex-start">
-
-<img style="width: 60%; margin-right:20px" src="https://user-images.githubusercontent.com/51507260/113473997-04bf6200-94a8-11eb-8065-6e89888af2f9.gif" />
-<img  style="width: 40%; " src="https://user-images.githubusercontent.com/51507260/113476268-6934ee00-94b5-11eb-8d1e-14f08e99334a.gif" />
-
-</div>
-
-
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/51507260/113473997-04bf6200-94a8-11eb-8065-6e89888af2f9.gif"
+  width="300" />
+  <img src="https://user-images.githubusercontent.com/51507260/113476268-6934ee00-94b5-11eb-8d1e-14f08e99334a.gif" width="250" />
+</p>
 
 <br><br>
 
