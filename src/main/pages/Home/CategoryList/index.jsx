@@ -157,8 +157,6 @@ function CategoryList() {
     ]
   )
 
-  console.log(linkHoverTabId)
-
   return (
     <Drawer classes={{ paper: classes.drawerPaper }} variant="permanent">
       {error ? (
