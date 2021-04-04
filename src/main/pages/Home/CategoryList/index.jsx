@@ -85,7 +85,7 @@ function CategoryList(props) {
       e.preventDefault()
       e.stopPropagation()
       if (dragType === LINK) {
-        setLinkHoverTabId(tagetCategoryData.id)
+        if (tagetCategoryData.id !== linkHoverTabId) setLinkHoverTabId(tagetCategoryData.id)
       } else if (dragType === CATEGORY) {
         const order = dragData.order < tagetCategoryData.order ? tagetCategoryData.order - 1 : tagetCategoryData.order
         setDragData({
@@ -96,12 +96,13 @@ function CategoryList(props) {
         dragLineRef.current.style.opacity = 1
       }
     },
-    [dragData, dragType, setDragData]
+    [dragData, dragType, linkHoverTabId, setDragData]
   )
 
   const handleDragLeave = useCallback(
     (dragLineRef) => () => {
       dragLineRef.current.style.opacity = 0
+      setLinkHoverTabId(null)
     },
     []
   )

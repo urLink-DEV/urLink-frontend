@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     maxWidth: '65%',
   },
+  hoveredItem: {
+    backgroundColor: 'rgba(32, 131, 255, 0.1)',
+  },
   selectedItem: {
     fontSize: 16,
     boxShadow: ' 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)',
