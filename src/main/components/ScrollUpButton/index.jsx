@@ -11,7 +11,7 @@ function ScrollUpButton({ targetRef, className, open }) {
   const classes = useStyles()
 
   const handleScrollUp = () => {
-    scrollTo(targetRef.current, 0, 1000)
+    scrollTo(targetRef.current, 0, 500)
   }
 
   return (
@@ -27,7 +27,7 @@ function ScrollUpButton({ targetRef, className, open }) {
   )
 }
 
-function scrollTo(element, to = 0, duration = 1000, scrollToDone = null) {
+function scrollTo(element, to = 0, duration = 500, scrollToDone = null) {
   const start = element.scrollTop
   const change = to - start
   const increment = 20
