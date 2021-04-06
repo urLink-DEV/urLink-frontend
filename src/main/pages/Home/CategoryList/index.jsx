@@ -85,7 +85,7 @@ function CategoryList() {
       e.preventDefault()
       e.stopPropagation()
       if (dragType === LINK) {
-        setLinkHoverTabId(tagetCategoryData.id)
+        if (tagetCategoryData.id !== linkHoverTabId) setLinkHoverTabId(tagetCategoryData.id)
       } else if (dragType === CATEGORY) {
         const order = dragData.order < tagetCategoryData.order ? tagetCategoryData.order - 1 : tagetCategoryData.order
         setDragData({
@@ -96,12 +96,13 @@ function CategoryList() {
         dragLineRef.current.style.opacity = 1
       }
     },
-    [dragData, dragType, setDragData]
+    [dragData, dragType, linkHoverTabId, setDragData]
   )
 
   const handleDragLeave = useCallback(
     (dragLineRef) => () => {
       dragLineRef.current.style.opacity = 0
+      setLinkHoverTabId(null)
     },
     []
   )
@@ -156,8 +157,6 @@ function CategoryList() {
     ]
   )
 
-  console.log(linkHoverTabId)
-
   return (
     <Drawer classes={{ paper: classes.drawerPaper }} variant="permanent">
       {error ? (
@@ -191,6 +190,7 @@ function CategoryList() {
                   <CategoryItem
                     data={data}
                     selected={data.id === selectedCategory?.id}
+                    hovered={data.id === linkHoverTabId}
                     dragFinished={
                       Boolean(dragData.dragFinished && data.id === linkHoverTabId) ||
                       Boolean(dragData.dragFinished && data.id === dragData.id)
@@ -221,6 +221,7 @@ function CategoryList() {
                   <CategoryItem
                     data={data}
                     selected={data.id === selectedCategory?.id}
+                    hovered={data.id === linkHoverTabId}
                     dragFinished={
                       Boolean(dragData.dragFinished && data.id === linkHoverTabId) ||
                       Boolean(dragData.dragFinished && data.id === dragData.id)
