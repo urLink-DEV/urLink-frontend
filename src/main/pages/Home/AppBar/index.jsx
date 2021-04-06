@@ -1,4 +1,4 @@
-import React, { useState, useRef, Fragment } from 'react'
+import React, { useState, useRef, useMemo, Fragment } from 'react'
 
 import { Popover, Badge, List, Avatar, Grid, Drawer } from '@material-ui/core'
 import { useSelector } from 'react-redux'
@@ -19,7 +19,10 @@ function AppBar() {
   const classes = useStyles()
   const { reload } = useHistoryLinks()
   const alarmList = useSelector(alaramNoticeSelector.listData)
-
+  const filterAlarm = (list) => {
+    return list?.filter((item) => !Boolean(item?.alarm_has_read))
+  }
+  const notReadAlarmList = useMemo(() => filterAlarm(alarmList), [alarmList])
   const alarmRef = useRef(null)
   const profileRef = useRef(null)
   const [historyOpen, setOpenHistory] = useState(false)
@@ -49,7 +52,7 @@ function AppBar() {
           >
             <Badge
               anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-              badgeContent={alarmList.length}
+              badgeContent={notReadAlarmList?.length}
               max={99}
               color="primary"
             >
