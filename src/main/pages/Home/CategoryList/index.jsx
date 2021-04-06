@@ -190,6 +190,7 @@ function CategoryList() {
                   <CategoryItem
                     data={data}
                     selected={data.id === selectedCategory?.id}
+                    hovered={data.id === linkHoverTabId}
                     dragFinished={
                       Boolean(dragData.dragFinished && data.id === linkHoverTabId) ||
                       Boolean(dragData.dragFinished && data.id === dragData.id)
@@ -220,6 +221,7 @@ function CategoryList() {
                   <CategoryItem
                     data={data}
                     selected={data.id === selectedCategory?.id}
+                    hovered={data.id === linkHoverTabId}
                     dragFinished={
                       Boolean(dragData.dragFinished && data.id === linkHoverTabId) ||
                       Boolean(dragData.dragFinished && data.id === dragData.id)
