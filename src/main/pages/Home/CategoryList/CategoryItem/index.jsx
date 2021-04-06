@@ -9,7 +9,7 @@ import { categorySelect, categorySelector } from '@modules/category'
 
 import useStyles from './style'
 
-function CategoryItem({ data = {}, selected = false, hovered = false, dragFinished = false }) {
+function CategoryItem({ data = {}, selected = false, dragFinished = false }) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const editedCategory = useSelector(categorySelector.editedCategory)
@@ -34,7 +34,6 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
       >
         <Paper
           className={clsx(classes.root, classes.paper, {
-            [classes.hoveredItem]: Boolean(hovered),
             [classes.dragFinished]: Boolean(dragFinished),
           })}
           component="div"
