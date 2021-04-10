@@ -19,10 +19,9 @@ function AppBar() {
   const classes = useStyles()
   const { reload } = useHistoryLinks()
   const alarmList = useSelector(alaramNoticeSelector.listData)
-  const filterAlarm = (list) => {
-    return list?.filter((item) => !Boolean(item?.alarm_has_read))
-  }
-  const notReadAlarmList = useMemo(() => filterAlarm(alarmList), [alarmList])
+  const notReadAlarmList = useMemo(() => {
+    return alarmList?.filter((item) => !Boolean(item?.alarm_has_read))
+  }, [alarmList])
   const alarmRef = useRef(null)
   const profileRef = useRef(null)
   const [historyOpen, setOpenHistory] = useState(false)
