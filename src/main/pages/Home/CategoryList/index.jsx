@@ -157,6 +157,8 @@ function CategoryList() {
     [dragType, dispatch, dragData, setDragData, linkListData, linkHoverTabId, dragOverTabData, clearDragData, openToast]
   )
 
+  // console.log(linkHoverTabId)
+
   return (
     <Drawer classes={{ paper: classes.drawerPaper }} variant="permanent">
       {error ? (

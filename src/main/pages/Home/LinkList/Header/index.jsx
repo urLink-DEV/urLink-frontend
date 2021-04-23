@@ -5,7 +5,7 @@ import { Refresh as RefreshIcon } from '@material-ui/icons'
 import { debounce } from 'lodash'
 import { useSelector, useDispatch } from 'react-redux'
 
-import SearchButton from '@main/components/SearchButton'
+// import SearchButton from '@main/components/SearchButton'
 import SearchBar from '@main/components/SearchBar'
 import { categorySelector } from '@modules/category'
 import { useLinks, linkSearchFilterChangeState } from '@modules/link'
@@ -15,8 +15,8 @@ import useStyles from './style'
 import TabButtonGroup from './TabButtonGroup'
 
 const listSearchFilter = [
-  { search: 'path', name: '도메인' },
-  { search: 'title', name: '단어' },
+  { search: 'path', name: '주소' },
+  { search: 'title', name: '제목' },
 ]
 
 function Header() {
@@ -26,8 +26,14 @@ function Header() {
   const { reload } = useLinks({ categoryId: selectedCategory?.id })
 
   const [selectedName, setSelectedName] = useState(listSearchFilter[0].search)
+  const [input, setInput] = useState('')
 
-  const handleLinkSearch = useCallback(
+  const handleChangeInput = e => {
+    console.log(e.target.value, input)
+    setInput(e.target.value)
+  }
+
+  const handleKeyDownLinkSearch = useCallback(
     (e) => {
       const { key, currentTarget } = e
       const { value } = currentTarget
@@ -38,9 +44,13 @@ function Header() {
     [dispatch, selectedName]
   )
 
-  const handleSelectButton = useCallback((_e, name) => {
-    setSelectedName(name)
-  }, [])
+  const handleClickLinkSearch = () => {
+    dispatch(linkSearchFilterChangeState({ selectedName, keyword: input }))
+  }
+
+  const handleSelectName = e => {
+    setSelectedName(e.target.value)
+  }
 
   const handleReload = useMemo(() => {
     return debounce(() => {
@@ -51,19 +61,28 @@ function Header() {
   return (
     <Toolbar className={classes.toolbar}>
       <EditableCategoryTitle />
-      <SearchButton
+      {/* <SearchButton
         inputProps={{
-          onKeyDown: handleLinkSearch,
+          onKeyDown: handleKeyDownLinkSearch,
         }}
         listSearchFilter={listSearchFilter}
-        onSelectButton={handleSelectButton}
+        onSelectButton={handleSelectName}
         selectedName={selectedName}
-      />
+      /> */}
       <TabButtonGroup />
       <IconButton onClick={handleReload}>
         <RefreshIcon />
       </IconButton>
-      <SearchBar />
+      <SearchBar 
+        inputProps={{
+          onKeyDown: handleKeyDownLinkSearch,
+          onChange: handleChangeInput,
+        }}
+        listSearchFilter={listSearchFilter}
+        onSelectName={handleSelectName}
+        selectedName={selectedName}
+        onClickSearch={handleClickLinkSearch}
+      />
     </Toolbar>
   )
 }

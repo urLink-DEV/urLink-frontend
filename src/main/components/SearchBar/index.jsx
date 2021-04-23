@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState } from 'react'
 
-import RootRef from '@material-ui/core/RootRef'
 import Container from '@material-ui/core/Container'
 import InputBase from '@material-ui/core/InputBase'
 import Select from '@material-ui/core/Select'
@@ -11,63 +10,49 @@ import SearchIcon from '@material-ui/icons/Search'
 
 import useStyles from './style'
 
-function SearchBar() {
+function SearchBar({ inputProps, listSearchFilter, onSelectName, selectedName, onClickSearch }) {
   const classes = useStyles()
-  const [menu, setMenu] = useState(10)
-  const domRef = useRef()
-
-  useEffect(() => {
-    console.log(domRef.current.children); // DOM node
-  }, []);
-
-  const handleChange = (event) => {
-    setMenu(event.target.value)
-  }
-
+  
   return (
-    <RootRef rootRef={domRef}>
-      <Container className={classes.searchBar} 
-        boxShadow={2}
+    <Container className={classes.searchBar}>
+      <Select className={classes.inputSelect}
+        MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left"
+            },
+            getContentAnchorEl: null
+          }}
+        labelId="demo-customized-select-label"
+        id="demo-customized-select"
+        value={selectedName}
+        onChange={onSelectName}
       >
-        <Select className={classes.inputSelect}
-          MenuProps={{
-              anchorOrigin: {
-                vertical: "bottom",
-                horizontal: "left"
-              },
-              getContentAnchorEl: null
-            }}
-          labelId="demo-customized-select-label"
-          id="demo-customized-select"
-          value={menu}
-          onChange={handleChange}
-          // input={<BootstrapInput />}
-        >
+        {listSearchFilter?.map(({ search, name }) => (
           <MenuItem className={classes.menuItem} 
-            value={10}
+            key={search}
+            value={search}
           >
-            제목
+            {name}
           </MenuItem>
-          <MenuItem className={classes.menuItem} 
-            value={20}
-          >
-            주소
-          </MenuItem>
-        </Select>
-        <Divider className={classes.divider}
-          orientation="vertical"
-          flexItem="true"
-        />
-        <InputBase
-          placeholder="웹사이트 주소나 제목을 검색하세요"
-          classes={{input: classes.searchInput}}
-          inputProps={{ 'aria-label': 'search' }}
-        />
-        <IconButton className={classes.searchIcon}>
-          <SearchIcon />
-        </IconButton>
-      </Container>
-    </RootRef>
+        ))}
+      </Select>
+      <Divider className={classes.divider}
+        orientation="vertical"
+        flexItem={true}
+      />
+      <InputBase
+        placeholder="웹사이트 주소나 제목을 검색하세요"
+        classes={{input: classes.searchInput}}
+        inputProps={{ 'aria-label': 'search' }}
+        {...inputProps}
+      />
+      <IconButton className={classes.searchIcon}
+        onClick={onClickSearch}
+      >
+        <SearchIcon />
+      </IconButton>
+    </Container>
   )
 }
 
