@@ -1,36 +1,28 @@
 {
   "name": "urLink",
-  "version": "1.0",
+  "version": "1.1.1",
   "manifest_version": 2,
   "description": "url collection",
-  "permissions": [
-    "tabs", 
-    "<all_urls>",
-    "identity",
-    "history"
-  ],
-  "icons": { 
+  "permissions": ["tabs", "<all_urls>", "identity", "history", "notifications"],
+  "icons": {
     "16": "images/logo/logo16.png",
     "24": "images/logo/logo24.png",
     "32": "images/logo/logo32.png",
     "64": "images/logo/logo64.png",
-   "128": "images/logo/logo128.png" 
+    "128": "images/logo/logo128.png"
   },
+  "web_accessible_resources": ["*.ttf", "*.woff2"],
   "browser_action": {
     "default_icon": "images/logo/logo16.png",
     "default_popup": "popup.html"
   },
-  "background" : {
-    "scripts" : ["background.js"],
-    "persistent": false
+  "background": {
+    "page": "background.html",
+    "persistent": true
   },
   "oauth2": {
     "client_id": "683415540436-aimi7aksc043mre0pdj2nejtr08fkchs.apps.googleusercontent.com",
-    "scopes": [
-      "https://www.googleapis.com/auth/contacts.readonly",
-      "profile",
-      "email"
-    ]
+    "scopes": ["https://www.googleapis.com/auth/contacts.readonly", "profile", "email"]
   },
   "content_security_policy": "script-src 'self' https://apis.google.com 'sha256-34M3HxxCd7web+UMuTvWUlRtVdx6QrTGItv3k4d183Y='; object-src 'self'"
 }

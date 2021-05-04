@@ -12,6 +12,7 @@
 
 # production
 /build
+/public/popup
 
 # misc
 .DS_Store

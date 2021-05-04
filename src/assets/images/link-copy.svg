@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="20" viewBox="0 0 18 20">
+    <defs>
+        <linearGradient id="prefix__c" x1="50%" x2="50%" y1="0%" y2="100%">
+            <stop offset="0%" stop-color="#FFF"/>
+            <stop offset="100%" stop-color="#F6F7F9"/>
+        </linearGradient>
+        <ellipse id="prefix__b" cx="8.12" cy="8.273" rx="8.12" ry="8.273"/>
+        <filter id="prefix__a" width="124.6%" height="124.2%" x="-12.3%" y="-6%" filterUnits="objectBoundingBox">
+            <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation=".5"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+        </filter>
+        <path id="prefix__d" d="M0 0H13.92V14.182H0z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd" transform="translate(1.24 .727)">
+        <use fill="#000" filter="url(#prefix__a)" xlink:href="#prefix__b"/>
+        <use fill="url(#prefix__c)" xlink:href="#prefix__b"/>
+        <g transform="translate(1.16 1.182)">
+            <mask id="prefix__e" fill="#fff">
+                <use xlink:href="#prefix__d"/>
+            </mask>
+            <path stroke="#212529" stroke-linecap="round" stroke-width="1.152" d="M6.896 9.243c.195.745-.068 1.139-.641 1.723l-.775.79c-.856.871-2.243.871-3.098 0-.856-.872-.856-2.286 0-3.157l.774-.79c.574-.584 1.076-.852 1.807-.653" mask="url(#prefix__e)"/>
+            <path stroke="#212529" stroke-linecap="round" stroke-width="1.152" d="M12.174 3.925c.195.745-.069 1.139-.642 1.723l-.775.79c-.855.87-2.242.87-3.098 0-.855-.872-.855-2.286 0-3.157l.775-.79c.573-.584 1.075-.852 1.806-.653" mask="url(#prefix__e)" transform="rotate(-180 9.627 4.432)"/>
+        </g>
+    </g>
+</svg>

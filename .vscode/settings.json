@@ -1,0 +1,33 @@
+{
+  "javascript.format.enable": false,
+  "editor.formatOnSave": false,
+  "[javascript]": {
+   "editor.formatOnSave": true
+  },
+  "[json]": {
+   "editor.formatOnSave": true
+  },
+  "[html]": {
+   "editor.formatOnSave": true
+  },
+  "eslint.options": {
+    "extensions": [
+      ".js",
+      ".jsx",
+    ],
+    "validate": [
+      "javascript",
+      "javascriptreact",
+    ]
+  },
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "eslint.alwaysShowStatus": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": false,
+    "source.fixAll.eslint": true
+  },
+}
