@@ -9,6 +9,7 @@ export const alaramNoticeListLoad = createRequestAction(`${ALARM_NOTICE}/LIST_LO
 export const alaramNoticeAdd = createRequestAction(`${ALARM_NOTICE}/ADD`)
 export const alaramNoticeModify = createRequestAction(`${ALARM_NOTICE}/MODIFY`)
 export const alaramNoticeReadNotice = createRequestAction(`${ALARM_NOTICE}/READ_NOTICE`)
+export const alaramNoticeReadNoticeThunk = createRequestThunk(alaramNoticeReadNotice)
 export const alaramNoticeNoReturnNotice = createRequestAction(`${ALARM_NOTICE}/NO_RETURN_NOTICE`)
 export const alaramNoticeNoReturnNoticeThunk = createRequestThunk(alaramNoticeNoReturnNotice)
 

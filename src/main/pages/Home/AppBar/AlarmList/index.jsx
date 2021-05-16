@@ -20,7 +20,13 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { createTab } from '@/utils/chromeApis/tab'
 import linkListEmptyIcon from '@assets/images/linkListEmptyIcon.png'
-import { alaramNoticeSelector, alaramNoticeReadNotice, alaramNoticeNoReturnNoticeThunk } from '@modules/alarmNotice'
+import {
+  alaramNoticeSelector,
+  alaramNoticeReadNoticeThunk,
+  alaramNoticeNoReturnNoticeThunk,
+} from '@modules/alarmNotice'
+import { categorySelector } from '@modules/category'
+import { linksRead } from '@modules/link'
 import { useToast } from '@modules/ui'
 
 import useStyles, { SmallAvatar } from './style'
@@ -31,15 +37,21 @@ function AlarmList() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const listData = useSelector(alaramNoticeSelector.listData)
+  const selectedCategory = useSelector(categorySelector.selectedCategory)
   const { openToast } = useToast()
 
   const handleClickAlarm = useCallback(
-    (alarm) => (e) => {
-      e.stopPropagation()
-      dispatch(alaramNoticeReadNotice.request({ alarm_id: alarm.id }))
-      createTab(alarm.url_path)
+    (alarm) => async (e) => {
+      try {
+        e.stopPropagation()
+        await dispatch(alaramNoticeReadNoticeThunk({ alarm_id: alarm.id }))
+        dispatch(linksRead.request({ categoryId: selectedCategory?.id }))
+        createTab(alarm.url_path)
+      } catch (error) {
+        openToast({ type: 'error', message: '예상치 못한 에러가 발생했습니다.' })
+      }
     },
-    [dispatch]
+    [dispatch, openToast, selectedCategory]
   )
 
   const handleDeleteAlarm = useCallback(
@@ -47,12 +59,13 @@ function AlarmList() {
       try {
         e.stopPropagation()
         await dispatch(alaramNoticeNoReturnNoticeThunk({ alarm_id }))
+        dispatch(linksRead.request({ categoryId: selectedCategory?.id }))
         openToast({ type: 'success', message: '알람을 삭제했습니다.' })
       } catch (error) {
         openToast({ type: 'error', message: '알람을 삭제하지 못했습니다.' })
       }
     },
-    [dispatch, openToast]
+    [dispatch, openToast, selectedCategory]
   )
 
   return (
