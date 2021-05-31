@@ -139,6 +139,7 @@ function CategoryList() {
           setDragData({ ...dragData, dragFinished: true })
         } else if (dragType === LINK && linkHoverTabId) {
           const path = linkListData.reduce((prev, data) => prev.concat(data.path), [])
+          setDragData({ ...dragData, id: linkHoverTabId })
           await dispatch(linkCreateThunk({ categoryId: linkHoverTabId, path }))
           if (selectedCategory?.id === linkHoverTabId) dispatch(linksRead.request({ categoryId: linkHoverTabId }))
           await dispatch(categoriesReadThunk())

@@ -29,7 +29,7 @@ function LinkList() {
   const selectedCategory = useSelector(categorySelector.selectedCategory)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
   const searchFilter = useSelector(linkSelector.searchFilter)
-  const drags = useSelector(uiSelector.drag)
+  const dragData = useSelector(uiSelector.drag)
   const [skeletonLength, setSkeletonLength] = useState(0)
   const linkCreatePending = useSelector((state) => state[PENDING][linkCreate.TYPE])
   const linksReadPending = useSelector((state) => state[PENDING][linksRead.TYPE])
@@ -67,13 +67,13 @@ function LinkList() {
   }, [dispatch, selectedCategory])
 
   useEffect(() => {
-    if (!!drags.link.listData.length && linkCreatePending) {
-      setSkeletonLength(drags.link.listData.length)
+    if (!!dragData.link.listData.length && linkCreatePending) {
+      setSkeletonLength(dragData.link.listData.length)
     }
     if (skeletonLength && !linkCreatePending && !linksReadPending) {
       setSkeletonLength(0)
     }
-  }, [drags, skeletonLength, linkCreatePending, linksReadPending])
+  }, [dragData, skeletonLength, linkCreatePending, linksReadPending])
 
   const skeletons = (length) => {
     return new Array(length).fill().map((_, i) => (
@@ -96,7 +96,7 @@ function LinkList() {
           </Grid>
         )}
 
-        {!!skeletonLength ? skeletons(skeletonLength) : null}
+        {!!skeletonLength && dragData.category.data.id === selectedCategory?.id ? skeletons(skeletonLength) : null}
 
         {links?.map((data) => (
           <Grid item key={data.id}>
