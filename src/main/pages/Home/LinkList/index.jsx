@@ -9,10 +9,13 @@ import CategoryEmptyImg from '@assets/images/group-5.svg'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import ScrollUpButton from '@main/components/ScrollUpButton'
 import { useCategories, categorySelector } from '@modules/category'
-import { useLinks, linkSelector, linkClearSelect, linkSearchFilterInit } from '@modules/link'
+import { useLinks, linkSelector, linkClearSelect, linkSearchFilterInit, linksRead, linkCreate } from '@modules/link'
+import { PENDING } from '@modules/pending'
+import { uiSelector } from '@modules/ui'
 
 import Header from './Header'
 import Link from './Link'
+import LinkSkeleton from './LinkSkeleton'
 import useStyles from './style'
 
 const CATEGORY_EMPTY = 0
@@ -26,6 +29,11 @@ function LinkList() {
   const selectedCategory = useSelector(categorySelector.selectedCategory)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
   const searchFilter = useSelector(linkSelector.searchFilter)
+  const drags = useSelector(uiSelector.drag)
+  const [skeletonLength, setSkeletonLength] = useState(0)
+  const linkCreatePending = useSelector((state) => state[PENDING][linkCreate.TYPE])
+  const linksReadPending = useSelector((state) => state[PENDING][linksRead.TYPE])
+
   const { links } = useLinks({
     detact: true,
     categoryId: selectedCategory?.id,
@@ -58,6 +66,23 @@ function LinkList() {
     dispatch(linkSearchFilterInit())
   }, [dispatch, selectedCategory])
 
+  useEffect(() => {
+    if (!!drags.link.listData.length && linkCreatePending) {
+      setSkeletonLength(drags.link.listData.length)
+    }
+    if (skeletonLength && !linkCreatePending && !linksReadPending) {
+      setSkeletonLength(0)
+    }
+  }, [drags, skeletonLength, linkCreatePending, linksReadPending])
+
+  const skeletons = (length) => {
+    return new Array(length).fill().map((_, i) => (
+      <Grid item key={i}>
+        <LinkSkeleton key={i} />
+      </Grid>
+    ))
+  }
+
   return (
     <Grid container direction="column" className={classes.root} ref={rootRef}>
       <Grid item>
@@ -70,6 +95,8 @@ function LinkList() {
             <img src={CategoryEmptyImg} alt="카테고리 비어 있음" />
           </Grid>
         )}
+
+        {!!skeletonLength ? skeletons(skeletonLength) : null}
 
         {links?.map((data) => (
           <Grid item key={data.id}>
