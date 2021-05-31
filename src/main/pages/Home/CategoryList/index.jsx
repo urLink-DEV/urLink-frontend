@@ -141,7 +141,7 @@ function CategoryList() {
           const path = linkListData.reduce((prev, data) => prev.concat(data.path), [])
           setDragData({ ...dragData, id: linkHoverTabId })
           await dispatch(linkCreateThunk({ categoryId: linkHoverTabId, path }))
-          if (selectedCategory?.id === linkHoverTabId) dispatch(linksRead.request({ categoryId: linkHoverTabId }))
+          dispatch(linksRead.request({ categoryId: linkHoverTabId }))
           await dispatch(categoriesReadThunk())
           setDragData({ ...dragData, dragFinished: true })
           openToast({ type: 'success', message: '링크가 저장 되었습니다.' })
@@ -154,18 +154,7 @@ function CategoryList() {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
       }
     },
-    [
-      dragType,
-      dispatch,
-      dragData,
-      setDragData,
-      linkListData,
-      linkHoverTabId,
-      selectedCategory?.id,
-      dragOverTabData,
-      clearDragData,
-      openToast,
-    ]
+    [dragType, dispatch, dragData, setDragData, linkListData, linkHoverTabId, dragOverTabData, clearDragData, openToast]
   )
 
   return (
