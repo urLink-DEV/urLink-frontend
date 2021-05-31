@@ -67,11 +67,19 @@ function LinkList() {
   }, [dispatch, selectedCategory])
 
   useEffect(() => {
-    if (!!dragData.link.listData.length && linkCreatePending) {
-      setSkeletonLength(dragData.link.listData.length)
-    }
-    if (skeletonLength && !linkCreatePending && !linksReadPending) {
-      setSkeletonLength(0)
+    const { type, category, link } = dragData
+    if (type === 'category') {
+      if (category.data.id && linkCreatePending) {
+        setSkeletonLength(link.listData.length)
+      } else if (!linkCreatePending && !linksReadPending) {
+        setSkeletonLength(0)
+      }
+    } else if (type === 'link') {
+      if (!!link.listData.length && linkCreatePending) {
+        setSkeletonLength(link.listData.length)
+      } else if (!link.listData.length && !linkCreatePending && !linksReadPending) {
+        setSkeletonLength(0)
+      }
     }
   }, [dragData, skeletonLength, linkCreatePending, linksReadPending])
 
@@ -96,7 +104,11 @@ function LinkList() {
           </Grid>
         )}
 
-        {!!skeletonLength && dragData.category.data.id === selectedCategory?.id ? skeletons(skeletonLength) : null}
+        {!skeletonLength
+          ? null
+          : dragData.type === 'link'
+          ? skeletons(skeletonLength)
+          : dragData.category.data.id === selectedCategory?.id && skeletons(skeletonLength)}
 
         {links?.map((data) => (
           <Grid item key={data.id}>
