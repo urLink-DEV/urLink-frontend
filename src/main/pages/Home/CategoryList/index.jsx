@@ -82,13 +82,15 @@ function CategoryList() {
   )
 
   const handleDragOver = useCallback(
-    (tagetCategoryData, dragLineRef) => (e) => {
+    (targetCategoryData, dragLineRef) => (e) => {
       e.preventDefault()
       e.stopPropagation()
       if (dragType === LINK) {
-        if (tagetCategoryData.id !== linkHoverTabId) setLinkHoverTabId(tagetCategoryData.id)
+        if (targetCategoryData.id !== linkHoverTabId) setLinkHoverTabId(targetCategoryData.id)
       } else if (dragType === CATEGORY) {
-        setDragOverTabData({ ...dragOverTabData, ...tagetCategoryData })
+        if (dragOverTabData.id !== targetCategoryData.id) {
+          setDragOverTabData({ ...dragOverTabData, ...targetCategoryData })
+        }
         dragLineRef.current.style.opacity = 1
       }
     },
