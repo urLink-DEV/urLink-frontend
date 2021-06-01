@@ -32,6 +32,7 @@ function CategoryList() {
 
   const draggedCategoryRef = useRef(null)
   const [linkHoverTabId, setLinkHoverTabId] = useState(null)
+  const [dragOverTabData, setDragOverTabData] = useState({})
 
   const handleDragOverFirstFavorite = useCallback(
     (e) => {
@@ -81,22 +82,25 @@ function CategoryList() {
   )
 
   const handleDragOver = useCallback(
-    (tagetCategoryData, dragLineRef) => (e) => {
+    (targetCategoryData, dragLineRef) => (e) => {
       e.preventDefault()
       e.stopPropagation()
       if (dragType === LINK) {
-        if (tagetCategoryData.id !== linkHoverTabId) setLinkHoverTabId(tagetCategoryData.id)
+        if (targetCategoryData.id !== linkHoverTabId) setLinkHoverTabId(targetCategoryData.id)
       } else if (dragType === CATEGORY) {
-        const order = dragData.order < tagetCategoryData.order ? tagetCategoryData.order - 1 : tagetCategoryData.order
-        setDragData({
-          ...dragData,
-          order,
-          is_favorited: tagetCategoryData.is_favorited,
-        })
+        if (dragOverTabData.id !== targetCategoryData.id) {
+          setDragOverTabData({
+            ...dragOverTabData,
+            id: targetCategoryData.id,
+            name: targetCategoryData.name,
+            order: targetCategoryData.order,
+            is_favorited: targetCategoryData.is_favorited,
+          })
+        }
         dragLineRef.current.style.opacity = 1
       }
     },
-    [dragData, dragType, linkHoverTabId, setDragData]
+    [dragType, linkHoverTabId, dragOverTabData, setDragOverTabData]
   )
 
   const handleDragLeave = useCallback(
@@ -118,12 +122,13 @@ function CategoryList() {
       try {
         if (dragType === CATEGORY) {
           if (dragLineRef) dragLineRef.current.style.opacity = 0
+
           await dispatch(
             categoryModifyThunk({
               id: dragData.id,
               name: dragData.name,
-              order: dragData.order,
-              is_favorited: dragData.is_favorited,
+              order: dragData.order < dragOverTabData.order ? dragOverTabData.order - 1 : dragOverTabData.order,
+              is_favorited: dragOverTabData.is_favorited,
             })
           )
           await dispatch(categoriesReadThunk())
@@ -152,6 +157,7 @@ function CategoryList() {
       linkListData,
       linkHoverTabId,
       selectedCategory?.id,
+      dragOverTabData,
       clearDragData,
       openToast,
     ]
