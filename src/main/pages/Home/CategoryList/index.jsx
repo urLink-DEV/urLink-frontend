@@ -89,7 +89,13 @@ function CategoryList() {
         if (targetCategoryData.id !== linkHoverTabId) setLinkHoverTabId(targetCategoryData.id)
       } else if (dragType === CATEGORY) {
         if (dragOverTabData.id !== targetCategoryData.id) {
-          setDragOverTabData({ ...dragOverTabData, ...targetCategoryData })
+          setDragOverTabData({
+            ...dragOverTabData,
+            id: targetCategoryData.id,
+            name: targetCategoryData.name,
+            order: targetCategoryData.order,
+            is_favorited: targetCategoryData.is_favorited,
+          })
         }
         dragLineRef.current.style.opacity = 1
       }
