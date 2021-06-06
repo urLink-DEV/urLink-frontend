@@ -39,14 +39,16 @@ function CategoryList() {
       e.stopPropagation()
       e.preventDefault()
       if (dragType === CATEGORY && !dragData.is_favorited) {
-        setDragData({
-          ...dragData,
+        setDragOverTabData({
+          ...dragOverTabData,
+          id: dragData.id,
+          name: dragData.name,
           order: 1,
           is_favorited: true,
         })
       }
     },
-    [dragData, dragType, setDragData]
+    [dragData, dragType, dragOverTabData, setDragOverTabData]
   )
 
   const handleDragOverFirstCategory = useCallback(
@@ -54,14 +56,16 @@ function CategoryList() {
       e.stopPropagation()
       e.preventDefault()
       if (dragType === CATEGORY && dragData.is_favorited) {
-        setDragData({
-          ...dragData,
+        setDragOverTabData({
+          ...dragOverTabData,
+          id: dragData.id,
+          name: dragData.name,
           order: 1,
           is_favorited: false,
         })
       }
     },
-    [dragData, dragType, setDragData]
+    [dragData, dragType, dragOverTabData, setDragOverTabData]
   )
 
   const handleDragStart = useCallback(
