@@ -115,7 +115,7 @@ function LinkList() {
         ))}
 
         {links.length === LINK_EMPTY &&
-          (searchFilter.keyword && SEARCH_LINK_EMPTY ? (
+          (skeletonLength ? null : searchFilter.keyword && SEARCH_LINK_EMPTY ? (
             <Grid item xs={12} className={classes.center}>
               <img src={linkListSearchEmptyImg} alt="검색 조회 없음" />
             </Grid>
