@@ -71,15 +71,13 @@ function LinkList() {
     if (type === 'category') {
       if (category.data.id && linkCreatePending) {
         setSkeletonLength(link.listData.length)
-      } else if (!linkCreatePending && !linksReadPending) {
-        setSkeletonLength(0)
       }
     } else if (type === 'link') {
       if (!!link.listData.length && linkCreatePending) {
         setSkeletonLength(link.listData.length)
-      } else if (!link.listData.length && !linkCreatePending && !linksReadPending) {
-        setSkeletonLength(0)
       }
+    } else if (!linkCreatePending && !linksReadPending) {
+      setSkeletonLength(0)
     }
   }, [dragData, skeletonLength, linkCreatePending, linksReadPending])
 
