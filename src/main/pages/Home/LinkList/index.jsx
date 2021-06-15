@@ -22,6 +22,14 @@ const CATEGORY_EMPTY = 0
 const LINK_EMPTY = 0
 const SEARCH_LINK_EMPTY = 1
 
+const skeletons = (length) => {
+  return new Array(length).fill().map((_, i) => (
+    <Grid item key={i}>
+      <LinkSkeleton key={i} />
+    </Grid>
+  ))
+}
+
 function LinkList() {
   const classes = useStyles()
   const dispatch = useDispatch()
@@ -80,14 +88,6 @@ function LinkList() {
       setSkeletonLength(0)
     }
   }, [dragData, skeletonLength, linkCreatePending, linksReadPending])
-
-  const skeletons = (length) => {
-    return new Array(length).fill().map((_, i) => (
-      <Grid item key={i}>
-        <LinkSkeleton key={i} />
-      </Grid>
-    ))
-  }
 
   return (
     <Grid container direction="column" className={classes.root} ref={rootRef}>
