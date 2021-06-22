@@ -19,7 +19,7 @@ function LinkDropZone() {
   const dispatch = useDispatch()
   const { openToast } = useToast()
   const selectedCategory = useSelector(categorySelector.selectedCategory)
-  const { listData } = useDrag(LINK)
+  const { listData, clearDragData } = useDrag(LINK)
   const { open } = useDropZone(LINK_DROP_ZONE)
 
   const handleDropOnCardArea = useCallback(
@@ -28,6 +28,7 @@ function LinkDropZone() {
         e.stopPropagation()
         const path = listData.reduce((prev, data) => prev.concat(data.path), [])
         await dispatch(linkCreateThunk({ categoryId: selectedCategory.id, path }))
+        clearDragData()
         dispatch(linksRead.request({ categoryId: selectedCategory.id }))
         dispatch(categoriesRead.request())
         openToast({ type: 'success', message: '링크가 저장 되었습니다.' })
@@ -35,7 +36,7 @@ function LinkDropZone() {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
       }
     },
-    [dispatch, listData, openToast, selectedCategory.id]
+    [dispatch, listData, openToast, selectedCategory.id, clearDragData]
   )
 
   const handleDragOverOnCardArea = useCallback((e) => {

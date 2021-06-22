@@ -25,7 +25,7 @@ const { LINK_DROP_ZONE } = DROP_ZONE
 function DragableHistoryList() {
   const classes = useStyles()
   const { filter, listData, reload, search, next } = useHistoryLinks()
-  const { setDragData, clearDragData } = useDrag(LINK)
+  const { setDragData } = useDrag(LINK)
   const { open, toggle, close } = useDropZone(LINK_DROP_ZONE)
 
   const [selectedList, setSelectedList] = useState([])
@@ -61,9 +61,8 @@ function DragableHistoryList() {
     () => (e) => {
       e.stopPropagation()
       setSelectedList([])
-      clearDragData()
     },
-    [clearDragData]
+    []
   )
 
   const handleToogleSelectIem = useCallback(
