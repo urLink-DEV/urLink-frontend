@@ -22,7 +22,7 @@ const CATEGORY_EMPTY = 0
 const LINK_EMPTY = 0
 const SEARCH_LINK_EMPTY = 1
 
-const skeletons = (length) => {
+const SkeletonList = (length) => {
   return new Array(length).fill().map((_, i) => (
     <Grid item key={i}>
       <LinkSkeleton key={i} />
@@ -75,19 +75,14 @@ function LinkList() {
   }, [dispatch, selectedCategory])
 
   useEffect(() => {
-    const { type, category, link } = dragData
-    if (type === 'category') {
-      if (category.data.id && linkCreatePending) {
-        setSkeletonLength(link.listData.length)
-      }
-    } else if (type === 'link') {
-      if (!!link.listData.length && linkCreatePending) {
-        setSkeletonLength(link.listData.length)
-      }
+    const { link } = dragData
+
+    if (link.listData.length && linkCreatePending) {
+      setSkeletonLength(link.listData.length)
     } else if (!linkCreatePending && !linksReadPending) {
       setSkeletonLength(0)
     }
-  }, [dragData, skeletonLength, linkCreatePending, linksReadPending])
+  }, [dragData, linkCreatePending, linksReadPending])
 
   return (
     <Grid container direction="column" className={classes.root} ref={rootRef}>
@@ -105,8 +100,8 @@ function LinkList() {
         {!skeletonLength
           ? null
           : dragData.type === 'link'
-          ? skeletons(skeletonLength)
-          : dragData.category.data.id === selectedCategory?.id && skeletons(skeletonLength)}
+          ? SkeletonList(skeletonLength)
+          : dragData.category.data.id === selectedCategory?.id && SkeletonList(skeletonLength)}
 
         {links?.map((data) => (
           <Grid item key={data.id}>
