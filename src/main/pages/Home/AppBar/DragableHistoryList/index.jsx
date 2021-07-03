@@ -9,7 +9,9 @@ import linkListSearchEmptyImg from '@assets/images/group-17.png'
 import linkListEmptyImg from '@assets/images/group-19.png'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import ScrollUpButton from '@main/components/ScrollUpButton'
-import SearchButton from '@main/components/SearchButton'
+
+// import SearchButton from '@main/components/SearchButton'
+import SearchBar from '@main/components/SearchBar'
 import { useHistoryLinks } from '@modules/historyLink'
 import { DROP_ZONE, DRAG, useDrag, useDropZone } from '@modules/ui'
 import { createTabList } from '@utils/chromeApis/tab'
@@ -22,6 +24,12 @@ import useStyles from './style'
 const { LINK } = DRAG
 const { LINK_DROP_ZONE } = DROP_ZONE
 
+const listSearchFilter = [
+  { search: 'path', name: '주소' },
+  { search: 'title', name: '제목' },
+  { search: 'date', name: '날짜' },
+]
+
 function DragableHistoryList() {
   const classes = useStyles()
   const { filter, listData, reload, search, next } = useHistoryLinks()
@@ -30,6 +38,10 @@ function DragableHistoryList() {
 
   const [selectedList, setSelectedList] = useState([])
   const [buttonOpen, setButtonOpen] = useState(null)
+  
+  const [selectedName, setSelectedName] = useState(listSearchFilter[0].search)
+  const [input, setInput] = useState('')
+
   const historyRootRef = useRef(null)
   const historyContentRef = useRef(null)
   const dragBoxRef = useRef(null)
@@ -41,6 +53,11 @@ function DragableHistoryList() {
       setSelectedList([])
     }, [])
   )
+
+  const handleChangeInput = e => {
+    console.log(e.target.value, input)
+    setInput(e.target.value)
+  }
 
   const handleDragStart = useCallback(
     ({ id, url: path }) => (e) => {
@@ -90,12 +107,22 @@ function DragableHistoryList() {
       const { key, currentTarget } = e
       const { value } = currentTarget
       if (key === 'Enter') {
+        console.log('Enter!')
         historyContentRef.current.scrollTop = 0
-        search(value)
+        search(selectedName, value)
       }
     },
     [search]
   )
+
+  const handleClickLinkSearch = () => {
+    historyContentRef.current.scrollTop = 0
+    search(selectedName, input)
+  }
+
+  const handleSelectName = e => {
+    setSelectedName(e.target.value)
+  }
 
   const handleOpenNewTab = useCallback(() => {
     createTabList(selectedList.reduce((list, link) => list.concat(link.path), []))
@@ -120,12 +147,15 @@ function DragableHistoryList() {
         <div className={classes.rowSpread}>
           <Typography className={classes.mainText}>방문기록</Typography>
           <div className={classes.center}>
-            <SearchButton
+            <IconButton className={classes.reloadIcon} onClick={handleReload}>
+              <RefreshIcon />
+            </IconButton>
+            {/* <SearchButton
               inputProps={{
                 defaultValue: filter.text,
                 onKeyDown: handleHistorySearch,
               }}
-            />
+            /> */}
             {!!selectedList.length && (
               <button className={classes.tabOpenButton} onClick={handleOpenNewTab}>
                 <span className={classes.tabOpenText}>탭 열기 ({selectedList.length})</span>
@@ -133,9 +163,16 @@ function DragableHistoryList() {
             )}
           </div>
         </div>
-        <IconButton onClick={handleReload}>
-          <RefreshIcon />
-        </IconButton>
+        <SearchBar 
+              inputProps={{
+                onKeyDown: handleHistorySearch,
+                onChange: handleChangeInput,
+              }}
+              listSearchFilter={listSearchFilter}
+              onSelectName={handleSelectName}
+              selectedName={selectedName}
+              onClickSearch={handleClickLinkSearch}
+            />
       </div>
       <CardContent ref={historyContentRef} className={classes.content} onScroll={handleHistoryListScroll}>
         {!!listData.length ? (

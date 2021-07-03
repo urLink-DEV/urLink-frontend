@@ -16,6 +16,7 @@
  *  * visitCount: 24 (사용자가이 페이지를 탐색(navigated to this page) 한 횟수)
  */
 export function getHistoryList({ text, startTime = 0, endTime = Date.now(), maxResults }) {
+  console.log('getHistoryList')
   return new Promise((resolve, _reject) => {
     const idCheck = chrome.runtime?.id
     if (!idCheck) resolve(urlTempList)
