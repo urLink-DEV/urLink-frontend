@@ -16,7 +16,7 @@ const useHistoryLinks = () => {
   const filter = useSelector(historyLinkSelector.filter)
   const listData = useSelector(historyLinkSelector.listData)
 
-  const reload = useCallback(() => {
+  const reload = useCallback((selectedName) => {
     dispatch(
       setHistoryLinkChangeFilter({
         text: '',
@@ -29,7 +29,7 @@ const useHistoryLinks = () => {
 
   const search = useCallback(
     (selectedName, value) => {
-      dispatch(
+      if (selectedName === ('path' || 'title')) dispatch(
         setHistoryLinkChangeFilter({
           selectedName,
           text: value,
@@ -38,13 +38,24 @@ const useHistoryLinks = () => {
           isNext: false,
         })
       ) 
+      if (selectedName === 'date') {
+        dispatch(
+        setHistoryLinkChangeFilter({
+          selectedName,
+          startTime: new Date(value.toDate()).getTime(),
+          endTime: new Date().getTime(),
+          isNext: false,
+        })
+      )
+    }
+      
     },
     [dispatch]
   )
 
   const next = useCallback(() => {
     dispatch(
-      setHistoryLinkChnageFilter({
+      setHistoryLinkChangeFilter({
         startTime: new Date(moment(filter.startTime).add(-1, 'day')).getTime(),
         endTime: filter.startTime,
         isNext: true,

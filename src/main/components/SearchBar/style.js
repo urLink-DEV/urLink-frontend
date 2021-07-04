@@ -42,6 +42,10 @@ export const useStyles = makeStyles((theme) => ({
   divider: {
     margin: theme.spacing(0.5, 0),
   },
+  datePicker: {
+    padding: theme.spacing(0, 1),
+    width: '100%',
+  },
   searchIcon: {
     width: 40,
     padding: theme.spacing(0.5, 0),
