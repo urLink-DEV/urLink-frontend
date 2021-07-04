@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
+import moment from 'moment'
+import 'moment/locale/ko'
 
 import Container from '@material-ui/core/Container'
 import InputBase from '@material-ui/core/InputBase'
@@ -7,12 +9,14 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
 import SearchIcon from '@material-ui/icons/Search'
-
+import { DatePicker } from '@material-ui/pickers'
 import useStyles from './style'
 
-function SearchBar({ inputProps, listSearchFilter, onSelectName, selectedName, onClickSearch }) {
+moment.locale('ko')
+
+function SearchBar({ inputProps, listSearchFilter, onSelectName, selectedName, onClickSearch, onChangeDate, selectedDate}) {
   const classes = useStyles()
-  
+
   return (
     <Container className={classes.searchBar}>
       <Select className={classes.inputSelect}
@@ -41,12 +45,22 @@ function SearchBar({ inputProps, listSearchFilter, onSelectName, selectedName, o
         orientation="vertical"
         flexItem={true}
       />
-      <InputBase
-        placeholder="웹사이트 주소나 제목을 검색하세요"
-        classes={{input: classes.searchInput}}
-        inputProps={{ 'aria-label': 'search' }}
-        {...inputProps}
-      />
+      { selectedName === 'date' ? 
+        <DatePicker className={classes.datePicker}
+          disableToolbar
+          format="yyyy-MM-DD"
+          variant="inline"
+          emptyLabel="날짜를 검색하려면 클릭하세요"
+          value={selectedDate}
+          onChange={onChangeDate}
+        /> :
+        <InputBase
+          placeholder="웹사이트 주소나 제목을 검색하세요"
+          classes={{input: classes.searchInput}}
+          inputProps={{ 'aria-label': 'search' }}
+          {...inputProps}
+        />
+      }
       <IconButton className={classes.searchIcon}
         onClick={onClickSearch}
       >

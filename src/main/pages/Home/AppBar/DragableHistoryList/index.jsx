@@ -40,7 +40,7 @@ function DragableHistoryList() {
   const [buttonOpen, setButtonOpen] = useState(null)
   
   const [selectedName, setSelectedName] = useState(listSearchFilter[0].search)
-  const [input, setInput] = useState('')
+  const [input, setInput] = useState(null)
 
   const historyRootRef = useRef(null)
   const historyContentRef = useRef(null)
@@ -53,11 +53,6 @@ function DragableHistoryList() {
       setSelectedList([])
     }, [])
   )
-
-  const handleChangeInput = e => {
-    console.log(e.target.value, input)
-    setInput(e.target.value)
-  }
 
   const handleDragStart = useCallback(
     ({ id, url: path }) => (e) => {
@@ -107,7 +102,6 @@ function DragableHistoryList() {
       const { key, currentTarget } = e
       const { value } = currentTarget
       if (key === 'Enter') {
-        console.log('Enter!')
         historyContentRef.current.scrollTop = 0
         search(selectedName, value)
       }
@@ -124,6 +118,16 @@ function DragableHistoryList() {
     setSelectedName(e.target.value)
   }
 
+  // title, url
+  const handleChangeInput = e => {
+    setInput(e.target.value)
+  }
+
+  // date
+  const handleChangeDate = (date) => {
+    setInput(date);
+  };
+
   const handleOpenNewTab = useCallback(() => {
     createTabList(selectedList.reduce((list, link) => list.concat(link.path), []))
   }, [selectedList])
@@ -132,7 +136,7 @@ function DragableHistoryList() {
     return debounce(() => {
       historyContentRef.current.scrollTop = 0
       setSelectedList([])
-      reload()
+      reload(selectedName)
     }, 400)
   }, [reload])
 
@@ -150,12 +154,6 @@ function DragableHistoryList() {
             <IconButton className={classes.reloadIcon} onClick={handleReload}>
               <RefreshIcon />
             </IconButton>
-            {/* <SearchButton
-              inputProps={{
-                defaultValue: filter.text,
-                onKeyDown: handleHistorySearch,
-              }}
-            /> */}
             {!!selectedList.length && (
               <button className={classes.tabOpenButton} onClick={handleOpenNewTab}>
                 <span className={classes.tabOpenText}>탭 열기 ({selectedList.length})</span>
@@ -164,15 +162,17 @@ function DragableHistoryList() {
           </div>
         </div>
         <SearchBar 
-              inputProps={{
-                onKeyDown: handleHistorySearch,
-                onChange: handleChangeInput,
-              }}
-              listSearchFilter={listSearchFilter}
-              onSelectName={handleSelectName}
-              selectedName={selectedName}
-              onClickSearch={handleClickLinkSearch}
-            />
+          inputProps={{
+            onKeyDown: handleHistorySearch,
+            onChange: handleChangeInput,
+          }}
+          listSearchFilter={listSearchFilter}
+          onSelectName={handleSelectName}
+          selectedName={selectedName}
+          onClickSearch={handleClickLinkSearch}
+          onChangeDate={handleChangeDate}
+          selectedDate={input}
+        />
       </div>
       <CardContent ref={historyContentRef} className={classes.content} onScroll={handleHistoryListScroll}>
         {!!listData.length ? (

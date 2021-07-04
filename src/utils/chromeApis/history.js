@@ -15,8 +15,7 @@
  *  * hostName: "chrome-extension://fljjldbbgojlhkhamhcgamibbjlincej/index.html"
  *  * visitCount: 24 (사용자가이 페이지를 탐색(navigated to this page) 한 횟수)
  */
-export function getHistoryList({ text, startTime = 0, endTime = Date.now(), maxResults }) {
-  console.log('getHistoryList')
+export function getHistoryList({ selectedName, text, startTime = 0, endTime = Date.now(), maxResults }) {
   return new Promise((resolve, _reject) => {
     const idCheck = chrome.runtime?.id
     if (!idCheck) resolve(urlTempList)
