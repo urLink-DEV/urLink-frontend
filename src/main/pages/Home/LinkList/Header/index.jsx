@@ -5,7 +5,6 @@ import { Refresh as RefreshIcon } from '@material-ui/icons'
 import { debounce } from 'lodash'
 import { useSelector, useDispatch } from 'react-redux'
 
-// import SearchButton from '@main/components/SearchButton'
 import SearchBar from '@main/components/SearchBar'
 import { categorySelector } from '@modules/category'
 import { useLinks, linkSearchFilterChangeState } from '@modules/link'
@@ -28,8 +27,7 @@ function Header() {
   const [selectedName, setSelectedName] = useState(listSearchFilter[0].search)
   const [input, setInput] = useState('')
 
-  const handleChangeInput = e => {
-    console.log(e.target.value, input)
+  const handleChangeInput = (e) => {
     setInput(e.target.value)
   }
 
@@ -44,11 +42,11 @@ function Header() {
     [dispatch, selectedName]
   )
 
-  const handleClickLinkSearch = () => {
+  const handleClickLinkSearch = useCallback(() => {
     dispatch(linkSearchFilterChangeState({ selectedName, keyword: input }))
-  }
+  }, [dispatch, input, selectedName])
 
-  const handleSelectName = e => {
+  const handleSelectName = (e) => {
     setSelectedName(e.target.value)
   }
 
@@ -61,19 +59,11 @@ function Header() {
   return (
     <Toolbar className={classes.toolbar}>
       <EditableCategoryTitle />
-      {/* <SearchButton
-        inputProps={{
-          onKeyDown: handleKeyDownLinkSearch,
-        }}
-        listSearchFilter={listSearchFilter}
-        onSelectButton={handleSelectName}
-        selectedName={selectedName}
-      /> */}
       <TabButtonGroup />
       <IconButton onClick={handleReload}>
         <RefreshIcon />
       </IconButton>
-      <SearchBar 
+      <SearchBar
         inputProps={{
           onKeyDown: handleKeyDownLinkSearch,
           onChange: handleChangeInput,

@@ -9,8 +9,6 @@ import linkListSearchEmptyImg from '@assets/images/group-17.png'
 import linkListEmptyImg from '@assets/images/group-19.png'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import ScrollUpButton from '@main/components/ScrollUpButton'
-
-// import SearchButton from '@main/components/SearchButton'
 import SearchBar from '@main/components/SearchBar'
 import { useHistoryLinks } from '@modules/historyLink'
 import { DROP_ZONE, DRAG, useDrag, useDropZone } from '@modules/ui'
@@ -38,7 +36,7 @@ function DragableHistoryList() {
 
   const [selectedList, setSelectedList] = useState([])
   const [buttonOpen, setButtonOpen] = useState(null)
-  
+
   const [selectedName, setSelectedName] = useState(listSearchFilter[0].search)
   const [input, setInput] = useState(null)
 
@@ -106,27 +104,27 @@ function DragableHistoryList() {
         search(selectedName, value)
       }
     },
-    [search]
+    [search, selectedName]
   )
 
-  const handleClickLinkSearch = () => {
+  const handleClickLinkSearch = useCallback(() => {
     historyContentRef.current.scrollTop = 0
     search(selectedName, input)
-  }
+  }, [input, search, selectedName])
 
-  const handleSelectName = e => {
+  const handleSelectName = (e) => {
     setSelectedName(e.target.value)
   }
 
   // title, url
-  const handleChangeInput = e => {
+  const handleChangeInput = (e) => {
     setInput(e.target.value)
   }
 
   // date
   const handleChangeDate = (date) => {
-    setInput(date);
-  };
+    setInput(date)
+  }
 
   const handleOpenNewTab = useCallback(() => {
     createTabList(selectedList.reduce((list, link) => list.concat(link.path), []))
@@ -138,7 +136,7 @@ function DragableHistoryList() {
       setSelectedList([])
       reload(selectedName)
     }, 400)
-  }, [reload])
+  }, [reload, selectedName])
 
   useEffect(() => {
     if (!open && selectedList.length) toggle()
@@ -161,7 +159,7 @@ function DragableHistoryList() {
             )}
           </div>
         </div>
-        <SearchBar 
+        <SearchBar
           inputProps={{
             onKeyDown: handleHistorySearch,
             onChange: handleChangeInput,
