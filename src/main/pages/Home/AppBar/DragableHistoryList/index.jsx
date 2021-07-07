@@ -107,10 +107,17 @@ function DragableHistoryList() {
     [search, selectedName]
   )
 
-  const handleClickLinkSearch = useCallback(() => {
-    historyContentRef.current.scrollTop = 0
-    search(selectedName, input)
-  }, [input, search, selectedName])
+  const handleClickLinkSearch = useCallback(
+    (date) => {
+      historyContentRef.current.scrollTop = 0
+      if (date) {
+        search(selectedName, date)
+      } else {
+        search(selectedName, input)
+      }
+    },
+    [input, search, selectedName]
+  )
 
   const handleSelectName = (e) => {
     setSelectedName(e.target.value)
@@ -124,6 +131,7 @@ function DragableHistoryList() {
   // date
   const handleChangeDate = (date) => {
     setInput(date)
+    handleClickLinkSearch(date)
   }
 
   const handleOpenNewTab = useCallback(() => {
