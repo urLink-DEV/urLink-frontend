@@ -29,10 +29,9 @@ const useHistoryLinks = () => {
 
   const search = useCallback(
     (selectedName, value) => {
-      if (selectedName === ('path' || 'title'))
+      if (selectedName === 'text')
         dispatch(
           setHistoryLinkChangeFilter({
-            selectedName,
             text: value,
             startTime: value ? 0 : new Date(moment().add(-1, 'day')).getTime(),
             endTime: new Date().getTime(),
@@ -42,7 +41,6 @@ const useHistoryLinks = () => {
       if (selectedName === 'date') {
         dispatch(
           setHistoryLinkChangeFilter({
-            selectedName,
             startTime: 0,
             endTime: new Date(value.toDate()).getTime(),
             isNext: false,

@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 export const useStyles = makeStyles((theme) => ({
   searchBar: {
     display: 'flex',
-    width: 386,
+    width: 407,
     padding: 0,
     margin: 'auto 0',
     borderRadius: theme.shape.borderRadius,
