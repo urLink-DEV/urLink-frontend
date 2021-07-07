@@ -23,8 +23,7 @@ const { LINK } = DRAG
 const { LINK_DROP_ZONE } = DROP_ZONE
 
 const listSearchFilter = [
-  { search: 'path', name: '주소' },
-  { search: 'title', name: '제목' },
+  { search: 'text', name: '제목/주소' },
   { search: 'date', name: '날짜' },
 ]
 

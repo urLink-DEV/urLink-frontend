@@ -11,7 +11,6 @@ export const historyLinkListRead = createRequestAction(`${HISTORY_LINK}/LIST_REA
 // Reducer
 const initialState = {
   filter: {
-    selectedName: '',
     text: '',
     startTime: 0,
     endTime: 0,
