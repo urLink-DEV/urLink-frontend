@@ -43,8 +43,8 @@ const useHistoryLinks = () => {
         dispatch(
           setHistoryLinkChangeFilter({
             selectedName,
-            startTime: new Date(value.toDate()).getTime(),
-            endTime: new Date().getTime(),
+            startTime: 0,
+            endTime: new Date(value.toDate()).getTime(),
             isNext: false,
           })
         )
