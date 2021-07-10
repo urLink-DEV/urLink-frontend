@@ -29,7 +29,7 @@ export const useStyles = makeStyles((theme) => ({
     width: 100,
 
     '& > .MuiSelect-select.MuiSelect-select': {
-      padding: '0 10px 0 10px',
+      paddingLeft: '10px',
     },
 
     '& > .MuiInputBase-input': {

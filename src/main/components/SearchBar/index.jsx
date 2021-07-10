@@ -52,6 +52,7 @@ function SearchBar({
       {selectedName === 'date' ? (
         <DatePicker
           className={classes.datePicker}
+          disableFuture={true}
           disableToolbar
           format="yyyy-MM-DD"
           variant="inline"
