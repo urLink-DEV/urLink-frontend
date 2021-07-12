@@ -64,10 +64,7 @@ function CategoryButtonGroup() {
   )
 
   const handleChangeNewCategoryTitle = useCallback((e) => {
-    const checks = /[a-zA-Z]/
-    if (checks.test(e.target.value)) {
-      if (e.target.value.length >= 14) return
-    } else if (e.target.value.length >= 7) return
+    if (e.target.value.length > 18) return
     setCategoryName(e.target.value)
   }, [])
 
