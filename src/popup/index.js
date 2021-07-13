@@ -93,7 +93,6 @@ const EventListener = {
     categoryCreateInputWrapperElement.classList.remove('hide')
     EventSetting.categoryCreateOkEventSetting()
     EventSetting.categoryCreateCancelEventSetting()
-    EventSetting.enterCategoryNameInputEventSetting()
   },
 
   categoryCreateCancelEventListener(e) {
@@ -104,11 +103,6 @@ const EventListener = {
     categoryCreateInputWrapperElement.classList.add('hide')
     const enterCategoryNameInputElement = document.getElementById('enterCategoryNameInput')
     enterCategoryNameInputElement.value = ''
-  },
-
-  enterCategoryNameInputEventListener(e) {
-    // 버그 해결 필요
-    if (e.currentTarget.value.length > 18) return
   },
 
   async categoryCreateOkEventListener(e) {
@@ -172,12 +166,6 @@ const EventSetting = {
     categoryCreateOkButtonElement.addEventListener('click', EventListener.categoryCreateOkEventListener, false)
   },
 
-  enterCategoryNameInputEventSetting() {
-    const enterCategoryNameInputElement = document.getElementById('enterCategoryNameInput')
-    enterCategoryNameInputElement.removeEventListener('change', EventListener.enterCategoryNameInputEventListener)
-    enterCategoryNameInputElement.addEventListener('change', EventListener.enterCategoryNameInputEventListener, false)
-  },
-
   linkSaveEventSetting() {
     const linkSaveElement = document.getElementById('linkSave')
     linkSaveElement.removeEventListener('click', EventListener.linkSaveEventListener)
@@ -196,7 +184,7 @@ const Template = {
   categoryCreateInputWrapper() {
     return `
       <div id="categoryCreateInputWrapper" class="category-create-input-wrapper hide">
-        <input id="enterCategoryNameInput" class="enter-category-name-input" type="text" value="" placeholder="New Category" />
+        <input id="enterCategoryNameInput" class="enter-category-name-input" type="text" value="" maxlength='18' placeholder="New Category" />
         <div class="category-btn-group">
           <button id="categoryCreateOkBtn" class="create-ok-btn" type="button">확인</button>
           <button id="categoryCreateCancelBtn" class="create-cancel-btn" type="button">취소</button>
