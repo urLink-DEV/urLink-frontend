@@ -3,8 +3,9 @@ import '@assets/css/popup.css'
 import loginImg from '@assets/images/group-25.svg'
 import emptyImg from '@assets/images/group-26.svg'
 import starImg from '@assets/images/group-27.svg'
+import plusImg from '@assets/images/plus.png'
 import checkImg from '@assets/images/white.svg'
-import { requestCategoriesRead } from '@modules/category/api'
+import { requestCategoryCreate, requestCategoriesRead } from '@modules/category/api'
 import { requestLinkCreate } from '@modules/link/api'
 import { getTabsQuery } from '@utils/chromeApis/tab'
 import { getAccessToken } from '@utils/http/auth'
@@ -23,12 +24,20 @@ const APILoad = {
     const categoryListElement = document.getElementById('categoryList')
     try {
       const { data } = await requestCategoriesRead()
+      const categoryCreateButtonElement = Template.categoryCreateButton()
+      const categoryCreateInputWrapperElement = Template.categoryCreateInputWrapper()
+
       if (data?.length) {
-        categoryListElement.innerHTML = data.map((item) => Template.categoryItem(item)).join('')
+        categoryListElement.innerHTML =
+          categoryCreateButtonElement +
+          categoryCreateInputWrapperElement +
+          data.map((item) => Template.categoryItem(item)).join('')
         data.map((item) => EventSetting.categoryEventSetting(item))
       } else {
-        categoryListElement.innerHTML = Template.categoryEmpty()
+        categoryListElement.innerHTML =
+          categoryCreateButtonElement + categoryCreateInputWrapperElement + Template.categoryEmpty()
       }
+      EventSetting.categoryCreateButtonEventSetting()
     } catch (error) {
       console.error(error)
     }
@@ -50,6 +59,19 @@ const APILoad = {
       }
     }
   },
+
+  async categoryCreate(name) {
+    try {
+      const { data } = await requestCategoryCreate({ name, is_favorited: false })
+      await requestCategoriesRead()
+      return data
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        popupMessage({ message: error.response.data.message })
+      }
+      return false
+    }
+  },
 }
 
 const EventListener = {
@@ -61,6 +83,51 @@ const EventListener = {
     currentCategoryElement.classList.add('check')
     if (!linkSaveElement.classList.contains('active')) linkSaveElement.classList.add('active')
     linkSaveElement.dataset.categoryId = data.id
+  },
+
+  categoryCreateButtonEventListener(e) {
+    e.preventDefault()
+    const currentCategoryCreateButtonElement = e.currentTarget
+    const categoryCreateInputWrapperElement = document.getElementById('categoryCreateInputWrapper')
+    currentCategoryCreateButtonElement.classList.add('hide')
+    categoryCreateInputWrapperElement.classList.remove('hide')
+    EventSetting.categoryCreateOkEventSetting()
+    EventSetting.categoryCreateCancelEventSetting()
+    EventSetting.enterCategoryNameInputEventSetting()
+  },
+
+  categoryCreateCancelEventListener(e) {
+    e.preventDefault()
+    const categoryCreateButtonElement = document.getElementById('categoryCreateButton')
+    const categoryCreateInputWrapperElement = document.getElementById('categoryCreateInputWrapper')
+    categoryCreateButtonElement.classList.remove('hide')
+    categoryCreateInputWrapperElement.classList.add('hide')
+    const enterCategoryNameInputElement = document.getElementById('enterCategoryNameInput')
+    enterCategoryNameInputElement.value = ''
+  },
+
+  enterCategoryNameInputEventListener(e) {
+    // 버그 해결 필요
+    if (e.currentTarget.value.length > 18) return
+  },
+
+  async categoryCreateOkEventListener(e) {
+    try {
+      e.preventDefault()
+      const categoryCreateButtonElement = document.getElementById('categoryCreateButton')
+      const categoryCreateInputWrapperElement = document.getElementById('categoryCreateInputWrapper')
+      const enterCategoryNameInputElement = document.getElementById('enterCategoryNameInput')
+      const categoryName = enterCategoryNameInputElement.value
+      const response = await APILoad.categoryCreate(categoryName)
+      if (response?.name) {
+        categoryCreateButtonElement.classList.remove('hide')
+        categoryCreateInputWrapperElement.classList.add('hide')
+        APILoad.categoryListAppend()
+        popupMessage({ message: '카테고리가 생성 되었습니다.' })
+      }
+    } catch (error) {
+      popupMessage({ message: error.message })
+    }
   },
 
   async linkSaveEventListener(e) {
@@ -87,6 +154,30 @@ const EventSetting = {
     categoryCardElement.addEventListener('click', EventListener.categoryEventListener.bind(null, data), false)
   },
 
+  categoryCreateButtonEventSetting() {
+    const categoryCreateButtonElement = document.getElementById('categoryCreateButton')
+    categoryCreateButtonElement.removeEventListener('click', EventListener.categoryCreateButtonEventListener)
+    categoryCreateButtonElement.addEventListener('click', EventListener.categoryCreateButtonEventListener, false)
+  },
+
+  categoryCreateCancelEventSetting() {
+    const categoryCreateCancelButtonElement = document.getElementById('categoryCreateCancelBtn')
+    categoryCreateCancelButtonElement.removeEventListener('click', EventListener.categoryCreateCancelEventListener)
+    categoryCreateCancelButtonElement.addEventListener('click', EventListener.categoryCreateCancelEventListener, false)
+  },
+
+  categoryCreateOkEventSetting() {
+    const categoryCreateOkButtonElement = document.getElementById('categoryCreateOkBtn')
+    categoryCreateOkButtonElement.removeEventListener('click', EventListener.categoryCreateOkEventListener)
+    categoryCreateOkButtonElement.addEventListener('click', EventListener.categoryCreateOkEventListener, false)
+  },
+
+  enterCategoryNameInputEventSetting() {
+    const enterCategoryNameInputElement = document.getElementById('enterCategoryNameInput')
+    enterCategoryNameInputElement.removeEventListener('change', EventListener.enterCategoryNameInputEventListener)
+    enterCategoryNameInputElement.addEventListener('change', EventListener.enterCategoryNameInputEventListener, false)
+  },
+
   linkSaveEventSetting() {
     const linkSaveElement = document.getElementById('linkSave')
     linkSaveElement.removeEventListener('click', EventListener.linkSaveEventListener)
@@ -95,6 +186,25 @@ const EventSetting = {
 }
 
 const Template = {
+  categoryCreateButton() {
+    return `
+    <button type="button" id="categoryCreateButton" class="category-create-btn">
+      <img class="category-plus" src="${plusImg}">
+    </button>
+    `
+  },
+  categoryCreateInputWrapper() {
+    return `
+      <div id="categoryCreateInputWrapper" class="category-create-input-wrapper hide">
+        <input id="enterCategoryNameInput" class="enter-category-name-input" type="text" value="" placeholder="New Category" />
+        <div class="category-btn-group">
+          <button id="categoryCreateOkBtn" class="create-ok-btn" type="button">확인</button>
+          <button id="categoryCreateCancelBtn" class="create-cancel-btn" type="button">취소</button>
+        </div>
+      </div>
+    `
+  },
+
   categoryItem(data) {
     return `
       <div 
