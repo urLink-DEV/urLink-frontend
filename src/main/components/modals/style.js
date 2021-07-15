@@ -1,5 +1,5 @@
 import { Dialog, DialogActions, DialogContent, DialogContentText } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/styles'
 
 export const StyledDialog = withStyles((theme) => ({
   paperWidthSm: {

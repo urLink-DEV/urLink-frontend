@@ -1,5 +1,5 @@
 import { Fab } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/styles'
 
 export const StyledFab = withStyles((theme) => ({
   root: {

@@ -1,5 +1,5 @@
 import { ListItem } from '@material-ui/core'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import { makeStyles, withStyles } from '@material-ui/styles'
 
 const useStyles = makeStyles((theme) => ({
   appBar: {

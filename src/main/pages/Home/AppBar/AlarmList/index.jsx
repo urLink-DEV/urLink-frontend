@@ -77,7 +77,7 @@ function AlarmList() {
               <ListItem key={data.id} button className={classes.listItem} onClick={handleClickAlarm(data)}>
                 <ListItemAvatar className={classes.avatar}>
                   <Badge
-                    overlap="circle"
+                    overlap="circular"
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                     badgeContent={
                       <SmallAvatar
