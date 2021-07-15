@@ -1,9 +1,12 @@
 import React from 'react'
 
-import MomentUtils from '@date-io/moment'
+// import MomentUtils from '@date-io/moment'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { MuiThemeProvider, StylesProvider } from '@material-ui/core/styles'
-import { MuiPickersUtilsProvider } from '@material-ui/pickers'
+// import { MuiPickersUtilsProvider } from '@material-ui/pickers'
+import { StyledEngineProvider } from '@material-ui/core/styles'
+import AdapterMoment from '@material-ui/lab/AdapterMoment'
+import LocalizationProvider from '@material-ui/lab/LocalizationProvider'
+import ThemeProvider from '@material-ui/styles/ThemeProvider'
 import { createBrowserHistory } from 'history'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
@@ -32,14 +35,14 @@ sagaMiddleware.run(rootSaga)
 ReactDOM.render(
   <Router history={browserHistory}>
     <Provider store={store}>
-      <StylesProvider injectFirst>
-        <MuiThemeProvider theme={theme}>
-          <MuiPickersUtilsProvider utils={MomentUtils}>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <LocalizationProvider dateAdapter={AdapterMoment}>
             <CssBaseline />
             <App />
-          </MuiPickersUtilsProvider>
-        </MuiThemeProvider>
-      </StylesProvider>
+          </LocalizationProvider>
+        </ThemeProvider>
+      </StyledEngineProvider>
     </Provider>
   </Router>,
   document.getElementById('root')

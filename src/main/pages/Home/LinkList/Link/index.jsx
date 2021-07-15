@@ -13,7 +13,8 @@ import AddAlertIcon from '@material-ui/icons/AddAlert'
 import CreateIcon from '@material-ui/icons/Create'
 import DoneIcon from '@material-ui/icons/Done'
 import FavoriteIcon from '@material-ui/icons/Favorite'
-import { KeyboardDateTimePicker } from '@material-ui/pickers'
+import MobileDateTimePicker from '@material-ui/lab/MobileDateTimePicker'
+// import { KeyboardDateTimePicker } from '@material-ui/pickers'
 import clsx from 'clsx'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
@@ -213,7 +214,7 @@ function Link({ data }) {
         <IconButton aria-label="복사 하기" onClick={handleCopy}>
           <img className={classes.copyIcon} src={copyIconImg} alt="복사 하기" />
         </IconButton>
-        <KeyboardDateTimePicker
+        {/* <KeyboardDateTimePicker
           onChange={handleSetAlarm}
           InputProps={{
             disableUnderline: true,
@@ -232,7 +233,20 @@ function Link({ data }) {
           KeyboardButtonProps={{
             'aria-label': '알람 설정 하기',
           }}
-        />
+        /> */}
+
+        {/* <MobileDateTimePicker
+          value={value}
+          onChange={(newValue) => {
+            setValue(newValue)
+          }}
+          label="With error handler"
+          onError={console.log}
+          minDate={new Date('2018-01-01T00:00')}
+          inputFormat="yyyy/MM/dd hh:mm a"
+          mask="___/__/__ __:__ _M"
+          renderInput={(params) => <TextField {...params} />}
+        /> */}
         {isEditable ? (
           <IconButton className={classes.editIcon} aria-label="제목 및 내용 수정 하기" onClick={handleEditDone}>
             <DoneIcon fontSize="small" />
