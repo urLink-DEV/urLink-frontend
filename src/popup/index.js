@@ -93,6 +93,7 @@ const EventListener = {
     categoryCreateInputWrapperElement.classList.remove('hide')
     EventSetting.categoryCreateOkEventSetting()
     EventSetting.categoryCreateCancelEventSetting()
+    EventSetting.categoryCreateEnterEventSetting()
   },
 
   categoryCreateCancelEventListener(e) {
@@ -118,6 +119,26 @@ const EventListener = {
         categoryCreateInputWrapperElement.classList.add('hide')
         APILoad.categoryListAppend()
         popupMessage({ message: '카테고리가 생성 되었습니다.' })
+      }
+    } catch (error) {
+      popupMessage({ message: error.message })
+    }
+  },
+
+  async categoryCreateEnterEventListener(e) {
+    try {
+      if (e.key === 'Enter') {
+        const categoryCreateButtonElement = document.getElementById('categoryCreateButton')
+        const categoryCreateInputWrapperElement = document.getElementById('categoryCreateInputWrapper')
+        const enterCategoryNameInputElement = document.getElementById('enterCategoryNameInput')
+        const categoryName = enterCategoryNameInputElement.value
+        const response = await APILoad.categoryCreate(categoryName)
+        if (response?.name) {
+          categoryCreateButtonElement.classList.remove('hide')
+          categoryCreateInputWrapperElement.classList.add('hide')
+          APILoad.categoryListAppend()
+          popupMessage({ message: '카테고리가 생성 되었습니다.' })
+        }
       }
     } catch (error) {
       popupMessage({ message: error.message })
@@ -164,6 +185,12 @@ const EventSetting = {
     const categoryCreateOkButtonElement = document.getElementById('categoryCreateOkBtn')
     categoryCreateOkButtonElement.removeEventListener('click', EventListener.categoryCreateOkEventListener)
     categoryCreateOkButtonElement.addEventListener('click', EventListener.categoryCreateOkEventListener, false)
+  },
+
+  categoryCreateEnterEventSetting() {
+    const categoryCreateInputElement = document.getElementById('enterCategoryNameInput')
+    categoryCreateInputElement.removeEventListener('keyup', EventListener.categoryCreateEnterEventListener)
+    categoryCreateInputElement.addEventListener('keyup', EventListener.categoryCreateEnterEventListener, false)
   },
 
   linkSaveEventSetting() {
