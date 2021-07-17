@@ -8,13 +8,13 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import IconButton from '@material-ui/core/IconButton'
 import InputBase from '@material-ui/core/InputBase'
+import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import AddAlertIcon from '@material-ui/icons/AddAlert'
 import CreateIcon from '@material-ui/icons/Create'
 import DoneIcon from '@material-ui/icons/Done'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import MobileDateTimePicker from '@material-ui/lab/MobileDateTimePicker'
-// import { KeyboardDateTimePicker } from '@material-ui/pickers'
 import clsx from 'clsx'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
@@ -224,39 +224,37 @@ function Link({ data }) {
         <IconButton aria-label="복사 하기" onClick={handleCopy}>
           <img className={classes.copyIcon} src={copyIconImg} alt="복사 하기" />
         </IconButton>
-        {/* <KeyboardDateTimePicker
+        <MobileDateTimePicker
           onChange={handleSetAlarm}
-          InputProps={{
-            disableUnderline: true,
-            className: classes.keyboardDatetimePicker,
-          }}
-          initialFocusedDate={Date.now()}
           disablePast={true}
-          keyboardIcon={
-            <AddAlertIcon
-              fontSize="small"
-              className={clsx({
-                [classes.alarmIconActive]: data.has_alarms,
-              })}
-            />
-          }
-          KeyboardButtonProps={{
-            'aria-label': '알람 설정 하기',
-          }}
-        /> */}
-
-        {/* <MobileDateTimePicker
-          value={value}
-          onChange={(newValue) => {
-            setValue(newValue)
-          }}
-          label="With error handler"
           onError={console.log}
-          minDate={new Date('2018-01-01T00:00')}
+          minDate={new Date()}
           inputFormat="yyyy/MM/dd hh:mm a"
           mask="___/__/__ __:__ _M"
-          renderInput={(params) => <TextField {...params} />}
-        /> */}
+          renderInput={({ inputRef, inputProps, InputProps }) => {
+            console.log({ inputRef, inputProps, InputProps })
+            return (
+              <div>
+                {
+                  // MobileDateTimePicker의 Input은 모달 안의 Input과 연결되어있다.
+                  // inputProps.onClick으로 구분가능
+                  inputProps.onClick ? (
+                    <IconButton onClick={inputProps.onClick}>
+                      <AddAlertIcon
+                        fontSize="small"
+                        className={clsx({
+                          [classes.alarmIconActive]: data.has_alarms,
+                        })}
+                      />
+                    </IconButton>
+                  ) : (
+                    <TextField {...inputProps} />
+                  )
+                }
+              </div>
+            )
+          }}
+        />
         {isEditable ? (
           <IconButton className={classes.editIcon} aria-label="제목 및 내용 수정 하기" onClick={handleEditDone}>
             <DoneIcon fontSize="small" />
