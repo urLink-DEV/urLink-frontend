@@ -49,14 +49,6 @@ const useStyles = makeStyles({
   editIcon: {
     marginLeft: 'auto',
   },
-  keyboardDatetimePicker: {
-    '& > .MuiInputBase-inputAdornedEnd': {
-      display: 'none',
-    },
-    '& > .MuiInputAdornment-positionEnd': {
-      marginLeft: 0,
-    },
-  },
   alarmIconActive: {
     color: '#fdd835',
   },
