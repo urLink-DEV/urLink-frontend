@@ -2,7 +2,7 @@ import React from 'react'
 
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
-import Skeleton from '@material-ui/lab/Skeleton'
+import Skeleton from '@material-ui/core/Skeleton'
 
 import useStyles from './style'
 
