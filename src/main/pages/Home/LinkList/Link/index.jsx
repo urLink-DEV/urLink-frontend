@@ -220,15 +220,13 @@ function Link({ data }) {
           label="알람 시간 설정하기"
           value={dateVal}
           onChange={(value) => {
-            console.log('handleChange', value)
-            setDateVal(dateVal)
+            setDateVal(new Date(value))
           }}
           onAccept={handleSetAlarm}
           disablePast={true}
           minDate={new Date()}
           ampm={false}
           inputFormat="yyyy/MM/DD hh:mm a"
-          mask="____/__/__ __:__ _m"
           renderInput={(props) => {
             return (
               <div>
