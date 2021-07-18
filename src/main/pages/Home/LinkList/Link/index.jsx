@@ -51,6 +51,7 @@ function Link({ data }) {
 
   const rootRef = useRef(null)
   const [showNewTabIcon, setShowNewTabIcon] = useState(false)
+  const [dateVal, setDateVal] = useState(new Date())
   const [isEditable, setIsEditable] = useState(false)
   const isSelected = useMemo(() => {
     return selectedLinkList?.find((selectData) => selectData.id === data.id)
@@ -118,6 +119,7 @@ function Link({ data }) {
 
   const handleSetAlarm = useCallback(
     async (date) => {
+      console.log('onAccept?', date)
       try {
         await dispatch(
           alarmCreateThunk({
@@ -215,30 +217,38 @@ function Link({ data }) {
           <img className={classes.copyIcon} src={copyIconImg} alt="복사 하기" />
         </IconButton>
         <MobileDateTimePicker
-          onChange={handleSetAlarm}
+          label="알람 시간 설정하기"
+          value={dateVal}
+          onChange={(value) => {
+            console.log('handleChange', value)
+            setDateVal(dateVal)
+          }}
+          onAccept={handleSetAlarm}
           disablePast={true}
-          onError={console.log}
           minDate={new Date()}
-          inputFormat="yyyy/MM/dd hh:mm a"
-          mask="___/__/__ __:__ _M"
-          renderInput={({ inputRef, inputProps, InputProps }) => {
-            console.log({ inputRef, inputProps, InputProps })
+          ampm={false}
+          inputFormat="yyyy/MM/DD hh:mm a"
+          mask="____/__/__ __:__ _m"
+          renderInput={(props) => {
             return (
               <div>
                 {
                   // MobileDateTimePicker의 Input은 모달 안의 Input과 연결되어있다.
                   // inputProps.onClick으로 구분가능
-                  inputProps.onClick ? (
-                    <IconButton onClick={inputProps.onClick}>
-                      <AddAlertIcon
-                        fontSize="small"
-                        className={clsx({
-                          [classes.alarmIconActive]: data.has_alarms,
-                        })}
-                      />
-                    </IconButton>
+                  props.inputProps.onClick ? (
+                    <div>
+                      <TextField className={classes.dateTimePicker} {...props} />
+                      <IconButton onClick={props.inputProps.onClick}>
+                        <AddAlertIcon
+                          fontSize="small"
+                          className={clsx({
+                            [classes.alarmIconActive]: data.has_alarms,
+                          })}
+                        />
+                      </IconButton>
+                    </div>
                   ) : (
-                    <TextField {...inputProps} />
+                    <TextField {...props} />
                   )
                 }
               </div>

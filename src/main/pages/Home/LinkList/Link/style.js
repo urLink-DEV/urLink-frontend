@@ -52,6 +52,9 @@ const useStyles = makeStyles({
   alarmIconActive: {
     color: '#fdd835',
   },
+  dateTimePicker: {
+    display: 'none',
+  },
 })
 
 export default useStyles
