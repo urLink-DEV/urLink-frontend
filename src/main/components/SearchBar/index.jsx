@@ -8,12 +8,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import SearchIcon from '@material-ui/icons/Search'
 import { DatePicker } from '@material-ui/pickers'
-import moment from 'moment'
 
 import useStyles from './style'
-import 'moment/locale/ko'
-
-moment.locale('ko')
 
 function SearchBar({
   inputProps,
@@ -35,10 +31,7 @@ function SearchBar({
             vertical: 'bottom',
             horizontal: 'left',
           },
-          getContentAnchorEl: null,
         }}
-        labelId="demo-customized-select-label"
-        id="demo-customized-select"
         value={selectedName}
         onChange={onSelectName}
       >

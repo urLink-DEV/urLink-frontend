@@ -29,7 +29,7 @@ const listSearchFilter = [
 
 function DragableHistoryList() {
   const classes = useStyles()
-  const { filter, listData, reload, search, next } = useHistoryLinks()
+  const { filter, listData, reload, dateSearch, keywordSearch, next } = useHistoryLinks()
   const { setDragData } = useDrag(LINK)
   const { open, toggle, close } = useDropZone(LINK_DROP_ZONE)
 
@@ -37,7 +37,8 @@ function DragableHistoryList() {
   const [buttonOpen, setButtonOpen] = useState(null)
 
   const [selectedName, setSelectedName] = useState(listSearchFilter[0].search)
-  const [input, setInput] = useState(null)
+  const [keyword, setKeyword] = useState(null)
+  const [dateKeyword, setDateKeyword] = useState(null)
 
   const historyRootRef = useRef(null)
   const historyContentRef = useRef(null)
@@ -100,38 +101,38 @@ function DragableHistoryList() {
       const { value } = currentTarget
       if (key === 'Enter') {
         historyContentRef.current.scrollTop = 0
-        search(selectedName, value)
+        if (selectedName === 'date') {
+          dateSearch(value)
+        } else {
+          keywordSearch(value)
+        }
       }
     },
-    [search, selectedName]
+    [dateSearch, keywordSearch, selectedName]
   )
 
-  const handleClickLinkSearch = useCallback(
-    (date) => {
-      historyContentRef.current.scrollTop = 0
-      if (date) {
-        search(selectedName, date)
-      } else {
-        search(selectedName, input)
-      }
-    },
-    [input, search, selectedName]
-  )
+  const handleClickLinkSearch = useCallback(() => {
+    historyContentRef.current.scrollTop = 0
+    if (selectedName === 'date') {
+      dateSearch(dateKeyword)
+    } else {
+      keywordSearch(keyword)
+    }
+  }, [keyword, dateKeyword, dateSearch, keywordSearch, selectedName])
 
-  const handleSelectName = (e) => {
+  const handleSelectName = useCallback((e) => {
     setSelectedName(e.target.value)
-  }
+  }, [])
 
   // title, url
-  const handleChangeInput = (e) => {
-    setInput(e.target.value)
-  }
+  const handleChangeInput = useCallback((e) => {
+    setKeyword(e.target.value)
+  }, [])
 
   // date
-  const handleChangeDate = (date) => {
-    setInput(date)
-    handleClickLinkSearch(date)
-  }
+  const handleChangeDate = useCallback((date) => {
+    setDateKeyword(date)
+  }, [])
 
   const handleOpenNewTab = useCallback(() => {
     createTabList(selectedList.reduce((list, link) => list.concat(link.path), []))
@@ -141,9 +142,9 @@ function DragableHistoryList() {
     return debounce(() => {
       historyContentRef.current.scrollTop = 0
       setSelectedList([])
-      reload(selectedName)
+      reload()
     }, 400)
-  }, [reload, selectedName])
+  }, [reload])
 
   useEffect(() => {
     if (!open && selectedList.length) toggle()
@@ -176,7 +177,7 @@ function DragableHistoryList() {
           selectedName={selectedName}
           onClickSearch={handleClickLinkSearch}
           onChangeDate={handleChangeDate}
-          selectedDate={input}
+          selectedDate={dateKeyword}
         />
       </div>
       <CardContent ref={historyContentRef} className={classes.content} onScroll={handleHistoryListScroll}>

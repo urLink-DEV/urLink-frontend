@@ -27,26 +27,29 @@ const useHistoryLinks = () => {
     )
   }, [dispatch])
 
-  const search = useCallback(
-    (selectedName, value) => {
-      if (selectedName === 'text')
-        dispatch(
-          setHistoryLinkChangeFilter({
-            text: value,
-            startTime: value ? 0 : new Date(moment().add(-1, 'day')).getTime(),
-            endTime: new Date().getTime(),
-            isNext: false,
-          })
-        )
-      if (selectedName === 'date') {
-        dispatch(
-          setHistoryLinkChangeFilter({
-            startTime: new Date(moment(value).add(-1, 'day')).getTime(),
-            endTime: new Date(value.toDate()).getTime(),
-            isNext: false,
-          })
-        )
-      }
+  const keywordSearch = useCallback(
+    (value) => {
+      dispatch(
+        setHistoryLinkChangeFilter({
+          text: value,
+          startTime: value ? 0 : new Date(moment().add(-1, 'day')).getTime(),
+          endTime: new Date().getTime(),
+          isNext: false,
+        })
+      )
+    },
+    [dispatch]
+  )
+
+  const dateSearch = useCallback(
+    (value) => {
+      dispatch(
+        setHistoryLinkChangeFilter({
+          startTime: new Date(moment(value).add(-1, 'day')).getTime(),
+          endTime: new Date(value).getTime(),
+          isNext: false,
+        })
+      )
     },
     [dispatch]
   )
@@ -71,7 +74,7 @@ const useHistoryLinks = () => {
     }
   }, [filter, dispatch])
 
-  return { pending, error, filter, listData, reload, search, next }
+  return { pending, error, filter, listData, reload, keywordSearch, dateSearch, next }
 }
 
 export default useHistoryLinks
