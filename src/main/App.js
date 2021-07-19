@@ -1,5 +1,6 @@
 import React from 'react'
 
+import moment from 'moment'
 import { Router } from 'react-chrome-extension-router'
 
 import Snackbar from '@main/components/Toast'
@@ -8,6 +9,10 @@ import { useToast } from '@modules/ui'
 import { getAccessToken } from '@utils/http/auth'
 
 import GetStartPage from './pages/Start'
+
+import 'moment/locale/ko'
+
+moment.locale('ko')
 
 function App() {
   return (
