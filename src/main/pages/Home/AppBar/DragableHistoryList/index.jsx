@@ -95,23 +95,13 @@ function DragableHistoryList() {
     [next]
   )
 
-  const handleHistorySearch = useCallback(
-    (e) => {
-      const { key, currentTarget } = e
-      const { value } = currentTarget
-      if (key === 'Enter') {
-        historyContentRef.current.scrollTop = 0
-        if (selectedName === 'date') {
-          dateSearch(value)
-        } else {
-          keywordSearch(value)
-        }
-      }
-    },
-    [dateSearch, keywordSearch, selectedName]
-  )
+  const handleKeyDownHistorySearch = useCallback((e) => {
+    if (e.key === 'Enter') {
+      handleClickHistorySearch()
+    }
+  }, [])
 
-  const handleClickLinkSearch = useCallback(() => {
+  const handleClickHistorySearch = useCallback(() => {
     historyContentRef.current.scrollTop = 0
     if (selectedName === 'date') {
       dateSearch(dateKeyword)
@@ -169,13 +159,13 @@ function DragableHistoryList() {
         </div>
         <SearchBar
           inputProps={{
-            onKeyDown: handleHistorySearch,
+            onKeyDown: handleKeyDownHistorySearch,
             onChange: handleChangeInput,
           }}
           listSearchFilter={listSearchFilter}
           onSelectName={handleSelectName}
           selectedName={selectedName}
-          onClickSearch={handleClickLinkSearch}
+          onClickSearch={handleClickHistorySearch}
           onChangeDate={handleChangeDate}
           selectedDate={dateKeyword}
         />
