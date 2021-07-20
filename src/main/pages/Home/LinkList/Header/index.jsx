@@ -25,26 +25,21 @@ function Header() {
   const { reload } = useLinks({ categoryId: selectedCategory?.id })
 
   const [selectedName, setSelectedName] = useState(listSearchFilter[0].search)
-  const [input, setInput] = useState('')
+  const [keyword, setKeyword] = useState('')
 
   const handleChangeInput = (e) => {
-    setInput(e.target.value)
+    setKeyword(e.target.value)
   }
 
-  const handleKeyDownLinkSearch = useCallback(
-    (e) => {
-      const { key, currentTarget } = e
-      const { value } = currentTarget
-      if (key === 'Enter') {
-        dispatch(linkSearchFilterChangeState({ selectedName, keyword: value }))
-      }
-    },
-    [dispatch, selectedName]
-  )
+  const handleKeyDownLinkSearch = useCallback((e) => {
+    if (e.key === 'Enter') {
+      handleClickLinkSearch()
+    }
+  }, [])
 
   const handleClickLinkSearch = useCallback(() => {
-    dispatch(linkSearchFilterChangeState({ selectedName, keyword: input }))
-  }, [dispatch, input, selectedName])
+    dispatch(linkSearchFilterChangeState({ selectedName, keyword }))
+  }, [dispatch, keyword, selectedName])
 
   const handleSelectName = (e) => {
     setSelectedName(e.target.value)
@@ -59,7 +54,7 @@ function Header() {
   return (
     <Toolbar className={classes.toolbar}>
       <EditableCategoryTitle />
-      <TabButtonGroup />
+      <TabButtonGroup />
       <IconButton onClick={handleReload}>
         <RefreshIcon />
       </IconButton>
