@@ -5,6 +5,7 @@ import { Refresh as RefreshIcon } from '@material-ui/icons'
 import clsx from 'clsx'
 import { debounce } from 'lodash'
 
+import { useDebounce } from '@/hooks/useDebounce'
 import linkListSearchEmptyImg from '@assets/images/group-17.png'
 import linkListEmptyImg from '@assets/images/group-19.png'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
@@ -39,10 +40,13 @@ function DragableHistoryList() {
   const [selectedName, setSelectedName] = useState(listSearchFilter[0].search)
   const [keyword, setKeyword] = useState(null)
   const [dateKeyword, setDateKeyword] = useState(null)
+  const [isSearch, setIsSearch] = useState(false)
 
   const historyRootRef = useRef(null)
   const historyContentRef = useRef(null)
   const dragBoxRef = useRef(null)
+
+  const debouncedKeyword = useDebounce(keyword, 250)
 
   useOutsideAlerter(
     historyRootRef,
@@ -95,32 +99,39 @@ function DragableHistoryList() {
     [next]
   )
 
-  const handleKeyDownHistorySearch = useCallback((e) => {
-    if (e.key === 'Enter') {
-      handleClickHistorySearch()
-    }
-  }, [])
+  // const handleKeyDownHistorySearch = useCallback(
+  //   (e) => {
+  //     if (e.key === 'Enter') {
+  //       handleClickHistorySearch()
+  //     }
+  //   },
+  //   [keyword, dateKeyword, dateSearch, keywordSearch, selectedName]
+  // )
 
-  const handleClickHistorySearch = useCallback(() => {
-    historyContentRef.current.scrollTop = 0
-    if (selectedName === 'date') {
-      dateSearch(dateKeyword)
-    } else {
-      keywordSearch(keyword)
-    }
-  }, [keyword, dateKeyword, dateSearch, keywordSearch, selectedName])
+  // const handleClickHistorySearch = useCallback(() => {
+  //   console.log('search!')
+  //   historyContentRef.current.scrollTop = 0
+  //   if (selectedName === 'date') {
+  //     dateSearch(dateKeyword)
+  //   } else {
+  //     keywordSearch(keyword)
+  //   }
+  // }, [keyword, dateKeyword, dateSearch, keywordSearch, selectedName])
 
   const handleSelectName = useCallback((e) => {
     setSelectedName(e.target.value)
+    handleReload()
   }, [])
 
   // title, url
   const handleChangeInput = useCallback((e) => {
+    setIsSearch(true)
     setKeyword(e.target.value)
   }, [])
 
   // date
   const handleChangeDate = useCallback((date) => {
+    setIsSearch(true)
     setDateKeyword(date)
   }, [])
 
@@ -132,6 +143,9 @@ function DragableHistoryList() {
     return debounce(() => {
       historyContentRef.current.scrollTop = 0
       setSelectedList([])
+      setKeyword(null)
+      setDateKeyword(null)
+      setIsSearch(false)
       reload()
     }, 400)
   }, [reload])
@@ -140,6 +154,16 @@ function DragableHistoryList() {
     if (!open && selectedList.length) toggle()
     else if (open && !selectedList.length) close()
   }, [selectedList, toggle, close, open])
+
+  useEffect(() => {
+    if (isSearch) {
+      if (selectedName === 'text') {
+        keywordSearch(debouncedKeyword)
+      } else {
+        dateSearch(dateKeyword)
+      }
+    }
+  }, [selectedName, keywordSearch, dateSearch, dateKeyword, debouncedKeyword])
 
   return (
     <Card ref={historyRootRef} className={classes.root}>
@@ -159,13 +183,13 @@ function DragableHistoryList() {
         </div>
         <SearchBar
           inputProps={{
-            onKeyDown: handleKeyDownHistorySearch,
+            // onKeyDown: handleKeyDownHistorySearch,
             onChange: handleChangeInput,
           }}
           listSearchFilter={listSearchFilter}
           onSelectName={handleSelectName}
           selectedName={selectedName}
-          onClickSearch={handleClickHistorySearch}
+          // onClickSearch={handleClickHistorySearch}
           onChangeDate={handleChangeDate}
           selectedDate={dateKeyword}
         />
