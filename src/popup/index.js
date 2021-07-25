@@ -63,7 +63,7 @@ const APILoad = {
   async categoryCreate(name) {
     try {
       const { data } = await requestCategoryCreate({ name, is_favorited: false })
-      await requestCategoriesRead()
+      // await requestCategoriesRead()
       return data
     } catch (error) {
       if (error?.response?.data?.message) {
@@ -113,11 +113,11 @@ const EventListener = {
       const categoryCreateInputWrapperElement = document.getElementById('categoryCreateInputWrapper')
       const enterCategoryNameInputElement = document.getElementById('enterCategoryNameInput')
       const categoryName = enterCategoryNameInputElement.value
-      const response = await APILoad.categoryCreate(categoryName)
-      if (response?.name) {
+      const { name } = await APILoad.categoryCreate(categoryName)
+      if (name) {
         categoryCreateButtonElement.classList.remove('hide')
         categoryCreateInputWrapperElement.classList.add('hide')
-        APILoad.categoryListAppend()
+        await APILoad.categoryListAppend()
         popupMessage({ message: '카테고리가 생성 되었습니다.' })
       }
     } catch (error) {
@@ -127,16 +127,17 @@ const EventListener = {
 
   async categoryCreateEnterEventListener(e) {
     try {
+      e.preventDefault()
       if (e.key === 'Enter') {
         const categoryCreateButtonElement = document.getElementById('categoryCreateButton')
         const categoryCreateInputWrapperElement = document.getElementById('categoryCreateInputWrapper')
         const enterCategoryNameInputElement = document.getElementById('enterCategoryNameInput')
         const categoryName = enterCategoryNameInputElement.value
-        const response = await APILoad.categoryCreate(categoryName)
-        if (response?.name) {
+        const { name } = await APILoad.categoryCreate(categoryName)
+        if (name) {
           categoryCreateButtonElement.classList.remove('hide')
           categoryCreateInputWrapperElement.classList.add('hide')
-          APILoad.categoryListAppend()
+          await APILoad.categoryListAppend()
           popupMessage({ message: '카테고리가 생성 되었습니다.' })
         }
       }
@@ -208,6 +209,7 @@ const Template = {
     </button>
     `
   },
+
   categoryCreateInputWrapper() {
     return `
       <div id="categoryCreateInputWrapper" class="category-create-input-wrapper hide">
