@@ -28,6 +28,7 @@ function Header() {
   const [selectedName, setSelectedName] = useState(listSearchFilter[0].search)
   const [keyword, setKeyword] = useState(null)
   const [isSearch, setIsSearch] = useState(false)
+  const [searchBarKey, setSearchBarKey] = useState(0)
 
   const debouncedKeyword = useDebounce(keyword, 250)
 
@@ -35,6 +36,15 @@ function Header() {
     setIsSearch(true)
     setKeyword(e.target.value)
   }, [])
+
+  const handleResetInput = useCallback(
+    (e) => {
+      setSearchBarKey(searchBarKey + 1)
+      setIsSearch(false)
+      setKeyword('')
+    },
+    [searchBarKey]
+  )
 
   // const handleKeyDownLinkSearch = useCallback(
   //   (e) => {
@@ -49,18 +59,20 @@ function Header() {
   //   dispatch(linkSearchFilterChangeState({ selectedName, keyword }))
   // }, [dispatch, keyword, selectedName])
 
-  const handleSelectName = useCallback((e) => {
-    setSelectedName(e.target.value)
-    handleReload()
-  }, [])
-
   const handleReload = useMemo(() => {
     return debounce(() => {
-      setIsSearch(false)
-      setKeyword(null)
       reload()
     }, 400)
   }, [reload])
+
+  const handleSelectName = useCallback(
+    (e) => {
+      handleResetInput()
+      handleReload()
+      setSelectedName(e.target.value)
+    },
+    [handleResetInput, handleReload, reload, searchBarKey]
+  )
 
   useEffect(() => {
     if (isSearch) {
@@ -77,6 +89,7 @@ function Header() {
         <RefreshIcon />
       </IconButton>
       <SearchBar
+        key={searchBarKey}
         inputProps={{
           // onKeyDown: handleKeyDownLinkSearch,
           onChange: handleChangeInput,
