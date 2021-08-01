@@ -26,6 +26,7 @@ function SearchBar({
     <Container className={classes.searchBar}>
       <Select
         className={classes.inputSelect}
+        disableUnderline={true}
         MenuProps={{
           anchorOrigin: {
             vertical: 'bottom',
