@@ -9,9 +9,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
 
-    width: 'calc(100% - 600px)',
+    width: 'calc(100% - 1012px)',
     height: '100%',
-    paddingLeft: 259,
 
     backgroundColor: 'rgba(53, 142, 255, 0.15)',
     opacity: 1,
