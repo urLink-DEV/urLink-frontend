@@ -12,6 +12,13 @@ import { getAccessToken } from '@utils/http/auth'
 
 window.addEventListener('DOMContentLoaded', () => {
   if (getAccessToken()) {
+    const categoryListElement = document.getElementById('categoryList')
+    const categoryCreateButtonElement = Template.categoryCreateButton()
+    const categoryCreateInputWrapperElement = Template.categoryCreateInputWrapper()
+    const categoryItemListWrapperElement = Template.categoryListWrapper()
+    categoryListElement.innerHTML =
+      categoryCreateButtonElement + categoryCreateInputWrapperElement + categoryItemListWrapperElement
+
     APILoad.categoryListAppend()
     EventSetting.linkSaveEventSetting()
   } else {
@@ -21,55 +28,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
 const APILoad = {
   async categoryListAppend() {
-    const categoryListElement = document.getElementById('categoryList')
+    const categoryItemListWrapperElement = document.getElementById('categoryItemListWrapper')
     try {
       const { data } = await requestCategoriesRead()
-      const categoryCreateButtonElement = Template.categoryCreateButton()
-      const categoryCreateInputWrapperElement = Template.categoryCreateInputWrapper()
-
       if (data?.length) {
-        categoryListElement.innerHTML =
-          categoryCreateButtonElement +
-          categoryCreateInputWrapperElement +
-          data.map((item) => Template.categoryItem(item)).join('')
+        categoryItemListWrapperElement.innerHTML = data.map((item) => Template.categoryItem(item)).join('')
         data.map((item) => EventSetting.categoryEventSetting(item))
       } else {
-        categoryListElement.innerHTML =
-          categoryCreateButtonElement + categoryCreateInputWrapperElement + Template.categoryEmpty()
+        categoryItemListWrapperElement.innerHTML = Template.categoryEmpty()
       }
       EventSetting.categoryCreateButtonEventSetting()
     } catch (error) {
       console.error(error)
-    }
-  },
-
-  async linkWrite(categoryId, path) {
-    const categoryCardElement = document.getElementById(`category${categoryId}`)
-    try {
-      const { data } = await requestLinkCreate({ categoryId, path })
-      if (data?.length) {
-        categoryCardElement.classList.add('upload-finish')
-        popupMessage({ message: '링크가 이동 되었습니다.' })
-      }
-    } catch (error) {
-      categoryCardElement.classList.remove('check')
-      if (error.response?.status === 500) popupMessage({ message: '유효하지 않은 링크 입니다.' })
-      else if (error?.response?.data?.message) {
-        popupMessage({ message: error.response.data.message })
-      }
-    }
-  },
-
-  async categoryCreate(name) {
-    try {
-      const { data } = await requestCategoryCreate({ name, is_favorited: false })
-      // await requestCategoriesRead()
-      return data
-    } catch (error) {
-      if (error?.response?.data?.message) {
-        popupMessage({ message: error.response.data.message })
-      }
-      return false
     }
   },
 }
@@ -113,12 +83,16 @@ const EventListener = {
       const categoryCreateInputWrapperElement = document.getElementById('categoryCreateInputWrapper')
       const enterCategoryNameInputElement = document.getElementById('enterCategoryNameInput')
       const categoryName = enterCategoryNameInputElement.value
-      const { name } = await APILoad.categoryCreate(categoryName)
+      const {
+        data: { name },
+      } = await requestCategoryCreate({ name: categoryName, is_favorited: false })
+      await requestCategoriesRead()
       if (name) {
         categoryCreateButtonElement.classList.remove('hide')
         categoryCreateInputWrapperElement.classList.add('hide')
         await APILoad.categoryListAppend()
         popupMessage({ message: '카테고리가 생성 되었습니다.' })
+        enterCategoryNameInputElement.value = ''
       }
     } catch (error) {
       popupMessage({ message: error.message })
@@ -133,12 +107,16 @@ const EventListener = {
         const categoryCreateInputWrapperElement = document.getElementById('categoryCreateInputWrapper')
         const enterCategoryNameInputElement = document.getElementById('enterCategoryNameInput')
         const categoryName = enterCategoryNameInputElement.value
-        const { name } = await APILoad.categoryCreate(categoryName)
+        const {
+          data: { name },
+        } = await requestCategoryCreate({ name: categoryName, is_favorited: false })
+        await requestCategoriesRead()
         if (name) {
           categoryCreateButtonElement.classList.remove('hide')
           categoryCreateInputWrapperElement.classList.add('hide')
           await APILoad.categoryListAppend()
           popupMessage({ message: '카테고리가 생성 되었습니다.' })
+          enterCategoryNameInputElement.value = ''
         }
       }
     } catch (error) {
@@ -147,18 +125,28 @@ const EventListener = {
   },
 
   async linkSaveEventListener(e) {
+    const linkSaveElement = document.getElementById('linkSave')
+    const categoryId = linkSaveElement.dataset.categoryId
+    const categoryCardElement = document.getElementById(`category${categoryId}`)
     try {
       e.preventDefault()
-      const linkSaveElement = document.getElementById('linkSave')
       if (linkSaveElement.classList.contains('active')) {
-        const categoryId = linkSaveElement.dataset.categoryId
         const tabs = await getTabsQuery()
-        await APILoad.linkWrite(categoryId, [tabs[0].url])
+        const { data } = await requestLinkCreate({ categoryId, path: [tabs[0].url] })
+        if (data?.length) {
+          categoryCardElement.classList.add('upload-finish')
+          popupMessage({ message: '링크가 이동 되었습니다.' })
+        }
         linkSaveElement.classList.toggle('active')
         await APILoad.categoryListAppend()
       }
     } catch (error) {
-      popupMessage({ message: error.message })
+      categoryCardElement.classList.remove('check')
+      if (error.response?.status === 500) {
+        popupMessage({ message: '유효하지 않은 링크 입니다.' })
+      } else {
+        popupMessage({ message: error.message })
+      }
     }
   },
 }
@@ -191,7 +179,7 @@ const EventSetting = {
   categoryCreateEnterEventSetting() {
     const categoryCreateInputElement = document.getElementById('enterCategoryNameInput')
     categoryCreateInputElement.removeEventListener('keyup', EventListener.categoryCreateEnterEventListener)
-    categoryCreateInputElement.addEventListener('keyup', EventListener.categoryCreateEnterEventListener, false)
+    categoryCreateInputElement.addEventListener('keyup', EventListener.categoryCreateEnterEventListener, true)
   },
 
   linkSaveEventSetting() {
@@ -220,6 +208,10 @@ const Template = {
         </div>
       </div>
     `
+  },
+
+  categoryListWrapper() {
+    return `<div id="categoryItemListWrapper"></div>`
   },
 
   categoryItem(data) {
