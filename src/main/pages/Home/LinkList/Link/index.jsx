@@ -109,10 +109,10 @@ function Link({ data }) {
   const handleCopy = useCallback(
     (e) => {
       e.stopPropagation()
-      copyLink(data.url)
+      copyLink(data.path)
       openToast({ type: 'success', message: '링크가 복사 되었습니다.' })
     },
-    [data.url, openToast]
+    [data.path, openToast]
   )
 
   const handleSetAlarm = useCallback(
