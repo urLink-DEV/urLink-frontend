@@ -99,25 +99,6 @@ function DragableHistoryList() {
     [next]
   )
 
-  // const handleKeyDownHistorySearch = useCallback(
-  //   (e) => {
-  //     if (e.key === 'Enter') {
-  //       handleClickHistorySearch()
-  //     }
-  //   },
-  //   [keyword, dateKeyword, dateSearch, keywordSearch, selectedName]
-  // )
-
-  // const handleClickHistorySearch = useCallback(() => {
-  //   console.log('search!')
-  //   historyContentRef.current.scrollTop = 0
-  //   if (selectedName === 'date') {
-  //     dateSearch(dateKeyword)
-  //   } else {
-  //     keywordSearch(keyword)
-  //   }
-  // }, [keyword, dateKeyword, dateSearch, keywordSearch, selectedName])
-
   const handleSelectName = useCallback((e) => {
     setSelectedName(e.target.value)
     handleReload()
@@ -163,7 +144,7 @@ function DragableHistoryList() {
         dateSearch(dateKeyword)
       }
     }
-  }, [selectedName, keywordSearch, dateSearch, dateKeyword, debouncedKeyword])
+  }, [isSearch, selectedName, keywordSearch, dateSearch, dateKeyword, debouncedKeyword])
 
   return (
     <Card ref={historyRootRef} className={classes.root}>
@@ -183,13 +164,11 @@ function DragableHistoryList() {
         </div>
         <SearchBar
           inputProps={{
-            // onKeyDown: handleKeyDownHistorySearch,
             onChange: handleChangeInput,
           }}
           listSearchFilter={listSearchFilter}
           onSelectName={handleSelectName}
           selectedName={selectedName}
-          // onClickSearch={handleClickHistorySearch}
           onChangeDate={handleChangeDate}
           selectedDate={dateKeyword}
         />

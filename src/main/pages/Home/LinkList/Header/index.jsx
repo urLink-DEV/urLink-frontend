@@ -46,19 +46,6 @@ function Header() {
     [searchBarKey]
   )
 
-  // const handleKeyDownLinkSearch = useCallback(
-  //   (e) => {
-  //     if (e.key === 'Enter') {
-  //       handleClickLinkSearch()
-  //     }
-  //   },
-  //   [dispatch, keyword, selectedName]
-  // )
-
-  // const handleClickLinkSearch = useCallback(() => {
-  //   dispatch(linkSearchFilterChangeState({ selectedName, keyword }))
-  // }, [dispatch, keyword, selectedName])
-
   const handleReload = useMemo(() => {
     return debounce(() => {
       reload()
@@ -71,12 +58,11 @@ function Header() {
       handleReload()
       setSelectedName(e.target.value)
     },
-    [handleResetInput, handleReload, reload, searchBarKey]
+    [handleResetInput, handleReload]
   )
 
   useEffect(() => {
     if (isSearch) {
-      console.log(debouncedKeyword)
       dispatch(linkSearchFilterChangeState({ selectedName, keyword: debouncedKeyword }))
     }
   }, [isSearch, dispatch, selectedName, debouncedKeyword])
@@ -91,13 +77,11 @@ function Header() {
       <SearchBar
         key={searchBarKey}
         inputProps={{
-          // onKeyDown: handleKeyDownLinkSearch,
           onChange: handleChangeInput,
         }}
         listSearchFilter={listSearchFilter}
         onSelectName={handleSelectName}
         selectedName={selectedName}
-        // onClickSearch={handleClickLinkSearch}
       />
     </Toolbar>
   )
