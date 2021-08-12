@@ -24,6 +24,8 @@ function SearchBar({
 
   return (
     <Container className={classes.searchBar}>
+      <SearchIcon className={classes.searchIcon} />
+      <Divider className={classes.divider} orientation="vertical" flexItem={true} />
       <Select
         className={classes.inputSelect}
         disableUnderline={true}
@@ -62,9 +64,6 @@ function SearchBar({
           {...inputProps}
         />
       )}
-      <IconButton className={classes.searchIcon} onClick={onClickSearch}>
-        <SearchIcon />
-      </IconButton>
     </Container>
   )
 }

@@ -6,7 +6,7 @@ export const useStyles = makeStyles((theme) => ({
     width: 407,
     padding: 0,
     margin: 'auto 0',
-    borderRadius: theme.shape.borderRadius,
+    borderRadius: 20,
     backgroundColor: 'white',
     border: theme.spacing(0.5, 0),
 
@@ -48,14 +48,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   searchIcon: {
     width: 40,
-    padding: theme.spacing(0.5, 0),
-    color: 'white',
-    background: '#2179FD',
-    borderRadius: '0px 4px 4px 0px',
-
-    '& > .MuiSvgIcon-root': {
-      marginTop: 5,
-    },
+    color: '#CCCCCC',
+    margin: '7px 0 7px 7px',
   },
 }))
 
