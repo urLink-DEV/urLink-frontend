@@ -102,6 +102,7 @@ const EventListener = {
   async categoryCreateEnterEventListener(e) {
     try {
       e.preventDefault()
+      e.stopPropagation()
       if (e.key === 'Enter') {
         const categoryCreateButtonElement = document.getElementById('categoryCreateButton')
         const categoryCreateInputWrapperElement = document.getElementById('categoryCreateInputWrapper')
@@ -179,7 +180,7 @@ const EventSetting = {
   categoryCreateEnterEventSetting() {
     const categoryCreateInputElement = document.getElementById('enterCategoryNameInput')
     categoryCreateInputElement.removeEventListener('keyup', EventListener.categoryCreateEnterEventListener)
-    categoryCreateInputElement.addEventListener('keyup', EventListener.categoryCreateEnterEventListener, true)
+    categoryCreateInputElement.addEventListener('keyup', EventListener.categoryCreateEnterEventListener, false)
   },
 
   linkSaveEventSetting() {
