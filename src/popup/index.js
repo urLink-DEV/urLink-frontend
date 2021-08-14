@@ -90,7 +90,6 @@ const EventListener = {
       const {
         data: { name },
       } = await requestCategoryCreate({ name: categoryName, is_favorited: false })
-      await requestCategoriesRead()
       if (name) {
         categoryCreateButtonElement.classList.remove('hide')
         categoryCreateInputWrapperElement.classList.add('hide')
@@ -117,7 +116,6 @@ const EventListener = {
         const {
           data: { name },
         } = await requestCategoryCreate({ name: categoryName, is_favorited: false })
-        await requestCategoriesRead()
         if (name) {
           await APILoad.categoryListAppend()
           popupMessage({ message: '카테고리가 생성 되었습니다.' })
