@@ -1,33 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UrLink-popup</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UrLink-popup</title>
-</head>
+  <body>
+    <div class="popup-body">
+      <div id="categoryList" class="category"></div>
 
-<body>
-  <div class="popup-body">
-    <div id="categoryList" class="category"></div>
+      <div class="btn-group">
+        <div id="linkSave" class="link-save-btn">
+          <span>링크 저장하기</span>
+        </div>
 
-    <div class="btn-group">
-      <div id="linkSave" class="link-save-btn">
-        <span>링크 저장하기</span>
+        <div class="urlLink-open-btn">
+          <a class="urlLink-open-btn-text" href="%PUBLIC_URL%/index.html" target="blank">유어링크 열기</a>
+        </div>
+
+        <div class="center">
+          <img src="%PUBLIC_URL%/images/logo/group-5.svg" class="logo" />
+        </div>
       </div>
 
-      <div class="urlLink-open-btn">
-        <a class="urlLink-open-btn-text" href="%PUBLIC_URL%/index.html" target="blank">유어링크 열기</a>
-      </div>
-
-      <div class="center">
-        <img src="%PUBLIC_URL%/images/logo/group-5.svg" class="logo">
-      </div>
+      <div class="container"></div>
     </div>
-
-    <div class="container"></div>
-  </div>
-  <div id="categoryPopup" class="category-popup-container" style="display: none;"></div>
-</body>
-
+    <div id="categoryPopup" class="category-popup-container" style="display: none"></div>
+  </body>
 </html>
