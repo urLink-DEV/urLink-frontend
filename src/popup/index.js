@@ -66,6 +66,8 @@ const EventListener = {
     const categoryCreateInputWrapperElement = document.getElementById('categoryCreateInputWrapper')
     currentCategoryCreateButtonElement.classList.add('hide')
     categoryCreateInputWrapperElement.classList.remove('hide')
+    const enterCategoryNameInputElement = document.getElementById('enterCategoryNameInput')
+    enterCategoryNameInputElement.focus()
   },
 
   categoryCreateCancelEventListener(e) {
