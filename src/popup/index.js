@@ -20,6 +20,12 @@ window.addEventListener('DOMContentLoaded', () => {
       categoryCreateButtonElement + categoryCreateInputWrapperElement + categoryItemListWrapperElement
 
     APILoad.categoryListAppend()
+
+    EventSetting.categoryCreateButtonEventSetting()
+    EventSetting.categoryCreateEnterEventSetting()
+    EventSetting.categoryCreateOkEventSetting()
+    EventSetting.categoryCreateCancelEventSetting()
+
     EventSetting.linkSaveEventSetting()
   } else {
     document.getElementById('categoryList').innerHTML = Template.loginRequired()
@@ -37,7 +43,6 @@ const APILoad = {
       } else {
         categoryItemListWrapperElement.innerHTML = Template.categoryEmpty()
       }
-      EventSetting.categoryCreateButtonEventSetting()
     } catch (error) {
       console.error(error)
     }
@@ -61,9 +66,6 @@ const EventListener = {
     const categoryCreateInputWrapperElement = document.getElementById('categoryCreateInputWrapper')
     currentCategoryCreateButtonElement.classList.add('hide')
     categoryCreateInputWrapperElement.classList.remove('hide')
-    EventSetting.categoryCreateOkEventSetting()
-    EventSetting.categoryCreateCancelEventSetting()
-    EventSetting.categoryCreateEnterEventSetting()
   },
 
   categoryCreateCancelEventListener(e) {
