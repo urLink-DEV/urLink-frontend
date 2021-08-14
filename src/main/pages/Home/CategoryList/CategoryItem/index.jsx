@@ -42,17 +42,14 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
           <div
             className={clsx(classes.title, {
               [classes.selectedTitle]: Boolean(selected),
+              [classes.favoriteTitle]: Boolean(data.is_favorited),
             })}
           >
             {isEditingTitle ? editedCategory?.name : data?.name}
           </div>
 
           <div className={classes.linkBox}>
-            <span
-              className={clsx(classes.urlCountBox, {
-                [classes.marginRight]: !Boolean(data.is_favorited),
-              })}
-            >
+            <span className={clsx(classes.urlCountBox)}>
               {data.url_count === 0 ? '링크 없음' : data.url_count + ' 링크'}
             </span>
             {data.is_favorited && (
