@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-export function useDebounce(value, delay) {
+function useDebounce(value, delay) {
   // 디바운스 할 값을 관리하기위한 상태값과 setter함수
   const [debouncedValue, setDebouncedValue] = useState(value)
 
@@ -18,3 +18,5 @@ export function useDebounce(value, delay) {
 
   return debouncedValue
 }
+
+export default useDebounce

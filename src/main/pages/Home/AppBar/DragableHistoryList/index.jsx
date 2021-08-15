@@ -5,9 +5,9 @@ import { Refresh as RefreshIcon } from '@material-ui/icons'
 import clsx from 'clsx'
 import { debounce } from 'lodash'
 
-import { useDebounce } from '@/hooks/useDebounce'
 import linkListSearchEmptyImg from '@assets/images/group-17.png'
 import linkListEmptyImg from '@assets/images/group-19.png'
+import useDebounce from '@hooks/useDebounce'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import ScrollUpButton from '@main/components/ScrollUpButton'
 import SearchBar from '@main/components/SearchBar'
@@ -99,10 +99,24 @@ function DragableHistoryList() {
     [next]
   )
 
-  const handleSelectName = useCallback((e) => {
-    setSelectedName(e.target.value)
-    handleReload()
-  }, [])
+  const handleReload = useMemo(() => {
+    return debounce(() => {
+      historyContentRef.current.scrollTop = 0
+      setSelectedList([])
+      setKeyword(null)
+      setDateKeyword(null)
+      setIsSearch(false)
+      reload()
+    }, 400)
+  }, [reload])
+
+  const handleSelectName = useCallback(
+    (e) => {
+      setSelectedName(e.target.value)
+      handleReload()
+    },
+    [handleReload]
+  )
 
   // title, url
   const handleChangeInput = useCallback((e) => {
@@ -119,17 +133,6 @@ function DragableHistoryList() {
   const handleOpenNewTab = useCallback(() => {
     createTabList(selectedList.reduce((list, link) => list.concat(link.path), []))
   }, [selectedList])
-
-  const handleReload = useMemo(() => {
-    return debounce(() => {
-      historyContentRef.current.scrollTop = 0
-      setSelectedList([])
-      setKeyword(null)
-      setDateKeyword(null)
-      setIsSearch(false)
-      reload()
-    }, 400)
-  }, [reload])
 
   useEffect(() => {
     if (!open && selectedList.length) toggle()

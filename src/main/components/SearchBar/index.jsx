@@ -2,7 +2,6 @@ import React from 'react'
 
 import Container from '@material-ui/core/Container'
 import Divider from '@material-ui/core/Divider'
-import IconButton from '@material-ui/core/IconButton'
 import InputBase from '@material-ui/core/InputBase'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
@@ -11,15 +10,7 @@ import { DatePicker } from '@material-ui/pickers'
 
 import useStyles from './style'
 
-function SearchBar({
-  inputProps,
-  listSearchFilter,
-  onSelectName,
-  selectedName,
-  onClickSearch,
-  onChangeDate,
-  selectedDate,
-}) {
+function SearchBar({ inputProps, listSearchFilter, onSelectName, selectedName, onChangeDate, selectedDate }) {
   const classes = useStyles()
 
   return (
