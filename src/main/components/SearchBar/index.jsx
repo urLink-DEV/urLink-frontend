@@ -22,7 +22,7 @@ function SearchBar({ inputProps, listSearchFilter, onSelectName, selectedName, o
         disableUnderline={true}
         MenuProps={{
           anchorOrigin: {
-            vertical: 'bottom',
+            vertical: 'top',
             horizontal: 'left',
           },
         }}
