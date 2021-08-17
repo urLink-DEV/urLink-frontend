@@ -113,9 +113,9 @@ function DragableHistoryList() {
   const handleSelectName = useCallback(
     (e) => {
       setSelectedName(e.target.value)
-      handleReload()
+      if (debouncedKeyword) handleReload()
     },
-    [handleReload]
+    [handleReload, debouncedKeyword]
   )
 
   // title, url
