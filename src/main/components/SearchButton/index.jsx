@@ -7,7 +7,7 @@ import SearchImg from '@assets/images/search.png'
 
 import useStyles, { StyledToggleButtonGroup } from './style'
 
-function SearchButton({ buttonProps, inputProps, listSearchFilter, onSelectButton, selectedName }) {
+function SearchButton({ buttonProps, inputProps, searchFilterList, onSelectButton, selectedName }) {
   const classes = useStyles()
 
   const searchButtonRef = useRef(null)
@@ -41,10 +41,10 @@ function SearchButton({ buttonProps, inputProps, listSearchFilter, onSelectButto
           <div>
             <input className={classes.textfield} placeholder="검색어를 입력해 주세요." {...inputProps} />
           </div>
-          {listSearchFilter && (
+          {searchFilterList && (
             <div>
               <StyledToggleButtonGroup size="small" exclusive value={selectedName} onChange={onSelectButton}>
-                {listSearchFilter.map(({ search, name }) => (
+                {searchFilterList.map(({ search, name }) => (
                   <ToggleButton
                     key={search}
                     className={classes.popoverBtn}

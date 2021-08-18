@@ -17,6 +17,7 @@ const useHistoryLinks = () => {
   const listData = useSelector(historyLinkSelector.listData)
 
   const reload = useCallback(() => {
+    console.log('reload!')
     dispatch(
       setHistoryLinkChangeFilter({
         text: '',

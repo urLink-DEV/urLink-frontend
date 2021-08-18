@@ -14,7 +14,7 @@ import EditableCategoryTitle from './EditableCategoryTitle'
 import useStyles from './style'
 import TabButtonGroup from './TabButtonGroup'
 
-const listSearchFilter = [
+const searchFilterList = [
   { search: 'path', name: '주소' },
   { search: 'title', name: '제목' },
 ]
@@ -25,47 +25,39 @@ function Header() {
   const selectedCategory = useSelector(categorySelector.selectedCategory)
   const { reload } = useLinks({ categoryId: selectedCategory?.id })
 
-  const [selectedName, setSelectedName] = useState(listSearchFilter[0].search)
+  const [selectedName, setSelectedName] = useState(searchFilterList[0].search)
   const [keyword, setKeyword] = useState(null)
-  const [isSearch, setIsSearch] = useState(false)
   const [searchBarKey, setSearchBarKey] = useState(0)
 
   const debouncedKeyword = useDebounce(keyword, 250)
 
   const handleChangeInput = useCallback((e) => {
-    setIsSearch(true)
     setKeyword(e.target.value)
   }, [])
 
-  const handleResetInput = useCallback(
-    (e) => {
-      setSearchBarKey(searchBarKey + 1)
-      setIsSearch(false)
-      setKeyword('')
-    },
-    [searchBarKey]
-  )
+  const handleResetInput = useCallback(() => {
+    setSearchBarKey(searchBarKey + 1)
+    setKeyword('')
+  }, [searchBarKey])
 
   const handleReload = useMemo(() => {
     return debounce(() => {
+      handleResetInput()
       reload()
     }, 400)
-  }, [reload])
+  }, [reload, handleResetInput])
 
   const handleSelectName = useCallback(
     (e) => {
       handleResetInput()
-      handleReload()
       setSelectedName(e.target.value)
     },
-    [handleResetInput, handleReload]
+    [handleResetInput]
   )
 
   useEffect(() => {
-    if (isSearch) {
-      dispatch(linkSearchFilterChangeState({ selectedName, keyword: debouncedKeyword }))
-    }
-  }, [isSearch, dispatch, selectedName, debouncedKeyword])
+    dispatch(linkSearchFilterChangeState({ selectedName, keyword: debouncedKeyword }))
+  }, [dispatch, selectedName, debouncedKeyword])
 
   return (
     <Toolbar className={classes.toolbar}>
@@ -79,7 +71,7 @@ function Header() {
         inputProps={{
           onChange: handleChangeInput,
         }}
-        listSearchFilter={listSearchFilter}
+        searchFilterList={searchFilterList}
         onSelectName={handleSelectName}
         selectedName={selectedName}
       />

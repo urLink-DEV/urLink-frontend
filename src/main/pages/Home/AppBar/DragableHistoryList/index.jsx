@@ -23,7 +23,7 @@ import useStyles from './style'
 const { LINK } = DRAG
 const { LINK_DROP_ZONE } = DROP_ZONE
 
-const listSearchFilter = [
+const searchFilterList = [
   { search: 'text', name: '제목/주소' },
   { search: 'date', name: '날짜' },
 ]
@@ -37,10 +37,9 @@ function DragableHistoryList() {
   const [selectedList, setSelectedList] = useState([])
   const [buttonOpen, setButtonOpen] = useState(null)
 
-  const [selectedName, setSelectedName] = useState(listSearchFilter[0].search)
+  const [selectedName, setSelectedName] = useState(searchFilterList[0].search)
   const [keyword, setKeyword] = useState(null)
   const [dateKeyword, setDateKeyword] = useState(null)
-  const [isSearch, setIsSearch] = useState(false)
 
   const historyRootRef = useRef(null)
   const historyContentRef = useRef(null)
@@ -105,28 +104,31 @@ function DragableHistoryList() {
       setSelectedList([])
       setKeyword(null)
       setDateKeyword(null)
-      setIsSearch(false)
       reload()
     }, 400)
   }, [reload])
 
+  const handleResetInput = useCallback(() => {
+    setKeyword(null)
+    setDateKeyword(null)
+    reload()
+  }, [reload])
+
   const handleSelectName = useCallback(
     (e) => {
+      handleResetInput()
       setSelectedName(e.target.value)
-      if (debouncedKeyword) handleReload()
     },
-    [handleReload, debouncedKeyword]
+    [handleResetInput]
   )
 
   // title, url
   const handleChangeInput = useCallback((e) => {
-    setIsSearch(true)
     setKeyword(e.target.value)
   }, [])
 
   // date
   const handleChangeDate = useCallback((date) => {
-    setIsSearch(true)
     setDateKeyword(date)
   }, [])
 
@@ -140,14 +142,18 @@ function DragableHistoryList() {
   }, [selectedList, toggle, close, open])
 
   useEffect(() => {
-    if (isSearch) {
-      if (selectedName === 'text') {
-        keywordSearch(debouncedKeyword)
-      } else {
-        dateSearch(dateKeyword)
-      }
+    if (!debouncedKeyword && !dateKeyword) {
+      reload()
     }
-  }, [isSearch, selectedName, keywordSearch, dateSearch, dateKeyword, debouncedKeyword])
+  }, [reload, debouncedKeyword, dateKeyword])
+
+  useEffect(() => {
+    if (selectedName === 'text' && debouncedKeyword) {
+      keywordSearch(debouncedKeyword)
+    } else if (selectedName === 'date' && dateKeyword) {
+      dateSearch(dateKeyword)
+    }
+  }, [selectedName, keywordSearch, dateSearch, dateKeyword, debouncedKeyword])
 
   return (
     <Card ref={historyRootRef} className={classes.root}>
@@ -169,7 +175,7 @@ function DragableHistoryList() {
           inputProps={{
             onChange: handleChangeInput,
           }}
-          listSearchFilter={listSearchFilter}
+          searchFilterList={searchFilterList}
           onSelectName={handleSelectName}
           selectedName={selectedName}
           onChangeDate={handleChangeDate}

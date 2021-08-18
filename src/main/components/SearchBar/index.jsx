@@ -10,7 +10,7 @@ import { DatePicker } from '@material-ui/pickers'
 
 import useStyles from './style'
 
-function SearchBar({ inputProps, listSearchFilter, onSelectName, selectedName, onChangeDate, selectedDate }) {
+function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, onChangeDate, selectedDate }) {
   const classes = useStyles()
 
   return (
@@ -29,7 +29,7 @@ function SearchBar({ inputProps, listSearchFilter, onSelectName, selectedName, o
         value={selectedName}
         onChange={onSelectName}
       >
-        {listSearchFilter?.map(({ search, name }) => (
+        {searchFilterList?.map(({ search, name }) => (
           <MenuItem className={classes.menuItem} key={search} value={search}>
             {name}
           </MenuItem>
