@@ -30,7 +30,7 @@ const searchFilterList = [
 
 function DragableHistoryList() {
   const classes = useStyles()
-  const { filter, listData, reload, dateSearch, keywordSearch, next } = useHistoryLinks()
+  const { filter, listData, dateSearch, keywordSearch, next } = useHistoryLinks()
   const { setDragData } = useDrag(LINK)
   const { open, toggle, close } = useDropZone(LINK_DROP_ZONE)
 
@@ -38,14 +38,13 @@ function DragableHistoryList() {
   const [buttonOpen, setButtonOpen] = useState(null)
 
   const [selectedName, setSelectedName] = useState(searchFilterList[0].search)
-  const [keyword, setKeyword] = useState(null)
+  const [keyword, setKeyword] = useState('')
+  const debouncedKeyword = useDebounce(keyword, 250)
   const [dateKeyword, setDateKeyword] = useState(null)
 
   const historyRootRef = useRef(null)
   const historyContentRef = useRef(null)
   const dragBoxRef = useRef(null)
-
-  const debouncedKeyword = useDebounce(keyword, 250)
 
   useOutsideAlerter(
     historyRootRef,
@@ -78,7 +77,7 @@ function DragableHistoryList() {
     []
   )
 
-  const handleToogleSelectIem = useCallback(
+  const handleToggleSelectItem = useCallback(
     ({ id, url: path }) => () => {
       const isSelected = selectedList.find((item) => item.id === id)
       if (isSelected) setSelectedList(selectedList.filter((data) => data.id !== id))
@@ -98,21 +97,17 @@ function DragableHistoryList() {
     [next]
   )
 
+  const handleResetInput = useCallback(() => {
+    setKeyword('')
+    setDateKeyword(null)
+  }, [])
+
   const handleReload = useMemo(() => {
     return debounce(() => {
-      historyContentRef.current.scrollTop = 0
       setSelectedList([])
-      setKeyword(null)
-      setDateKeyword(null)
-      reload()
+      handleResetInput()
     }, 400)
-  }, [reload])
-
-  const handleResetInput = useCallback(() => {
-    setKeyword(null)
-    setDateKeyword(null)
-    reload()
-  }, [reload])
+  }, [handleResetInput])
 
   const handleSelectName = useCallback(
     (e) => {
@@ -142,16 +137,13 @@ function DragableHistoryList() {
   }, [selectedList, toggle, close, open])
 
   useEffect(() => {
-    if (!debouncedKeyword && !dateKeyword) {
-      reload()
-    }
-  }, [reload, debouncedKeyword, dateKeyword])
-
-  useEffect(() => {
-    if (selectedName === 'text' && debouncedKeyword) {
+    historyContentRef.current.scrollTop = 0
+    if (selectedName === 'text') {
       keywordSearch(debouncedKeyword)
     } else if (selectedName === 'date' && dateKeyword) {
       dateSearch(dateKeyword)
+    } else {
+      dateSearch(new Date())
     }
   }, [selectedName, keywordSearch, dateSearch, dateKeyword, debouncedKeyword])
 
@@ -173,6 +165,7 @@ function DragableHistoryList() {
         </div>
         <SearchBar
           inputProps={{
+            value: keyword,
             onChange: handleChangeInput,
           }}
           searchFilterList={searchFilterList}
@@ -195,7 +188,7 @@ function DragableHistoryList() {
                   isSelected={selectedList.find((list) => list.id === data.id)}
                   onDragStart={handleDragStart({ id: data.id, url: data.url })}
                   onDragEnd={handleDragEnd()}
-                  onClick={handleToogleSelectIem({ id: data.id, url: data.url })}
+                  onClick={handleToggleSelectItem({ id: data.id, url: data.url })}
                 />
               </Fragment>
             ))}

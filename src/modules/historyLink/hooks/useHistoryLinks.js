@@ -17,7 +17,6 @@ const useHistoryLinks = () => {
   const listData = useSelector(historyLinkSelector.listData)
 
   const reload = useCallback(() => {
-    console.log('reload!')
     dispatch(
       setHistoryLinkChangeFilter({
         text: '',
@@ -46,6 +45,7 @@ const useHistoryLinks = () => {
     (value) => {
       dispatch(
         setHistoryLinkChangeFilter({
+          text: '',
           startTime: new Date(moment(value).startOf('day').add(-1, 'day')).getTime(),
           endTime: new Date(moment(value).startOf('day').add(1, 'day')).getTime(),
           isNext: false,
