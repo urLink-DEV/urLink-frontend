@@ -3,12 +3,11 @@ import React, { useEffect, useCallback, memo, useState, useMemo } from 'react'
 import { IconButton, Toolbar } from '@material-ui/core'
 import { Refresh as RefreshIcon } from '@material-ui/icons'
 import { debounce } from 'lodash'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import useDebounce from '@hooks/useDebounce'
 import SearchBar from '@main/components/SearchBar'
-import { categorySelector } from '@modules/category'
-import { useLinks, linkSearchFilterChangeState } from '@modules/link'
+import { linkSearchFilterChangeState } from '@modules/link'
 
 import EditableCategoryTitle from './EditableCategoryTitle'
 import useStyles from './style'
@@ -22,12 +21,9 @@ const searchFilterList = [
 function Header() {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const selectedCategory = useSelector(categorySelector.selectedCategory)
-  const { reload } = useLinks({ categoryId: selectedCategory?.id })
 
   const [selectedName, setSelectedName] = useState(searchFilterList[0].search)
-  const [keyword, setKeyword] = useState(null)
-  const [searchBarKey, setSearchBarKey] = useState(0)
+  const [keyword, setKeyword] = useState('')
 
   const debouncedKeyword = useDebounce(keyword, 250)
 
@@ -36,16 +32,14 @@ function Header() {
   }, [])
 
   const handleResetInput = useCallback(() => {
-    setSearchBarKey(searchBarKey + 1)
     setKeyword('')
-  }, [searchBarKey])
+  }, [])
 
   const handleReload = useMemo(() => {
     return debounce(() => {
       handleResetInput()
-      reload()
     }, 400)
-  }, [reload, handleResetInput])
+  }, [handleResetInput])
 
   const handleSelectName = useCallback(
     (e) => {
@@ -67,9 +61,9 @@ function Header() {
         <RefreshIcon />
       </IconButton>
       <SearchBar
-        key={searchBarKey}
         inputProps={{
           onChange: handleChangeInput,
+          value: keyword,
         }}
         searchFilterList={searchFilterList}
         onSelectName={handleSelectName}
