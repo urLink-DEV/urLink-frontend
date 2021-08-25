@@ -21,9 +21,14 @@ function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, o
         className={classes.inputSelect}
         disableUnderline={true}
         MenuProps={{
+          getContentAnchorEl: null,
           anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'center',
+          },
+          transformOrigin: {
             vertical: 'top',
-            horizontal: 'left',
+            horizontal: 'center',
           },
         }}
         value={selectedName}

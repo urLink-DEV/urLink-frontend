@@ -140,10 +140,8 @@ function DragableHistoryList() {
     historyContentRef.current.scrollTop = 0
     if (selectedName === 'text') {
       keywordSearch(debouncedKeyword)
-    } else if (selectedName === 'date' && dateKeyword) {
+    } else if (selectedName === 'date') {
       dateSearch(dateKeyword)
-    } else {
-      dateSearch(new Date())
     }
   }, [selectedName, keywordSearch, dateSearch, dateKeyword, debouncedKeyword])
 

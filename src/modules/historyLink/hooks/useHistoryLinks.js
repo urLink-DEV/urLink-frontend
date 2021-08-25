@@ -43,6 +43,7 @@ const useHistoryLinks = () => {
 
   const dateSearch = useCallback(
     (value) => {
+      if (!value) value = new Date()
       dispatch(
         setHistoryLinkChangeFilter({
           text: '',

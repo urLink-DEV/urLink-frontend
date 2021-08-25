@@ -31,13 +31,9 @@ export const useStyles = makeStyles((theme) => ({
     '& > .MuiSelect-select.MuiSelect-select': {
       paddingLeft: '10px',
     },
-
-    '& > .MuiInputBase-input': {
-      height: 20,
-    },
   },
   menuItem: {
-    padding: theme.spacing(0, 3),
+    padding: theme.spacing(0, 1.5),
   },
   divider: {
     margin: theme.spacing(0.5, 0),
