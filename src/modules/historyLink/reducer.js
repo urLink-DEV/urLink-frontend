@@ -5,7 +5,7 @@ import { createRequestAction } from '../helpers'
 export const HISTORY_LINK = 'HISTORY_LINK'
 
 export const setInitHistoryLinkFilter = createAction(`${HISTORY_LINK}/INIT_FILTER`)
-export const setHistoryLinkChnageFilter = createAction(`${HISTORY_LINK}/CHANGE_FILTER`)
+export const setHistoryLinkChangeFilter = createAction(`${HISTORY_LINK}/CHANGE_FILTER`)
 export const historyLinkListRead = createRequestAction(`${HISTORY_LINK}/LIST_READ`)
 
 // Reducer
@@ -23,7 +23,7 @@ export const historyLinkReducer = createReducer(initialState, {
   [setInitHistoryLinkFilter]: (state) => {
     state.filter = initialState.filter
   },
-  [setHistoryLinkChnageFilter]: (state, { payload: data }) => {
+  [setHistoryLinkChangeFilter]: (state, { payload: data }) => {
     state.filter = { ...state.filter, ...data }
   },
   [historyLinkListRead.SUCCESS]: (state, { payload: listData }) => {
