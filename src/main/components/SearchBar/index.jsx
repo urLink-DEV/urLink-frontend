@@ -1,17 +1,23 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 
-import Container from '@material-ui/core/Container'
-import Divider from '@material-ui/core/Divider'
-import InputBase from '@material-ui/core/InputBase'
-import MenuItem from '@material-ui/core/MenuItem'
-import Select from '@material-ui/core/Select'
-import SearchIcon from '@material-ui/icons/Search'
-import { DatePicker } from '@material-ui/pickers'
+import SearchIcon from '@mui/icons-material/Search'
+import CalendarPicker from '@mui/lab/CalendarPicker'
+import Button from '@mui/material/Button'
+import Container from '@mui/material/Container'
+import Divider from '@mui/material/Divider'
+import InputBase from '@mui/material/InputBase'
+import MenuItem from '@mui/material/MenuItem'
+import Popover from '@mui/material/Popover'
+import Select from '@mui/material/Select'
 
 import useStyles from './style'
 
 function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, onChangeDate, selectedDate }) {
   const classes = useStyles()
+
+  // Calendar Popper
+  const pickerRef = useRef(null)
+  const [openPicker, setOpenPicker] = useState(false)
 
   return (
     <Container className={classes.searchBar}>
@@ -19,9 +25,10 @@ function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, o
       <Divider className={classes.divider} orientation="vertical" flexItem={true} />
       <Select
         className={classes.inputSelect}
+        variant="standard"
         disableUnderline={true}
         MenuProps={{
-          getContentAnchorEl: null,
+          getcontentanchorel: null,
           anchorOrigin: {
             vertical: 'bottom',
             horizontal: 'center',
@@ -42,16 +49,37 @@ function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, o
       </Select>
       <Divider className={classes.divider} orientation="vertical" flexItem={true} />
       {selectedName === 'date' ? (
-        <DatePicker
-          className={classes.datePicker}
-          disableFuture={true}
-          disableToolbar
-          format="yyyy-MM-DD"
-          variant="inline"
-          emptyLabel="날짜를 검색하려면 클릭하세요"
-          value={selectedDate}
-          onChange={onChangeDate}
-        />
+        <>
+          <Button
+            className={classes.pickerBtn}
+            ref={pickerRef}
+            aria-describedby="calendar-popper"
+            onClick={() => setOpenPicker((open) => !open)}
+          >
+            날짜를 검색하려면 클릭하세요
+          </Button>
+          <Popover
+            id="calendar-popper"
+            open={openPicker}
+            onClose={() => setOpenPicker((open) => !open)}
+            anchorEl={pickerRef.current}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+          >
+            <CalendarPicker
+              className={classes.datePicker}
+              disableFuture={true}
+              date={selectedDate}
+              onChange={onChangeDate}
+            />
+          </Popover>
+        </>
       ) : (
         <InputBase
           className={classes.searchInputBase}

@@ -1,6 +1,6 @@
 import React, { useCallback, Fragment } from 'react'
 
-import { Typography, Grid, Card, CardContent, CardActions, Avatar, Button } from '@material-ui/core'
+import { Typography, Grid, Card, CardContent, CardActions, Avatar, Button } from '@mui/material'
 import { useDispatch } from 'react-redux'
 
 import defaultProfileImg from '@assets/images/logo/profileImg.png'

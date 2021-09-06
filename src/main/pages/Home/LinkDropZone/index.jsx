@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 
-import { AddToPhotos as AddToPhotosIcon } from '@material-ui/icons'
+import { AddToPhotos as AddToPhotosIcon } from '@mui/icons-material'
 import clsx from 'clsx'
 import { useDispatch, useSelector } from 'react-redux'
 

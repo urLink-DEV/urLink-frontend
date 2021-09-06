@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ArrowUpward as ArrowUpwardIcon } from '@material-ui/icons'
+import { ArrowUpward as ArrowUpwardIcon } from '@mui/icons-material'
 import clsx from 'clsx'
 
 import ExtendedFab from '@main/components/ExtendedFab'

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo, Fragment } from 'react'
 
-import { Popover, Badge, List, Avatar, Grid, Drawer } from '@material-ui/core'
+import { Popover, Badge, List, Avatar, Grid, Drawer } from '@mui/material'
 import { useSelector } from 'react-redux'
 
 import alarmImg from '@assets/images/alarm.png'

@@ -1,7 +1,7 @@
 import React, { Fragment, useRef, useState, useEffect, useCallback, useMemo } from 'react'
 
-import { Card, CardContent, CardMedia, IconButton, List, Typography } from '@material-ui/core'
-import { Refresh as RefreshIcon } from '@material-ui/icons'
+import { Refresh as RefreshIcon } from '@mui/icons-material'
+import { Card, CardContent, CardMedia, IconButton, List, Typography } from '@mui/material'
 import clsx from 'clsx'
 import { debounce } from 'lodash'
 

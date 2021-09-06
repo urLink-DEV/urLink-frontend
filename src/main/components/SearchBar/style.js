@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 
 export const useStyles = makeStyles((theme) => ({
   searchBar: {
@@ -24,16 +24,18 @@ export const useStyles = makeStyles((theme) => ({
     width: '65%',
   },
   searchInput: {
-    width: '100%',
+    width: 320,
     color: 'black',
-    fontSize: 14,
-    paddingLeft: `calc(${theme.spacing(1)}px)`,
+    paddingLeft: theme.spacing(1),
   },
   inputSelect: {
     width: '25%',
     fontSize: 14,
     '& > .MuiSelect-select.MuiSelect-select': {
       paddingLeft: '10px',
+    },
+    '& > .MuiSelect-iconStandard': {
+      right: 0,
     },
   },
   menuItem: {
@@ -43,13 +45,12 @@ export const useStyles = makeStyles((theme) => ({
   divider: {
     margin: theme.spacing(0.5, 0),
   },
+  pickerBtn: {
+    color: 'black',
+    fontSize: '1rem',
+  },
   datePicker: {
-    width: '65%',
-    padding: theme.spacing(0, 1),
-    marginTop: 5,
-    '& > .MuiInputBase-root.MuiInput-root.MuiInput-underline.MuiInputBase-formControl.MuiInput-formControl': {
-      fontSize: 14,
-    },
+    width: 320,
   },
   searchIcon: {
     width: '10%',

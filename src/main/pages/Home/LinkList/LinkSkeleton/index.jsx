@@ -1,8 +1,8 @@
 import React from 'react'
 
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import Skeleton from '@material-ui/core/Skeleton'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Skeleton from '@mui/material/Skeleton'
 
 import useStyles from './style'
 
