@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useState } from 'react'
 
-import { IconButton, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@material-ui/core'
+import { IconButton, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@mui/material'
 import clsx from 'clsx'
 
 import linkCopyImg from '@assets/images/link-copy.svg'

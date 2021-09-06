@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button } from '@material-ui/core'
+import { Button } from '@mui/material'
 import { Link } from 'react-chrome-extension-router'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'

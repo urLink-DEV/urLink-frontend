@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 
 import { yupResolver } from '@hookform/resolvers/yup'
-import { FormControlLabel, Button, Checkbox } from '@material-ui/core'
+import { FormControlLabel, Button, Checkbox } from '@mui/material'
 import { Link } from 'react-chrome-extension-router'
 import { useForm, Controller } from 'react-hook-form'
 import { useDispatch } from 'react-redux'

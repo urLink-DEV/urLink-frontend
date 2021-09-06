@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 
-import { Grid } from '@material-ui/core'
+import { Grid } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
 
 import linkListEmptyImg from '@assets/images/group-11.png'

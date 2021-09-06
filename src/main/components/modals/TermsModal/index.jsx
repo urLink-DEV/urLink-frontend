@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { DialogTitle, Button } from '@material-ui/core'
+import { DialogTitle, Button } from '@mui/material'
 
 import {
   StyledDialog,

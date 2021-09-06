@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, memo, useState, useMemo } from 'react'
 
-import { IconButton, Toolbar } from '@material-ui/core'
-import { Refresh as RefreshIcon } from '@material-ui/icons'
+import { Refresh as RefreshIcon } from '@mui/icons-material'
+import { IconButton, Toolbar } from '@mui/material'
 import { debounce } from 'lodash'
 import { useDispatch } from 'react-redux'
 

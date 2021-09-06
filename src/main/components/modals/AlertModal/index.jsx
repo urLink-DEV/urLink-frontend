@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Button } from '@material-ui/core'
+import { Button } from '@mui/material'
 
 import alertIcon from '@assets/images/logo/group-2.svg'
 import {
