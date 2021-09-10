@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useCallback } from 'react'
 
 import SearchIcon from '@mui/icons-material/Search'
 import CalendarPicker from '@mui/lab/CalendarPicker'
@@ -15,9 +15,16 @@ import useStyles from './style'
 function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, onChangeDate, selectedDate }) {
   const classes = useStyles()
 
-  // Calendar Popper
   const pickerRef = useRef(null)
   const [openPicker, setOpenPicker] = useState(false)
+
+  const handleChangeDate = useCallback(
+    (date) => {
+      onChangeDate(date)
+      setOpenPicker(!openPicker)
+    },
+    [onChangeDate, openPicker]
+  )
 
   return (
     <Container className={classes.searchBar}>
@@ -53,13 +60,13 @@ function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, o
           <Button
             className={classes.pickerBtn}
             ref={pickerRef}
-            aria-describedby="calendar-popper"
+            aria-describedby="calendar-popover"
             onClick={() => setOpenPicker((open) => !open)}
           >
             {selectedDate ? new Date(selectedDate).toLocaleDateString() : '날짜를 검색하려면 클릭하세요'}
           </Button>
           <Popover
-            id="calendar-popper"
+            id="calendar-popover"
             open={openPicker}
             onClose={() => setOpenPicker((open) => !open)}
             anchorEl={pickerRef.current}
@@ -76,7 +83,7 @@ function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, o
               className={classes.datePicker}
               disableFuture={true}
               date={selectedDate}
-              onChange={onChangeDate}
+              onChange={handleChangeDate}
             />
           </Popover>
         </>
