@@ -56,7 +56,7 @@ function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, o
             aria-describedby="calendar-popper"
             onClick={() => setOpenPicker((open) => !open)}
           >
-            날짜를 검색하려면 클릭하세요
+            {selectedDate ? new Date(selectedDate).toLocaleDateString() : '날짜를 검색하려면 클릭하세요'}
           </Button>
           <Popover
             id="calendar-popper"

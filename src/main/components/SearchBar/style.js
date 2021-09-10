@@ -21,15 +21,14 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   searchInput: {
-    width: 320,
+    width: 250,
     color: 'black',
     paddingLeft: theme.spacing(1),
   },
   inputSelect: {
-    width: 100,
-
     '& > .MuiSelect-select.MuiSelect-select': {
-      paddingLeft: '10px',
+      width: 70,
+      paddingLeft: 10,
     },
     '& > .MuiSelect-iconStandard': {
       right: 0,
@@ -42,8 +41,13 @@ export const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(0.5, 0),
   },
   pickerBtn: {
-    color: 'black',
+    color: '#2083FF',
+    textDecoration: 'underline',
     fontSize: '1rem',
+    '&:hover': {
+      color: '#2083FF',
+      textDecoration: 'underline',
+    },
   },
   datePicker: {
     width: 320,
