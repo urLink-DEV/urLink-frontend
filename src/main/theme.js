@@ -20,22 +20,24 @@ const theme = createTheme({
   typography: {
     fontFamily: ['"Spoqa Han Sans"', '"Spoqa Han Sans JP"', 'sans-serif'].join(','),
   },
-  overrides: {
+  components: {
     MuiCssBaseline: {
-      '@global': {
-        '::-webkit-scrollbar': {
-          display: 'none',
-        },
-        '*': {
-          // boxSizing: 'border-box',
-          fontFamily: "'Spoqa Han Sans', 'Spoqa Han Sans JP', sans-serif",
-        },
+      styleOverrides: `
+        ::-webkit-scrollbar {
+          display: none;
+        }
+
+        *: {
+          // box-sizing: border-box;
+          font-family: "Spoqa Han Sans", "Spoqa Han Sans JP", "sans-serif";
+        }
+
         button: {
-          cursor: 'pointer',
-          outline: 0,
-          border: 'none',
-        },
-      },
+          cursor: pointer;
+          outline: 0;
+          border: none;
+        }
+      `,
     },
   },
 })
