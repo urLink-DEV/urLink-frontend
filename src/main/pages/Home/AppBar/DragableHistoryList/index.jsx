@@ -2,6 +2,7 @@ import React, { Fragment, useRef, useState, useEffect, useCallback, useMemo } fr
 
 import { Refresh as RefreshIcon } from '@mui/icons-material'
 import { Card, CardContent, CardMedia, IconButton, List, Typography } from '@mui/material'
+import Button from '@mui/material/Button'
 import clsx from 'clsx'
 import { debounce } from 'lodash'
 
@@ -163,9 +164,9 @@ function DragableHistoryList() {
               <RefreshIcon />
             </IconButton>
             {!!selectedList.length && (
-              <button className={classes.tabOpenButton} onClick={handleOpenNewTab}>
+              <Button className={classes.tabOpenButton} onClick={handleOpenNewTab}>
                 <span className={classes.tabOpenText}>탭 열기 ({selectedList.length})</span>
-              </button>
+              </Button>
             )}
           </div>
         </div>

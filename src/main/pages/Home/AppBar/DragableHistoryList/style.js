@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   mainText: {
     marginRight: 10,
+    marginTop: 2,
     height: 36,
 
     backgroundColor: 'transparent',
@@ -31,8 +32,9 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
   tabOpenButton: {
-    marginLeft: 16,
-
+    marginLeft: 10,
+    marginTop: 10,
+    padding: 0,
     backgroundColor: 'transparent',
   },
   tabOpenText: {
