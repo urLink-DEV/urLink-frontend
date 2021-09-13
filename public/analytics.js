@@ -17,4 +17,5 @@
 
 ga('create', 'UA-207149982-2', 'auto')
 ga('set', 'checkProtocolTask', function () {})
-ga('send', 'pageview', '/options.html')
+ga('send', 'pageview')
+console.log(ga.q)
