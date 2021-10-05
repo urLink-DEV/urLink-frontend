@@ -86,10 +86,6 @@ function LinkList() {
     }
   }, [dragData, linkCreatePending, linksReadPending])
 
-  useEffect(() => {
-    console.log(skeletonLength)
-  }, [skeletonLength])
-
   return (
     <Grid container direction="column" className={classes.root} ref={rootRef}>
       <Grid item>
