@@ -31,7 +31,7 @@ const initialState = {
     selectedName: '',
     keyword: '',
   },
-  listData: {},
+  linksData: {},
   selectedLink: [],
   createLinksCategoryId: undefined,
 }
@@ -43,7 +43,7 @@ export const linkReducer = createReducer(initialState, {
     state.searchFilter = { ...state.searchFilter, ...data }
   },
   [linksRead.SUCCESS]: (state, { payload, meta }) => {
-    state.listData[meta.key] = payload
+    state.linksData[meta.key] = payload
   },
   [linkCreate.REQUEST]: (state, { payload }) => {
     state.createLinksCategoryId = payload.categoryId
@@ -63,7 +63,7 @@ export const linkReducer = createReducer(initialState, {
 
 // Select
 export const linkSelector = {
-  listData: (state) => state[LINK].listData,
+  linksData: (state) => state[LINK].linksData,
   selectSelectedLink: (state) => state[LINK].selectedLink,
   searchFilter: (state) => state[LINK].searchFilter,
   createLinksCategoryId: (state) => state[LINK].createLinksCategoryId,

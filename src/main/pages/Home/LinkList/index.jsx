@@ -105,13 +105,13 @@ function LinkList() {
           ? SkeletonList(skeletonLength)
           : dragData.category.data.id === selectedCategory?.id && SkeletonList(skeletonLength)}
 
-        {links[selectedCategory?.id]?.map((data) => (
+        {links?.map((data) => (
           <Grid item key={data.id}>
             <Link data={data} />
           </Grid>
         ))}
 
-        {links[selectedCategory?.id]?.length === LINK_EMPTY &&
+        {links?.length === LINK_EMPTY &&
           (skeletonLength ? null : searchFilter.keyword && SEARCH_LINK_EMPTY ? (
             <Grid item xs={12} className={classes.center}>
               <img src={linkListSearchEmptyImg} alt="검색 조회 없음" />
