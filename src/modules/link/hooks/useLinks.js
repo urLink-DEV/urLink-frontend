@@ -10,19 +10,22 @@ const useLinks = ({ detact = false, categoryId, selectedName, keyword }) => {
   const dispatch = useDispatch()
   const pending = useSelector((state) => state[PENDING][linksRead.TYPE])
   const error = useSelector((state) => state[ERROR][linksRead.TYPE])
-  const links = useSelector(linkSelector.listData)
+  const links = useSelector((state) => linkSelector.linksData(state)[categoryId]) || []
 
   const reload = useCallback(() => {
-    if (categoryId) dispatch(linksRead.request({ categoryId }))
+    if (categoryId) dispatch(linksRead.request({ categoryId }, { key: categoryId }))
   }, [dispatch, categoryId])
 
   const filterChangeLoad = useCallback(() => {
     if (categoryId) {
       dispatch(
-        linksRead.request({
-          categoryId,
-          [selectedName]: keyword,
-        })
+        linksRead.request(
+          {
+            categoryId,
+            [selectedName]: keyword,
+          },
+          { key: categoryId }
+        )
       )
     }
   }, [dispatch, selectedName, keyword, categoryId])
