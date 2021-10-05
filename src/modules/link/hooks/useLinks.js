@@ -13,16 +13,19 @@ const useLinks = ({ detact = false, categoryId, selectedName, keyword }) => {
   const links = useSelector(linkSelector.listData)
 
   const reload = useCallback(() => {
-    if (categoryId) dispatch(linksRead.request({ categoryId }))
+    if (categoryId) dispatch(linksRead.request({ categoryId }, { key: categoryId }))
   }, [dispatch, categoryId])
 
   const filterChangeLoad = useCallback(() => {
     if (categoryId) {
       dispatch(
-        linksRead.request({
-          categoryId,
-          [selectedName]: keyword,
-        })
+        linksRead.request(
+          {
+            categoryId,
+            [selectedName]: keyword,
+          },
+          { key: categoryId }
+        )
       )
     }
   }, [dispatch, selectedName, keyword, categoryId])

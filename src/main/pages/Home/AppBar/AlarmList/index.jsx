@@ -45,7 +45,7 @@ function AlarmList() {
       try {
         e.stopPropagation()
         await dispatch(alaramNoticeReadNoticeThunk({ alarm_id: alarm.id }))
-        dispatch(linksRead.request({ categoryId: selectedCategory?.id }))
+        dispatch(linksRead.request({ categoryId: selectedCategory?.id }, { key: selectedCategory?.id }))
         createTab(alarm.url_path)
       } catch (error) {
         openToast({ type: 'error', message: '예상치 못한 에러가 발생했습니다.' })
@@ -59,7 +59,7 @@ function AlarmList() {
       try {
         e.stopPropagation()
         await dispatch(alaramNoticeNoReturnNoticeThunk({ alarm_id }))
-        dispatch(linksRead.request({ categoryId: selectedCategory?.id }))
+        dispatch(linksRead.request({ categoryId: selectedCategory?.id }, { key: selectedCategory?.id }))
         openToast({ type: 'success', message: '알람을 삭제했습니다.' })
       } catch (error) {
         openToast({ type: 'error', message: '알람을 삭제하지 못했습니다.' })

@@ -31,7 +31,7 @@ function TabButtonGroup() {
       openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
     } finally {
       dispatch(categoriesRead.request())
-      dispatch(linksRead.request({ categoryId: selectedCategory.id }))
+      dispatch(linksRead.request({ categoryId: selectedCategory.id }, { key: selectedCategory.id }))
     }
   }, [dispatch, selectedLinkList, selectedCategory.id, openToast])
 

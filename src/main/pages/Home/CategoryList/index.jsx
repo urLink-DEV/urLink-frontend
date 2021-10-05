@@ -141,7 +141,7 @@ function CategoryList() {
           const path = linkListData.reduce((prev, data) => prev.concat(data.path), [])
           setDragData({ ...dragData, id: linkHoverTabId })
           await dispatch(linkCreateThunk({ categoryId: linkHoverTabId, path }))
-          dispatch(linksRead.request({ categoryId: linkHoverTabId }))
+          dispatch(linksRead.request({ categoryId: linkHoverTabId }, { key: linkHoverTabId }))
           await dispatch(categoriesReadThunk())
           setDragData({ ...dragData, dragFinished: true })
           openToast({ type: 'success', message: '링크가 저장 되었습니다.' })

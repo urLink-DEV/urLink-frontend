@@ -37,6 +37,7 @@ function LinkList() {
   const selectedCategory = useSelector(categorySelector.selectedCategory)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
   const searchFilter = useSelector(linkSelector.searchFilter)
+  const createLinksCategoryId = useSelector(linkSelector.createLinksCategoryId)
   const dragData = useSelector(uiSelector.drag)
   const [skeletonLength, setSkeletonLength] = useState(0)
   const linkCreatePending = useSelector((state) => state[PENDING][linkCreate.TYPE])
@@ -76,7 +77,6 @@ function LinkList() {
 
   useEffect(() => {
     const { link } = dragData
-
     if (link.listData.length && linkCreatePending) {
       setSkeletonLength(link.listData.length)
     } else if (!linkCreatePending && !linksReadPending) {
@@ -99,17 +99,17 @@ function LinkList() {
 
         {!skeletonLength
           ? null
-          : dragData.type === 'link'
+          : dragData.type === 'link' && createLinksCategoryId === selectedCategory?.id
           ? SkeletonList(skeletonLength)
           : dragData.category.data.id === selectedCategory?.id && SkeletonList(skeletonLength)}
 
-        {links?.map((data) => (
+        {links[selectedCategory?.id]?.map((data) => (
           <Grid item key={data.id}>
             <Link data={data} />
           </Grid>
         ))}
 
-        {links.length === LINK_EMPTY &&
+        {links[selectedCategory?.id]?.length === LINK_EMPTY &&
           (skeletonLength ? null : searchFilter.keyword && SEARCH_LINK_EMPTY ? (
             <Grid item xs={12} className={classes.center}>
               <img src={linkListSearchEmptyImg} alt="검색 조회 없음" />

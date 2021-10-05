@@ -29,7 +29,7 @@ function LinkDropZone() {
         const path = listData.reduce((prev, data) => prev.concat(data.path), [])
         await dispatch(linkCreateThunk({ categoryId: selectedCategory.id, path }))
         clearDragData()
-        dispatch(linksRead.request({ categoryId: selectedCategory.id }))
+        dispatch(linksRead.request({ categoryId: selectedCategory.id }, { key: selectedCategory.id }))
         dispatch(categoriesRead.request())
         openToast({ type: 'success', message: '링크가 저장 되었습니다.' })
       } catch (error) {
