@@ -81,8 +81,14 @@ function LinkList() {
       setSkeletonLength(link.listData.length)
     } else if (!linkCreatePending && !linksReadPending) {
       setSkeletonLength(0)
+    } else {
+      setSkeletonLength(0)
     }
   }, [dragData, linkCreatePending, linksReadPending])
+
+  useEffect(() => {
+    console.log(skeletonLength)
+  }, [skeletonLength])
 
   return (
     <Grid container direction="column" className={classes.root} ref={rootRef}>
