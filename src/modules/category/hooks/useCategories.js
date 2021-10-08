@@ -19,7 +19,7 @@ const useCategories = () => {
   }
 
   React.useEffect(() => {
-    dispatch(categoriesRead.request(undefined, { action: 'selectFirstCategory' }))
+    dispatch(categoriesRead.request(undefined, { selectFirstCategory: true }))
   }, [dispatch])
 
   return { pending, error, categories, favoritedArr, notFavoritedArr, reload }

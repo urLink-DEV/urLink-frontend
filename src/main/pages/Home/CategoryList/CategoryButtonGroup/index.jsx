@@ -49,7 +49,7 @@ function CategoryButtonGroup() {
       try {
         e.stopPropagation()
         await dispatch(categoryCreateThunk({ name: categoryName, is_favorited: false }))
-        dispatch(categoriesRead.request(undefined, { action: 'selectFirstCategory' }))
+        dispatch(categoriesRead.request(undefined, { selectFirstCategory: true }))
       } catch (error) {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
       } finally {
@@ -87,7 +87,7 @@ function CategoryButtonGroup() {
         e.stopPropagation()
         deleteCategoryToggle()
         await dispatch(categoryRemoveThunk({ id: selectedCategory.id }))
-        dispatch(categoriesRead.request(undefined, { action: 'selectFirstCategory' }))
+        dispatch(categoriesRead.request(undefined, { selectFirstCategory: true }))
         openToast({ type: 'success', message: '선택하신 카테고리가 삭제되었습니다.' })
       } catch (error) {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
