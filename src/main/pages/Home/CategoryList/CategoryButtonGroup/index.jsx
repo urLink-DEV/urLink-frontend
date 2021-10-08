@@ -48,12 +48,11 @@ function CategoryButtonGroup() {
       if (!categoryName) return
       try {
         e.stopPropagation()
+        setCategoryName('')
         await dispatch(categoryCreateThunk({ name: categoryName, is_favorited: false }))
         dispatch(categoriesRead.request(undefined, { selectFirstCategory: true }))
       } catch (error) {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
-      } finally {
-        setCategoryName('')
       }
     },
     [categoryName, dispatch, openToast]
