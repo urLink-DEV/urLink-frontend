@@ -8,7 +8,7 @@ export const socketInfoData = {
   },
 }
 
-class AlaramWS {
+class AlarmWS {
   connectionRetry = 1
 
   constructor() {
@@ -66,4 +66,4 @@ class AlaramWS {
   }
 }
 
-export const alarmSocket = new AlaramWS()
+export const alarmSocket = new AlarmWS()

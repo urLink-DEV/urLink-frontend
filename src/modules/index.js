@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 import { fork, all } from 'redux-saga/effects'
 
 import { ALARM, alarmReducer, alarmSaga } from './alarm'
-import { ALARM_NOTICE, alaramNoticeReducer, alarmNoticeSaga } from './alarmNotice'
+import { ALARM_NOTICE, alarmNoticeReducer, alarmNoticeSaga } from './alarmNotice'
 import { CATEGORY, categoryReducer, categorySaga } from './category'
 import { ERROR, errorReducer } from './error'
 import { HISTORY_LINK, historyLinkReducer, historyLinkSaga } from './historyLink'
@@ -20,7 +20,7 @@ export const rootReducer = combineReducers({
   [ALARM]: alarmReducer,
   [USER]: userReducer,
   [HISTORY_LINK]: historyLinkReducer,
-  [ALARM_NOTICE]: alaramNoticeReducer,
+  [ALARM_NOTICE]: alarmNoticeReducer,
   [UI]: uiReducer,
 })
 
