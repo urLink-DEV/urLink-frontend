@@ -26,7 +26,7 @@ const watchCategoryRemove = createRequestSaga(categoryRemove, function* (action)
 
 export function* categorySaga() {
   yield debounce(100, categoriesRead.REQUEST, watchCategoriesRead)
-  yield takeLatest(categoryCreate.REQUEST, watchCategoryCreate)
+  yield debounce(300, categoryCreate.REQUEST, watchCategoryCreate)
   yield takeLatest(categoryModify.REQUEST, watchCategoryModify)
   yield takeLatest(categoryRemove.REQUEST, watchCategoryRemove)
 }
