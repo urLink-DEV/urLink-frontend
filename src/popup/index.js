@@ -235,7 +235,7 @@ const Template = {
 
   categoryEmpty() {
     return `
-      <div class="category-empty-contanier">
+      <div class="category-empty-container">
         <img class="category-empty" src="${emptyImg}">
       </div>
     `
