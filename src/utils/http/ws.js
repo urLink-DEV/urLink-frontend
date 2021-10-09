@@ -50,7 +50,7 @@ class AlarmWS {
       if (!this.ws) return
       if (callback && typeof callback === 'function') this.ws.onerror = callback
       else {
-        this.ws.onerror = (_e) => {
+        this.ws.onerror = () => {
           if (this.ws.readyState === 3 && this.connectionRetry <= 10) {
             setTimeout(() => {
               this.onConnection(this.ws)
