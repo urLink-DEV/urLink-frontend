@@ -21,9 +21,9 @@ body {
 }
 
 /* login-container */
-/* category-empty-contanier */
+/* category-empty-container */
 .login-required-container,
-.category-empty-contanier {
+.category-empty-container {
   display: flex;
   align-items: center;
   justify-content: center;

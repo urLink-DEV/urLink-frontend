@@ -131,18 +131,18 @@ const EventListener = {
     const linkSaveElement = document.getElementById('linkSave')
     const categoryId = linkSaveElement.dataset.categoryId
     const categoryCardElement = document.getElementById(`category${categoryId}`)
+
+    if (!linkSaveElement.classList.contains('active')) return
     try {
       e.preventDefault()
-      if (linkSaveElement.classList.contains('active')) {
-        const tabs = await getTabsQuery()
-        const { data } = await requestLinkCreate({ categoryId, path: [tabs[0].url] })
-        if (data?.length) {
-          categoryCardElement.classList.add('upload-finish')
-          popupMessage({ message: '링크가 이동 되었습니다.' })
-        }
-        linkSaveElement.classList.toggle('active')
-        await APILoad.categoryListAppend()
+      linkSaveElement.classList.toggle('active')
+      const tabs = await getTabsQuery()
+      const { data } = await requestLinkCreate({ categoryId, path: [tabs[0].url] })
+      if (data?.length) {
+        categoryCardElement.classList.add('upload-finish')
+        popupMessage({ message: '링크가 이동 되었습니다.' })
       }
+      await APILoad.categoryListAppend()
     } catch (error) {
       categoryCardElement.classList.remove('check')
       if (error.response?.status === 500) {
@@ -235,7 +235,7 @@ const Template = {
 
   categoryEmpty() {
     return `
-      <div class="category-empty-contanier">
+      <div class="category-empty-container">
         <img class="category-empty" src="${emptyImg}">
       </div>
     `
