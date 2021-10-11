@@ -1,6 +1,11 @@
 import { getAccessToken } from './auth'
 import { axiosSetting } from './client'
 
+export const SOCKET_READY_STATE = {
+  OPEN: 1,
+  CLOSED: 3,
+}
+
 export const socketInfoData = {
   host: `wss://${axiosSetting.host}/ws/connection/?token={token}`,
   replaceWS(token) {
@@ -9,9 +14,8 @@ export const socketInfoData = {
 }
 
 class AlarmWS {
-  connectionRetry = 1
-
   constructor() {
+    this.connectionRetry = 1
     this.ws = null
   }
 
@@ -25,6 +29,7 @@ class AlarmWS {
   }
 
   onClose() {
+    if (!this.ws) return
     this.ws.close()
     return this
   }
@@ -45,13 +50,14 @@ class AlarmWS {
     }
   }
 
-  setOnerror(callback) {
+  setOnerror(callback, noRequestConnection = false) {
     try {
       if (!this.ws) return
-      if (callback && typeof callback === 'function') this.ws.onerror = callback
+      if (noRequestConnection && callback && typeof callback === 'function') this.ws.onerror = callback
       else {
-        this.ws.onerror = () => {
-          if (this.ws.readyState === 3 && this.connectionRetry <= 10) {
+        this.ws.onerror = async (event) => {
+          if (callback && typeof callback === 'function') callback(event)
+          if (this.ws.readyState === SOCKET_READY_STATE.CLOSED && this.connectionRetry <= 10) {
             setTimeout(() => {
               this.onConnection(this.ws)
               this.connectionRetry++

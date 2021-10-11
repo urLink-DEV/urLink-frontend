@@ -5,9 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { alarmNoticeConnection } from '@modules/alarmNotice'
 import { ERROR } from '@modules/error'
 import { PENDING } from '@modules/pending'
-import { alarmSocket } from '@utils/http/ws'
-
-const OPEN = 1
+import { alarmSocket, SOCKET_READY_STATE } from '@utils/http/ws'
 
 const useAlarmNoticeConnection = () => {
   const dispatch = useDispatch()
@@ -15,7 +13,7 @@ const useAlarmNoticeConnection = () => {
   const error = useSelector((state) => state[ERROR][alarmNoticeConnection.TYPE])
 
   useEffect(() => {
-    if (!alarmSocket.ws || alarmSocket.ws?.readyState !== OPEN) {
+    if (!alarmSocket.ws || alarmSocket.ws?.readyState !== SOCKET_READY_STATE.OPEN) {
       alarmSocket
         .onConnection()
         .setOnmessage((event) => {
