@@ -8,8 +8,8 @@ import { PENDING } from '@modules/pending'
 
 const useCategories = () => {
   const dispatch = useDispatch()
-  const pending = useSelector((state) => state[PENDING][categoriesRead.TYPE]?.['isFirstCategory'])
-  const error = useSelector((state) => state[ERROR][categoriesRead.TYPE]?.['isFirstCategory'])
+  const pending = useSelector((state) => state[PENDING][categoriesRead.TYPE])
+  const error = useSelector((state) => state[ERROR][categoriesRead.TYPE])
   const categories = useSelector(categorySelector.listData)
   const favoritedArr = useSelector(categorySelector.favoriteCategories)
   const notFavoritedArr = useSelector(categorySelector.normalCategories)
@@ -19,7 +19,7 @@ const useCategories = () => {
   }
 
   React.useEffect(() => {
-    dispatch(categoriesRead.request(undefined, { key: 'isFirstCategory' }))
+    dispatch(categoriesRead.request(undefined, { selectFirstCategory: true }))
   }, [dispatch])
 
   return { pending, error, categories, favoritedArr, notFavoritedArr, reload }
