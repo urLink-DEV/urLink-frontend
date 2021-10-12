@@ -57,7 +57,7 @@ function Header() {
     <Toolbar className={classes.toolbar}>
       <EditableCategoryTitle />
       <TabButtonGroup />
-      <IconButton onClick={handleReload}>
+      <IconButton onClick={handleReload} className={classes.refreshBtn}>
         <RefreshIcon />
       </IconButton>
       <SearchBar

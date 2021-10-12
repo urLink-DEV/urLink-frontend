@@ -12,12 +12,13 @@ export const useStyles = makeStyles((theme) => ({
   },
   main: {
     width: '100%',
+    padding: '5px 67px 0 20px',
+    backgroundColor:
+      theme.palette.type !== 'dark' ? theme.palette.colorGroup.lightGrey : theme.palette.background.default,
   },
   appBar: {
-    [theme.breakpoints.down('xs')]: {
-      position: 'fixed',
-      right: 0,
-    },
+    position: 'fixed',
+    right: 0,
     width: 52,
   },
 }))

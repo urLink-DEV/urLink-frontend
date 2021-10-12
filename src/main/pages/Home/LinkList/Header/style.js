@@ -20,6 +20,10 @@ export const useStyles = makeStyles((theme) => ({
   tabDeleteText: {
     color: theme.palette.secondary.main,
   },
+  refreshBtn: {
+    padding: 12,
+    paddingLeft: 0,
+  },
 }))
 
 export default useStyles
