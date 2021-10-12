@@ -20,11 +20,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { createTab } from '@/utils/chromeApis/tab'
 import linkListEmptyIcon from '@assets/images/linkListEmptyIcon.png'
-import {
-  alaramNoticeSelector,
-  alaramNoticeReadNoticeThunk,
-  alaramNoticeNoReturnNoticeThunk,
-} from '@modules/alarmNotice'
+import { alarmNoticeSelector, alarmNoticeReadNoticeThunk, alarmNoticeNoReturnNoticeThunk } from '@modules/alarmNotice'
 import { categorySelector } from '@modules/category'
 import { linksRead } from '@modules/link'
 import { useToast } from '@modules/ui'
@@ -36,7 +32,7 @@ const EMPTY_ALARM = 0
 function AlarmList() {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const listData = useSelector(alaramNoticeSelector.listData)
+  const listData = useSelector(alarmNoticeSelector.listData)
   const selectedCategory = useSelector(categorySelector.selectedCategory)
   const { openToast } = useToast()
 
@@ -44,7 +40,7 @@ function AlarmList() {
     (alarm) => async (e) => {
       try {
         e.stopPropagation()
-        await dispatch(alaramNoticeReadNoticeThunk({ alarm_id: alarm.id }))
+        await dispatch(alarmNoticeReadNoticeThunk({ alarm_id: alarm.id }))
         dispatch(linksRead.request({ categoryId: selectedCategory?.id }, { key: selectedCategory?.id }))
         createTab(alarm.url_path)
       } catch (error) {
@@ -58,7 +54,7 @@ function AlarmList() {
     (alarm_id) => async (e) => {
       try {
         e.stopPropagation()
-        await dispatch(alaramNoticeNoReturnNoticeThunk({ alarm_id }))
+        await dispatch(alarmNoticeNoReturnNoticeThunk({ alarm_id }))
         dispatch(linksRead.request({ categoryId: selectedCategory?.id }, { key: selectedCategory?.id }))
         openToast({ type: 'success', message: '알람을 삭제했습니다.' })
       } catch (error) {
@@ -98,7 +94,7 @@ function AlarmList() {
                 </ListItemAvatar>
                 <ListItemText
                   className={clsx(classes.text, {
-                    [classes.notiecText]: !data.alarm_has_read,
+                    [classes.noticeText]: !data.alarm_has_read,
                     [classes.readText]: data.alarm_has_read,
                   })}
                   title={data.url_title}
@@ -106,7 +102,7 @@ function AlarmList() {
                   secondary={new Date(data.reserved_time).toLocaleString()}
                 />
                 <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="alaram-notice-delete" onClick={handleDeleteAlarm(data.id)}>
+                  <IconButton edge="end" aria-label="alarm-notice-delete" onClick={handleDeleteAlarm(data.id)}>
                     <CloseIcon />
                   </IconButton>
                 </ListItemSecondaryAction>
