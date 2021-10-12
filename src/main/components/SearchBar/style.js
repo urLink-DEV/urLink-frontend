@@ -37,6 +37,7 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   menuItem: {
+    fontSize: 14,
     padding: theme.spacing(0, 1.5),
   },
   divider: {
