@@ -22,7 +22,6 @@ export const useStyles = makeStyles((theme) => ({
   },
   refreshBtn: {
     padding: 12,
-    paddingLeft: 0,
   },
 }))
 
