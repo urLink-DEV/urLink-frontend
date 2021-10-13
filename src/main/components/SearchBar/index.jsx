@@ -54,6 +54,7 @@ function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, o
         />
       ) : (
         <InputBase
+          className={classes.searchInputBase}
           placeholder="웹사이트 주소나 제목을 검색하세요"
           classes={{ input: classes.searchInput }}
           inputProps={{ 'aria-label': 'search' }}
