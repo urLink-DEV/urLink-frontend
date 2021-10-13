@@ -28,8 +28,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
   },
   reloadIcon: {
-    padding: theme.spacing(0.5, 0),
-    marginTop: 10,
+    padding: 0,
   },
   tabOpenButton: {
     marginLeft: 16,
