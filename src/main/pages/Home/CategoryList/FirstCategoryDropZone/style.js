@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
   },
   categoryDropZone: {
     width: '212px',
-    height: '100vh',
+    height: '70%',
   },
 }))
 
