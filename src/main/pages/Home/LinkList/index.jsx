@@ -34,6 +34,7 @@ function LinkList() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { categories } = useCategories()
+  const categoryList = useSelector(categorySelector.listData)
   const selectedCategory = useSelector(categorySelector.selectedCategory)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
   const searchFilter = useSelector(linkSelector.searchFilter)
@@ -86,11 +87,15 @@ function LinkList() {
     }
   }, [dragData, linkCreatePending, linksReadPending])
 
+  console.log(categoryList, selectedLinkList)
+
   return (
     <Grid container direction="column" className={classes.root} ref={rootRef}>
-      <Grid item>
-        <Header />
-      </Grid>
+      {!!categoryList.length && !!links.length && (
+        <Grid item>
+          <Header />
+        </Grid>
+      )}
 
       <Grid item container className={classes.content} spacing={2} onScroll={handleScrollUpBtn} ref={contentRef}>
         {!skeletonLength
