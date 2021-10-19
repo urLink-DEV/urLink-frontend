@@ -18,6 +18,7 @@ function LinkDropZone() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { openToast } = useToast()
+  const categoryList = useSelector(categorySelector.listData)
   const selectedCategory = useSelector(categorySelector.selectedCategory)
   const { listData, clearDragData } = useDrag(LINK)
   const { open } = useDropZone(LINK_DROP_ZONE)
@@ -33,7 +34,11 @@ function LinkDropZone() {
         dispatch(categoriesRead.request())
         openToast({ type: 'success', message: '링크가 저장 되었습니다.' })
       } catch (error) {
-        openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
+        if (!categoryList.length) {
+          openToast({ type: 'error', message: '카테고리를 생성해주세요.' })
+        } else {
+          openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
+        }
       }
     },
     [dispatch, listData, openToast, selectedCategory.id, clearDragData]
