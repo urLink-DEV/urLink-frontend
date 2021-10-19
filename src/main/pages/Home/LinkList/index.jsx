@@ -34,6 +34,7 @@ function LinkList() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { categories } = useCategories()
+  const categoryList = useSelector(categorySelector.listData)
   const selectedCategory = useSelector(categorySelector.selectedCategory)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
   const searchFilter = useSelector(linkSelector.searchFilter)
@@ -88,17 +89,13 @@ function LinkList() {
 
   return (
     <Grid container direction="column" className={classes.root} ref={rootRef}>
-      <Grid item>
-        <Header />
-      </Grid>
+      {!!categoryList.length && !!links.length && (
+        <Grid item>
+          <Header />
+        </Grid>
+      )}
 
       <Grid item container className={classes.content} spacing={2} onScroll={handleScrollUpBtn} ref={contentRef}>
-        {categories.length === CATEGORY_EMPTY && (
-          <Grid item xs={12} className={classes.center}>
-            <img src={CategoryEmptyImg} alt="카테고리 비어 있음" />
-          </Grid>
-        )}
-
         {!skeletonLength
           ? null
           : dragData.type === 'link' && createLinksCategoryId === selectedCategory?.id
@@ -111,7 +108,12 @@ function LinkList() {
           </Grid>
         ))}
 
-        {links?.length === LINK_EMPTY &&
+        {categories.length === CATEGORY_EMPTY ? (
+          <Grid item xs={12} className={classes.center}>
+            <img src={CategoryEmptyImg} alt="카테고리 비어 있음" />
+          </Grid>
+        ) : (
+          links.length === LINK_EMPTY &&
           (skeletonLength ? null : searchFilter.keyword && SEARCH_LINK_EMPTY ? (
             <Grid item xs={12} className={classes.center}>
               <img src={linkListSearchEmptyImg} alt="검색 조회 없음" />
@@ -120,7 +122,8 @@ function LinkList() {
             <Grid item xs={12} className={classes.center}>
               <img src={linkListEmptyImg} alt="링크 비어 있음" />
             </Grid>
-          ))}
+          ))
+        )}
       </Grid>
 
       <ScrollUpButton targetRef={contentRef} open={showScrollUpButton} />
