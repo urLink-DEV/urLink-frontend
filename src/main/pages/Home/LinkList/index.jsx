@@ -87,8 +87,6 @@ function LinkList() {
     }
   }, [dragData, linkCreatePending, linksReadPending])
 
-  console.log(categoryList, selectedLinkList)
-
   return (
     <Grid container direction="column" className={classes.root} ref={rootRef}>
       {!!categoryList.length && !!links.length && (
@@ -115,7 +113,7 @@ function LinkList() {
             <img src={CategoryEmptyImg} alt="카테고리 비어 있음" />
           </Grid>
         ) : (
-          links?.length === LINK_EMPTY &&
+          links.length === LINK_EMPTY &&
           (skeletonLength ? null : searchFilter.keyword && SEARCH_LINK_EMPTY ? (
             <Grid item xs={12} className={classes.center}>
               <img src={linkListSearchEmptyImg} alt="검색 조회 없음" />
