@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'rgba(53, 142, 255, 0.15)',
     opacity: 1,
   },
-  diplayNone: {
+  displayNone: {
     display: 'none',
   },
   addLinkIcon: {

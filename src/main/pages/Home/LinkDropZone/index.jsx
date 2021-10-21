@@ -31,6 +31,10 @@ function LinkDropZone() {
           openToast({ type: 'error', message: '카테고리를 생성해주세요.' })
           return
         }
+        if (!selectedCategory.id) {
+          openToast({ type: 'error', message: '링크를 저장할 카테고리를 만들거나 선택해주세요.' })
+          return
+        }
         const path = listData.reduce((prev, data) => prev.concat(data.path), [])
         await dispatch(linkCreateThunk({ categoryId: selectedCategory.id, path }))
         clearDragData()
@@ -51,7 +55,7 @@ function LinkDropZone() {
   return (
     <div
       className={clsx(classes.coverBackground, {
-        [classes.diplayNone]: !open,
+        [classes.displayNone]: !open,
       })}
       onDrop={handleDropOnCardArea}
       onDragOver={handleDragOverOnCardArea}
