@@ -18,7 +18,7 @@ const searchFilterList = [
   { search: 'title', name: '제목' },
 ]
 
-function Header() {
+function Header({ links }) {
   const classes = useStyles()
   const dispatch = useDispatch()
 
@@ -56,19 +56,23 @@ function Header() {
   return (
     <Toolbar className={classes.toolbar}>
       <EditableCategoryTitle />
-      <TabButtonGroup />
-      <IconButton onClick={handleReload} className={classes.refreshBtn}>
-        <RefreshIcon />
-      </IconButton>
-      <SearchBar
-        inputProps={{
-          onChange: handleChangeInput,
-          value: keyword,
-        }}
-        searchFilterList={searchFilterList}
-        onSelectName={handleSelectName}
-        selectedName={selectedName}
-      />
+      {!!links.length && (
+        <>
+          <TabButtonGroup />
+          <IconButton onClick={handleReload} className={classes.refreshBtn}>
+            <RefreshIcon />
+          </IconButton>
+          <SearchBar
+            inputProps={{
+              onChange: handleChangeInput,
+              value: keyword,
+            }}
+            searchFilterList={searchFilterList}
+            onSelectName={handleSelectName}
+            selectedName={selectedName}
+          />
+        </>
+      )}
     </Toolbar>
   )
 }

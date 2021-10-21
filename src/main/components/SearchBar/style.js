@@ -5,7 +5,7 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     width: 410,
     padding: 0,
-    margin: 'auto 0',
+    margin: 'auto 0 auto auto',
     borderRadius: 20,
     backgroundColor: 'white',
     border: theme.spacing(0.5, 0),

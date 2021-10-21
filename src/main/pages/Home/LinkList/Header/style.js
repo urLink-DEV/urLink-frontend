@@ -4,9 +4,6 @@ export const useStyles = makeStyles((theme) => ({
   toolbar: {
     paddingLeft: 0,
     paddingRight: 0,
-    '& > :nth-last-child(1)': {
-      marginLeft: 'auto',
-    },
   },
   tabText: {
     fontSize: 14,
