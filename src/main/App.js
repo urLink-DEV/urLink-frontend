@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 
 import moment from 'moment'
 import { Router } from 'react-chrome-extension-router'
-import ReactGA from 'react-ga'
+import { useLocation } from 'react-router-dom'
 
+import { GAPageview, initGA } from '@/utils/ga'
 import Snackbar from '@main/components/Toast'
 import Home from '@main/pages/Home'
 import { useToast } from '@modules/ui'
@@ -16,10 +17,11 @@ import 'moment/locale/ko'
 moment.locale('ko')
 
 function App() {
+  const { pathname } = useLocation()
+
   useEffect(() => {
-    ReactGA.initialize('UA-207149982-2')
-    ReactGA.set({ page: window.location.pathname })
-    ReactGA.pageview(window.location.pathname + window.location.search)
+    initGA()
+    GAPageview(pathname)
   }, [])
 
   return (
