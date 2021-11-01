@@ -3,6 +3,7 @@ import React, { memo, useCallback, useState } from 'react'
 import { IconButton, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@material-ui/core'
 import clsx from 'clsx'
 
+import { GAEvent } from '@/utils/ga'
 import linkCopyImg from '@assets/images/link-copy.svg'
 import logoImg from '@assets/images/logo/logo16.png'
 import newTabImg from '@assets/images/new-tab.svg'
@@ -21,6 +22,7 @@ function History({ isSelected = false, data = {}, ...props }) {
   const handleNewTab = useCallback(
     (e) => {
       e.stopPropagation()
+      GAEvent('방문기록', '링크 새 탭 열기')
       createTab(data.url)
     },
     [data.url]
@@ -29,6 +31,7 @@ function History({ isSelected = false, data = {}, ...props }) {
   const handleLinkCopy = useCallback(
     (e) => {
       e.stopPropagation()
+      GAEvent('방문기록', '링크 복사 하기')
       copyLink(data.url)
       openToast({ type: 'success', message: '링크가 복사 되었습니다.' })
     },
