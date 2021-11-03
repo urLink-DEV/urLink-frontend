@@ -21,8 +21,11 @@ function App() {
 
   useEffect(() => {
     initGA()
-    GAPageview(pathname)
   }, [])
+
+  useEffect(() => {
+    GAPageview(pathname)
+  }, [pathname])
 
   return (
     <>
