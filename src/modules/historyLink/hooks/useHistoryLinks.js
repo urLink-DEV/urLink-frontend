@@ -4,7 +4,7 @@ import moment from 'moment'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { ERROR } from '@modules/error'
-import { historyLinkListRead, historyLinkSelector, setHistoryLinkChnageFilter } from '@modules/historyLink'
+import { historyLinkListRead, historyLinkSelector, setHistoryLinkChangeFilter } from '@modules/historyLink'
 import { INIT, PENDING } from '@modules/pending'
 
 const MIN_TIME = new Date(moment().add(-1, 'year')).getTime()
@@ -18,7 +18,7 @@ const useHistoryLinks = () => {
 
   const reload = useCallback(() => {
     dispatch(
-      setHistoryLinkChnageFilter({
+      setHistoryLinkChangeFilter({
         text: '',
         startTime: new Date(moment().add(-1, 'day')).getTime(),
         endTime: new Date().getTime(),
@@ -27,10 +27,10 @@ const useHistoryLinks = () => {
     )
   }, [dispatch])
 
-  const search = useCallback(
+  const keywordSearch = useCallback(
     (value) => {
       dispatch(
-        setHistoryLinkChnageFilter({
+        setHistoryLinkChangeFilter({
           text: value,
           startTime: value ? 0 : new Date(moment().add(-1, 'day')).getTime(),
           endTime: new Date().getTime(),
@@ -41,9 +41,24 @@ const useHistoryLinks = () => {
     [dispatch]
   )
 
+  const dateSearch = useCallback(
+    (value) => {
+      if (!value) value = new Date()
+      dispatch(
+        setHistoryLinkChangeFilter({
+          text: '',
+          startTime: new Date(moment(value).startOf('day').add(-1, 'day')).getTime(),
+          endTime: new Date(moment(value).startOf('day').add(1, 'day')).getTime(),
+          isNext: false,
+        })
+      )
+    },
+    [dispatch]
+  )
+
   const next = useCallback(() => {
     dispatch(
-      setHistoryLinkChnageFilter({
+      setHistoryLinkChangeFilter({
         startTime: new Date(moment(filter.startTime).add(-1, 'day')).getTime(),
         endTime: filter.startTime,
         isNext: true,
@@ -61,7 +76,7 @@ const useHistoryLinks = () => {
     }
   }, [filter, dispatch])
 
-  return { pending, error, filter, listData, reload, search, next }
+  return { pending, error, filter, listData, reload, keywordSearch, dateSearch, next }
 }
 
 export default useHistoryLinks

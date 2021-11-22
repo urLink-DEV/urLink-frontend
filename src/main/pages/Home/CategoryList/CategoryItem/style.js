@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    padding: '18px 16px',
   },
 
   listTab: {
@@ -22,16 +23,19 @@ const useStyles = makeStyles((theme) => ({
     outline: 'none',
   },
   title: {
-    fontSize: 16,
-    maxWidth: '60%',
+    fontSize: 14,
+    width: 120,
     color: '#212529',
-    padding: 18,
-    height: 58,
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
   },
   selectedTitle: {
     color: '#2083ff',
     fontWeight: 'bold',
-    maxWidth: '65%',
+  },
+  favoriteTitle: {
+    width: '60%',
   },
   hoveredItem: {
     backgroundColor: 'rgba(32, 131, 255, 0.1)',
@@ -54,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   favoriteStar: {
-    marginRight: '8px',
+    marginLeft: '2px',
   },
   block: {
     display: 'block',
@@ -62,13 +66,10 @@ const useStyles = makeStyles((theme) => ({
   hidden: {
     display: 'none',
   },
-  marginRight: {
-    marginRight: '8px',
-  },
   linkBox: {
     display: 'flex',
     alignItems: 'center',
-    maxWidth: '40%',
+    justifyContent: 'flex-end',
   },
   dragFinished: {
     position: 'relative',

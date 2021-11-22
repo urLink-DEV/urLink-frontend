@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import alarmImg from '@assets/images/alarm.png'
 import historyImg from '@assets/images/history.png'
 import personImg from '@assets/images/person.png'
-import { useAlaramNoticeConnection, alaramNoticeSelector } from '@modules/alarmNotice'
+import { alarmNoticeSelector } from '@modules/alarmNotice'
 import { useHistoryLinks } from '@modules/historyLink'
 
 import AlarmList from './AlarmList'
@@ -15,10 +15,9 @@ import Profile from './Profile'
 import useStyles, { StyledListItem } from './style'
 
 function AppBar() {
-  useAlaramNoticeConnection()
   const classes = useStyles()
   const { reload } = useHistoryLinks()
-  const alarmList = useSelector(alaramNoticeSelector.listData)
+  const alarmList = useSelector(alarmNoticeSelector.listData)
   const notReadAlarmList = useMemo(() => {
     return alarmList?.filter((item) => !Boolean(item?.alarm_has_read))
   }, [alarmList])

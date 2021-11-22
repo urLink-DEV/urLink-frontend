@@ -9,23 +9,41 @@ import CategoryEmptyImg from '@assets/images/group-5.svg'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import ScrollUpButton from '@main/components/ScrollUpButton'
 import { useCategories, categorySelector } from '@modules/category'
-import { useLinks, linkSelector, linkClearSelect, linkSearchFilterInit } from '@modules/link'
+import { useLinks, linkSelector, linkClearSelect, linkSearchFilterInit, linksRead, linkCreate } from '@modules/link'
+import { PENDING } from '@modules/pending'
+import { uiSelector } from '@modules/ui'
 
 import Header from './Header'
 import Link from './Link'
+import LinkSkeleton from './LinkSkeleton'
 import useStyles from './style'
 
 const CATEGORY_EMPTY = 0
 const LINK_EMPTY = 0
 const SEARCH_LINK_EMPTY = 1
 
+const SkeletonList = (length) => {
+  return new Array(length).fill().map((_, i) => (
+    <Grid item key={i}>
+      <LinkSkeleton key={i} />
+    </Grid>
+  ))
+}
+
 function LinkList() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { categories } = useCategories()
+  const categoryList = useSelector(categorySelector.listData)
   const selectedCategory = useSelector(categorySelector.selectedCategory)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
   const searchFilter = useSelector(linkSelector.searchFilter)
+  const createLinksCategoryId = useSelector(linkSelector.createLinksCategoryId)
+  const dragData = useSelector(uiSelector.drag)
+  const [skeletonLength, setSkeletonLength] = useState(0)
+  const linkCreatePending = useSelector((state) => state[PENDING][linkCreate.TYPE])
+  const linksReadPending = useSelector((state) => state[PENDING][linksRead.TYPE])
+
   const { links } = useLinks({
     detact: true,
     categoryId: selectedCategory?.id,
@@ -58,18 +76,31 @@ function LinkList() {
     dispatch(linkSearchFilterInit())
   }, [dispatch, selectedCategory])
 
+  useEffect(() => {
+    const { link } = dragData
+    if (link.listData.length && linkCreatePending) {
+      setSkeletonLength(link.listData.length)
+    } else if (!linkCreatePending && !linksReadPending) {
+      setSkeletonLength(0)
+    } else {
+      setSkeletonLength(0)
+    }
+  }, [dragData, linkCreatePending, linksReadPending])
+
   return (
     <Grid container direction="column" className={classes.root} ref={rootRef}>
-      <Grid item>
-        <Header />
-      </Grid>
+      {!!categoryList.length && (
+        <Grid item>
+          <Header links={links} />
+        </Grid>
+      )}
 
       <Grid item container className={classes.content} spacing={2} onScroll={handleScrollUpBtn} ref={contentRef}>
-        {categories.length === CATEGORY_EMPTY && (
-          <Grid item xs={12} className={classes.center}>
-            <img src={CategoryEmptyImg} alt="카테고리 비어 있음" />
-          </Grid>
-        )}
+        {!skeletonLength
+          ? null
+          : dragData.type === 'link' && createLinksCategoryId === selectedCategory?.id
+          ? SkeletonList(skeletonLength)
+          : dragData.category.data.id === selectedCategory?.id && SkeletonList(skeletonLength)}
 
         {links?.map((data) => (
           <Grid item key={data.id}>
@@ -77,8 +108,13 @@ function LinkList() {
           </Grid>
         ))}
 
-        {links.length === LINK_EMPTY &&
-          (searchFilter.keyword && SEARCH_LINK_EMPTY ? (
+        {categories.length === CATEGORY_EMPTY ? (
+          <Grid item xs={12} className={classes.center}>
+            <img src={CategoryEmptyImg} alt="카테고리 비어 있음" />
+          </Grid>
+        ) : (
+          links.length === LINK_EMPTY &&
+          (skeletonLength ? null : searchFilter.keyword && SEARCH_LINK_EMPTY ? (
             <Grid item xs={12} className={classes.center}>
               <img src={linkListSearchEmptyImg} alt="검색 조회 없음" />
             </Grid>
@@ -86,7 +122,8 @@ function LinkList() {
             <Grid item xs={12} className={classes.center}>
               <img src={linkListEmptyImg} alt="링크 비어 있음" />
             </Grid>
-          ))}
+          ))
+        )}
       </Grid>
 
       <ScrollUpButton targetRef={contentRef} open={showScrollUpButton} />

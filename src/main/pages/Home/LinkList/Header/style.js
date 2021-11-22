@@ -4,9 +4,6 @@ export const useStyles = makeStyles((theme) => ({
   toolbar: {
     paddingLeft: 0,
     paddingRight: 0,
-    '& > :nth-last-child(1)': {
-      marginLeft: 'auto',
-    },
   },
   tabText: {
     fontSize: 14,
@@ -19,6 +16,9 @@ export const useStyles = makeStyles((theme) => ({
   },
   tabDeleteText: {
     color: theme.palette.secondary.main,
+  },
+  refreshBtn: {
+    padding: 12,
   },
 }))
 

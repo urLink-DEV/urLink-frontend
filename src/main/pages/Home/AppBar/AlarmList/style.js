@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 11,
     },
   },
-  notiecText: {
+  noticeText: {
     '& .MuiListItemText-secondary': {
       fontWeight: 'bold',
       color: '#2083ff',

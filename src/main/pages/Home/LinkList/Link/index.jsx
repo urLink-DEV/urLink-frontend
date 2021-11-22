@@ -98,7 +98,7 @@ function Link({ data }) {
             is_favorited: !data.is_favorited,
           })
         )
-        dispatch(linksRead.request({ categoryId: data.category }))
+        dispatch(linksRead.request({ categoryId: data.category }, { key: data.category }))
       } catch (error) {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
       }
@@ -109,10 +109,10 @@ function Link({ data }) {
   const handleCopy = useCallback(
     (e) => {
       e.stopPropagation()
-      copyLink(data.url)
+      copyLink(data.path)
       openToast({ type: 'success', message: '링크가 복사 되었습니다.' })
     },
-    [data.url, openToast]
+    [data.path, openToast]
   )
 
   const handleSetAlarm = useCallback(
@@ -132,7 +132,7 @@ function Link({ data }) {
             },
           })
         )
-        dispatch(linksRead.request({ categoryId: data.category }))
+        dispatch(linksRead.request({ categoryId: data.category }, { key: data.category }))
         openToast({ type: 'success', message: '알람이 설정 되었습니다.' })
       } catch (error) {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
@@ -160,7 +160,7 @@ function Link({ data }) {
               description: formData.description,
             })
           )
-          dispatch(linksRead.request({ categoryId: data.category }))
+          dispatch(linksRead.request({ categoryId: data.category }, { key: data.category }))
           setIsEditable(false)
           openToast({ type: 'success', message: '링크 카드 정보가 수정 되었습니다.' })
         } catch (error) {

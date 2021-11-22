@@ -4,7 +4,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
 
-    width: 575,
+    width: 700,
     height: '100vh',
     // padding: '20px 24px 22px 24px',
 
@@ -19,13 +19,16 @@ const useStyles = makeStyles((theme) => ({
     padding: '16px 16px 10px 16px',
   },
   mainText: {
-    marginRight: 16,
+    marginRight: 10,
     height: 36,
 
     backgroundColor: 'transparent',
 
     fontSize: '20pt',
     fontWeight: 'bold',
+  },
+  reloadIcon: {
+    padding: 0,
   },
   tabOpenButton: {
     marginLeft: 16,

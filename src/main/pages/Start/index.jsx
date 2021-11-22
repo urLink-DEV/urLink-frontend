@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react'
 
-import 'swiper/css/swiper.css'
+import 'swiper/swiper-bundle.css'
 import { Link } from 'react-chrome-extension-router'
 import Swiper from 'react-id-swiper'
 

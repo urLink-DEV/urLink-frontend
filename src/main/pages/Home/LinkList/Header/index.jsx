@@ -1,67 +1,78 @@
-import React, { useCallback, memo, useState, useMemo } from 'react'
+import React, { useEffect, useCallback, memo, useState, useMemo } from 'react'
 
 import { IconButton, Toolbar } from '@material-ui/core'
 import { Refresh as RefreshIcon } from '@material-ui/icons'
 import { debounce } from 'lodash'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-import SearchButton from '@main/components/SearchButton'
-import { categorySelector } from '@modules/category'
-import { useLinks, linkSearchFilterChangeState } from '@modules/link'
+import useDebounce from '@hooks/useDebounce'
+import SearchBar from '@main/components/SearchBar'
+import { linkSearchFilterChangeState } from '@modules/link'
 
 import EditableCategoryTitle from './EditableCategoryTitle'
 import useStyles from './style'
 import TabButtonGroup from './TabButtonGroup'
 
-const listSearchFilter = [
-  { search: 'path', name: '도메인' },
-  { search: 'title', name: '단어' },
+const searchFilterList = [
+  { search: 'path', name: '주소' },
+  { search: 'title', name: '제목' },
 ]
 
-function Header() {
+function Header({ links }) {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const selectedCategory = useSelector(categorySelector.selectedCategory)
-  const { reload } = useLinks({ categoryId: selectedCategory?.id })
 
-  const [selectedName, setSelectedName] = useState(listSearchFilter[0].search)
+  const [selectedName, setSelectedName] = useState(searchFilterList[0].search)
+  const [keyword, setKeyword] = useState('')
 
-  const handleLinkSearch = useCallback(
-    (e) => {
-      const { key, currentTarget } = e
-      const { value } = currentTarget
-      if (key === 'Enter') {
-        dispatch(linkSearchFilterChangeState({ selectedName, keyword: value }))
-      }
-    },
-    [dispatch, selectedName]
-  )
+  const debouncedKeyword = useDebounce(keyword, 250)
 
-  const handleSelectButton = useCallback((_e, name) => {
-    setSelectedName(name)
+  const handleChangeInput = useCallback((e) => {
+    setKeyword(e.target.value)
+  }, [])
+
+  const handleResetInput = useCallback(() => {
+    setKeyword('')
   }, [])
 
   const handleReload = useMemo(() => {
     return debounce(() => {
-      reload()
+      handleResetInput()
     }, 400)
-  }, [reload])
+  }, [handleResetInput])
+
+  const handleSelectName = useCallback(
+    (e) => {
+      handleResetInput()
+      setSelectedName(e.target.value)
+    },
+    [handleResetInput]
+  )
+
+  useEffect(() => {
+    dispatch(linkSearchFilterChangeState({ selectedName, keyword: debouncedKeyword }))
+  }, [dispatch, selectedName, debouncedKeyword])
 
   return (
     <Toolbar className={classes.toolbar}>
       <EditableCategoryTitle />
-      <SearchButton
-        inputProps={{
-          onKeyDown: handleLinkSearch,
-        }}
-        listSearchFilter={listSearchFilter}
-        onSelectButton={handleSelectButton}
-        selectedName={selectedName}
-      />
-      <TabButtonGroup />
-      <IconButton onClick={handleReload}>
-        <RefreshIcon />
-      </IconButton>
+      {!!links.length && (
+        <>
+          <TabButtonGroup />
+          <IconButton onClick={handleReload} className={classes.refreshBtn}>
+            <RefreshIcon />
+          </IconButton>
+          <SearchBar
+            inputProps={{
+              onChange: handleChangeInput,
+              value: keyword,
+            }}
+            searchFilterList={searchFilterList}
+            onSelectName={handleSelectName}
+            selectedName={selectedName}
+          />
+        </>
+      )}
     </Toolbar>
   )
 }

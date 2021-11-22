@@ -15,20 +15,21 @@ body {
 .popup-body {
   position: relative;
   width: 260px;
-  height: 410px;
+  height: 430px;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12);
   background-color: #ffffff;
 }
 
 /* login-container */
-/* category-empty-contanier */
+/* category-empty-container */
 .login-required-container,
-.category-empty-contanier {
+.category-empty-container {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 260px;
   height: 234px;
+  margin-top: 10px;
 }
 
 .category-empty {
@@ -95,6 +96,90 @@ body {
   line-height: normal;
   letter-spacing: normal;
   color: var(--blue-grey);
+}
+
+/* category-create */
+
+.category-create-btn {
+  width: 208px;
+  height: 52px;
+  background: #F0F3F5;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  margin: 16px 26px 0;
+}
+.category-create-btn:hover {
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12);
+}
+.category-create-btn.hide {
+  display: none;
+}
+.category-create-btn .category-plus{
+  margin: auto;
+  width: 24px;
+}
+
+/* category-create-input-wrapper */
+
+.category-create-input-wrapper {
+  width: 210px;
+  height: 52px;
+  border: solid 1px #2083ff;
+  box-shadow: 0 2px 8px 0 rgb(0 0 0 / 15%), 0 5px 12px 0 rgb(0 0 0 / 12%), 0 1px 3px 0 rgb(0 0 0 / 12%);
+  border-radius: 4px;
+  background-color: #fff;
+  margin: 16px 26px 0;
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+}
+.category-create-input-wrapper.hide {
+  display: none;
+}
+.enter-category-name-input{
+  width: 122px;
+  height: 24px;
+  font-size: 14px;
+  margin-left: 4px;
+  margin-right: 4px;
+  border-radius: 4px;
+  background-color: #f1f3f5;
+  border: none;
+}
+.enter-category-name-input:focus {
+  outline: none !important;
+}
+.category-btn-group {
+  display: flex;
+  flex-direction: row;
+}
+.category-btn-group .create-ok-btn {
+  color: #fff;
+  width: 37px;
+  height: 24px;
+  padding: 0;
+  font-size: 12px;
+  min-width: 0;
+  border-radius: 4px;
+  border: none;
+  background-color: #2083ff;
+  cursor: pointer;
+}
+.category-btn-group .create-cancel-btn{
+  width: 37px;
+  height: 24px;
+  padding: 0;
+  font-size: 12px;
+  min-width: 0;
+  border-radius: 4px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+.category-btn-group .create-cancel-btn:hover{
+  background-color: rgba(0, 0, 0, 0.04);
 }
 
 /* category-upload-finish */
@@ -209,10 +294,9 @@ body {
 
   margin: 17px;
   width: 228px;
-  height: 40px;
-  border-radius: 1.8px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
-  background-color: var(--blue-grey);
+  height: 48px;
+  border-radius: 4px;
+  background-color: var(--light-grey);
 }
 
 /* .link-save-btn .link-save-btn-text{
@@ -235,13 +319,8 @@ body {
   align-items: center;
   justify-content: center;
 
-  margin: 17px;
-  width: 228px;
-  height: 40px;
-  border-radius: 1.8px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
-  color: var(--maintext);
+  background-color: var(--maincolor);
+  color: #fff;
 }
 
 /* urlLink open */
@@ -252,17 +331,16 @@ body {
 
   margin: 17px;
   width: 228px;
-  height: 40px;
-  border-radius: 1.8px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
-  background-color: var(--maincolor);
+  height: 48px;
+  border-radius: 4px;
+  background-color: var(--powder-blue);
 }
 
 .urlLink-open-btn .urlLink-open-btn-text {
   padding: 14px;
   width: 100%;
   height: 20px;
-  color: #ffffff;
+  color: var(--maincolor);
 }
 
 a.urlLink-open-btn-text:link {
@@ -308,23 +386,25 @@ a.urlLink-open-btn-text:hover {
 
 .category-popup {
   display: flex;
+  align-items: center;
+  justify-content: center;
   width: 238px;
-  height: 44px;
+  min-height: 44px;
   border-radius: 4px;
   box-shadow: 0 14px 28px 0 rgba(0, 0, 0, 0.15), 0 10px 10px 0 rgba(0, 0, 0, 0.12);
   background-color: rgba(33, 37, 41, 0.85);
+  padding: 10px 0;
 }
 
 .category-popup-img {
-  margin: 10px;
   width: 24px;
   height: 24px;
   object-fit: contain;
+  margin-right: 5px;
 }
 
 .category-popup-container .category-popup-text {
   width: 190px;
-  height: 17px;
   /* font-family: SpoqaHanSans; */
   font-size: 14px;
   font-weight: normal;
@@ -333,6 +413,4 @@ a.urlLink-open-btn-text:hover {
   line-height: normal;
   letter-spacing: -0.64px;
   color: #ffffff;
-  margin-top: 11px;
-  padding: 0px;
 }

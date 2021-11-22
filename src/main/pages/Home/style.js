@@ -14,10 +14,8 @@ export const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   appBar: {
-    [theme.breakpoints.down('xs')]: {
-      position: 'fixed',
-      right: 0,
-    },
+    position: 'fixed',
+    right: 0,
     width: 52,
   },
 }))

@@ -18,24 +18,34 @@ function LinkDropZone() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { openToast } = useToast()
+  const categoryList = useSelector(categorySelector.listData)
   const selectedCategory = useSelector(categorySelector.selectedCategory)
-  const { listData } = useDrag(LINK)
+  const { listData, clearDragData } = useDrag(LINK)
   const { open } = useDropZone(LINK_DROP_ZONE)
 
   const handleDropOnCardArea = useCallback(
     async (e) => {
       try {
         e.stopPropagation()
+        if (!categoryList.length) {
+          openToast({ type: 'error', message: '카테고리를 생성해주세요.' })
+          return
+        }
+        if (!selectedCategory.id) {
+          openToast({ type: 'error', message: '링크를 저장할 카테고리를 만들거나 선택해주세요.' })
+          return
+        }
         const path = listData.reduce((prev, data) => prev.concat(data.path), [])
         await dispatch(linkCreateThunk({ categoryId: selectedCategory.id, path }))
-        dispatch(linksRead.request({ categoryId: selectedCategory.id }))
+        clearDragData()
+        dispatch(linksRead.request({ categoryId: selectedCategory.id }, { key: selectedCategory.id }))
         dispatch(categoriesRead.request())
         openToast({ type: 'success', message: '링크가 저장 되었습니다.' })
       } catch (error) {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
       }
     },
-    [dispatch, listData, openToast, selectedCategory.id]
+    [dispatch, listData, openToast, selectedCategory.id, clearDragData, categoryList]
   )
 
   const handleDragOverOnCardArea = useCallback((e) => {
@@ -45,7 +55,7 @@ function LinkDropZone() {
   return (
     <div
       className={clsx(classes.coverBackground, {
-        [classes.diplayNone]: !open,
+        [classes.displayNone]: !open,
       })}
       onDrop={handleDropOnCardArea}
       onDragOver={handleDragOverOnCardArea}

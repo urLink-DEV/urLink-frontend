@@ -1,45 +1,60 @@
-import { fade, makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 
 export const useStyles = makeStyles((theme) => ({
-  search: {
-    position: 'relative',
-    width: '100%',
-    marginLeft: 0,
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade('#2083ff', 0.75),
-    '&:hover': {
-      backgroundColor: fade('#2083ff', 0.5),
+  searchBar: {
+    display: 'flex',
+    width: 410,
+    padding: 0,
+    margin: 'auto 0 auto auto',
+    borderRadius: 20,
+    backgroundColor: 'white',
+    border: theme.spacing(0.5, 0),
+
+    '& > .MuiInput-underline:before': {
+      left: 0,
+      right: 0,
+      bottom: 0,
+      position: 'absolute',
+      transition: 'border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+      borderBottom: '0px',
+      pointerEvents: 'none',
     },
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto',
+  },
+  searchInputBase: {
+    width: '65%',
+  },
+  searchInput: {
+    width: '100%',
+    color: 'black',
+    fontSize: 14,
+    paddingLeft: `calc(${theme.spacing(1)}px)`,
+  },
+  inputSelect: {
+    width: '25%',
+    fontSize: 14,
+    '& > .MuiSelect-select.MuiSelect-select': {
+      paddingLeft: '10px',
+    },
+  },
+  menuItem: {
+    fontSize: 14,
+    padding: theme.spacing(0, 1.5),
+  },
+  divider: {
+    margin: theme.spacing(0.5, 0),
+  },
+  datePicker: {
+    width: '65%',
+    padding: theme.spacing(0, 1),
+    marginTop: 5,
+    '& > .MuiInputBase-root.MuiInput-root.MuiInput-underline.MuiInputBase-formControl.MuiInput-formControl': {
+      fontSize: 14,
     },
   },
   searchIcon: {
-    position: 'absolute',
-    height: '100%',
-    padding: theme.spacing(0, 2),
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'white',
-  },
-  inputRoot: {
-    color: 'white',
-  },
-  inputInput: {
-    width: '100%',
-    // vertical padding + font size from searchIcon
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
+    width: '10%',
+    color: '#CCCCCC',
+    margin: '7px 0 7px 7px',
   },
 }))
 

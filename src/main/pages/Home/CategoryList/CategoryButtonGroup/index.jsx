@@ -45,17 +45,12 @@ function CategoryButtonGroup() {
 
   const handleClickAdd = useCallback(
     async (e) => {
+      if (!categoryName) return
       try {
         e.stopPropagation()
-        if (!categoryName) {
-          setButtonState(BUTTON_STATE.addOpen)
-          setCategoryName('')
-        } else {
-          setButtonState(BUTTON_STATE.addOpen)
-          await dispatch(categoryCreateThunk({ name: categoryName, is_favorited: false }))
-          setCategoryName('')
-          dispatch(categoriesRead.request(undefined, { key: 'isFirstCategory' }))
-        }
+        setCategoryName('')
+        await dispatch(categoryCreateThunk({ name: categoryName, is_favorited: false }))
+        dispatch(categoriesRead.request(undefined, { selectFirstCategory: true }))
       } catch (error) {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
       }
@@ -64,10 +59,7 @@ function CategoryButtonGroup() {
   )
 
   const handleChangeNewCategoryTitle = useCallback((e) => {
-    const checks = /[a-zA-Z]/
-    if (checks.test(e.target.value)) {
-      if (e.target.value.length >= 14) return
-    } else if (e.target.value.length >= 7) return
+    if (e.target.value.length > 18) return
     setCategoryName(e.target.value)
   }, [])
 
@@ -88,15 +80,14 @@ function CategoryButtonGroup() {
     setCategoryName('')
   }, [])
 
-  const handleClickdDelete = useCallback(
+  const handleClickDelete = useCallback(
     async (e) => {
       try {
         e.stopPropagation()
-        await dispatch(categoryRemoveThunk({ id: selectedCategory.id }))
-        dispatch(categoriesRead.request(undefined, { key: 'isFirstCategory' }))
-        openToast({ type: 'success', message: '선택하신 카테고리가 삭제되었습니다.' })
         deleteCategoryToggle()
-        setButtonState(BUTTON_STATE.deleteOpen)
+        await dispatch(categoryRemoveThunk({ id: selectedCategory.id }))
+        dispatch(categoriesRead.request(undefined, { selectFirstCategory: true }))
+        openToast({ type: 'success', message: '선택하신 카테고리가 삭제되었습니다.' })
       } catch (error) {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
       }
@@ -105,11 +96,7 @@ function CategoryButtonGroup() {
   )
 
   useEffect(() => {
-    if (selectedCategory?.type === 'mount') {
-      setButtonState(BUTTON_STATE.addOpen)
-    } else {
-      setButtonState(BUTTON_STATE.deleteOpen)
-    }
+    if (selectedCategory?.id) setButtonState(BUTTON_STATE.deleteOpen)
   }, [selectedCategory])
 
   return (
@@ -151,7 +138,7 @@ function CategoryButtonGroup() {
         btnYesText="삭제"
         contentText="카테고리를 삭제하면 안에 저장된 모든 탭이 삭제 됩니다. 그래도 삭제 하시겠습니까?"
         handleClose={deleteCategoryClose}
-        handleYesClick={handleClickdDelete}
+        handleYesClick={handleClickDelete}
       />
     </Fragment>
   )
