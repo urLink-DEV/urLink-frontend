@@ -89,9 +89,9 @@ function LinkList() {
 
   return (
     <Grid container direction="column" className={classes.root} ref={rootRef}>
-      {!!categoryList.length && !!links.length && (
+      {!!categoryList.length && (
         <Grid item>
-          <Header />
+          <Header links={links} />
         </Grid>
       )}
 
