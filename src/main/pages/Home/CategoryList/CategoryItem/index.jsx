@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import starImg from '@assets/images/star.svg'
 import { categorySelect, categorySelector } from '@modules/category'
+import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 
@@ -19,6 +20,7 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
     (e) => {
       e.stopPropagation()
       dispatch(categorySelect({ ...data }))
+      GAEvent('카테고리', '카테고리 선택')
     },
     [dispatch, data]
   )
