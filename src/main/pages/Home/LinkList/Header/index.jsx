@@ -56,23 +56,19 @@ function Header({ links }) {
   return (
     <Toolbar className={classes.toolbar}>
       <EditableCategoryTitle />
-      {!!links.length && (
-        <>
-          <TabButtonGroup />
-          <IconButton onClick={handleReload} className={classes.refreshBtn}>
-            <RefreshIcon />
-          </IconButton>
-          <SearchBar
-            inputProps={{
-              onChange: handleChangeInput,
-              value: keyword,
-            }}
-            searchFilterList={searchFilterList}
-            onSelectName={handleSelectName}
-            selectedName={selectedName}
-          />
-        </>
-      )}
+      <TabButtonGroup />
+      <IconButton onClick={handleReload} className={classes.refreshBtn}>
+        <RefreshIcon />
+      </IconButton>
+      <SearchBar
+        inputProps={{
+          onChange: handleChangeInput,
+          value: keyword,
+        }}
+        searchFilterList={searchFilterList}
+        onSelectName={handleSelectName}
+        selectedName={selectedName}
+      />
     </Toolbar>
   )
 }
