@@ -34,6 +34,8 @@
     "favorited",
     "Gregister",
     "Nlogin",
-    "Nregister"
+    "Nregister",
+    "Glogin",
+    "pageview"
   ],
 }

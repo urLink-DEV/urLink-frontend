@@ -47,7 +47,6 @@ function CategoryList() {
           order: 1,
           is_favorited: true,
         })
-        GAEvent('카테고리', 'Favorite 카테고리로 첫 드래그')
       }
     },
     [dragData, dragType, dragOverTabData, setDragOverTabData]
