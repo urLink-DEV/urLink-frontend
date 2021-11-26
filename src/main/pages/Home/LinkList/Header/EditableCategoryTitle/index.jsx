@@ -70,7 +70,6 @@ function EditableCategoryTitle() {
 
   const handleEditDone = useMemo(() => {
     return checkSubmit(async (formData) => {
-      GAEvent('메인', '카테고리 제목 수정 완료')
       const response = await dispatch(
         categoryModifyThunk({
           id: category.id,
@@ -81,6 +80,7 @@ function EditableCategoryTitle() {
       dispatch(categorySelect({ ...response }))
       dispatch(categoryClearEdit())
       setIsEditable(false)
+      GAEvent('메인', '카테고리 제목 수정 완료')
     })
   }, [category, checkSubmit, dispatch])
 

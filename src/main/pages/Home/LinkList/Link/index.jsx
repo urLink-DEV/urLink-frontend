@@ -143,7 +143,6 @@ function Link({ data }) {
         GAEvent('메인', '알람 설정 완료')
       } catch (error) {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
-        GAEvent('메인', '알람 설정 오류')
       }
     },
     [data.category, data.id, dispatch, openToast]

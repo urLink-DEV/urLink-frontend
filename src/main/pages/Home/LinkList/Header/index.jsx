@@ -37,9 +37,9 @@ function Header() {
   }, [])
 
   const handleReload = useMemo(() => {
-    GAEvent('메인', '새로고침 버튼 클릭')
     return debounce(() => {
       handleResetInput()
+      GAEvent('메인', '새로고침 버튼 클릭')
     }, 400)
   }, [handleResetInput])
 
