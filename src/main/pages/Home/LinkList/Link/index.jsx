@@ -19,6 +19,7 @@ import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import * as yup from 'yup'
 
+import { GAEvent } from '@/utils/ga'
 import copyIconImg from '@assets/images/link-icon.png'
 import newTabIconImg from '@assets/images/new-tab.svg'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
@@ -68,6 +69,7 @@ function Link({ data }) {
       if (isEditable) return
       if (isSelected) dispatch(linkCancleSelect(data))
       else dispatch(linkSelect(data))
+      GAEvent('메인', '링크 선택 하기')
     },
     [data, dispatch, isEditable, isSelected]
   )
@@ -84,6 +86,7 @@ function Link({ data }) {
     (e) => {
       e.stopPropagation()
       createTab(data.path)
+      GAEvent('메인', '링크 새 탭 열기 버튼 클릭')
     },
     [data.path]
   )
@@ -91,6 +94,7 @@ function Link({ data }) {
   const handleToggleFavorite = useCallback(
     async (e) => {
       e.stopPropagation()
+      GAEvent('메인', '페이보릿 버튼 클릭')
       try {
         await dispatch(
           linkModifyThunk({
@@ -111,12 +115,14 @@ function Link({ data }) {
       e.stopPropagation()
       copyLink(data.path)
       openToast({ type: 'success', message: '링크가 복사 되었습니다.' })
+      GAEvent('메인', '링크 복사 버튼 클릭')
     },
     [data.path, openToast]
   )
 
   const handleSetAlarm = useCallback(
     async (date) => {
+      GAEvent('메인', '알람 설정 버튼 클릭')
       try {
         await dispatch(
           alarmCreateThunk({
@@ -134,8 +140,10 @@ function Link({ data }) {
         )
         dispatch(linksRead.request({ categoryId: data.category }, { key: data.category }))
         openToast({ type: 'success', message: '알람이 설정 되었습니다.' })
+        GAEvent('메인', '알람 설정 완료')
       } catch (error) {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
+        GAEvent('메인', '알람 설정 오류')
       }
     },
     [data.category, data.id, dispatch, openToast]
@@ -143,15 +151,18 @@ function Link({ data }) {
 
   const handleShowEdit = useCallback(() => {
     setIsEditable(true)
+    GAEvent('메인', '링크 수정 버튼 클릭')
   }, [])
 
   const handleCancelEdit = useCallback(() => {
     setIsEditable(false)
+    GAEvent('메인', '링크 바깥 영역 클릭하여 수정 취소')
   }, [])
 
   const handleEditDone = useMemo(
     () =>
       checkSubmit(async (formData) => {
+        GAEvent('메인', '링크 수정 완료 버튼 클릭')
         try {
           await dispatch(
             linkModifyThunk({

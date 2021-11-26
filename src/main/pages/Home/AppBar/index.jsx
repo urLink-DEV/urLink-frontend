@@ -3,6 +3,7 @@ import React, { useState, useRef, useMemo, Fragment } from 'react'
 import { Popover, Badge, List, Avatar, Grid, Drawer } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 
+import { GAEvent } from '@/utils/ga'
 import alarmImg from '@assets/images/alarm.png'
 import historyImg from '@assets/images/history.png'
 import personImg from '@assets/images/person.png'
@@ -37,6 +38,7 @@ function AppBar() {
             onClick={() => {
               reload()
               setOpenHistory((open) => !open)
+              GAEvent('앱바', '방문기록 드로어 열기')
             }}
           >
             <Avatar variant="square" className={classes.imgButton} src={historyImg} alt="history button" />
@@ -46,7 +48,10 @@ function AppBar() {
             button
             ref={alarmRef}
             aria-describedby="alarm-popover"
-            onClick={() => setOpenAlarm((open) => !open)}
+            onClick={() => {
+              setOpenAlarm((open) => !open)
+              GAEvent('앱바', '알람 팝업 열기')
+            }}
           >
             <Badge
               anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
@@ -71,7 +76,10 @@ function AppBar() {
             button
             ref={profileRef}
             aria-describedby="profile-popover"
-            onClick={() => setOpenProfile((open) => !open)}
+            onClick={() => {
+              setOpenProfile((open) => !open)
+              GAEvent('앱바', '프로필 팝업 열기')
+            }}
           >
             <Avatar variant="square" src={personImg} alt="profile-popover-button" className={classes.imgButton} />
           </StyledListItem>
