@@ -38,7 +38,7 @@ function AppBar() {
             onClick={() => {
               reload()
               setOpenHistory((open) => !open)
-              GAEvent('앱바', '방문기록 드로어 열기')
+              GAEvent('앱바', '방문기록 드로어 버튼 클릭')
             }}
           >
             <Avatar variant="square" className={classes.imgButton} src={historyImg} alt="history button" />
@@ -50,7 +50,7 @@ function AppBar() {
             aria-describedby="alarm-popover"
             onClick={() => {
               setOpenAlarm((open) => !open)
-              GAEvent('앱바', '알람 팝업 열기')
+              GAEvent('앱바', '알람 팝업 버튼 클릭')
             }}
           >
             <Badge
@@ -78,7 +78,7 @@ function AppBar() {
             aria-describedby="profile-popover"
             onClick={() => {
               setOpenProfile((open) => !open)
-              GAEvent('앱바', '프로필 팝업 열기')
+              GAEvent('앱바', '프로필 팝업 버튼 클릭')
             }}
           >
             <Avatar variant="square" src={personImg} alt="profile-popover-button" className={classes.imgButton} />

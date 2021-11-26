@@ -75,7 +75,7 @@ function DragableHistoryList() {
     () => (e) => {
       e.stopPropagation()
       setSelectedList([])
-      GAEvent('방문기록', '링크 드래그 끝')
+      GAEvent('방문기록', '링크 드래그 완료')
     },
     []
   )
@@ -97,7 +97,6 @@ function DragableHistoryList() {
       const clientHeight = e.currentTarget.clientHeight
       setButtonOpen(scrollTop + clientHeight / 2 > clientHeight)
       if (Math.ceil(scrollTop + clientHeight) >= scrollHeight) next()
-      GAEvent('방문기록', '스크롤 하기')
     },
     [next]
   )
