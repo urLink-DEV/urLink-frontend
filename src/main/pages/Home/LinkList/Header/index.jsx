@@ -5,6 +5,7 @@ import { Refresh as RefreshIcon } from '@material-ui/icons'
 import { debounce } from 'lodash'
 import { useDispatch } from 'react-redux'
 
+import { GAEvent } from '@/utils/ga'
 import useDebounce from '@hooks/useDebounce'
 import SearchBar from '@main/components/SearchBar'
 import { linkSearchFilterChangeState } from '@modules/link'
@@ -36,6 +37,7 @@ function Header({ links }) {
   }, [])
 
   const handleReload = useMemo(() => {
+    GAEvent('메인', '새로고침 버튼 클릭')
     return debounce(() => {
       handleResetInput()
     }, 400)
@@ -45,6 +47,7 @@ function Header({ links }) {
     (e) => {
       handleResetInput()
       setSelectedName(e.target.value)
+      GAEvent('메인', '검색 주제 바꾸기')
     },
     [handleResetInput]
   )
