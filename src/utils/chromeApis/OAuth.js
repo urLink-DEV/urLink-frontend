@@ -2,7 +2,11 @@ export function getAuthToken() {
   return new Promise((resolve, reject) => {
     const idCheck = chrome.runtime?.id
     if (!idCheck) reject({ message: 'is not defined getAuthToken' })
-    else chrome.identity.getAuthToken({ interactive: true }, (token) => resolve(token))
+    else {
+      chrome.identity.getAuthToken({ interactive: true }, (token) => {
+        if (token) resolve(token)
+      })
+    }
   })
 }
 
