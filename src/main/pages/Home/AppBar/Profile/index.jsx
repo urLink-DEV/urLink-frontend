@@ -7,6 +7,7 @@ import defaultProfileImg from '@assets/images/logo/profileImg.png'
 import { TermsModal, AlertModal } from '@main/components/modals'
 import { useDialog, useToast, MODAL_NAME } from '@modules/ui'
 import { useUserData, userRemoveThunk, userLogoutThunk } from '@modules/user'
+import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 
@@ -18,11 +19,12 @@ function Profile() {
   const dispatch = useDispatch()
   const { data } = useUserData()
   const { open: termsOpen, toggle: termsToggle, close: termsClose } = useDialog(TERMS_MODAL)
-  const { open: removUserOpen, toggle: removUserToggle, close: removUserClose } = useDialog(REMOVE_USER_ALERT_MODAL)
+  const { open: removeUserOpen, toggle: removeUserToggle, close: removeUserClose } = useDialog(REMOVE_USER_ALERT_MODAL)
   const { openToast } = useToast()
 
   const handleLogout = useCallback(async () => {
     try {
+      GAEvent('앱바', '유저 로그아웃 하기')
       await dispatch(userLogoutThunk())
       window.location.href = '/index.html'
     } catch (error) {
@@ -32,6 +34,7 @@ function Profile() {
 
   const handleRemoveUser = useCallback(async () => {
     try {
+      GAEvent('앱바', '유저 탈퇴 하기')
       await dispatch(userRemoveThunk())
       window.location.href = '/index.html'
     } catch (error) {
@@ -61,7 +64,7 @@ function Profile() {
                 <Button className={classes.profileBtn} size="small" onClick={termsToggle}>
                   약관보기
                 </Button>
-                <Button className={classes.profileBtn} size="small" onClick={removUserToggle}>
+                <Button className={classes.profileBtn} size="small" onClick={removeUserToggle}>
                   회원탈퇴
                 </Button>
               </Grid>
@@ -75,12 +78,12 @@ function Profile() {
         </CardActions>
       </Card>
       {termsOpen && <TermsModal open={termsOpen} onClose={termsClose} onYesText="닫기" onYesClick={termsClose} />}
-      {removUserOpen && (
+      {removeUserOpen && (
         <AlertModal
-          openBool={removUserOpen}
+          openBool={removeUserOpen}
           btnYesText="탈퇴"
           contentText="카테고리와 저장한 링크가 모두 삭제되며 복구할 수 없습니다. 정말 탈퇴하시겠어요?"
-          handleClose={removUserClose}
+          handleClose={removeUserClose}
           handleYesClick={handleRemoveUser}
         />
       )}

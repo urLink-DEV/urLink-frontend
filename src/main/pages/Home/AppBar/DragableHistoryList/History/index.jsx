@@ -9,6 +9,7 @@ import newTabImg from '@assets/images/new-tab.svg'
 import { useToast } from '@modules/ui'
 import { createTab } from '@utils/chromeApis/tab'
 import copyLink from '@utils/copyLink'
+import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 
@@ -21,6 +22,7 @@ function History({ isSelected = false, data = {}, ...props }) {
   const handleNewTab = useCallback(
     (e) => {
       e.stopPropagation()
+      GAEvent('방문기록', '링크 새 탭 열기')
       createTab(data.url)
     },
     [data.url]
@@ -29,6 +31,7 @@ function History({ isSelected = false, data = {}, ...props }) {
   const handleLinkCopy = useCallback(
     (e) => {
       e.stopPropagation()
+      GAEvent('방문기록', '링크 복사 하기')
       copyLink(data.url)
       openToast({ type: 'success', message: '링크가 복사 되었습니다.' })
     },

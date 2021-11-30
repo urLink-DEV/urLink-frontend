@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import useDebounce from '@hooks/useDebounce'
 import SearchBar from '@main/components/SearchBar'
 import { linkSearchFilterChangeState } from '@modules/link'
+import { GAEvent } from '@utils/ga'
 
 import EditableCategoryTitle from './EditableCategoryTitle'
 import useStyles from './style'
@@ -38,6 +39,7 @@ function Header({ links }) {
   const handleReload = useMemo(() => {
     return debounce(() => {
       handleResetInput()
+      GAEvent('메인', '새로고침 버튼 클릭')
     }, 400)
   }, [handleResetInput])
 
@@ -45,6 +47,7 @@ function Header({ links }) {
     (e) => {
       handleResetInput()
       setSelectedName(e.target.value)
+      GAEvent('메인', '검색 주제 바꾸기')
     },
     [handleResetInput]
   )

@@ -24,6 +24,7 @@ import { alarmNoticeSelector, alarmNoticeReadNoticeThunk, alarmNoticeNoReturnNot
 import { categorySelector } from '@modules/category'
 import { linksRead } from '@modules/link'
 import { useToast } from '@modules/ui'
+import { GAEvent } from '@utils/ga'
 
 import useStyles, { SmallAvatar } from './style'
 
@@ -43,6 +44,7 @@ function AlarmList() {
         await dispatch(alarmNoticeReadNoticeThunk({ alarm_id: alarm.id }))
         dispatch(linksRead.request({ categoryId: selectedCategory?.id }, { key: selectedCategory?.id }))
         createTab(alarm.url_path)
+        GAEvent('앱바', '알람 링크 클릭')
       } catch (error) {
         openToast({ type: 'error', message: '예상치 못한 에러가 발생했습니다.' })
       }
@@ -57,6 +59,7 @@ function AlarmList() {
         await dispatch(alarmNoticeNoReturnNoticeThunk({ alarm_id }))
         dispatch(linksRead.request({ categoryId: selectedCategory?.id }, { key: selectedCategory?.id }))
         openToast({ type: 'success', message: '알람을 삭제했습니다.' })
+        GAEvent('앱바', '알람 링크 삭제 완료')
       } catch (error) {
         openToast({ type: 'error', message: '알람을 삭제하지 못했습니다.' })
       }

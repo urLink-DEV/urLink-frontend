@@ -11,6 +11,7 @@ import useEventListener from '@hooks/useEventListener'
 import { AlertModal } from '@main/components/modals'
 import { categorySelector, categoriesRead, categoryCreateThunk, categoryRemoveThunk } from '@modules/category'
 import { useDialog, useToast, MODAL_NAME } from '@modules/ui'
+import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 
@@ -41,6 +42,7 @@ function CategoryButtonGroup() {
   const handleClickOpenEnterTab = useCallback((e) => {
     e.stopPropagation()
     setButtonState(BUTTON_STATE.addInput)
+    GAEvent('카테고리', '카테고리 생성 텍스트 입력창으로 토글')
   }, [])
 
   const handleClickAdd = useCallback(
@@ -51,6 +53,7 @@ function CategoryButtonGroup() {
         setCategoryName('')
         await dispatch(categoryCreateThunk({ name: categoryName, is_favorited: false }))
         dispatch(categoriesRead.request(undefined, { selectFirstCategory: true }))
+        GAEvent('카테고리', '카테고리 생성 완료')
       } catch (error) {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
       }
@@ -78,6 +81,7 @@ function CategoryButtonGroup() {
     e.stopPropagation()
     setButtonState(BUTTON_STATE.addOpen)
     setCategoryName('')
+    GAEvent('카테고리', '카테고리 생성 취소')
   }, [])
 
   const handleClickDelete = useCallback(
@@ -88,6 +92,7 @@ function CategoryButtonGroup() {
         await dispatch(categoryRemoveThunk({ id: selectedCategory.id }))
         dispatch(categoriesRead.request(undefined, { selectFirstCategory: true }))
         openToast({ type: 'success', message: '선택하신 카테고리가 삭제되었습니다.' })
+        GAEvent('카테고리', '카테고리 삭제 완료')
       } catch (error) {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
       }

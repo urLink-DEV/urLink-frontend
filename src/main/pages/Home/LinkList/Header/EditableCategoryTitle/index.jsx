@@ -21,6 +21,7 @@ import {
   categoriesReadThunk,
 } from '@modules/category'
 import { isObjkeysEmpty } from '@utils/filter'
+import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 
@@ -58,11 +59,13 @@ function EditableCategoryTitle() {
   const handleShowEdit = useCallback(() => {
     setIsEditable(true)
     dispatch(categoryEdit({ id: category?.id, name: category?.name }))
+    GAEvent('메인', '카테고리 제목 수정 버튼 클릭')
   }, [dispatch, category])
 
   const handleCancelEdit = useCallback(() => {
     setIsEditable(false)
     dispatch(categoryClearEdit())
+    GAEvent('메인', '카테고리 제목 수정 취소')
   }, [dispatch])
 
   const handleEditDone = useMemo(() => {
@@ -77,6 +80,7 @@ function EditableCategoryTitle() {
       dispatch(categorySelect({ ...response }))
       dispatch(categoryClearEdit())
       setIsEditable(false)
+      GAEvent('메인', '카테고리 제목 수정 완료')
     })
   }, [category, checkSubmit, dispatch])
 
