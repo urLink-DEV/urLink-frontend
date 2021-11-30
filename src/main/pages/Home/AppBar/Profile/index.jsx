@@ -3,11 +3,11 @@ import React, { useCallback, Fragment } from 'react'
 import { Typography, Grid, Card, CardContent, CardActions, Avatar, Button } from '@material-ui/core'
 import { useDispatch } from 'react-redux'
 
-import { GAEvent } from '@/utils/ga'
 import defaultProfileImg from '@assets/images/logo/profileImg.png'
 import { TermsModal, AlertModal } from '@main/components/modals'
 import { useDialog, useToast, MODAL_NAME } from '@modules/ui'
 import { useUserData, userRemoveThunk, userLogoutThunk } from '@modules/user'
+import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 

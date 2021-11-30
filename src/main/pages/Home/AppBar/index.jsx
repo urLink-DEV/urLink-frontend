@@ -3,12 +3,12 @@ import React, { useState, useRef, useMemo, Fragment } from 'react'
 import { Popover, Badge, List, Avatar, Grid, Drawer } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 
-import { GAEvent } from '@/utils/ga'
 import alarmImg from '@assets/images/alarm.png'
 import historyImg from '@assets/images/history.png'
 import personImg from '@assets/images/person.png'
 import { alarmNoticeSelector } from '@modules/alarmNotice'
 import { useHistoryLinks } from '@modules/historyLink'
+import { GAEvent } from '@utils/ga'
 
 import AlarmList from './AlarmList'
 import DragableHistoryList from './DragableHistoryList'

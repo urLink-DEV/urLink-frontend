@@ -3,13 +3,13 @@ import React, { memo, useCallback, useState } from 'react'
 import { IconButton, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@material-ui/core'
 import clsx from 'clsx'
 
-import { GAEvent } from '@/utils/ga'
 import linkCopyImg from '@assets/images/link-copy.svg'
 import logoImg from '@assets/images/logo/logo16.png'
 import newTabImg from '@assets/images/new-tab.svg'
 import { useToast } from '@modules/ui'
 import { createTab } from '@utils/chromeApis/tab'
 import copyLink from '@utils/copyLink'
+import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 

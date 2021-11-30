@@ -4,11 +4,11 @@ import { Button } from '@material-ui/core'
 import clsx from 'clsx'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { GAEvent } from '@/utils/ga'
 import { categorySelector, categoriesRead } from '@modules/category'
 import { linkSelector, linkClearSelect, linksRead, linksRemoveThunk } from '@modules/link'
 import { useToast } from '@modules/ui'
 import { createTabList } from '@utils/chromeApis/tab'
+import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 

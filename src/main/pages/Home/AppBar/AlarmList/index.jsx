@@ -19,12 +19,12 @@ import clsx from 'clsx'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { createTab } from '@/utils/chromeApis/tab'
-import { GAEvent } from '@/utils/ga'
 import linkListEmptyIcon from '@assets/images/linkListEmptyIcon.png'
 import { alarmNoticeSelector, alarmNoticeReadNoticeThunk, alarmNoticeNoReturnNoticeThunk } from '@modules/alarmNotice'
 import { categorySelector } from '@modules/category'
 import { linksRead } from '@modules/link'
 import { useToast } from '@modules/ui'
+import { GAEvent } from '@utils/ga'
 
 import useStyles, { SmallAvatar } from './style'
 

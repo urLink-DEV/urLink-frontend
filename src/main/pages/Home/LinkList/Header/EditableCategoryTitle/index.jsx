@@ -11,7 +11,6 @@ import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
 import * as yup from 'yup'
 
-import { GAEvent } from '@/utils/ga'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import {
   categoryEdit,
@@ -22,6 +21,7 @@ import {
   categoriesReadThunk,
 } from '@modules/category'
 import { isObjkeysEmpty } from '@utils/filter'
+import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 
