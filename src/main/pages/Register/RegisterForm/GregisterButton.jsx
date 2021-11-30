@@ -3,25 +3,27 @@ import React, { useCallback } from 'react'
 import Button from '@material-ui/core/Button'
 import { useDispatch } from 'react-redux'
 
+import { GAEvent } from '@/utils/ga'
 import LogoGoogle from '@assets/images/logo-google.png'
 import { useToast } from '@modules/ui'
 import { userGregisterThunk } from '@modules/user'
 
 function GregisterButton() {
-  const disptach = useDispatch()
+  const dispatch = useDispatch()
   const { openToast } = useToast()
 
   const handleGoogleSignup = useCallback(
     async (e) => {
       e.preventDefault()
       try {
-        await disptach(userGregisterThunk())
+        GAEvent('회원가입', '구글 회원가입')
+        await dispatch(userGregisterThunk())
         window.location.href = '/index.html'
       } catch (error) {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
       }
     },
-    [disptach, openToast]
+    [dispatch, openToast]
   )
 
   return (

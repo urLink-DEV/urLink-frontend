@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import LogoGoogle from '@assets/images/logo-google.png'
 import { useToast } from '@modules/ui'
 import { userGloginThunk } from '@modules/user'
+import { GAEvent } from '@utils/ga'
 
 function GloginButton() {
   const dispatch = useDispatch()
@@ -15,6 +16,7 @@ function GloginButton() {
     async (e) => {
       e.preventDefault()
       try {
+        GAEvent('로그인', '구글 로그인')
         await dispatch(userGloginThunk())
         window.location.href = '/index.html'
       } catch (error) {

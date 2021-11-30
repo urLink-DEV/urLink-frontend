@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
 
+import { GAEvent } from '@/utils/ga'
 import ValidationMessage from '@main/components/ValidationMessage'
 import Register from '@main/pages/Register'
 import { useToast } from '@modules/ui'
@@ -32,6 +33,7 @@ function NloginForm() {
   const handleLogin = useCallback(
     async (formData) => {
       try {
+        GAEvent('로그인', '일반 로그인')
         await dispatch(userLoginThunk(formData))
         window.location.href = '/index.html'
       } catch (error) {
