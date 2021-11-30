@@ -7,6 +7,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
 
+import { GAEvent } from '@/utils/ga'
 import { TermsModal } from '@main/components/modals'
 import ValidationMessage from '@main/components/ValidationMessage'
 import Login from '@main/pages/Login'
@@ -33,7 +34,7 @@ const SCHEMA = yup.object({
 })
 
 function NregisterForm() {
-  const disptach = useDispatch()
+  const dispatch = useDispatch()
   const { openToast } = useToast()
   const { register, handleSubmit, setValue, errors, control, formState } = useForm({
     defaultValues: {
@@ -52,23 +53,24 @@ function NregisterForm() {
   const handleSignup = useCallback(
     async (formData) => {
       try {
-        await disptach(userRegisterThunk(formData))
+        GAEvent('회원가입', '일반 회원가입')
+        await dispatch(userRegisterThunk(formData))
         window.location.href = '/index.html'
       } catch (error) {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
       }
     },
-    [disptach, openToast]
+    [dispatch, openToast]
   )
 
   return (
     <form onSubmit={handleSubmit(handleSignup)}>
       {/* 닉네임 */}
       <div className="form-group">
-        <label className="subtitle" htmlFor="usernamesd">
+        <label className="subtitle" htmlFor="username">
           닉네임
         </label>
-        <input id="usernamesd" className="input" name="username" ref={register} placeholder="최대 8자" />
+        <input id="username" className="input" name="username" ref={register} placeholder="최대 8자" />
         {!!errors.username && <ValidationMessage msg={errors?.username?.message} check={!!errors.username} />}
       </div>
 

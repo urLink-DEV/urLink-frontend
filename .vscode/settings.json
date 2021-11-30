@@ -31,6 +31,9 @@
     "source.fixAll.eslint": true
   },
   "cSpell.words": [
-    "favorited"
+    "favorited",
+    "Gregister",
+    "Nlogin",
+    "Nregister"
   ],
 }
