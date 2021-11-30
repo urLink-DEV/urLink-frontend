@@ -3,8 +3,8 @@ import React from 'react'
 import { ArrowUpward as ArrowUpwardIcon } from '@material-ui/icons'
 import clsx from 'clsx'
 
-import { GAEvent } from '@/utils/ga'
 import ExtendedFab from '@main/components/ExtendedFab'
+import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 

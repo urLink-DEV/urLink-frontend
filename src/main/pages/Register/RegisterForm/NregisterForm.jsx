@@ -7,12 +7,12 @@ import { useForm, Controller } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
 
-import { GAEvent } from '@/utils/ga'
 import { TermsModal } from '@main/components/modals'
 import ValidationMessage from '@main/components/ValidationMessage'
 import Login from '@main/pages/Login'
 import { useToast } from '@modules/ui'
 import { userRegisterThunk } from '@modules/user'
+import { GAEvent } from '@utils/ga'
 
 const SCHEMA = yup.object({
   email: yup.string().email('올바르지 않은 이메일 양식입니다.').required('이메일은 필수 입력입니다.'),

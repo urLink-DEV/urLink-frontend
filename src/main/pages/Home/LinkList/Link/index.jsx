@@ -19,7 +19,6 @@ import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import * as yup from 'yup'
 
-import { GAEvent } from '@/utils/ga'
 import copyIconImg from '@assets/images/link-icon.png'
 import newTabIconImg from '@assets/images/new-tab.svg'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
@@ -28,6 +27,7 @@ import { linkSelector, linksRead, linkModifyThunk, linkSelect, linkCancleSelect 
 import { useToast } from '@modules/ui'
 import { createTab } from '@utils/chromeApis/tab'
 import copyLink from '@utils/copyLink'
+import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 
@@ -143,7 +143,6 @@ function Link({ data }) {
         GAEvent('메인', '알람 설정 완료')
       } catch (error) {
         openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
-        GAEvent('메인', '알람 설정 오류')
       }
     },
     [data.category, data.id, dispatch, openToast]

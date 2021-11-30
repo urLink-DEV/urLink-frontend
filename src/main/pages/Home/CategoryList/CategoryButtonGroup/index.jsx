@@ -35,7 +35,6 @@ function CategoryButtonGroup() {
 
   const handleClickChangeToAddBtn = useCallback(() => {
     setButtonState(BUTTON_STATE.addOpen)
-    GAEvent('카테고리', '카테고리 생성 버튼으로 토글')
   }, [])
 
   useEventListener('click', handleClickChangeToAddBtn)
@@ -43,7 +42,7 @@ function CategoryButtonGroup() {
   const handleClickOpenEnterTab = useCallback((e) => {
     e.stopPropagation()
     setButtonState(BUTTON_STATE.addInput)
-    GAEvent('카테고리', '카테고리 생성 및 텍스트 입력창으로 토글')
+    GAEvent('카테고리', '카테고리 생성 텍스트 입력창으로 토글')
   }, [])
 
   const handleClickAdd = useCallback(

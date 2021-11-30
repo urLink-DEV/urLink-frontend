@@ -3,10 +3,10 @@ import React, { useCallback } from 'react'
 import Button from '@material-ui/core/Button'
 import { useDispatch } from 'react-redux'
 
-import { GAEvent } from '@/utils/ga'
 import LogoGoogle from '@assets/images/logo-google.png'
 import { useToast } from '@modules/ui'
 import { userGregisterThunk } from '@modules/user'
+import { GAEvent } from '@utils/ga'
 
 function GregisterButton() {
   const dispatch = useDispatch()

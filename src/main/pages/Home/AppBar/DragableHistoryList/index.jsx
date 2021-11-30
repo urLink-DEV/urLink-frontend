@@ -5,7 +5,6 @@ import { Refresh as RefreshIcon } from '@material-ui/icons'
 import clsx from 'clsx'
 import { debounce } from 'lodash'
 
-import { GAEvent } from '@/utils/ga'
 import linkListSearchEmptyImg from '@assets/images/group-17.png'
 import linkListEmptyImg from '@assets/images/group-19.png'
 import useDebounce from '@hooks/useDebounce'
@@ -15,6 +14,7 @@ import SearchBar from '@main/components/SearchBar'
 import { useHistoryLinks } from '@modules/historyLink'
 import { DROP_ZONE, DRAG, useDrag, useDropZone } from '@modules/ui'
 import { createTabList } from '@utils/chromeApis/tab'
+import { GAEvent } from '@utils/ga'
 
 import History from './History'
 import HistoryDateTitle from './HistoryDateTitle'
@@ -75,7 +75,7 @@ function DragableHistoryList() {
     () => (e) => {
       e.stopPropagation()
       setSelectedList([])
-      GAEvent('방문기록', '링크 드래그 끝')
+      GAEvent('방문기록', '링크 드래그 완료')
     },
     []
   )
@@ -97,7 +97,6 @@ function DragableHistoryList() {
       const clientHeight = e.currentTarget.clientHeight
       setButtonOpen(scrollTop + clientHeight / 2 > clientHeight)
       if (Math.ceil(scrollTop + clientHeight) >= scrollHeight) next()
-      GAEvent('방문기록', '스크롤 하기')
     },
     [next]
   )

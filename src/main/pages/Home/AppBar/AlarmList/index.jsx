@@ -19,12 +19,12 @@ import clsx from 'clsx'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { createTab } from '@/utils/chromeApis/tab'
-import { GAEvent } from '@/utils/ga'
 import linkListEmptyIcon from '@assets/images/linkListEmptyIcon.png'
 import { alarmNoticeSelector, alarmNoticeReadNoticeThunk, alarmNoticeNoReturnNoticeThunk } from '@modules/alarmNotice'
 import { categorySelector } from '@modules/category'
 import { linksRead } from '@modules/link'
 import { useToast } from '@modules/ui'
+import { GAEvent } from '@utils/ga'
 
 import useStyles, { SmallAvatar } from './style'
 
@@ -56,10 +56,10 @@ function AlarmList() {
     (alarm_id) => async (e) => {
       try {
         e.stopPropagation()
-        GAEvent('앱바', '알람 링크 삭제')
         await dispatch(alarmNoticeNoReturnNoticeThunk({ alarm_id }))
         dispatch(linksRead.request({ categoryId: selectedCategory?.id }, { key: selectedCategory?.id }))
         openToast({ type: 'success', message: '알람을 삭제했습니다.' })
+        GAEvent('앱바', '알람 링크 삭제 완료')
       } catch (error) {
         openToast({ type: 'error', message: '알람을 삭제하지 못했습니다.' })
       }

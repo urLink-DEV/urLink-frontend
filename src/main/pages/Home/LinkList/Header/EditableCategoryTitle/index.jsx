@@ -11,7 +11,6 @@ import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
 import * as yup from 'yup'
 
-import { GAEvent } from '@/utils/ga'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import {
   categoryEdit,
@@ -22,6 +21,7 @@ import {
   categoriesReadThunk,
 } from '@modules/category'
 import { isObjkeysEmpty } from '@utils/filter'
+import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 
@@ -70,7 +70,6 @@ function EditableCategoryTitle() {
 
   const handleEditDone = useMemo(() => {
     return checkSubmit(async (formData) => {
-      GAEvent('메인', '카테고리 제목 수정 완료')
       const response = await dispatch(
         categoryModifyThunk({
           id: category.id,
@@ -81,6 +80,7 @@ function EditableCategoryTitle() {
       dispatch(categorySelect({ ...response }))
       dispatch(categoryClearEdit())
       setIsEditable(false)
+      GAEvent('메인', '카테고리 제목 수정 완료')
     })
   }, [category, checkSubmit, dispatch])
 

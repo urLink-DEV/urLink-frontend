@@ -5,10 +5,10 @@ import { Refresh as RefreshIcon } from '@material-ui/icons'
 import { debounce } from 'lodash'
 import { useDispatch } from 'react-redux'
 
-import { GAEvent } from '@/utils/ga'
 import useDebounce from '@hooks/useDebounce'
 import SearchBar from '@main/components/SearchBar'
 import { linkSearchFilterChangeState } from '@modules/link'
+import { GAEvent } from '@utils/ga'
 
 import EditableCategoryTitle from './EditableCategoryTitle'
 import useStyles from './style'
@@ -37,9 +37,9 @@ function Header({ links }) {
   }, [])
 
   const handleReload = useMemo(() => {
-    GAEvent('메인', '새로고침 버튼 클릭')
     return debounce(() => {
       handleResetInput()
+      GAEvent('메인', '새로고침 버튼 클릭')
     }, 400)
   }, [handleResetInput])
 
