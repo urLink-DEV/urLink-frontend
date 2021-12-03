@@ -8,6 +8,7 @@ import { categorySelector, categoriesRead } from '@modules/category'
 import { linkSelector, linkClearSelect, linksRead, linksRemoveThunk } from '@modules/link'
 import { useToast } from '@modules/ui'
 import { createTabList } from '@utils/chromeApis/tab'
+import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 
@@ -20,6 +21,7 @@ function TabButtonGroup() {
 
   const handleNewTab = useCallback(() => {
     createTabList(selectedLinkList.map((data) => data.path))
+    GAEvent('메인', '복수의 링크 새 탭 열기')
   }, [selectedLinkList])
 
   const handleDeleteSelectedLinkList = useCallback(async () => {
@@ -27,6 +29,7 @@ function TabButtonGroup() {
       await dispatch(linksRemoveThunk({ urlIdList: selectedLinkList.map((data) => ({ urlId: data.id })) }))
       dispatch(linkClearSelect())
       openToast({ type: 'success', message: '선택하신 링크 카드 정보들을 삭제했습니다.' })
+      GAEvent('메인', '복수의 링크 삭제 하기')
     } catch (error) {
       openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
     } finally {

@@ -4,6 +4,7 @@ import { ArrowUpward as ArrowUpwardIcon } from '@material-ui/icons'
 import clsx from 'clsx'
 
 import ExtendedFab from '@main/components/ExtendedFab'
+import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 
@@ -11,6 +12,7 @@ function ScrollUpButton({ targetRef, className, open }) {
   const classes = useStyles()
 
   const handleScrollUp = () => {
+    GAEvent('스크롤 업 버튼', '스크롤 업 버튼 클릭')
     scrollTo(targetRef.current, 0, 500)
   }
 

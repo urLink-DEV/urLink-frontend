@@ -11,6 +11,7 @@ import ValidationMessage from '@main/components/ValidationMessage'
 import Register from '@main/pages/Register'
 import { useToast } from '@modules/ui'
 import { userLoginThunk } from '@modules/user'
+import { GAEvent } from '@utils/ga'
 
 const SCHEMA = yup.object().shape({
   email: yup.string().required('이메일은 필수 입력입니다.'),
@@ -32,6 +33,7 @@ function NloginForm() {
   const handleLogin = useCallback(
     async (formData) => {
       try {
+        GAEvent('로그인', '일반 로그인')
         await dispatch(userLoginThunk(formData))
         window.location.href = '/index.html'
       } catch (error) {

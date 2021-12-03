@@ -10,6 +10,7 @@ import { useCategories, categorySelector, categoriesReadThunk, categoryModifyThu
 import { linkCreateThunk, linksRead } from '@modules/link'
 import { useToast } from '@modules/ui'
 import { DRAG, useDrag } from '@modules/ui'
+import { GAEvent } from '@utils/ga'
 
 import CategoryButtonGroup from './CategoryButtonGroup'
 import CategoryHeader from './CategoryHeader'
@@ -81,6 +82,7 @@ function CategoryList() {
         order: categoryData.order,
         is_favorited: categoryData.is_favorited,
       })
+      GAEvent('카테고리', '카테고리 드래그 시작')
     },
     [dragData, setDragData]
   )
@@ -137,6 +139,7 @@ function CategoryList() {
           )
           await dispatch(categoriesReadThunk())
           setDragData({ ...dragData, dragFinished: true })
+          GAEvent('카테고리', '카테고리 드래그 완료')
         } else if (dragType === LINK && linkHoverTabId) {
           const path = linkListData.reduce((prev, data) => prev.concat(data.path), [])
           setDragData({ ...dragData, id: linkHoverTabId })
@@ -145,6 +148,7 @@ function CategoryList() {
           await dispatch(categoriesReadThunk())
           setDragData({ ...dragData, dragFinished: true })
           openToast({ type: 'success', message: '링크가 저장 되었습니다.' })
+          GAEvent('방문기록', '링크를 카테고리에 드래그 완료')
         }
         setTimeout(() => {
           clearDragData()

@@ -16,8 +16,8 @@ const queryInfoData = {
     replaceAPI({ categoryId, path, title }) {
       if (!categoryId) return
       return this.API.replace('{categoryId}', categoryId)
-        .replace('{path}', path || '')
-        .replace('{title}', title || '')
+        .replace('&path={path}', path ? `&path=${path}` : '')
+        .replace('&title={title}', title ? `&title=${title}` : '')
     },
   },
 

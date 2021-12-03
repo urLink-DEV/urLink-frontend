@@ -14,6 +14,7 @@ import SearchBar from '@main/components/SearchBar'
 import { useHistoryLinks } from '@modules/historyLink'
 import { DROP_ZONE, DRAG, useDrag, useDropZone } from '@modules/ui'
 import { createTabList } from '@utils/chromeApis/tab'
+import { GAEvent } from '@utils/ga'
 
 import History from './History'
 import HistoryDateTitle from './HistoryDateTitle'
@@ -65,6 +66,7 @@ function DragableHistoryList() {
       }
       setDragData(dragListData)
       e.dataTransfer.setDragImage(dragBoxRef.current, 110, 35)
+      GAEvent('방문기록', '링크 드래그 시작')
     },
     [selectedList, setDragData]
   )
@@ -73,6 +75,7 @@ function DragableHistoryList() {
     () => (e) => {
       e.stopPropagation()
       setSelectedList([])
+      GAEvent('방문기록', '링크 드래그 완료')
     },
     []
   )
@@ -82,6 +85,7 @@ function DragableHistoryList() {
       const isSelected = selectedList.find((item) => item.id === id)
       if (isSelected) setSelectedList(selectedList.filter((data) => data.id !== id))
       else setSelectedList((listData) => listData.concat({ id, path }))
+      GAEvent('방문기록', '링크 선택 하기')
     },
     [selectedList]
   )
@@ -106,6 +110,7 @@ function DragableHistoryList() {
     return debounce(() => {
       setSelectedList([])
       handleResetInput()
+      GAEvent('방문기록', '새로고침')
     }, 400)
   }, [handleResetInput])
 
@@ -113,6 +118,7 @@ function DragableHistoryList() {
     (e) => {
       handleResetInput()
       setSelectedName(e.target.value)
+      GAEvent('방문기록', '검색 주제 바꾸기')
     },
     [handleResetInput]
   )
@@ -125,10 +131,12 @@ function DragableHistoryList() {
   // date
   const handleChangeDate = useCallback((date) => {
     setDateKeyword(date)
+    GAEvent('방문기록', '검색바에서 날짜 바꾸기')
   }, [])
 
   const handleOpenNewTab = useCallback(() => {
     createTabList(selectedList.reduce((list, link) => list.concat(link.path), []))
+    GAEvent('방문기록', '복수의 링크 새 탭 열기')
   }, [selectedList])
 
   useEffect(() => {
