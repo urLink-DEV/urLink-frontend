@@ -13,6 +13,7 @@ import { getAccessToken } from '@utils/http/auth'
 window.addEventListener('DOMContentLoaded', () => {
   if (getAccessToken()) {
     const categoryListElement = document.getElementById('categoryList')
+    const urLinkOpenElement = document.getElementById('urLinkOpen')
     const categoryCreateButtonElement = Template.categoryCreateButton()
     const categoryCreateInputWrapperElement = Template.categoryCreateInputWrapper()
     const categoryItemListWrapperElement = Template.categoryListWrapper()
@@ -27,6 +28,8 @@ window.addEventListener('DOMContentLoaded', () => {
     EventSetting.categoryCreateCancelEventSetting()
 
     EventSetting.linkSaveEventSetting()
+
+    urLinkOpenElement.addEventListener('click', () => window.ga('send', 'event', '팝업', '팝업_유어링크 열기'), false)
   } else {
     document.getElementById('categoryList').innerHTML = Template.loginRequired()
   }
@@ -58,6 +61,7 @@ const EventListener = {
     currentCategoryElement.classList.add('check')
     if (!linkSaveElement.classList.contains('active')) linkSaveElement.classList.add('active')
     linkSaveElement.dataset.categoryId = data.id
+    window.ga('send', 'event', '팝업', '팝업_카테고리 선택')
   },
 
   categoryCreateButtonEventListener(e) {
@@ -68,6 +72,7 @@ const EventListener = {
     categoryCreateInputWrapperElement.classList.remove('hide')
     const enterCategoryNameInputElement = document.getElementById('enterCategoryNameInput')
     enterCategoryNameInputElement.focus()
+    window.ga('send', 'event', '팝업', '팝업_카테고리 생성 텍스트 입력창으로 토글')
   },
 
   categoryCreateCancelEventListener(e) {
@@ -78,6 +83,7 @@ const EventListener = {
     categoryCreateInputWrapperElement.classList.add('hide')
     const enterCategoryNameInputElement = document.getElementById('enterCategoryNameInput')
     enterCategoryNameInputElement.value = ''
+    window.ga('send', 'event', '팝업', '팝업_카테고리 생성 취소')
   },
 
   async categoryCreateOkEventListener(e) {
@@ -96,6 +102,7 @@ const EventListener = {
         await APILoad.categoryListAppend()
         popupMessage({ message: '카테고리가 생성 되었습니다.' })
         enterCategoryNameInputElement.value = ''
+        window.ga('send', 'event', '팝업', '팝업_카테고리 생성 완료')
       }
     } catch (error) {
       popupMessage({ message: error.message })
@@ -120,6 +127,7 @@ const EventListener = {
           await APILoad.categoryListAppend()
           popupMessage({ message: '카테고리가 생성 되었습니다.' })
           enterCategoryNameInputElement.value = ''
+          window.ga('send', 'event', '팝업', '팝업_카테고리 생성 완료')
         }
       }
     } catch (error) {
@@ -141,6 +149,7 @@ const EventListener = {
       if (data?.length) {
         categoryCardElement.classList.add('upload-finish')
         popupMessage({ message: '링크가 이동 되었습니다.' })
+        window.ga('send', 'event', '팝업', '팝업_링크 저장')
       }
       await APILoad.categoryListAppend()
     } catch (error) {
