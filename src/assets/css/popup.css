@@ -323,8 +323,8 @@ body {
   color: #fff;
 }
 
-/* urlLink open */
-.urlLink-open-btn {
+/* urLink open */
+.urLink-open-btn {
   align-items: center;
   display: flex;
   justify-content: center;
@@ -336,22 +336,22 @@ body {
   background-color: var(--powder-blue);
 }
 
-.urlLink-open-btn .urlLink-open-btn-text {
+.urLink-open-btn .urLink-open-btn-text {
   padding: 14px;
   width: 100%;
   height: 20px;
   color: var(--maincolor);
 }
 
-a.urlLink-open-btn-text:link {
+a.urLink-open-btn-text:link {
   text-decoration: none;
 }
 
-a.urlLink-open-btn-text:visited {
+a.urLink-open-btn-text:visited {
   text-decoration: none;
 }
 
-a.urlLink-open-btn-text:hover {
+a.urLink-open-btn-text:hover {
   text-decoration: none;
 }
 
