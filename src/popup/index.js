@@ -13,7 +13,6 @@ import { getAccessToken } from '@utils/http/auth'
 window.addEventListener('DOMContentLoaded', () => {
   if (getAccessToken()) {
     const categoryListElement = document.getElementById('categoryList')
-    const urLinkOpenElement = document.getElementById('urLinkOpen')
     const categoryCreateButtonElement = Template.categoryCreateButton()
     const categoryCreateInputWrapperElement = Template.categoryCreateInputWrapper()
     const categoryItemListWrapperElement = Template.categoryListWrapper()
@@ -29,7 +28,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     EventSetting.linkSaveEventSetting()
 
-    urLinkOpenElement.addEventListener('click', () => window.ga('send', 'event', '팝업', '팝업_유어링크 열기'), false)
+    EventSetting.urLinkOpenEventSetting()
   } else {
     document.getElementById('categoryList').innerHTML = Template.loginRequired()
   }
@@ -161,6 +160,10 @@ const EventListener = {
       }
     }
   },
+
+  urLinkOpenEventListener() {
+    window.ga('send', 'event', '팝업', '팝업_유어링크 열기')
+  },
 }
 
 const EventSetting = {
@@ -198,6 +201,12 @@ const EventSetting = {
     const linkSaveElement = document.getElementById('linkSave')
     linkSaveElement.removeEventListener('click', EventListener.linkSaveEventListener)
     linkSaveElement.addEventListener('click', EventListener.linkSaveEventListener, false)
+  },
+
+  urLinkOpenEventSetting() {
+    const urLinkOpenElement = document.getElementById('urLinkOpen')
+    urLinkOpenElement.removeEventListener('click', EventListener.urLinkOpenEventListener)
+    urLinkOpenElement.addEventListener('click', EventListener.urLinkOpenEventListener, false)
   },
 }
 
