@@ -1,6 +1,6 @@
 {
   "name": "urLink",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "manifest_version": 2,
   "description": "북마크보다 손쉽게 웹사이트를 보관하고 정리하세요.",
   "permissions": ["<all_urls>", "identity", "history", "notifications"],
