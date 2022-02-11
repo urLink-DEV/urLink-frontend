@@ -19,7 +19,7 @@
     "history": "^4.10.1",
     "immer": "^9.0.6",
     "moment": "^2.26.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "react": "^16.13.0",
     "react-chrome-extension-router": "^1.1.0",
     "react-dom": "^16.13.0",
