@@ -41,7 +41,11 @@ function Link({ data }) {
   const dispatch = useDispatch()
   const { openToast } = useToast()
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
-  const { register, handleSubmit: checkSubmit, reset } = useForm({
+  const {
+    register,
+    handleSubmit: checkSubmit,
+    reset,
+  } = useForm({
     defaultValues: {
       title: data.title,
       description: data.description,
