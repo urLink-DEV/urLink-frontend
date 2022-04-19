@@ -3,6 +3,7 @@ const path = require('path')
 const { whenDev, whenProd } = require('@craco/craco')
 const CracoAlias = require('craco-alias')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const ManifestPlugin = require('webpack-manifest-plugin')
 
@@ -98,6 +99,7 @@ module.exports = {
 
       whenProd(() => {
         webpackConfig.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'static' }))
+        webpackConfig.plugins.push(new ProgressBarPlugin())
       })
 
       return webpackConfig
