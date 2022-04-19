@@ -87,14 +87,12 @@ module.exports = {
       whenDev(() => {
         webpackConfig.optimization.runtimeChunk = 'single'
         webpackConfig.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'server', openAnalyzer: false }))
-        webpackConfig.cache = { type: 'memory' }
         webpackConfig.devtool = 'eval-cheap-module-source-map'
       })
 
       whenProd(() => {
         webpackConfig.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'static' }))
         webpackConfig.plugins.push(new ProgressBarPlugin())
-        webpackConfig.cache = { type: 'filesystem' }
         webpackConfig.devtool = false
       })
 
