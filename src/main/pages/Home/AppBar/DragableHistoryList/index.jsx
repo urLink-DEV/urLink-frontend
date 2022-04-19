@@ -185,7 +185,7 @@ function DragableHistoryList() {
         />
       </div>
       <CardContent ref={historyContentRef} className={classes.content} onScroll={handleHistoryListScroll}>
-        {!!listData.length ? (
+        {listData.length ? (
           <List>
             {listData.map((data) => (
               <Fragment key={data.id}>

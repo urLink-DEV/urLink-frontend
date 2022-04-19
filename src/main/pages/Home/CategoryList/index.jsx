@@ -206,7 +206,7 @@ function CategoryList() {
             <CategoryHeader type="category" />
             <CategoryButtonGroup />
             <FirstCategoryDropZone
-              openDropZone={!Boolean(notFavoritedArr.length)}
+              openDropZone={!notFavoritedArr.length}
               handleDragDrop={handleDragDrop}
               handleDragOverFirstCategory={handleDragOverFirstCategory}
             />

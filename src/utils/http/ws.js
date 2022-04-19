@@ -17,6 +17,7 @@ class AlarmWS {
   constructor() {
     this.connectionRetry = 1
     this.ws = null
+    this.connectionRetry = 1
   }
 
   onConnection(settingWs = {}) {
