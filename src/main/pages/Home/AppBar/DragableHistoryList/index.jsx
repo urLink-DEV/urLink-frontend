@@ -57,18 +57,19 @@ function DragableHistoryList() {
   )
 
   const handleDragStart = useCallback(
-    ({ id, url: path }) => (e) => {
-      e.stopPropagation()
-      const dragListData = selectedList
-      const isSelectedItem = selectedList.find((selected) => selected.id === id)
-      if (!isSelectedItem) {
-        setSelectedList(selectedList.concat({ id, path }))
-        dragListData.push({ id, path })
-      }
-      setDragData(dragListData)
-      e.dataTransfer.setDragImage(dragBoxRef.current, 110, 35)
-      GAEvent('방문기록', '링크 드래그 시작')
-    },
+    ({ id, url: path }) =>
+      (e) => {
+        e.stopPropagation()
+        const dragListData = selectedList
+        const isSelectedItem = selectedList.find((selected) => selected.id === id)
+        if (!isSelectedItem) {
+          setSelectedList(selectedList.concat({ id, path }))
+          dragListData.push({ id, path })
+        }
+        setDragData(dragListData)
+        e.dataTransfer.setDragImage(dragBoxRef.current, 110, 35)
+        GAEvent('방문기록', '링크 드래그 시작')
+      },
     [selectedList, setDragData]
   )
 
@@ -82,12 +83,13 @@ function DragableHistoryList() {
   )
 
   const handleToggleSelectItem = useCallback(
-    ({ id, url: path }) => () => {
-      const isSelected = selectedList.find((item) => item.id === id)
-      if (isSelected) setSelectedList(selectedList.filter((data) => data.id !== id))
-      else setSelectedList((listData) => listData.concat({ id, path }))
-      GAEvent('방문기록', '링크 선택 하기')
-    },
+    ({ id, url: path }) =>
+      () => {
+        const isSelected = selectedList.find((item) => item.id === id)
+        if (isSelected) setSelectedList(selectedList.filter((data) => data.id !== id))
+        else setSelectedList((listData) => listData.concat({ id, path }))
+        GAEvent('방문기록', '링크 선택 하기')
+      },
     [selectedList]
   )
 

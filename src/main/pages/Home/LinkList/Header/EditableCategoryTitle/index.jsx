@@ -37,7 +37,13 @@ function EditableCategoryTitle() {
   const defaultValues = useMemo(() => {
     return { name: category?.name }
   }, [category])
-  const { register, handleSubmit: checkSubmit, reset, errors, watch } = useForm({
+  const {
+    register,
+    handleSubmit: checkSubmit,
+    reset,
+    errors,
+    watch,
+  } = useForm({
     mode: 'all',
     defaultValues,
     resolver: yupResolver(CATEGORY_SCHEMA),

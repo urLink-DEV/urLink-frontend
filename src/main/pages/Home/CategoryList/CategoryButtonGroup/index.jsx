@@ -25,9 +25,11 @@ function CategoryButtonGroup() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { openToast } = useToast()
-  const { open: deleteCategoryOpen, toggle: deleteCategoryToggle, close: deleteCategoryClose } = useDialog(
-    MODAL_NAME.DELETE_CATEGORY_ALERT_MODAL
-  )
+  const {
+    open: deleteCategoryOpen,
+    toggle: deleteCategoryToggle,
+    close: deleteCategoryClose,
+  } = useDialog(MODAL_NAME.DELETE_CATEGORY_ALERT_MODAL)
   const selectedCategory = useSelector(categorySelector.selectedCategory)
 
   const [buttonState, setButtonState] = useState(BUTTON_STATE.addOpen)
