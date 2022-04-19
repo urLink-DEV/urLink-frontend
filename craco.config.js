@@ -79,11 +79,6 @@ module.exports = {
       )
       webpackConfig.plugins.splice(inlineChunkHtmlIdx, 1)
 
-      webpackConfig.resolve = {
-        extensions: ['.js', '.jsx', '.json'],
-        modules: [path.resolve(__dirname, 'src'), path.resolve(__dirname, 'node_modules')],
-      }
-
       whenDev(() => {
         webpackConfig.optimization.runtimeChunk = 'single'
         webpackConfig.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'server', openAnalyzer: false }))
