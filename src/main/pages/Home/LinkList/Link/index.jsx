@@ -129,7 +129,6 @@ function Link({ data }) {
   const handleSetAlarm = useCallback(
     async (date) => {
       GAEvent('메인', '알람 설정 버튼 클릭')
-      console.log('onAccept?', date)
       try {
         await dispatch(
           alarmCreateThunk({
