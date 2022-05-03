@@ -1,20 +1,20 @@
 import React, { useCallback } from 'react'
 
-import Avatar from '@material-ui/core/Avatar'
-import Badge from '@material-ui/core/Badge'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import IconButton from '@material-ui/core/IconButton'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItemText from '@material-ui/core/ListItemText'
-import Typography from '@material-ui/core/Typography'
-import CloseIcon from '@material-ui/icons/Close'
-import NoImageIcon from '@material-ui/icons/Image'
-import NotificationsIcon from '@material-ui/icons/Notifications'
+import CloseIcon from '@mui/icons-material/Close'
+import NoImageIcon from '@mui/icons-material/Image'
+import NotificationsIcon from '@mui/icons-material/Notifications'
+import Avatar from '@mui/material/Avatar'
+import Badge from '@mui/material/Badge'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import CardMedia from '@mui/material/CardMedia'
+import IconButton from '@mui/material/IconButton'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemAvatar from '@mui/material/ListItemAvatar'
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction'
+import ListItemText from '@mui/material/ListItemText'
+import Typography from '@mui/material/Typography'
 import clsx from 'clsx'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -77,7 +77,7 @@ function AlarmList() {
               <ListItem key={data.id} button className={classes.listItem} onClick={handleClickAlarm(data)}>
                 <ListItemAvatar className={classes.avatar}>
                   <Badge
-                    overlap="circle"
+                    overlap="circular"
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                     badgeContent={
                       <SmallAvatar

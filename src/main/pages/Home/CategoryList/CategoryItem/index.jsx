@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 
-import Paper from '@material-ui/core/Paper'
+import Paper from '@mui/material/Paper'
 import clsx from 'clsx'
 import { useDispatch, useSelector } from 'react-redux'
 

@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react'
 
 import { yupResolver } from '@hookform/resolvers/yup'
-import IconButton from '@material-ui/core/IconButton'
-import InputBase from '@material-ui/core/InputBase'
-import Typography from '@material-ui/core/Typography'
-import CreateIcon from '@material-ui/icons/Create'
-import DoneIcon from '@material-ui/icons/Done'
+import CreateIcon from '@mui/icons-material/Create'
+import DoneIcon from '@mui/icons-material/Done'
+import IconButton from '@mui/material/IconButton'
+import InputBase from '@mui/material/InputBase'
+import Typography from '@mui/material/Typography'
 import clsx from 'clsx'
 import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
@@ -37,7 +37,13 @@ function EditableCategoryTitle() {
   const defaultValues = useMemo(() => {
     return { name: category?.name }
   }, [category])
-  const { register, handleSubmit: checkSubmit, reset, errors, watch } = useForm({
+  const {
+    register,
+    handleSubmit: checkSubmit,
+    reset,
+    errors,
+    watch,
+  } = useForm({
     mode: 'all',
     defaultValues,
     resolver: yupResolver(CATEGORY_SCHEMA),

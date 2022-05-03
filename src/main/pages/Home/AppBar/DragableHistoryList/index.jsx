@@ -1,7 +1,8 @@
 import React, { Fragment, useRef, useState, useEffect, useCallback, useMemo } from 'react'
 
-import { Card, CardContent, CardMedia, IconButton, List, Typography } from '@material-ui/core'
-import { Refresh as RefreshIcon } from '@material-ui/icons'
+import { Refresh as RefreshIcon } from '@mui/icons-material'
+import { Card, CardContent, CardMedia, IconButton, List, Typography } from '@mui/material'
+import Button from '@mui/material/Button'
 import clsx from 'clsx'
 import { debounce } from 'lodash'
 
@@ -56,18 +57,19 @@ function DragableHistoryList() {
   )
 
   const handleDragStart = useCallback(
-    ({ id, url: path }) => (e) => {
-      e.stopPropagation()
-      const dragListData = selectedList
-      const isSelectedItem = selectedList.find((selected) => selected.id === id)
-      if (!isSelectedItem) {
-        setSelectedList(selectedList.concat({ id, path }))
-        dragListData.push({ id, path })
-      }
-      setDragData(dragListData)
-      e.dataTransfer.setDragImage(dragBoxRef.current, 110, 35)
-      GAEvent('방문기록', '링크 드래그 시작')
-    },
+    ({ id, url: path }) =>
+      (e) => {
+        e.stopPropagation()
+        const dragListData = selectedList
+        const isSelectedItem = selectedList.find((selected) => selected.id === id)
+        if (!isSelectedItem) {
+          setSelectedList(selectedList.concat({ id, path }))
+          dragListData.push({ id, path })
+        }
+        setDragData(dragListData)
+        e.dataTransfer.setDragImage(dragBoxRef.current, 110, 35)
+        GAEvent('방문기록', '링크 드래그 시작')
+      },
     [selectedList, setDragData]
   )
 
@@ -81,12 +83,13 @@ function DragableHistoryList() {
   )
 
   const handleToggleSelectItem = useCallback(
-    ({ id, url: path }) => () => {
-      const isSelected = selectedList.find((item) => item.id === id)
-      if (isSelected) setSelectedList(selectedList.filter((data) => data.id !== id))
-      else setSelectedList((listData) => listData.concat({ id, path }))
-      GAEvent('방문기록', '링크 선택 하기')
-    },
+    ({ id, url: path }) =>
+      () => {
+        const isSelected = selectedList.find((item) => item.id === id)
+        if (isSelected) setSelectedList(selectedList.filter((data) => data.id !== id))
+        else setSelectedList((listData) => listData.concat({ id, path }))
+        GAEvent('방문기록', '링크 선택 하기')
+      },
     [selectedList]
   )
 
@@ -163,9 +166,9 @@ function DragableHistoryList() {
               <RefreshIcon />
             </IconButton>
             {!!selectedList.length && (
-              <button className={classes.tabOpenButton} onClick={handleOpenNewTab}>
+              <Button className={classes.tabOpenButton} onClick={handleOpenNewTab}>
                 <span className={classes.tabOpenText}>탭 열기 ({selectedList.length})</span>
-              </button>
+              </Button>
             )}
           </div>
         </div>
@@ -182,7 +185,7 @@ function DragableHistoryList() {
         />
       </div>
       <CardContent ref={historyContentRef} className={classes.content} onScroll={handleHistoryListScroll}>
-        {!!listData.length ? (
+        {listData.length ? (
           <List>
             {listData.map((data) => (
               <Fragment key={data.id}>

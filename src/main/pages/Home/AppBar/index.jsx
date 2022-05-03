@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo, Fragment } from 'react'
 
-import { Popover, Badge, List, Avatar, Grid, Drawer } from '@material-ui/core'
+import { Popover, Badge, List, Avatar, Grid, Drawer } from '@mui/material'
 import { useSelector } from 'react-redux'
 
 import alarmImg from '@assets/images/alarm.png'
@@ -20,7 +20,7 @@ function AppBar() {
   const { reload } = useHistoryLinks()
   const alarmList = useSelector(alarmNoticeSelector.listData)
   const notReadAlarmList = useMemo(() => {
-    return alarmList?.filter((item) => !Boolean(item?.alarm_has_read))
+    return alarmList?.filter((item) => !item?.alarm_has_read)
   }, [alarmList])
   const alarmRef = useRef(null)
   const profileRef = useRef(null)

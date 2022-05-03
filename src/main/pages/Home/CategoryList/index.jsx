@@ -1,8 +1,8 @@
 import React, { useState, useRef, useCallback } from 'react'
 
-import Drawer from '@material-ui/core/Drawer'
-import List from '@material-ui/core/List'
-import ErrorIcon from '@material-ui/icons/Error'
+import ErrorIcon from '@mui/icons-material/Error'
+import Drawer from '@mui/material/Drawer'
+import List from '@mui/material/List'
 import { useDispatch, useSelector } from 'react-redux'
 
 import urlinkLogoImg from '@assets/images/logo-urlink-full.png'
@@ -206,7 +206,7 @@ function CategoryList() {
             <CategoryHeader type="category" />
             <CategoryButtonGroup />
             <FirstCategoryDropZone
-              openDropZone={!Boolean(notFavoritedArr.length)}
+              openDropZone={!notFavoritedArr.length}
               handleDragDrop={handleDragDrop}
               handleDragOverFirstCategory={handleDragOverFirstCategory}
             />

@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles({
   root: {
@@ -49,16 +49,11 @@ const useStyles = makeStyles({
   editIcon: {
     marginLeft: 'auto',
   },
-  keyboardDatetimePicker: {
-    '& > .MuiInputBase-inputAdornedEnd': {
-      display: 'none',
-    },
-    '& > .MuiInputAdornment-positionEnd': {
-      marginLeft: 0,
-    },
-  },
   alarmIconActive: {
     color: '#fdd835',
+  },
+  dateTimePicker: {
+    display: 'none',
   },
 })
 

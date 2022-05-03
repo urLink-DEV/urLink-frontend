@@ -2,24 +2,13 @@ const path = require('path')
 
 const { whenDev, whenProd } = require('@craco/craco')
 const CracoAlias = require('craco-alias')
+const CracoEsbuildPlugin = require('craco-esbuild')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const ManifestPlugin = require('webpack-manifest-plugin')
 
 module.exports = {
-  babel: {
-    presets: [
-      [
-        '@babel/preset-env',
-        {
-          targets: {
-            chrome: '55',
-          },
-        },
-      ],
-    ],
-  },
-
   webpack: {
     configure: (webpackConfig, { paths }) => {
       // multiple entry point config
@@ -93,10 +82,13 @@ module.exports = {
       whenDev(() => {
         webpackConfig.optimization.runtimeChunk = 'single'
         webpackConfig.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'server', openAnalyzer: false }))
+        webpackConfig.devtool = 'eval-cheap-module-source-map'
       })
 
       whenProd(() => {
         webpackConfig.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'static' }))
+        webpackConfig.plugins.push(new ProgressBarPlugin())
+        webpackConfig.devtool = false
       })
 
       return webpackConfig
@@ -109,6 +101,19 @@ module.exports = {
       options: {
         source: 'jsconfig',
         baseUrl: './src',
+      },
+    },
+    {
+      plugin: CracoEsbuildPlugin,
+      options: {
+        esbuildLoaderOptions: {
+          loader: 'jsx',
+          target: 'es2015',
+        },
+        esbuildMinimizerOptions: {
+          target: 'es2015',
+          css: true,
+        },
       },
     },
   ],

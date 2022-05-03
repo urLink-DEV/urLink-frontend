@@ -84,7 +84,8 @@ function Start() {
               <span className={classes.textBold}>알람을</span> 설정하여 보관한 정보를 잊지말고 기억하세요.
             </div>
             <div className={classes.textCenter}>
-              <span className={classes.textBold}>"언젠가는 읽겠지…"</span>하며 쌓여갔던 URL을 유어링크가 배달해드릴게요.
+              <span className={classes.textBold}>&quot;언젠가는 읽겠지…&quot;</span>하며 쌓여갔던 URL을 유어링크가
+              배달해드릴게요.
             </div>
             <div className={classes.imgCenter}>
               <img className={classes.imgAutoSize} src={main3} alt="main-3"></img>

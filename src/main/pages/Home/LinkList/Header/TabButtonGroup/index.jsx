@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 
-import { Button } from '@material-ui/core'
+import { Button } from '@mui/material'
 import clsx from 'clsx'
 import { useSelector, useDispatch } from 'react-redux'
 

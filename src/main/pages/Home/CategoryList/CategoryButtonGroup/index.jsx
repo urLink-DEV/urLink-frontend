@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useEffect, Fragment } from 'react'
 
-import Button from '@material-ui/core/Button'
-import InputBase from '@material-ui/core/InputBase'
-import Paper from '@material-ui/core/Paper'
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
-import DeleteIcon from '@material-ui/icons/Delete'
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
+import DeleteIcon from '@mui/icons-material/Delete'
+import Button from '@mui/material/Button'
+import InputBase from '@mui/material/InputBase'
+import Paper from '@mui/material/Paper'
 import { useDispatch, useSelector } from 'react-redux'
 
 import useEventListener from '@hooks/useEventListener'
@@ -25,9 +25,11 @@ function CategoryButtonGroup() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { openToast } = useToast()
-  const { open: deleteCategoryOpen, toggle: deleteCategoryToggle, close: deleteCategoryClose } = useDialog(
-    MODAL_NAME.DELETE_CATEGORY_ALERT_MODAL
-  )
+  const {
+    open: deleteCategoryOpen,
+    toggle: deleteCategoryToggle,
+    close: deleteCategoryClose,
+  } = useDialog(MODAL_NAME.DELETE_CATEGORY_ALERT_MODAL)
   const selectedCategory = useSelector(categorySelector.selectedCategory)
 
   const [buttonState, setButtonState] = useState(BUTTON_STATE.addOpen)
