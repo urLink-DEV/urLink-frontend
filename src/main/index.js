@@ -3,8 +3,7 @@ import React from 'react'
 import AdapterMoment from '@mui/lab/AdapterMoment'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import CssBaseline from '@mui/material/CssBaseline'
-import { StyledEngineProvider } from '@mui/material/styles'
-import ThemeProvider from '@mui/styles/ThemeProvider'
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles'
 import { createBrowserHistory } from 'history'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
@@ -33,14 +32,14 @@ sagaMiddleware.run(rootSaga)
 ReactDOM.render(
   <Router history={browserHistory}>
     <Provider store={store}>
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <StyledEngineProvider injectFirst>
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <CssBaseline />
             <App />
           </LocalizationProvider>
-        </ThemeProvider>
-      </StyledEngineProvider>
+        </StyledEngineProvider>
+      </ThemeProvider>
     </Provider>
   </Router>,
   document.getElementById('root')
