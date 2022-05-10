@@ -1,6 +1,15 @@
 import { createTheme } from '@mui/material/styles'
 
 const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 1098,
+      lg: 1435,
+      xl: 1770,
+    },
+  },
   palette: {
     colorGroup: {
       battleshipGrey: '#737b84',

@@ -56,6 +56,7 @@ function Link({ data }) {
 
   const rootRef = useRef(null)
   const [showNewTabIcon, setShowNewTabIcon] = useState(false)
+  const [showAlarmModal, setShowAlarmModal] = useState(false)
   const [dateVal, setDateVal] = useState(new Date())
   const [isEditable, setIsEditable] = useState(false)
   const isSelected = useMemo(() => {
@@ -229,7 +230,7 @@ function Link({ data }) {
         <IconButton aria-label="복사 하기" onClick={handleCopy}>
           <img className={classes.copyIcon} src={copyIconImg} alt="복사 하기" />
         </IconButton>
-        <MobileDateTimePicker
+        {/* <MobileDateTimePicker
           label="알람 시간 설정하기"
           value={dateVal}
           onChange={(value) => {
@@ -265,7 +266,31 @@ function Link({ data }) {
               </div>
             )
           }}
-        />{' '}
+        /> */}{' '}
+        <IconButton onClick={() => setShowAlarmModal(true)}>
+          <AddAlertIcon
+            fontSize="small"
+            className={clsx({
+              [classes.alarmIconActive]: data.has_alarms,
+            })}
+          />
+        </IconButton>
+        {showAlarmModal ? (
+          <TextField
+            id="datetime-local"
+            type="datetime-local"
+            label="알람 시간 설정하기"
+            value={dateVal}
+            onChange={(value) => {
+              setDateVal(new Date(value))
+            }}
+            defaultValue="2017-05-24T10:30"
+            sx={{ width: 250 }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        ) : null}
         {/* <MobileDateTimePicker
           value={value}
           onChange={(newValue) => {
