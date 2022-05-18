@@ -30,10 +30,7 @@ export const categoryReducer = createReducer(initialState, {
   [categoriesRead.SUCCESS]: (state, { payload, meta }) => {
     state.listData = payload
     if (meta?.selectFirstCategory) {
-      state.selectedCategory = {
-        ...state.selectedCategory,
-        ...payload.filter((item) => !item.is_favorited)[0],
-      }
+      state.selectedCategory = payload.find((item) => !item.is_favorited) || initialState.selectedCategory
     }
   },
   [categorySelect]: (state, { payload }) => {
