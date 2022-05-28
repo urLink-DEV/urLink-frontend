@@ -40,7 +40,6 @@ const useStyles = makeStyles({
   },
   logoutBtn: {
     width: '100%',
-    backgroundColor: 'white',
   },
 })
 

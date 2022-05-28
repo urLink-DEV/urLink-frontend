@@ -103,7 +103,7 @@ function LinkList() {
           : dragData.category.data.id === selectedCategory?.id && SkeletonList(skeletonLength)}
 
         {links?.map((data) => (
-          <Grid item key={data.id}>
+          <Grid key={data.id} item xs={6} sm={6} md={4} lg={3} xl={3}>
             <Link data={data} />
           </Grid>
         ))}

@@ -3,8 +3,8 @@ import { makeStyles } from '@mui/styles'
 const useStyles = makeStyles({
   root: {
     position: 'relative',
-    width: 208,
-    height: 241,
+    width: 300,
+    height: 348,
   },
   editableCard: {
     border: '1px solid #3cb043',
@@ -19,28 +19,28 @@ const useStyles = makeStyles({
     padding: 0,
   },
   cardContent: {
-    height: 80,
-    padding: 5,
+    height: 182,
+    padding: '20px 16px 0 16px',
   },
   contentTitle: {
-    height: 20,
-    fontSize: 14,
+    maxHeight: 50,
+    fontSize: 16,
   },
   contentDesc: {
     display: 'box',
     boxOrient: 'vertical',
     overflow: 'hidden',
     width: '100%',
-    height: 52,
-    fontSize: 12,
+    maxHeight: 65,
+    fontSize: 14,
     whiteSpace: 'pre-line',
     lineClamp: 3,
   },
   cardActions: {
-    padding: 5,
-    '& .MuiIconButton-root': {
-      padding: 3,
-    },
+    padding: '0 16px 20px 16px',
+    // '& .MuiIconButton-root': {
+    //   padding: 3,
+    // },
   },
   copyIcon: {
     width: 18,
