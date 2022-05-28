@@ -30,7 +30,7 @@ const searchFilterList = [
   { search: 'date', name: '날짜' },
 ]
 
-function DragableHistoryList() {
+function DraggableHistoryList() {
   const classes = useStyles()
   const { filter, listData, dateSearch, keywordSearch, next } = useHistoryLinks()
   const { setDragData } = useDrag(LINK)
@@ -228,4 +228,4 @@ function DragableHistoryList() {
   )
 }
 
-export default DragableHistoryList
+export default DraggableHistoryList

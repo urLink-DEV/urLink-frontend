@@ -17,11 +17,6 @@ export const useStyles = makeStyles((theme) => ({
   main: {
     width: '100%',
   },
-  appBar: {
-    position: 'fixed',
-    right: 0,
-    width: 52,
-  },
 }))
 
 export default useStyles

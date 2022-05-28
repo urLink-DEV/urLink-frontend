@@ -1,4 +1,5 @@
-import { makeStyles } from '@mui/styles'
+import { ListItem } from '@mui/material'
+import { makeStyles, withStyles } from '@mui/styles'
 
 export const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -56,5 +57,23 @@ export const useStyles = makeStyles((theme) => ({
     padding: 6,
   },
 }))
+
+export const StyledListItem = withStyles((theme) => ({
+  root: {
+    width: 48,
+    height: 48,
+    margin: '11px auto',
+
+    backgroundColor: 'white',
+    borderRadius: 8,
+
+    '&:hover': {
+      backgroundColor: '#d6e4f5',
+      '& img': {
+        filter: 'brightness(10)',
+      },
+    },
+  },
+}))(ListItem)
 
 export default useStyles
