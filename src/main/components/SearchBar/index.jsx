@@ -2,6 +2,7 @@ import React, { useState, useRef, useCallback } from 'react'
 
 import SearchIcon from '@mui/icons-material/Search'
 import CalendarPicker from '@mui/lab/CalendarPicker'
+import { Grid, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import Divider from '@mui/material/Divider'
@@ -27,34 +28,41 @@ function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, o
   )
 
   return (
-    <Container className={classes.searchBar}>
-      <SearchIcon className={classes.searchIcon} />
-      <Divider className={classes.divider} orientation="vertical" flexItem={true} />
+    <div className={classes.searchBar}>
       <Select
-        className={classes.inputSelect}
         variant="standard"
         disableUnderline={true}
         MenuProps={{
-          getcontentanchorel: null,
           anchorOrigin: {
             vertical: 'bottom',
-            horizontal: 'center',
+            horizontal: 'right',
           },
           transformOrigin: {
             vertical: 'top',
             horizontal: 'center',
           },
+          PaperProps: {
+            className: classes.searchSelectPaper,
+          },
         }}
+        className={classes.searchSelect}
         value={selectedName}
         onChange={onSelectName}
+        renderValue={(selected) => searchFilterList?.find((searchFilter) => searchFilter.search === selected)?.name}
       >
-        {searchFilterList?.map(({ search, name }) => (
-          <MenuItem className={classes.menuItem} key={search} value={search}>
-            {name}
+        {searchFilterList?.map(({ search, name, description }) => (
+          <MenuItem className={classes.searchSelectItem} key={search} value={search}>
+            <Typography fontSize={14} fontWeight={400} lineHeight={'20px'} color={'#666666'}>
+              {name}
+            </Typography>
+            <Typography fontSize={14} fontWeight={400} lineHeight={'20px'} color={'#999999'}>
+              {description}
+            </Typography>
           </MenuItem>
         ))}
       </Select>
-      <Divider className={classes.divider} orientation="vertical" flexItem={true} />
+      <Divider className={classes.divider} orientation="vertical" />
+      <SearchIcon className={classes.searchIcon} />
       {selectedName === 'date' ? (
         <>
           <Button
@@ -88,15 +96,9 @@ function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, o
           </Popover>
         </>
       ) : (
-        <InputBase
-          className={classes.searchInputBase}
-          placeholder="웹사이트 주소나 제목을 검색하세요"
-          classes={{ input: classes.searchInput }}
-          inputProps={{ 'aria-label': 'search' }}
-          {...inputProps}
-        />
+        <InputBase placeholder="찾고 싶은 링크를 검색하세요" classes={{ input: classes.searchInput }} {...inputProps} />
       )}
-    </Container>
+    </div>
   )
 }
 

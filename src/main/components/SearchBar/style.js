@@ -3,12 +3,16 @@ import { makeStyles } from '@mui/styles'
 export const useStyles = makeStyles((theme) => ({
   searchBar: {
     display: 'flex',
-    width: 410,
-    padding: 0,
-    margin: 'auto 0 auto auto',
-    borderRadius: 20,
-    backgroundColor: 'white',
-    border: theme.spacing(0.5, 0),
+    gap: 3,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+
+    width: 380,
+    height: 38,
+    padding: '0px 48px 0px 16px',
+    backgroundColor: '#F3F3F3',
+    borderRadius: 8,
 
     '& > .MuiInput-underline:before': {
       left: 0,
@@ -20,31 +24,38 @@ export const useStyles = makeStyles((theme) => ({
       pointerEvents: 'none',
     },
   },
-  searchInputBase: {
-    width: '65%',
+  searchSelect: {
+    paddingRight: '12px',
+    fontSize: 14,
+  },
+  searchSelectPaper: {
+    padding: '12px 0 12px 0',
+    width: 199,
+    borderRadius: 8,
+
+    '& > .MuiMenu-list': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 10,
+    },
+  },
+  searchSelectItem: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
   },
   searchInput: {
-    width: 250,
-    color: 'black',
-    paddingLeft: theme.spacing(1),
-  },
-  inputSelect: {
-    width: '25%',
+    display: 'flex',
+    alignItems: 'center',
+
+    fontWeight: 400,
     fontSize: 14,
-    '& > .MuiSelect-select.MuiSelect-select': {
-      width: 70,
-      paddingLeft: 10,
-    },
-    '& > .MuiSelect-iconStandard': {
-      right: 0,
-    },
-  },
-  menuItem: {
-    fontSize: 14,
-    padding: theme.spacing(0, 1.5),
+    lineHeight: 14,
+
+    color: '#777777',
   },
   divider: {
-    margin: theme.spacing(0.5, 0),
+    height: 31,
   },
   pickerBtn: {
     color: '#2083FF',
@@ -59,9 +70,10 @@ export const useStyles = makeStyles((theme) => ({
     width: 320,
   },
   searchIcon: {
-    width: '10%',
-    color: '#CCCCCC',
-    margin: '7px 0 7px 7px',
+    margin: '11px 10px',
+    width: 16,
+    height: 16,
+    color: '#777777',
   },
 }))
 
