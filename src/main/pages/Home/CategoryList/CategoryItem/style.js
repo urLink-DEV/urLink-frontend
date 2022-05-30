@@ -1,72 +1,50 @@
 import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  tabContainer: {
+    height: 40,
+    display: 'block',
+    borderRadius: 4,
+    margin: '4px auto',
+    outline: 'none',
+    backgroundColor: ({ hovered, selected, editing }) =>
+      editing ? 'transparent' : hovered || selected ? '#E8F1FF' : 'transparent',
+    '&:hover': {
+      backgroundColor: ({ selected }) => (selected ? '#E8F1FF' : '#F2F2F2'),
+    },
+    border: ({ editing }) => (editing ? `1px solid ${theme.palette.primary.main}` : 'unset'),
+  },
+  tab: {
+    borderRadius: 4,
     width: '100%',
+    padding: '0 16px',
+    height: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: '18px 16px',
-  },
-
-  listTab: {
-    display: 'block',
-    width: 208,
-    borderRadius: 4,
-    padding: '0 !important',
-    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#ffffff',
-    '&:hover': {
-      boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12)',
-    },
-    margin: '10px auto',
-    outline: 'none',
   },
   title: {
     fontSize: 14,
     width: 120,
-    color: '#212529',
+    fontWeight: ({ selected }) => (selected ? 700 : 400),
+    lineHeight: '32px',
+    color: ({ selected }) => (selected ? '#333' : '#666'),
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
   },
-  selectedTitle: {
-    color: '#2083ff',
-    fontWeight: 'bold',
-  },
-  favoriteTitle: {
-    width: '60%',
-  },
-  hoveredItem: {
-    backgroundColor: 'rgba(32, 131, 255, 0.1)',
-  },
-  selectedItem: {
-    fontSize: 16,
-    boxShadow: ' 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)',
-    border: 'solid 1px #2083ff',
-    borderRadius: '4px',
-  },
-  modifying: {
-    boxShadow: ' 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12), 0 1px 3px 0 rgba(0, 0, 0, 0.12)',
-    border: 'solid 1px #3cb043',
-    borderRadius: '4px',
-  },
-  urlCountBox: {
+  urlCount: {
     display: 'inline-block',
     fontSize: 12,
-    color: '#868e96',
+    lineHeight: '32px',
+    color: '#999',
+    opacity: 0.6,
     textAlign: 'center',
   },
   favoriteStar: {
     marginLeft: '2px',
   },
-  block: {
-    display: 'block',
-  },
-  hidden: {
-    display: 'none',
-  },
-  linkBox: {
+  link: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
