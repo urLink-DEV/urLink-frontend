@@ -8,7 +8,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   categoryList: {
     flexShrink: 0,
-    width: 260,
+    minWidth: 288,
+    backgroundColor: '#fff',
   },
   main: {
     width: '100%',

@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: ({ hovered, selected, editing }) =>
       editing ? 'transparent' : hovered || selected ? '#E8F1FF' : 'transparent',
     '&:hover': {
+      cursor: 'pointer',
       backgroundColor: ({ selected }) => (selected ? '#E8F1FF' : '#F2F2F2'),
     },
     border: ({ editing }) => (editing ? `1px solid ${theme.palette.primary.main}` : 'unset'),

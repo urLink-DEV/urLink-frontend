@@ -44,7 +44,8 @@ const theme = createTheme({
         button: {
           cursor: pointer;
           outline: 0;
-          border: none;
+          border: unset;
+          background-color: transparent;
         }
       `,
     },

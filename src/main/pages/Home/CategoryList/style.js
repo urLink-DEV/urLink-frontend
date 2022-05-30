@@ -1,32 +1,48 @@
 import { makeStyles } from '@mui/styles'
+import { fontSize } from '@mui/system'
 
 const useStyles = makeStyles(() => ({
   logo: {
     width: 95,
-    margin: '28px 5px 28px 20px',
+    margin: '24px 0 86px',
   },
   drawerPaper: {
-    width: 260,
+    width: '100%',
+    height: '100%',
+    padding: '0 28px',
   },
   layout: {
-    width: 240,
-    margin: '0px auto',
-    padding: '0 10px',
-    backgroundColor: '#fff',
+    width: '100%',
+    height: 'calc(100% - 258px)',
     scrollbarWidth: 'none',
     '&::-webkit-scrollbar': {
       display: 'none',
     },
-    height: '100%',
-    overflowY: 'auto',
+    overflowY: 'scroll',
   },
-
   flexCenterBackground: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
+  },
+  favoriteList: {
+    paddingBottom: '52px',
+    padding: 0,
+  },
+  notFavoriteList: {},
+  addCategoryBtn: {
+    height: '120px',
+    width: '100%',
+    borderRadius: 'unset',
+    borderTop: '1px solid #C0C0C0',
+    justifyContent: 'space-between',
+    fontSize: 16,
+    color: '#666',
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
   },
 }))
 

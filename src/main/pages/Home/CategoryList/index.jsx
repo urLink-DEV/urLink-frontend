@@ -1,11 +1,13 @@
 import React, { useState, useRef, useCallback } from 'react'
 
 import ErrorIcon from '@mui/icons-material/Error'
+import Button from '@mui/material/Button'
 import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import { useDispatch, useSelector } from 'react-redux'
 
 import urlinkLogoImg from '@assets/images/logo-urlink-full.png'
+import plusImg from '@assets/images/plus_noborder.svg'
 import { useCategories, categorySelector, categoriesReadThunk, categoryModifyThunk } from '@modules/category'
 import { linkCreateThunk, linksRead } from '@modules/link'
 import { useToast } from '@modules/ui'
@@ -162,7 +164,7 @@ function CategoryList() {
   )
 
   return (
-    <Drawer classes={{ paper: classes.drawerPaper }} variant="permanent">
+    <div className={classes.drawerPaper}>
       {error ? (
         <div className={classes.flexCenterBackground}>
           <ErrorIcon color="primary" fontSize="large" />
@@ -172,45 +174,55 @@ function CategoryList() {
         <>
           <img className={classes.logo} src={urlinkLogoImg} alt="URLink logo" />
           <div className={classes.layout}>
-            <CategoryHeader type="favorite" />
-            {!favoritedArr?.length && (
+            {/*---Favorite Category start---*/}
+
+            {/* {!favoritedArr?.length && (
               <FirstFavoriteDropZone
                 handleDragDrop={handleDragDrop}
                 handleDragOverFirstFavorite={handleDragOverFirstFavorite}
               />
-            )}
-            <List>
-              {favoritedArr?.map((data) => (
-                <CategoryItemWrapper
-                  key={data.id}
-                  data={data}
-                  draggedOrder={dragData.order}
-                  handleDragStart={handleDragStart}
-                  handleDragOver={handleDragOver}
-                  handleDragLeave={handleDragLeave}
-                  handleDragDrop={handleDragDrop}
-                  handleDragEnd={handleDragEnd}
-                >
-                  <CategoryItem
-                    data={data}
-                    selected={data.id === selectedCategory?.id}
-                    hovered={data.id === linkHoverTabId}
-                    dragFinished={
-                      Boolean(dragData.dragFinished && data.id === linkHoverTabId) ||
-                      Boolean(dragData.dragFinished && data.id === dragData.id)
-                    }
-                  />
-                </CategoryItemWrapper>
-              ))}
-            </List>
+            )} */}
+            {favoritedArr?.length ? (
+              <React.Fragment>
+                <CategoryHeader type="favorite" />
+                <List className={classes.favoriteList}>
+                  {favoritedArr.map((data) => (
+                    <CategoryItemWrapper
+                      key={data.id}
+                      data={data}
+                      draggedOrder={dragData.order}
+                      handleDragStart={handleDragStart}
+                      handleDragOver={handleDragOver}
+                      handleDragLeave={handleDragLeave}
+                      handleDragDrop={handleDragDrop}
+                      handleDragEnd={handleDragEnd}
+                    >
+                      <CategoryItem
+                        data={data}
+                        selected={data.id === selectedCategory?.id}
+                        hovered={data.id === linkHoverTabId}
+                        dragFinished={
+                          Boolean(dragData.dragFinished && data.id === linkHoverTabId) ||
+                          Boolean(dragData.dragFinished && data.id === dragData.id)
+                        }
+                      />
+                    </CategoryItemWrapper>
+                  ))}
+                </List>
+              </React.Fragment>
+            ) : null}
+
+            {/*---Favorite Category end---*/}
+
+            {/*---Category start---*/}
             <CategoryHeader type="category" />
-            <CategoryButtonGroup />
+            {/* <CategoryButtonGroup /> */}
             <FirstCategoryDropZone
               openDropZone={!notFavoritedArr.length}
               handleDragDrop={handleDragDrop}
               handleDragOverFirstCategory={handleDragOverFirstCategory}
             />
-            <List>
+            <List className={classes.notFavoriteList}>
               {notFavoritedArr?.map((data) => (
                 <CategoryItemWrapper
                   key={data.id}
@@ -234,10 +246,15 @@ function CategoryList() {
                 </CategoryItemWrapper>
               ))}
             </List>
+            {/*---Category end---*/}
           </div>
+          <Button className={classes.addCategoryBtn}>
+            새 카테고리 추가
+            <img src={plusImg} alt="add category" />
+          </Button>
         </>
       )}
-    </Drawer>
+    </div>
   )
 }
 
