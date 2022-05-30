@@ -1,10 +1,9 @@
 import React, { useState, useRef, useCallback } from 'react'
 
 import SearchIcon from '@mui/icons-material/Search'
-import CalendarPicker from '@mui/lab/CalendarPicker'
-import { Grid, Typography } from '@mui/material'
+import { CalendarPicker } from '@mui/lab'
+import { Typography } from '@mui/material'
 import Button from '@mui/material/Button'
-import Container from '@mui/material/Container'
 import Divider from '@mui/material/Divider'
 import InputBase from '@mui/material/InputBase'
 import MenuItem from '@mui/material/MenuItem'
@@ -71,7 +70,7 @@ function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, o
             aria-describedby="calendar-popover"
             onClick={() => setOpenPicker((open) => !open)}
           >
-            {selectedDate ? new Date(selectedDate).toLocaleDateString() : '날짜를 검색하려면 클릭하세요'}
+            {selectedDate ? selectedDate.format('YYYY-MM-DD') : '날짜를 검색하려면 클릭하세요'}
           </Button>
           <Popover
             id="calendar-popover"

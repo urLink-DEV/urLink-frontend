@@ -10,19 +10,9 @@ export const useStyles = makeStyles((theme) => ({
 
     width: 380,
     height: 38,
-    padding: '0px 48px 0px 16px',
+    padding: '0px 40px 0px 16px',
     backgroundColor: '#F3F3F3',
     borderRadius: 8,
-
-    '& > .MuiInput-underline:before': {
-      left: 0,
-      right: 0,
-      bottom: 0,
-      position: 'absolute',
-      transition: 'border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-      borderBottom: '0px',
-      pointerEvents: 'none',
-    },
   },
   searchSelect: {
     paddingRight: '12px',
@@ -58,12 +48,16 @@ export const useStyles = makeStyles((theme) => ({
     height: 31,
   },
   pickerBtn: {
-    color: '#2083FF',
-    textDecoration: 'underline',
-    fontSize: '1rem',
+    color: theme.palette.primary.main,
+    fontWeight: 400,
+    fontSize: 14,
+
+    width: '100%',
+    borderBottom: '1px solid',
+    borderRadius: 0,
+
     '&:hover': {
-      color: '#2083FF',
-      textDecoration: 'underline',
+      color: theme.palette.primary.main,
     },
   },
   datePicker: {

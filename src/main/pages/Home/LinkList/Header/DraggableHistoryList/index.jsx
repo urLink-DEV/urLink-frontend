@@ -26,8 +26,8 @@ const { LINK } = DRAG
 const { LINK_DROP_ZONE } = DROP_ZONE
 
 const searchFilterList = [
-  { search: 'text', name: '제목/주소' },
-  { search: 'date', name: '날짜' },
+  { search: 'text', name: '제목/주소', description: '링크 제목 / 도메인 주소로 검색' },
+  { search: 'date', name: '날짜', description: '날짜를 지정하여 검색' },
 ]
 
 function DraggableHistoryList() {
