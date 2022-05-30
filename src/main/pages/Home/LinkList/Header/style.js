@@ -62,7 +62,6 @@ export const StyledListItem = withStyles((theme) => ({
   root: {
     width: 48,
     height: 48,
-    margin: '11px auto',
 
     backgroundColor: 'white',
     borderRadius: 8,
