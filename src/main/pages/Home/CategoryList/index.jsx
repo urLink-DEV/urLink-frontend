@@ -254,7 +254,7 @@ function CategoryList() {
             새 카테고리 추가
             <img src={plusImg} alt="add category" />
           </Button>
-          <AddCategoryModal open={addCategoryOpen} onClose={() => setAddCategoryOpen(false)} />
+          {addCategoryOpen && <AddCategoryModal open={addCategoryOpen} onClose={() => setAddCategoryOpen(false)} />}
         </>
       )}
     </div>

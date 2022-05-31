@@ -14,11 +14,13 @@ import {
   categoryModifyThunk,
   categoryRemoveThunk,
   categoriesRead,
+  categoryEdit,
 } from '@modules/category'
 import { linkSelector, linkSelectBoxChangeState, linkClearSelect } from '@modules/link'
 import { useToast } from '@modules/ui'
 import { GAEvent } from '@utils/ga'
 
+import UpdateCategoryModal from '../UpdateCategoryModal'
 import useStyles from './style'
 
 function CategoryItem({ data = {}, selected = false, hovered = false, dragFinished = false }) {
@@ -28,6 +30,7 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
   const isOpenLinkSelectBox = useSelector(linkSelector.isOpenLinkSelectBox)
   const isEditingTitle = useMemo(() => Boolean(editedCategory?.id === data?.id), [editedCategory, data])
   const [moreOpen, setMoreOpen] = useState(false)
+  const [updateCategoryOpen, setUpdateCategoryOpen] = useState(false)
   const moreBtnGroupRef = useRef()
   const classes = useStyles({ selected, hovered, editing: isEditingTitle, favorite: data.is_favorited, moreOpen })
 
@@ -78,6 +81,13 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
     }
   }
 
+  const handleClickChangeName = async (e) => {
+    setMoreOpen(false)
+    setUpdateCategoryOpen(true)
+    dispatch(categoryEdit({ id: data?.id, name: data?.name }))
+    GAEvent('메인', '카테고리 제목 수정 버튼 클릭')
+  }
+
   useOutsideAlerter(moreBtnGroupRef, moreOpen, () => setMoreOpen(false))
 
   return (
@@ -101,7 +111,9 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
 
           {moreOpen ? (
             <div className={classes.moreBtnGroup} ref={moreBtnGroupRef}>
-              <button type="button">이름 변경</button>
+              <button type="button" onClick={handleClickChangeName}>
+                이름 변경
+              </button>
               <button type="button" onClick={handleClickDelete}>
                 삭제
               </button>
@@ -109,6 +121,10 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
           ) : null}
         </div>
       </div>
+
+      {updateCategoryOpen && (
+        <UpdateCategoryModal open={updateCategoryOpen} onClose={() => setUpdateCategoryOpen(false)} data={data} />
+      )}
     </div>
   )
 }

@@ -17,37 +17,48 @@ import { GAEvent } from '@utils/ga'
 
 import { StyledDialog, StyledDialogTitle, StyledDialogContent, StyledDialogActions, useStyles } from './style'
 
-function UpdateCategoryModal({ open, onClose }) {
-  const [categoryName, setCategoryName] = useState('')
-  const category = useSelector(categorySelector.selectedCategory)
+function UpdateCategoryModal({ open, onClose, data }) {
+  const [categoryName, setCategoryName] = useState(data.name)
   const dispatch = useDispatch()
+  const { openToast } = useToast()
   const inputRef = useRef()
   const classes = useStyles()
 
   const handleChangeInput = (e) => {
+    setCategoryName((prev) => (prev = e.target.value))
     dispatch(categoryEdit({ name: e.target.value }))
   }
 
   const handleClickCancel = () => {
+    onClose()
     dispatch(categoryClearEdit())
     GAEvent('메인', '카테고리 제목 수정 취소')
   }
 
   const handleClickConfirm = async () => {
-    const response = await dispatch(
-      categoryModifyThunk({
-        id: category.id,
-        name: inputRef.current.value,
-      })
-    )
-    await dispatch(categoriesReadThunk())
-    dispatch(categorySelect({ ...response }))
-    dispatch(categoryClearEdit())
-    GAEvent('메인', '카테고리 제목 수정 완료')
+    try {
+      const response = await dispatch(
+        categoryModifyThunk({
+          id: data.id,
+          name: inputRef.current.value,
+        })
+      )
+      await dispatch(categoriesReadThunk())
+      dispatch(categorySelect({ ...response }))
+      dispatch(categoryClearEdit())
+      onClose()
+      GAEvent('메인', '카테고리 제목 수정 완료')
+    } catch (error) {
+      openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
+    }
+  }
+  const handleKeyUpEnter = (e) => {
+    e.stopPropagation()
+    if (e.key === 'Enter') handleClickConfirm()
   }
 
   useEffect(() => {
-    dispatch(categoryEdit({ id: category?.id, name: category?.name }))
+    dispatch(categoryEdit({ id: data?.id, name: data?.name }))
     GAEvent('메인', '카테고리 제목 수정 버튼 클릭')
   }, [])
 
@@ -66,7 +77,7 @@ function UpdateCategoryModal({ open, onClose }) {
           type="text"
           className={classes.categoryNameInput}
           value={categoryName}
-          // onKeyUp={}
+          onKeyUp={handleKeyUpEnter}
           onChange={handleChangeInput}
           placeholder="카테고리 이름을 입력해주세요."
           ref={inputRef}

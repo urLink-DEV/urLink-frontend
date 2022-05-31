@@ -35,6 +35,7 @@ function EditableCategoryTitle() {
   const classes = useStyles()
   const dispatch = useDispatch()
   const category = useSelector(categorySelector.selectedCategory)
+  const editedCategory = useSelector(categorySelector.editedCategory)
   const defaultValues = useMemo(() => {
     return { name: category?.name }
   }, [category])
