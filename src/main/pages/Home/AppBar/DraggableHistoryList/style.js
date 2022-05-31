@@ -4,9 +4,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
 
-    width: 700,
-    height: '100vh',
-    // padding: '20px 24px 22px 24px',
+    width: 656,
+    height: 'calc(100vh - 72px);',
 
     backgroundColor:
       theme.palette.type !== 'dark' ? theme.palette.colorGroup.lightGrey : theme.palette.background.default,

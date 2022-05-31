@@ -38,13 +38,12 @@ function AppBar() {
   const alarmRef = useRef(null)
   const profileRef = useRef(null)
 
-  const [historyOpen, setOpenHistory] = useState(false)
-  const [openAlarm, setOpenAlarm] = useState(false)
-  const [openProfile, setOpenProfile] = useState(false)
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false)
+  const [isAlarmOpen, setIsAlarmOpen] = useState(false)
+  const [isProfileOpen, setIsProfileOpen] = useState(false)
 
   const [selectedName, setSelectedName] = useState(SEARCH_FILTER_LIST[0].search)
   const [keyword, setKeyword] = useState('')
-
   const debouncedKeyword = useDebounce(keyword, 250)
 
   const handleChangeInput = useCallback((e) => {
@@ -86,7 +85,7 @@ function AppBar() {
             aria-describedby="history-drawer"
             onClick={() => {
               reload()
-              setOpenHistory((open) => !open)
+              setIsHistoryOpen((open) => !open)
               GAEvent('앱바', '방문기록 드로어 버튼 클릭')
             }}
           >
@@ -98,7 +97,7 @@ function AppBar() {
             ref={alarmRef}
             aria-describedby="alarm-popover"
             onClick={() => {
-              setOpenAlarm((open) => !open)
+              setIsAlarmOpen((open) => !open)
               GAEvent('앱바', '알람 팝업 버튼 클릭')
             }}
           >
@@ -112,7 +111,7 @@ function AppBar() {
             </Badge>
             <Popover
               id="alarm-popover"
-              open={openAlarm}
+              open={isAlarmOpen}
               anchorEl={alarmRef.current}
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               transformOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -126,7 +125,7 @@ function AppBar() {
             ref={profileRef}
             aria-describedby="profile-popover"
             onClick={() => {
-              setOpenProfile((open) => !open)
+              setIsProfileOpen((open) => !open)
               GAEvent('앱바', '프로필 팝업 버튼 클릭')
             }}
           >
@@ -134,8 +133,8 @@ function AppBar() {
           </StyledListItem>
           <Popover
             id="profile-popover"
-            open={openProfile}
-            onClose={() => setOpenProfile((open) => !open)}
+            open={isProfileOpen}
+            onClose={() => setIsProfileOpen((open) => !open)}
             anchorEl={profileRef.current}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             transformOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -149,8 +148,8 @@ function AppBar() {
         className={classes.drawer}
         variant="persistent"
         anchor="right"
-        open={historyOpen}
-        onClose={() => setOpenHistory(false)}
+        open={isHistoryOpen}
+        onClose={() => setIsHistoryOpen(false)}
       >
         <DraggableHistoryList />
       </Drawer>

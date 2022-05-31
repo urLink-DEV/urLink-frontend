@@ -13,7 +13,7 @@ const theme = createTheme({
   palette: {
     colorGroup: {
       battleshipGrey: '#737b84',
-      lightGrey: '#f6f6f6',
+      lightGrey: '#fafafa',
       blueGrey: '#868e96',
       paleGrey: '#f6f7f9',
       salmon: '#ff6b6b',

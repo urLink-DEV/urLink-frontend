@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
 
-    width: 'calc(100% - 1012px)',
+    width: 'calc(100% - 917px)',
     height: '100%',
 
     backgroundColor: 'rgba(53, 142, 255, 0.15)',

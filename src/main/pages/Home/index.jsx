@@ -3,10 +3,11 @@ import React, { useState } from 'react'
 import { Resizable } from 're-resizable'
 
 import { useAlarmNoticeConnection } from '@/modules/alarmNotice'
-import CategoryList from '@main/pages/Home/CategoryList'
-import LinkDropZone from '@main/pages/Home/LinkDropZone'
-import LinkList from '@main/pages/Home/LinkList'
 
+import AppBar from './AppBar'
+import CategoryList from './CategoryList'
+import LinkDropZone from './LinkDropZone'
+import LinkList from './LinkList'
 import useStyles from './style'
 
 export default function Home() {
@@ -44,6 +45,7 @@ export default function Home() {
         <CategoryList />
       </Resizable>
       <main className={classes.main}>
+        <AppBar />
         <LinkDropZone />
         <LinkList />
       </main>

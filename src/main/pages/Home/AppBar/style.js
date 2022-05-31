@@ -5,13 +5,14 @@ export const useStyles = makeStyles((theme) => ({
   appBar: {
     position: 'sticky',
     top: 0,
+    zIndex: 100,
+
+    paddingTop: 12,
+    paddingBottom: 12,
 
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
-  },
-  refreshBtn: {
-    padding: 12,
   },
   imgButton: {
     width: 17,
@@ -33,7 +34,7 @@ export const useStyles = makeStyles((theme) => ({
       zIndex: theme.zIndex.drawer - 1,
     },
     '& > .MuiDrawer-paperAnchorRight': {
-      right: 50,
+      top: 73,
     },
   },
 }))
