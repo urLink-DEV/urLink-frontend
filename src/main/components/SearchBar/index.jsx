@@ -9,10 +9,11 @@ import InputBase from '@mui/material/InputBase'
 import MenuItem from '@mui/material/MenuItem'
 import Popover from '@mui/material/Popover'
 import Select from '@mui/material/Select'
+import clsx from 'clsx'
 
 import useStyles from './style'
 
-function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, onChangeDate, selectedDate }) {
+function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, onChangeDate, selectedDate, disabled }) {
   const classes = useStyles()
 
   const pickerRef = useRef(null)
@@ -27,7 +28,11 @@ function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, o
   )
 
   return (
-    <div className={classes.searchBar}>
+    <div
+      className={clsx(classes.searchBar, {
+        [classes.searchBarDisabled]: disabled,
+      })}
+    >
       <Select
         variant="standard"
         disableUnderline={true}
@@ -45,6 +50,7 @@ function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, o
           },
         }}
         className={classes.searchSelect}
+        disabled={disabled}
         value={selectedName}
         onChange={onSelectName}
         renderValue={(selected) => searchFilterList?.find((searchFilter) => searchFilter.search === selected)?.name}
@@ -68,6 +74,7 @@ function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, o
             className={classes.pickerBtn}
             ref={pickerRef}
             aria-describedby="calendar-popover"
+            disabled={disabled}
             onClick={() => setOpenPicker((open) => !open)}
           >
             {selectedDate ? selectedDate.format('YYYY-MM-DD') : '날짜를 검색하려면 클릭하세요'}
@@ -95,7 +102,12 @@ function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, o
           </Popover>
         </>
       ) : (
-        <InputBase placeholder="찾고 싶은 링크를 검색하세요" classes={{ input: classes.searchInput }} {...inputProps} />
+        <InputBase
+          placeholder="찾고 싶은 링크를 검색하세요"
+          classes={{ input: classes.searchInput }}
+          disabled={disabled}
+          {...inputProps}
+        />
       )}
     </div>
   )

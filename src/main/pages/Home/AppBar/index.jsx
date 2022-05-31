@@ -78,6 +78,7 @@ function AppBar() {
           searchFilterList={SEARCH_FILTER_LIST}
           onSelectName={handleSelectName}
           selectedName={selectedName}
+          disabled={isHistoryOpen}
         />
         <List className={classes.iconButtonGroup}>
           <StyledListItem

@@ -14,6 +14,9 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: '#F3F3F3',
     borderRadius: 8,
   },
+  searchBarDisabled: {
+    opacity: 0.4,
+  },
   searchSelect: {
     paddingRight: '12px',
     fontSize: 14,
