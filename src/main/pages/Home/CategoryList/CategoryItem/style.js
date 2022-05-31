@@ -2,6 +2,7 @@ import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
   tabContainer: {
+    position: 'relative',
     height: 40,
     display: 'block',
     borderRadius: 4,
@@ -23,6 +24,14 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    '& > .show-btn-group': {
+      visibility: 'hidden',
+    },
+    '&:hover': {
+      '& > .show-btn-group': {
+        visibility: 'visible',
+      },
+    },
   },
   title: {
     fontSize: 14,
@@ -42,9 +51,7 @@ const useStyles = makeStyles((theme) => ({
     opacity: 0.6,
     textAlign: 'center',
   },
-  favoriteStar: {
-    marginLeft: '2px',
-  },
+  favoriteStar: {},
   link: {
     display: 'flex',
     alignItems: 'center',
@@ -93,6 +100,33 @@ const useStyles = makeStyles((theme) => ({
     '100%': {
       opacity: 0,
       width: 0,
+    },
+  },
+  btnGroup: {
+    position: 'absolute',
+    padding: '8px 16px 8px 0',
+    top: 0,
+    right: 0,
+    display: 'flex',
+    backgroundColor: ({ selected }) => (selected ? '#E8F1FF' : '#F2F2F2'),
+    borderRadius: 4,
+
+    '& > button': {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: 24,
+      height: 24,
+      backgroundColor: '#fff',
+      borderRadius: 4,
+      padding: 0,
+      border: 'unset',
+      marginLeft: 8,
+
+      '&:hover': {
+        cursor: 'pointer',
+      },
     },
   },
 }))
