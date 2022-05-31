@@ -31,7 +31,6 @@ function UpdateCategoryModal({ open, onClose, data }) {
 
   const handleClickCancel = () => {
     onClose()
-    dispatch(categoryClearEdit())
     GAEvent('메인', '카테고리 제목 수정 취소')
   }
 
@@ -56,11 +55,6 @@ function UpdateCategoryModal({ open, onClose, data }) {
     e.stopPropagation()
     if (e.key === 'Enter') handleClickConfirm()
   }
-
-  useEffect(() => {
-    dispatch(categoryEdit({ id: data?.id, name: data?.name }))
-    GAEvent('메인', '카테고리 제목 수정 버튼 클릭')
-  }, [])
 
   return (
     <StyledDialog

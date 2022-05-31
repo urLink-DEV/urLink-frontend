@@ -46,6 +46,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     '&:focus': {
       border: '1px solid #1D78FF',
+      outline: 'none',
     },
   },
   modalButton: {

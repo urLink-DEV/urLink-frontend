@@ -1,9 +1,10 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 
 import clsx from 'clsx'
 import { useDispatch, useSelector } from 'react-redux'
 
 import useOutsideAlerter from '@/hooks/useOutsideAlerter'
+import { AlertModal } from '@/main/components/modals'
 import moreImg from '@assets/images/more_3dot.svg'
 import starImg from '@assets/images/star.svg'
 import starFillImg from '@assets/images/star_fill.svg'
@@ -15,9 +16,10 @@ import {
   categoryRemoveThunk,
   categoriesRead,
   categoryEdit,
+  categoryClearEdit,
 } from '@modules/category'
 import { linkSelector, linkSelectBoxChangeState, linkClearSelect } from '@modules/link'
-import { useToast } from '@modules/ui'
+import { useToast, useDialog, MODAL_NAME } from '@modules/ui'
 import { GAEvent } from '@utils/ga'
 
 import UpdateCategoryModal from '../UpdateCategoryModal'
@@ -31,6 +33,13 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
   const isEditingTitle = useMemo(() => Boolean(editedCategory?.id === data?.id), [editedCategory, data])
   const [moreOpen, setMoreOpen] = useState(false)
   const [updateCategoryOpen, setUpdateCategoryOpen] = useState(false)
+  const [deleteStatus, setDeleteStatus] = useState(false)
+
+  const {
+    open: deleteAlertOpen,
+    toggle: deleteAlertToggle,
+    close: deleteAlertClose,
+  } = useDialog(MODAL_NAME.DELETE_CATEGORY_ALERT_MODAL)
   const moreBtnGroupRef = useRef()
   const classes = useStyles({ selected, hovered, editing: isEditingTitle, favorite: data.is_favorited, moreOpen })
 
@@ -69,9 +78,22 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
     setMoreOpen(true)
   }
 
-  const handleClickDelete = async (e) => {
+  const handleClickDelete = (e) => {
+    e.stopPropagation()
+    setMoreOpen(false)
+    setDeleteStatus(true)
+    deleteAlertToggle()
+  }
+
+  const handleCloseDeleteAlert = () => {
+    setMoreOpen(false)
+    setDeleteStatus(false)
+    deleteAlertClose()
+  }
+  const handleDelete = async (e) => {
     try {
       e.stopPropagation()
+      handleCloseDeleteAlert()
       await dispatch(categoryRemoveThunk({ id: data.id }))
       dispatch(categoriesRead.request(undefined, { selectFirstCategory: true }))
       openToast({ type: 'success', message: '선택하신 카테고리가 삭제되었습니다.' })
@@ -81,7 +103,13 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
     }
   }
 
+  const handleCloseUpdateCategoryModal = () => {
+    setMoreOpen(false)
+    setUpdateCategoryOpen(false)
+    dispatch(categoryClearEdit())
+  }
   const handleClickChangeName = async (e) => {
+    e.stopPropagation()
     setMoreOpen(false)
     setUpdateCategoryOpen(true)
     dispatch(categoryEdit({ id: data?.id, name: data?.name }))
@@ -123,7 +151,17 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
       </div>
 
       {updateCategoryOpen && (
-        <UpdateCategoryModal open={updateCategoryOpen} onClose={() => setUpdateCategoryOpen(false)} data={data} />
+        <UpdateCategoryModal open={updateCategoryOpen} onClose={handleCloseUpdateCategoryModal} data={data} />
+      )}
+
+      {deleteStatus && deleteAlertOpen && (
+        <AlertModal
+          openBool={deleteAlertOpen}
+          btnYesText="삭제"
+          contentText="카테고리를 삭제하면 안에 저장된 모든 탭이 삭제 됩니다. 그래도 삭제 하시겠습니까?"
+          handleClose={handleCloseDeleteAlert}
+          handleYesClick={handleDelete}
+        />
       )}
     </div>
   )
