@@ -33,13 +33,29 @@ const useStyles = makeStyles(() => ({
   addCategoryBtn: {
     height: '120px',
     width: '100%',
-    borderRadius: 'unset',
     borderTop: '1px solid #C0C0C0',
-    justifyContent: 'space-between',
-    fontSize: 16,
-    color: '#666',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    borderRadius: 'unset',
+
+    '& > h3': {
+      fontSize: 16,
+      color: '#666',
+      padding: '4px 16px',
+      borderRadius: 8,
+      justifyContent: 'space-between',
+      display: 'flex',
+      width: '100%',
+    },
+
     '&:hover': {
       backgroundColor: 'transparent',
+      '& > h3': {
+        backgroundColor: '#F2F2F2',
+      },
     },
   },
 }))

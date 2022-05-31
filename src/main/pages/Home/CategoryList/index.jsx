@@ -251,8 +251,10 @@ function CategoryList() {
             {/*---Category end---*/}
           </div>
           <Button className={classes.addCategoryBtn} onClick={() => setAddCategoryOpen(true)}>
-            새 카테고리 추가
-            <img src={plusImg} alt="add category" />
+            <h3>
+              새 카테고리 추가
+              <img src={plusImg} alt="add category" />
+            </h3>
           </Button>
           {addCategoryOpen && <AddCategoryModal open={addCategoryOpen} onClose={() => setAddCategoryOpen(false)} />}
         </>
