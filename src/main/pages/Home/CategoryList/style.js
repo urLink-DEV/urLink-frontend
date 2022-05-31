@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
   },
   categoryContainer: {
     width: '100%',
-    height: 'calc(100% - 258px)',
+    height: 'calc(100% - 200px)',
     scrollbarWidth: 'none',
     '&::-webkit-scrollbar': {
       display: 'none',
