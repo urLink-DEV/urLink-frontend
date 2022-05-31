@@ -26,7 +26,7 @@ import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 
-const CATEGORY_NAME_MAX_LENTH = 18
+const CATEGORY_NAME_MAX_LENTH = 24
 const CATEGORY_SCHEMA = yup.object({
   name: yup.string().max(CATEGORY_NAME_MAX_LENTH).required(),
 })
