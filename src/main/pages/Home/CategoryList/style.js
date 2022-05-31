@@ -1,10 +1,9 @@
 import { makeStyles } from '@mui/styles'
-import { fontSize } from '@mui/system'
 
 const useStyles = makeStyles(() => ({
   logo: {
     width: 95,
-    margin: '24px 0 86px',
+    margin: '24px 0 28px',
   },
   drawerPaper: {
     width: '100%',
@@ -28,7 +27,6 @@ const useStyles = makeStyles(() => ({
     height: '100vh',
   },
   favoriteList: {
-    paddingBottom: '52px',
     padding: 0,
   },
   notFavoriteList: {},

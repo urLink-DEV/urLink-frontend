@@ -14,6 +14,7 @@ import { useToast } from '@modules/ui'
 import { DRAG, useDrag } from '@modules/ui'
 import { GAEvent } from '@utils/ga'
 
+import AddCategoryModal from './AddCategoryModal'
 import CategoryButtonGroup from './CategoryButtonGroup'
 import CategoryHeader from './CategoryHeader'
 import CategoryItem from './CategoryItem'
@@ -36,6 +37,7 @@ function CategoryList() {
   const draggedCategoryRef = useRef(null)
   const [linkHoverTabId, setLinkHoverTabId] = useState(null)
   const [dragOverTabData, setDragOverTabData] = useState({})
+  const [addCategoryOpen, setAddCategoryOpen] = useState(false)
 
   const handleDragOverFirstFavorite = useCallback(
     (e) => {
@@ -248,10 +250,11 @@ function CategoryList() {
             </List>
             {/*---Category end---*/}
           </div>
-          <Button className={classes.addCategoryBtn}>
+          <Button className={classes.addCategoryBtn} onClick={() => setAddCategoryOpen(true)}>
             새 카테고리 추가
             <img src={plusImg} alt="add category" />
           </Button>
+          <AddCategoryModal open={addCategoryOpen} onClose={() => setAddCategoryOpen(false)} />
         </>
       )}
     </div>

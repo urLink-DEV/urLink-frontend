@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     color: '#333',
     lineHeight: '32px',
+    paddingTop: '52px',
   },
 }))
 
