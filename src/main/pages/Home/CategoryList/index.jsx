@@ -175,7 +175,7 @@ function CategoryList() {
       ) : (
         <>
           <img className={classes.logo} src={urlinkLogoImg} alt="URLink logo" />
-          <div className={classes.layout}>
+          <div className={classes.categoryContainer}>
             {/*---Favorite Category start---*/}
 
             {/* {!favoritedArr?.length && (

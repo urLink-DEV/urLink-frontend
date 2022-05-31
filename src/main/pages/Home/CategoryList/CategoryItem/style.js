@@ -8,10 +8,10 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 4,
     margin: '4px auto',
     outline: 'none',
+    cursor: 'pointer',
     backgroundColor: ({ hovered, selected, editing }) =>
       editing ? 'transparent' : hovered || selected ? '#E8F1FF' : 'transparent',
     '&:hover': {
-      cursor: 'pointer',
       backgroundColor: ({ selected }) => (selected ? '#E8F1FF' : '#F2F2F2'),
     },
     border: ({ editing }) => (editing ? `1px solid ${theme.palette.primary.main}` : 'unset'),
@@ -24,8 +24,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    backgroundColor: ({ moreOpen, selected }) =>
+      moreOpen && selected ? '#E8F1FF' : moreOpen && !selected ? '#F2F2F2' : 'transparent',
     '& > .show-btn-group': {
-      visibility: 'hidden',
+      visibility: ({ moreOpen }) => (moreOpen ? 'visible' : 'hidden'),
     },
     '&:hover': {
       '& > .show-btn-group': {
@@ -51,7 +53,6 @@ const useStyles = makeStyles((theme) => ({
     opacity: 0.6,
     textAlign: 'center',
   },
-  favoriteStar: {},
   link: {
     display: 'flex',
     alignItems: 'center',
@@ -123,9 +124,37 @@ const useStyles = makeStyles((theme) => ({
       padding: 0,
       border: 'unset',
       marginLeft: 8,
+      cursor: 'pointer',
+    },
+  },
+  moreBtnGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    padding: 12,
+    position: 'absolute',
+    top: 40,
+    right: 16,
+    backgroundColor: '#fff',
+    boxShadow: '8px 8px 10px rgba(0, 0, 0, 0.08)',
+    borderRadius: 8,
+    zIndex: 10,
+    width: 107,
+    height: 77,
+
+    '& > button': {
+      fontSize: 14,
+      lineHeight: '20px',
+      color: '#666',
+      backgroundColor: 'transparent',
+      border: 'unset',
+      width: '100%',
+      textAlign: 'left',
+      cursor: 'pointer',
 
       '&:hover': {
-        cursor: 'pointer',
+        fontWeight: '900',
       },
     },
   },

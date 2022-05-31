@@ -10,7 +10,7 @@ const useStyles = makeStyles(() => ({
     height: '100%',
     padding: '0 28px',
   },
-  layout: {
+  categoryContainer: {
     width: '100%',
     height: 'calc(100% - 258px)',
     scrollbarWidth: 'none',
