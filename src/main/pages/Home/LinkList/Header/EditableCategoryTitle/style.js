@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles'
 
-export const useStyles = makeStyles((_theme) => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
@@ -9,7 +9,7 @@ export const useStyles = makeStyles((_theme) => ({
     maxWidth: 499,
     width: '100%',
     borderRadius: 8,
-    border: ({ isEditable }) => (isEditable ? '1px solid #1D78FF' : 'unset'),
+    border: ({ isEditable }) => (isEditable ? `1px solid ${theme.palette.primary.main}` : 'unset'),
   },
   titleContainer: {
     display: 'flex',
@@ -24,7 +24,7 @@ export const useStyles = makeStyles((_theme) => ({
   confirmBtn: {
     width: 74,
     height: 38,
-    backgroundColor: '#1D78FF',
+    backgroundColor: theme.palette.primary.main,
     borderRadius: 8,
     color: '#fff',
     fontWeight: 400,

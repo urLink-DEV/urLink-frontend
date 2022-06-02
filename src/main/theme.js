@@ -23,7 +23,7 @@ const theme = createTheme({
       black: '#212529',
     },
     primary: {
-      main: '#2083ff',
+      main: '#1D78FF',
     },
   },
   typography: {

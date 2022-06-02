@@ -45,7 +45,7 @@ export const useStyles = makeStyles((theme) => ({
       color: '#999',
     },
     '&:focus': {
-      border: '1px solid #1D78FF',
+      border: `1px solid ${theme.palette.primary.main}`,
       outline: 'none',
     },
   },
