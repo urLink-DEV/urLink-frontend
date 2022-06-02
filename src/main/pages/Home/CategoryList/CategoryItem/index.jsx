@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 
 import clsx from 'clsx'
 import { useDispatch, useSelector } from 'react-redux'
@@ -108,7 +108,7 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
     setUpdateCategoryOpen(false)
     dispatch(categoryClearEdit())
   }
-  const handleClickChangeName = async (e) => {
+  const handleClickChangeName = (e) => {
     e.stopPropagation()
     setMoreOpen(false)
     setUpdateCategoryOpen(true)

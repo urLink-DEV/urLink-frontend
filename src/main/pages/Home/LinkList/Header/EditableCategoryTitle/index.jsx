@@ -32,7 +32,6 @@ const CATEGORY_SCHEMA = yup.object({
 })
 
 function EditableCategoryTitle() {
-  const classes = useStyles()
   const dispatch = useDispatch()
   const category = useSelector(categorySelector.selectedCategory)
   const editedCategory = useSelector(categorySelector.editedCategory)
@@ -55,6 +54,7 @@ function EditableCategoryTitle() {
   const [isEditable, setIsEditable] = useState(false)
 
   const editedName = watch('name') || ''
+  const classes = useStyles({ isEditable: isEditable || category?.id === editedCategory.id })
 
   useEffect(() => {
     if (isEditable) dispatch(categoryEdit({ name: editedName }))
@@ -72,9 +72,10 @@ function EditableCategoryTitle() {
 
   const handleCancelEdit = useCallback(() => {
     setIsEditable(false)
+    reset(defaultValues)
     dispatch(categoryClearEdit())
     GAEvent('메인', '카테고리 제목 수정 취소')
-  }, [dispatch])
+  }, [dispatch, reset, defaultValues])
 
   const handleEditDone = useMemo(() => {
     return checkSubmit(async (formData) => {
@@ -87,10 +88,11 @@ function EditableCategoryTitle() {
       await dispatch(categoriesReadThunk())
       dispatch(categorySelect({ ...response }))
       dispatch(categoryClearEdit())
+      reset(defaultValues)
       setIsEditable(false)
       GAEvent('메인', '카테고리 제목 수정 완료')
     })
-  }, [category, checkSubmit, dispatch])
+  }, [category, checkSubmit, dispatch, reset, defaultValues])
 
   const handleEditKeyUp = useCallback(
     (e) => {
@@ -113,7 +115,7 @@ function EditableCategoryTitle() {
   return (
     <div className={classes.root} ref={rootRef}>
       {isEditable ? (
-        <>
+        <div className={classes.titleContainer}>
           <InputBase
             name="name"
             onKeyUp={handleEditKeyUp}
@@ -122,28 +124,26 @@ function EditableCategoryTitle() {
               maxLength: CATEGORY_NAME_MAX_LENTH,
             }}
             inputRef={register}
+            className={classes.title}
           />
-          <IconButton
-            aria-label="카테고리 제목 수정 하기"
+          <button
+            type="button"
             className={clsx({
-              [classes.editIconActive]: !isObjkeysEmpty(errors),
+              [classes.confirmBtn]: !isObjkeysEmpty(errors),
             })}
             onClick={handleEditDone}
             disabled={isObjkeysEmpty(errors)}
           >
-            <DoneIcon fontSize="small" />
-          </IconButton>
-        </>
+            확인
+          </button>
+        </div>
       ) : (
-        <div className={classes.root}>
-          <Typography className={classes.categoryName} variant="h5" component="span">
-            {category?.name}
+        <div className={classes.titleContainer}>
+          <Typography variant="h6" component="span" className={classes.title}>
+            {category?.id === editedCategory.id ? editedCategory.name : category?.name}
           </Typography>
           <IconButton className={classes.iconBtn} aria-label="카테고리 제목 수정 모드 전환" onClick={handleShowEdit}>
             <CreateIcon fontSize="small" />
-          </IconButton>
-          <IconButton className={classes.iconBtn} aria-label="카테고리 새로고침" onClick={handleReload}>
-            <RefreshIcon fontSize="small" />
           </IconButton>
         </div>
       )}

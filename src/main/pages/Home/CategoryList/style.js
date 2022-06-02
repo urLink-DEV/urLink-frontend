@@ -43,6 +43,7 @@ const useStyles = makeStyles(() => ({
 
     '& > h3': {
       fontSize: 16,
+      fontWeight: 400,
       color: '#666',
       padding: '4px 16px',
       borderRadius: 8,
