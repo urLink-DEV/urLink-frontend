@@ -126,7 +126,7 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
         })}
       >
         <div className={classes.title}>{isEditingTitle ? editedCategory?.name : data?.name}</div>
-        <div className={classes.link}>
+        <div className={clsx('link-container', classes.link)}>
           <span className={classes.urlCount}>{data.url_count === 0 ? '링크 없음' : '링크 ' + data.url_count}</span>
         </div>
         <div className={clsx('show-btn-group', classes.btnGroup)}>

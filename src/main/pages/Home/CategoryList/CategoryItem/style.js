@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
       '& > .show-btn-group': {
         visibility: 'visible',
       },
+      '& > .link-container': {
+        visibility: 'hidden',
+      },
     },
   },
   title: {
@@ -57,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
+    visibility: ({ moreOpen }) => (moreOpen ? 'hidden' : 'visible'),
   },
   dragFinished: {
     position: 'relative',
@@ -109,7 +113,6 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     right: 0,
     display: 'flex',
-    backgroundColor: ({ selected }) => (selected ? '#E8F1FF' : '#F2F2F2'),
     borderRadius: 4,
 
     '& > button': {

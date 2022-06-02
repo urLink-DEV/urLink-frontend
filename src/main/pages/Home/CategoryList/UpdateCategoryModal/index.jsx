@@ -25,6 +25,7 @@ function UpdateCategoryModal({ open, onClose, data }) {
   const classes = useStyles()
 
   const handleChangeInput = (e) => {
+    if (e.target.value.length > 24) return
     setCategoryName((prev) => (prev = e.target.value))
     dispatch(categoryEdit({ name: e.target.value }))
   }
