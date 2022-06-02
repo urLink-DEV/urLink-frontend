@@ -5,11 +5,14 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     height: '100vh',
     backgroundColor: '#fafafa',
-  },
-  categoryList: {
-    flexShrink: 0,
-    minWidth: 288,
-    backgroundColor: '#fff',
+
+    '& > .resizable-category .resize-handler': {
+      right: '0 !important',
+      borderRight: ({ resizing }) => (resizing ? '2px solid #E9E9E9' : 'transparent'),
+      '&:hover': {
+        borderRight: '2px solid #E9E9E9',
+      },
+    },
   },
   main: {
     width: '100%',

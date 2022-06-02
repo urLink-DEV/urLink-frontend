@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: 14,
-    width: 120,
+    width: 'calc(100% - 60px)',
     fontWeight: ({ selected }) => (selected ? 700 : 400),
     lineHeight: '32px',
     color: ({ selected }) => (selected ? '#333' : '#666'),
