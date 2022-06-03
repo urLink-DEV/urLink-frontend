@@ -38,6 +38,10 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  dragFinished: {
+    opacity: '80%',
+    fontWeight: 'bold',
+  },
   title: {
     fontSize: 14,
     width: 'calc(100% - 60px)',
@@ -61,51 +65,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     visibility: ({ moreOpen }) => (moreOpen ? 'hidden' : 'visible'),
-  },
-  dragFinished: {
-    position: 'relative',
-    fontWeight: 'bold',
-    '& > :first-child': {
-      color: '#fff !important',
-      zIndex: 1,
-    },
-    '& > div > span': {
-      color: '#fff !important',
-      zIndex: 1,
-    },
-    '&:before': {
-      content: "''",
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      height: '100%',
-      width: '100%',
-      zIndex: 0,
-      opacity: 1,
-      backgroundImage: 'linear-gradient(271deg, #e0f6ff, #2083ff)',
-      borderRadius: '4px',
-      animationFillMode: 'none',
-      animation: `$dragFinished 0.7s ease-in-out forwards 1`,
-      '&::transform-origin': '100% 0%',
-      '&::animation': `$dragFinished 0.7s ease-in-out forwards 1`,
-    },
-  },
-  '@keyframes dragFinished': {
-    '0%': {
-      width: 0,
-    },
-    '70%': {
-      width: '100%',
-      opacity: 1,
-    },
-    '90%': {
-      opacity: 0,
-      width: '100%',
-    },
-    '100%': {
-      opacity: 0,
-      width: 0,
-    },
   },
   btnGroup: {
     position: 'absolute',
