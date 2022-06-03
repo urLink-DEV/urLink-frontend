@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { alarmNoticeSelector } from '@/modules/alarmNotice'
+import { categorySelector } from '@/modules/category'
 import { useHistoryLinks } from '@/modules/historyLink'
 import alarmImg from '@assets/images/alarm.png'
 import historyImg from '@assets/images/history.png'
@@ -28,6 +29,7 @@ function AppBar() {
   const classes = useStyles()
 
   const dispatch = useDispatch()
+  const category = useSelector(categorySelector.selectedCategory)
   const alarmList = useSelector(alarmNoticeSelector.listData)
 
   const { reload } = useHistoryLinks()
@@ -83,7 +85,7 @@ function AppBar() {
           searchFilterList={SEARCH_FILTER_LIST}
           onSelectName={handleSelectName}
           selectedName={selectedName}
-          disabled={isHistoryOpen}
+          disabled={!category?.id || isHistoryOpen}
         />
         <List className={classes.iconButtonGroup}>
           <StyledListItem
