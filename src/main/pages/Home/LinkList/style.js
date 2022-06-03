@@ -61,7 +61,7 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 'calc(100vh - 112px);',
+    minHeight: 'calc(100vh - 280.65px);',
   },
 }))
 

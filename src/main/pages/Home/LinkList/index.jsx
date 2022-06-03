@@ -32,17 +32,18 @@ const SkeletonList = (length) => {
 
 function LinkList() {
   const classes = useStyles()
+
   const dispatch = useDispatch()
   const { categories } = useCategories()
-  const categoryList = useSelector(categorySelector.listData)
   const selectedCategory = useSelector(categorySelector.selectedCategory)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
   const searchFilter = useSelector(linkSelector.searchFilter)
   const createLinksCategoryId = useSelector(linkSelector.createLinksCategoryId)
   const dragData = useSelector(uiSelector.drag)
-  const [skeletonLength, setSkeletonLength] = useState(0)
   const linkCreatePending = useSelector((state) => state[PENDING][linkCreate.TYPE])
   const linksReadPending = useSelector((state) => state[PENDING][linksRead.TYPE])
+
+  const [skeletonLength, setSkeletonLength] = useState(0)
 
   const { links } = useLinks({
     detact: true,
