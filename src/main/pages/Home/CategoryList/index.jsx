@@ -184,7 +184,7 @@ function CategoryList() {
       ) : (
         <>
           <img className={classes.logo} src={urlinkLogoImg} alt="URLink logo" />
-          <div className={classes.categoryContainer} ref={ioContainerRef}>
+          <div id="category-container" className={classes.categoryContainer} ref={ioContainerRef}>
             {/*---Favorite Category start---*/}
             <div className={classes.ioBox} ref={ioTargetRef}></div>
             {favoritedArr?.length ? (

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react'
 
 import clsx from 'clsx'
 import { useDispatch, useSelector } from 'react-redux'
@@ -73,12 +73,11 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
       openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
     }
   }
+
   const handleClickMore = (e) => {
     e.stopPropagation()
-    setMoreOpen(true)
-
     const rect = moreBtnRef.current.getBoundingClientRect()
-
+    setMoreOpen(true)
     setMoreBtnGroupPosition({
       ...moreBtnGroupPosition,
       x: rect.left + 32,
@@ -120,6 +119,22 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
   }
 
   useOutsideAlerter(moreBtnGroupRef, moreOpen, () => setMoreOpen(false))
+
+  const categoryContainer = document.getElementById('category-container')
+
+  useEffect(() => {
+    const detectSrcoll = () => {
+      if (moreOpen) {
+        setMoreOpen(false)
+      }
+    }
+
+    if (moreOpen) {
+      categoryContainer.addEventListener('scroll', detectSrcoll)
+    } else {
+      categoryContainer.removeEventListener('scroll', detectSrcoll)
+    }
+  }, [moreOpen, categoryContainer])
 
   return (
     <div onClick={handleClickCategory} className={classes.tabContainer}>
