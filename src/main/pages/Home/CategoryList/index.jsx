@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback, useEffect } from 'react'
 
 import ErrorIcon from '@mui/icons-material/Error'
 import Button from '@mui/material/Button'
@@ -24,7 +24,6 @@ import UpdateCategoryModal from './UpdateCategoryModal'
 const { CATEGORY, LINK } = DRAG
 
 function CategoryList() {
-  const classes = useStyles()
   const dispatch = useDispatch()
   const { error, favoritedArr, notFavoritedArr } = useCategories()
   const selectedCategory = useSelector(categorySelector.selectedCategory)
@@ -41,6 +40,12 @@ function CategoryList() {
     toggle: addCategoryToggle,
     close: addCategoryClose,
   } = useDialog(MODAL_NAME.ADD_CATEGORY_MODAL)
+
+  const ioTargetRef = useRef(null)
+  const ioContainerRef = useRef(null)
+  const [observerVisible, setObserverVisible] = useState(true)
+
+  const classes = useStyles({ observerVisible })
 
   const handleDragOverFirstCategory = useCallback(
     (e) => {
@@ -151,6 +156,24 @@ function CategoryList() {
     [dragType, dispatch, dragData, setDragData, linkListData, linkHoverTabId, dragOverTabData, clearDragData, openToast]
   )
 
+  const ioHandler = (entries) => {
+    if (!entries[0].isIntersecting) {
+      setObserverVisible(false)
+    } else {
+      setObserverVisible(true)
+    }
+  }
+
+  useEffect(() => {
+    const io = new IntersectionObserver(ioHandler, {
+      root: ioContainerRef.current,
+    })
+    if (ioContainerRef.current && ioTargetRef.current) {
+      io.observe(ioTargetRef.current)
+    }
+    return () => io && io.disconnect()
+  }, [ioContainerRef, ioTargetRef])
+
   return (
     <div className={classes.drawerPaper}>
       {error ? (
@@ -161,8 +184,9 @@ function CategoryList() {
       ) : (
         <>
           <img className={classes.logo} src={urlinkLogoImg} alt="URLink logo" />
-          <div className={classes.categoryContainer}>
+          <div className={classes.categoryContainer} ref={ioContainerRef}>
             {/*---Favorite Category start---*/}
+            <div className={classes.ioBox} ref={ioTargetRef}></div>
             {favoritedArr?.length ? (
               <React.Fragment>
                 <CategoryHeader type="favorite" />

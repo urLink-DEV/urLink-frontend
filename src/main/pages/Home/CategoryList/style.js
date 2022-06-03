@@ -18,6 +18,11 @@ const useStyles = makeStyles(() => ({
       display: 'none',
     },
     overflowY: 'scroll',
+    borderTop: ({ observerVisible }) => (observerVisible ? 'unset' : '1px solid #C0C0C0'),
+  },
+  ioBox: {
+    width: '100%',
+    height: 52,
   },
   flexCenterBackground: {
     display: 'flex',
@@ -28,6 +33,7 @@ const useStyles = makeStyles(() => ({
   },
   favoriteList: {
     padding: 0,
+    marginBottom: 52,
   },
   notFavoriteList: {},
   addCategoryBtn: {
