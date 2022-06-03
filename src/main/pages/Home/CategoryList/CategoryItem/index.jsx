@@ -16,13 +16,11 @@ import {
   categoryRemoveThunk,
   categoriesRead,
   categoryEdit,
-  categoryClearEdit,
 } from '@modules/category'
 import { linkSelector, linkSelectBoxChangeState, linkClearSelect } from '@modules/link'
 import { useToast, useDialog, MODAL_NAME } from '@modules/ui'
 import { GAEvent } from '@utils/ga'
 
-import UpdateCategoryModal from '../UpdateCategoryModal'
 import useStyles from './style'
 
 function CategoryItem({ data = {}, selected = false, hovered = false, dragFinished = false }) {
@@ -30,18 +28,18 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
   const dispatch = useDispatch()
   const editedCategory = useSelector(categorySelector.editedCategory)
   const isOpenLinkSelectBox = useSelector(linkSelector.isOpenLinkSelectBox)
-  const isEditingTitle = useMemo(() => Boolean(editedCategory?.id === data?.id), [editedCategory, data])
+  const isEditingTitle = Boolean(editedCategory?.id === data?.id)
   const [moreOpen, setMoreOpen] = useState(false)
-  const [updateCategoryOpen, setUpdateCategoryOpen] = useState(false)
   const [deleteStatus, setDeleteStatus] = useState(false)
+  const moreBtnGroupRef = useRef()
+  const classes = useStyles({ selected, hovered, editing: isEditingTitle, favorite: data.is_favorited, moreOpen })
 
   const {
     open: deleteAlertOpen,
     toggle: deleteAlertToggle,
     close: deleteAlertClose,
   } = useDialog(MODAL_NAME.DELETE_CATEGORY_ALERT_MODAL)
-  const moreBtnGroupRef = useRef()
-  const classes = useStyles({ selected, hovered, editing: isEditingTitle, favorite: data.is_favorited, moreOpen })
+  const { toggle: updateCategoryToggle } = useDialog(MODAL_NAME.UPDATE_CATEGORY_MODAL)
 
   const handleClickCategory = useCallback(
     (e) => {
@@ -103,15 +101,10 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
     }
   }
 
-  const handleCloseUpdateCategoryModal = () => {
-    setMoreOpen(false)
-    setUpdateCategoryOpen(false)
-    dispatch(categoryClearEdit())
-  }
   const handleClickChangeName = (e) => {
     e.stopPropagation()
     setMoreOpen(false)
-    setUpdateCategoryOpen(true)
+    updateCategoryToggle()
     dispatch(categoryEdit({ id: data?.id, name: data?.name }))
     GAEvent('메인', '카테고리 제목 수정 버튼 클릭')
   }
@@ -149,10 +142,6 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
           ) : null}
         </div>
       </div>
-
-      {updateCategoryOpen && (
-        <UpdateCategoryModal open={updateCategoryOpen} onClose={handleCloseUpdateCategoryModal} data={data} />
-      )}
 
       {deleteStatus && deleteAlertOpen && (
         <AlertModal

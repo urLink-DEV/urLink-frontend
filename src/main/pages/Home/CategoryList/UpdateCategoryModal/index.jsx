@@ -17,12 +17,13 @@ import { GAEvent } from '@utils/ga'
 
 import { StyledDialog, StyledDialogTitle, StyledDialogContent, StyledDialogActions, useStyles } from './style'
 
-function UpdateCategoryModal({ open, onClose, data }) {
-  const [categoryName, setCategoryName] = useState(data.name)
+function UpdateCategoryModal({ open, onClose }) {
   const dispatch = useDispatch()
+  const editedCategory = useSelector(categorySelector.editedCategory)
   const { openToast } = useToast()
   const inputRef = useRef()
   const classes = useStyles()
+  const [categoryName, setCategoryName] = useState(editedCategory.name)
 
   const handleChangeInput = (e) => {
     if (e.target.value.length > 24) return
@@ -30,16 +31,17 @@ function UpdateCategoryModal({ open, onClose, data }) {
     dispatch(categoryEdit({ name: e.target.value }))
   }
 
-  const handleClickCancel = () => {
+  const handleCancel = () => {
+    dispatch(categoryClearEdit())
     onClose()
     GAEvent('메인', '카테고리 제목 수정 취소')
   }
 
-  const handleClickConfirm = async () => {
+  const handleConfirm = async () => {
     try {
       const response = await dispatch(
         categoryModifyThunk({
-          id: data.id,
+          id: editedCategory.id,
           name: inputRef.current.value,
         })
       )
@@ -54,7 +56,7 @@ function UpdateCategoryModal({ open, onClose, data }) {
   }
   const handleKeyUpEnter = (e) => {
     e.stopPropagation()
-    if (e.key === 'Enter') handleClickConfirm()
+    if (e.key === 'Enter') handleConfirm()
   }
 
   return (
@@ -63,7 +65,7 @@ function UpdateCategoryModal({ open, onClose, data }) {
       aria-describedby="alert-dialog-description"
       maxWidth="sm"
       open={open}
-      onClose={onClose}
+      onClose={handleCancel}
     >
       <StyledDialogTitle id="alert-dialog-title">카테고리 수정</StyledDialogTitle>
       <StyledDialogContent>
@@ -79,10 +81,10 @@ function UpdateCategoryModal({ open, onClose, data }) {
         />
       </StyledDialogContent>
       <StyledDialogActions>
-        <Button onClick={handleClickCancel} className={clsx('cancle', classes.modalButton)}>
+        <Button onClick={handleCancel} className={clsx('cancle', classes.modalButton)}>
           취소
         </Button>
-        <Button onClick={handleClickConfirm} className={clsx('confirm', classes.modalButton)}>
+        <Button onClick={handleConfirm} className={clsx('confirm', classes.modalButton)}>
           확인
         </Button>
       </StyledDialogActions>

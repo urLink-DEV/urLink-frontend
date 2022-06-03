@@ -2,7 +2,6 @@ import React, { useState, useRef, useCallback } from 'react'
 
 import ErrorIcon from '@mui/icons-material/Error'
 import Button from '@mui/material/Button'
-import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -10,18 +9,17 @@ import urlinkLogoImg from '@assets/images/logo-urlink-full.png'
 import plusImg from '@assets/images/plus_noborder.svg'
 import { useCategories, categorySelector, categoriesReadThunk, categoryModifyThunk } from '@modules/category'
 import { linkCreateThunk, linksRead } from '@modules/link'
-import { useToast } from '@modules/ui'
+import { MODAL_NAME, useDialog, useToast } from '@modules/ui'
 import { DRAG, useDrag } from '@modules/ui'
 import { GAEvent } from '@utils/ga'
 
 import AddCategoryModal from './AddCategoryModal'
-import CategoryButtonGroup from './CategoryButtonGroup'
 import CategoryHeader from './CategoryHeader'
 import CategoryItem from './CategoryItem'
 import CategoryItemWrapper from './CategoryItemWrapper'
 import FirstCategoryDropZone from './FirstCategoryDropZone'
-import FirstFavoriteDropZone from './FirstFavoriteDropZone'
 import useStyles from './style'
+import UpdateCategoryModal from './UpdateCategoryModal'
 
 const { CATEGORY, LINK } = DRAG
 
@@ -38,23 +36,7 @@ function CategoryList() {
   const [linkHoverTabId, setLinkHoverTabId] = useState(null)
   const [dragOverTabData, setDragOverTabData] = useState({})
   const [addCategoryOpen, setAddCategoryOpen] = useState(false)
-
-  const handleDragOverFirstFavorite = useCallback(
-    (e) => {
-      e.stopPropagation()
-      e.preventDefault()
-      if (dragType === CATEGORY && !dragData.is_favorited) {
-        setDragOverTabData({
-          ...dragOverTabData,
-          id: dragData.id,
-          name: dragData.name,
-          order: 1,
-          is_favorited: true,
-        })
-      }
-    },
-    [dragData, dragType, dragOverTabData, setDragOverTabData]
-  )
+  const { open: updateCategoryOpen, close: updateCategoryClose } = useDialog(MODAL_NAME.UPDATE_CATEGORY_MODAL)
 
   const handleDragOverFirstCategory = useCallback(
     (e) => {
@@ -177,13 +159,6 @@ function CategoryList() {
           <img className={classes.logo} src={urlinkLogoImg} alt="URLink logo" />
           <div className={classes.categoryContainer}>
             {/*---Favorite Category start---*/}
-
-            {/* {!favoritedArr?.length && (
-              <FirstFavoriteDropZone
-                handleDragDrop={handleDragDrop}
-                handleDragOverFirstFavorite={handleDragOverFirstFavorite}
-              />
-            )} */}
             {favoritedArr?.length ? (
               <React.Fragment>
                 <CategoryHeader type="favorite" />
@@ -250,13 +225,16 @@ function CategoryList() {
             </List>
             {/*---Category end---*/}
           </div>
+
           <Button className={classes.addCategoryBtn} onClick={() => setAddCategoryOpen(true)}>
             <h3>
               새 카테고리 추가
               <img src={plusImg} alt="add category" />
             </h3>
           </Button>
+
           {addCategoryOpen && <AddCategoryModal open={addCategoryOpen} onClose={() => setAddCategoryOpen(false)} />}
+          {updateCategoryOpen && <UpdateCategoryModal open={updateCategoryOpen} onClose={updateCategoryClose} />}
         </>
       )}
     </div>
