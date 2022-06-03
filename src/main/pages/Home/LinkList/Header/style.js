@@ -9,6 +9,11 @@ export const useStyles = makeStyles((theme) => ({
       height: 40,
     },
   },
+  categoryTitleGroup: {
+    display: 'flex',
+    flexDirection: 'colum',
+    alignItems: 'self-end',
+  },
   tabText: {
     fontSize: 14,
     fontWeight: 'bold',
