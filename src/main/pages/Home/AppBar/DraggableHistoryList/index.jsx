@@ -48,13 +48,11 @@ function DraggableHistoryList() {
   const historyContentRef = useRef(null)
   const dragBoxRef = useRef(null)
 
-  useOutsideAlerter(
-    historyRootRef,
-    !!selectedList.length,
-    useCallback(() => {
-      setSelectedList([])
-    }, [])
-  )
+  const handleCancelSelectedLink = useCallback(() => {
+    setSelectedList([])
+  }, [])
+
+  useOutsideAlerter(historyRootRef, !!selectedList.length, handleCancelSelectedLink)
 
   const handleDragStart = useCallback(
     ({ id, url: path }) =>
@@ -161,28 +159,33 @@ function DraggableHistoryList() {
       <div className={classes.header}>
         <div className={classes.rowSpread}>
           <Typography className={classes.mainText}>방문기록</Typography>
-          <div className={classes.center}>
-            <IconButton className={classes.reloadIcon} onClick={handleReload}>
-              <RefreshIcon />
-            </IconButton>
-            {!!selectedList.length && (
-              <Button className={classes.tabOpenButton} onClick={handleOpenNewTab}>
-                <span className={classes.tabOpenText}>탭 열기 ({selectedList.length})</span>
-              </Button>
-            )}
-          </div>
+          <IconButton className={classes.reloadIcon} onClick={handleReload}>
+            <RefreshIcon />
+          </IconButton>
         </div>
-        <SearchBar
-          inputProps={{
-            value: keyword,
-            onChange: handleChangeInput,
-          }}
-          searchFilterList={searchFilterList}
-          onSelectName={handleSelectName}
-          selectedName={selectedName}
-          onChangeDate={handleChangeDate}
-          selectedDate={dateKeyword}
-        />
+        {!selectedList.length ? (
+          <SearchBar
+            inputProps={{
+              value: keyword,
+              onChange: handleChangeInput,
+            }}
+            searchFilterList={searchFilterList}
+            onSelectName={handleSelectName}
+            selectedName={selectedName}
+            onChangeDate={handleChangeDate}
+            selectedDate={dateKeyword}
+          />
+        ) : (
+          <div className={classes.headerButtonGroup}>
+            <Typography className={classes.headerSelectedLinkText}>{selectedList.length}개 선택</Typography>
+            <Button className={classes.headerButton} onClick={handleCancelSelectedLink}>
+              <Typography className={classes.headerButtonText}>선택 해제</Typography>
+            </Button>
+            <Button className={classes.headerButton} onClick={handleOpenNewTab}>
+              <Typography className={classes.headerButtonText}>링크 열기</Typography>
+            </Button>
+          </div>
+        )}
       </div>
       <CardContent ref={historyContentRef} className={classes.content} onScroll={handleHistoryListScroll}>
         {listData.length ? (
