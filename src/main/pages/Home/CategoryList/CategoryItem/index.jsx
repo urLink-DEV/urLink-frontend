@@ -31,7 +31,9 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
   const isEditingTitle = Boolean(editedCategory?.id === data?.id)
   const [moreOpen, setMoreOpen] = useState(false)
   const [deleteStatus, setDeleteStatus] = useState(false)
+  const [moreBtnGroupPosition, setMoreBtnGroupPosition] = useState({})
   const moreBtnGroupRef = useRef()
+  const moreBtnRef = useRef()
   const classes = useStyles({ selected, hovered, favorite: data.is_favorited, moreOpen })
 
   const {
@@ -74,6 +76,14 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
   const handleClickMore = (e) => {
     e.stopPropagation()
     setMoreOpen(true)
+
+    const rect = moreBtnRef.current.getBoundingClientRect()
+
+    setMoreBtnGroupPosition({
+      ...moreBtnGroupPosition,
+      x: rect.left + 32,
+      y: rect.top,
+    })
   }
 
   const handleClickDelete = (e) => {
@@ -126,12 +136,16 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
           <button type="button" className={classes.favoriteBtn} onClick={handleClickFavoriteStar}>
             <img alt="favorite-star" src={data.is_favorited ? starFillImg : starImg} />
           </button>
-          <button type="button" className={classes.moreBtn} onClick={handleClickMore}>
+          <button type="button" ref={moreBtnRef} className={classes.moreBtn} onClick={handleClickMore}>
             <img alt="more-dots" src={moreImg} />
           </button>
 
           {moreOpen ? (
-            <div className={classes.moreBtnGroup} ref={moreBtnGroupRef}>
+            <div
+              className={classes.moreBtnGroup}
+              ref={moreBtnGroupRef}
+              style={{ top: moreBtnGroupPosition.y, left: moreBtnGroupPosition.x }}
+            >
               <button type="button" onClick={handleClickChangeName}>
                 이름 변경
               </button>
