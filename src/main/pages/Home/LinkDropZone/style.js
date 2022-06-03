@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
 
     width: 'calc(100% - 917px)',
-    height: '100%',
+    height: 'calc(100vh - 72px);',
 
     backgroundColor: 'rgba(53, 142, 255, 0.15)',
     opacity: 1,
