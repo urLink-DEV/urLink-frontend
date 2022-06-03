@@ -24,20 +24,11 @@ function UpdateCategoryModal({ open, onClose }) {
   const inputRef = useRef()
   const classes = useStyles()
   const [categoryName, setCategoryName] = useState(editedCategory.name)
-
-  const handleChangeInput = (e) => {
-    if (e.target.value.length > 24) return
-    setCategoryName((prev) => (prev = e.target.value))
-    dispatch(categoryEdit({ name: e.target.value }))
-  }
-
-  const handleCancel = () => {
-    dispatch(categoryClearEdit())
-    onClose()
-    GAEvent('메인', '카테고리 제목 수정 취소')
-  }
+  const [updateLoading, setUpdateLoading] = useState(false)
 
   const handleConfirm = async () => {
+    setUpdateLoading(true)
+    if (updateLoading || !categoryName) return
     try {
       const response = await dispatch(
         categoryModifyThunk({
@@ -48,26 +39,31 @@ function UpdateCategoryModal({ open, onClose }) {
       await dispatch(categoriesReadThunk())
       dispatch(categorySelect({ ...response }))
       dispatch(categoryClearEdit())
-      onClose()
+      setUpdateLoading(false)
       GAEvent('메인', '카테고리 제목 수정 완료')
+      onClose()
     } catch (error) {
       openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
     }
+  }
+  const handleChangeInput = (e) => {
+    if (e.target.value.length > 24) return
+    setCategoryName((prev) => (prev = e.target.value))
+    dispatch(categoryEdit({ name: e.target.value }))
   }
   const handleKeyUpEnter = (e) => {
     e.stopPropagation()
     if (e.key === 'Enter') handleConfirm()
   }
+  const handleCancel = () => {
+    dispatch(categoryClearEdit())
+    onClose()
+    GAEvent('메인', '카테고리 제목 수정 취소')
+  }
 
   return (
-    <StyledDialog
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-      maxWidth="sm"
-      open={open}
-      onClose={handleCancel}
-    >
-      <StyledDialogTitle id="alert-dialog-title">카테고리 수정</StyledDialogTitle>
+    <StyledDialog aria-labelledby="update-category-dialog-title" maxWidth="sm" open={open} onClose={handleCancel}>
+      <StyledDialogTitle id="update-category-dialog-title">카테고리 수정</StyledDialogTitle>
       <StyledDialogContent>
         <input
           autoFocus

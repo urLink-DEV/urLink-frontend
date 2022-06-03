@@ -35,8 +35,12 @@ function CategoryList() {
   const draggedCategoryRef = useRef(null)
   const [linkHoverTabId, setLinkHoverTabId] = useState(null)
   const [dragOverTabData, setDragOverTabData] = useState({})
-  const [addCategoryOpen, setAddCategoryOpen] = useState(false)
   const { open: updateCategoryOpen, close: updateCategoryClose } = useDialog(MODAL_NAME.UPDATE_CATEGORY_MODAL)
+  const {
+    open: addCategoryOpen,
+    toggle: addCategoryToggle,
+    close: addCategoryClose,
+  } = useDialog(MODAL_NAME.ADD_CATEGORY_MODAL)
 
   const handleDragOverFirstCategory = useCallback(
     (e) => {
@@ -226,14 +230,14 @@ function CategoryList() {
             {/*---Category end---*/}
           </div>
 
-          <Button className={classes.addCategoryBtn} onClick={() => setAddCategoryOpen(true)}>
+          <Button className={classes.addCategoryBtn} onClick={addCategoryToggle}>
             <h3>
               새 카테고리 추가
               <img src={plusImg} alt="add category" />
             </h3>
           </Button>
 
-          {addCategoryOpen && <AddCategoryModal open={addCategoryOpen} onClose={() => setAddCategoryOpen(false)} />}
+          {addCategoryOpen && <AddCategoryModal open={addCategoryOpen} onClose={addCategoryClose} />}
           {updateCategoryOpen && <UpdateCategoryModal open={updateCategoryOpen} onClose={updateCategoryClose} />}
         </>
       )}

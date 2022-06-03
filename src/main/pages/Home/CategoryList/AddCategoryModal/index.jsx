@@ -11,16 +11,19 @@ import { GAEvent } from '@utils/ga'
 import { StyledDialog, StyledDialogTitle, StyledDialogContent, StyledDialogActions, useStyles } from './style'
 
 function AddCategoryModal({ open, onClose }) {
-  const [categoryName, setCategoryName] = useState('')
   const dispatch = useDispatch()
   const { openToast } = useToast()
   const classes = useStyles()
+  const [categoryName, setCategoryName] = useState('')
+  const [addLoading, setAddLoading] = useState(false)
 
   const handleClickConfirm = async () => {
-    if (!categoryName) return
+    setAddLoading(true)
+    if (addLoading || !categoryName) return
     try {
       await dispatch(categoryCreateThunk({ name: categoryName, is_favorited: false }))
       dispatch(categoriesRead.request(undefined, { selectFirstCategory: true }))
+      setAddLoading(false)
       setCategoryName('')
       GAEvent('카테고리', '카테고리 생성 완료')
       onClose()
@@ -43,14 +46,8 @@ function AddCategoryModal({ open, onClose }) {
   }
 
   return (
-    <StyledDialog
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-      maxWidth="sm"
-      open={open}
-      onClose={onClose}
-    >
-      <StyledDialogTitle id="alert-dialog-title">카테고리 생성</StyledDialogTitle>
+    <StyledDialog aria-labelledby="add-category-dialog-title" maxWidth="sm" open={open} onClose={onClose}>
+      <StyledDialogTitle id="add-category-dialog-title">카테고리 생성</StyledDialogTitle>
       <StyledDialogContent>
         <input
           autoFocus
