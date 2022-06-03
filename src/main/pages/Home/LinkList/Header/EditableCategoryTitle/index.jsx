@@ -1,71 +1,29 @@
-import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react'
+import React from 'react'
 
-import { yupResolver } from '@hookform/resolvers/yup'
 import CreateIcon from '@mui/icons-material/Create'
 import DoneIcon from '@mui/icons-material/Done'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import IconButton from '@mui/material/IconButton'
-import InputBase from '@mui/material/InputBase'
 import Typography from '@mui/material/Typography'
-import clsx from 'clsx'
-import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
 import * as yup from 'yup'
 
-import useOutsideAlerter from '@hooks/useOutsideAlerter'
-import {
-  categoryEdit,
-  categoryClearEdit,
-  categorySelect,
-  categorySelector,
-  categoryModifyThunk,
-  categoriesReadThunk,
-} from '@modules/category'
-import { isObjkeysEmpty } from '@utils/filter'
+import { MODAL_NAME, useDialog } from '@/modules/ui'
+import { categoryEdit, categorySelector } from '@modules/category'
 import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 
-const CATEGORY_NAME_MAX_LENTH = 24
-const CATEGORY_SCHEMA = yup.object({
-  name: yup.string().max(CATEGORY_NAME_MAX_LENTH).required(),
-})
-
 function EditableCategoryTitle() {
   const dispatch = useDispatch()
   const category = useSelector(categorySelector.selectedCategory)
-  const editedCategory = useSelector(categorySelector.editedCategory)
-  const defaultValues = useMemo(() => {
-    return { name: category?.name }
-  }, [category])
-  const {
-    register,
-    handleSubmit: checkSubmit,
-    reset,
-    errors,
-    watch,
-  } = useForm({
-    mode: 'all',
-    defaultValues,
-    resolver: yupResolver(CATEGORY_SCHEMA),
-  })
+  const classes = useStyles()
 
-  const rootRef = useRef(null)
-  const [isEditable, setIsEditable] = useState(false)
+  const { toggle: updateCategoryToggle } = useDialog(MODAL_NAME.UPDATE_CATEGORY_MODAL)
 
-  const editedName = watch('name') || ''
-  const classes = useStyles({ isEditable: isEditable || category?.id === editedCategory.id })
-
-  useEffect(() => {
-    if (isEditable) dispatch(categoryEdit({ name: editedName }))
-  }, [isEditable, editedName, dispatch])
-
-  useEffect(() => {
-    reset(defaultValues)
-  }, [reset, defaultValues])
-
-  const handleShowEdit = useCallback(() => {
-    setIsEditable(true)
+  const handleClickChangeName = (e) => {
+    e.stopPropagation()
+    updateCategoryToggle()
     dispatch(categoryEdit({ id: category?.id, name: category?.name }))
     GAEvent('메인', '카테고리 제목 수정 버튼 클릭')
   }, [dispatch, category])

@@ -10,12 +10,12 @@ import starImg from '@assets/images/star.svg'
 import starFillImg from '@assets/images/star_fill.svg'
 import {
   categorySelect,
-  categorySelector,
   categoriesReadThunk,
   categoryModifyThunk,
   categoryRemoveThunk,
   categoriesRead,
   categoryEdit,
+  categorySelector,
 } from '@modules/category'
 import { linkSelector, linkSelectBoxChangeState, linkClearSelect } from '@modules/link'
 import { useToast, useDialog, MODAL_NAME } from '@modules/ui'
@@ -32,7 +32,7 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
   const [moreOpen, setMoreOpen] = useState(false)
   const [deleteStatus, setDeleteStatus] = useState(false)
   const moreBtnGroupRef = useRef()
-  const classes = useStyles({ selected, hovered, editing: isEditingTitle, favorite: data.is_favorited, moreOpen })
+  const classes = useStyles({ selected, hovered, favorite: data.is_favorited, moreOpen })
 
   const {
     open: deleteAlertOpen,
@@ -106,7 +106,7 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
     setMoreOpen(false)
     updateCategoryToggle()
     dispatch(categoryEdit({ id: data?.id, name: data?.name }))
-    GAEvent('메인', '카테고리 제목 수정 버튼 클릭')
+    GAEvent('카테고리', '카테고리 제목 수정 버튼 클릭')
   }
 
   useOutsideAlerter(moreBtnGroupRef, moreOpen, () => setMoreOpen(false))
@@ -118,7 +118,7 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
           [classes.dragFinished]: Boolean(dragFinished),
         })}
       >
-        <div className={classes.title}>{isEditingTitle ? editedCategory?.name : data?.name}</div>
+        <div className={classes.title}>{data?.name}</div>
         <div className={clsx('link-container', classes.link)}>
           <span className={classes.urlCount}>{data.url_count === 0 ? '링크 없음' : '링크 ' + data.url_count}</span>
         </div>

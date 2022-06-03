@@ -5,11 +5,8 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     flexShrink: 0,
-    padding: '12px 12px 12px 24px',
     maxWidth: 499,
-    width: '100%',
     borderRadius: 8,
-    border: ({ isEditable }) => (isEditable ? `1px solid ${theme.palette.primary.main}` : 'unset'),
   },
   titleContainer: {
     display: 'flex',
@@ -20,6 +17,9 @@ export const useStyles = makeStyles((theme) => ({
     fontWeight: 700,
     fontSize: 20,
     color: '#333',
+  },
+  updateBtn: {
+    marginLeft: 10,
   },
   confirmBtn: {
     width: 74,

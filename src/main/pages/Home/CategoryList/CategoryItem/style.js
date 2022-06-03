@@ -9,12 +9,10 @@ const useStyles = makeStyles((theme) => ({
     margin: '4px auto',
     outline: 'none',
     cursor: 'pointer',
-    backgroundColor: ({ hovered, selected, editing }) =>
-      editing ? 'transparent' : hovered || selected ? '#E8F1FF' : 'transparent',
+    backgroundColor: ({ hovered, selected }) => (hovered || selected ? '#E8F1FF' : 'transparent'),
     '&:hover': {
       backgroundColor: ({ selected }) => (selected ? '#E8F1FF' : '#F2F2F2'),
     },
-    border: ({ editing }) => (editing ? `1px solid ${theme.palette.primary.main}` : 'unset'),
   },
   tab: {
     borderRadius: 4,

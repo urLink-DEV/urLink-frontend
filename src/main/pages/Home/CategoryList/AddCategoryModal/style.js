@@ -14,7 +14,7 @@ export const StyledDialog = withStyles((theme) => ({
 }))(Dialog)
 
 export const StyledDialogTitle = withStyles((theme) => ({
-  root: { fontWeight: 'bold', padding: 0 },
+  root: { fontWeight: 'bold', padding: 0, fontSize: 24 },
 }))(DialogTitle)
 
 export const StyledDialogContent = withStyles((theme) => ({
@@ -52,7 +52,6 @@ export const useStyles = makeStyles((theme) => ({
   modalButton: {
     width: 86,
     height: 48,
-    fontWeight: 'bold',
     color: '#666666',
     background: '#fff',
     border: '1px solid #E6E6E6',
@@ -61,6 +60,7 @@ export const useStyles = makeStyles((theme) => ({
     '&.confirm': {
       backgroundColor: theme.palette.primary.main,
       color: '#fff',
+      fontWeight: 'bold',
     },
   },
 }))
