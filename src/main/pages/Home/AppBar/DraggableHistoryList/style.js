@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     overflowX: 'hidden',
 
     height: '100%',
-    paddingTop: 0,
+    padding: '12px 36px 0px',
   },
   imgContent: {
     width: 'auto',

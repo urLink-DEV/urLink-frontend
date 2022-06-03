@@ -25,6 +25,10 @@ const theme = createTheme({
     primary: {
       main: '#1D78FF',
     },
+    text: {
+      primary: '#666666',
+      secondary: '#999999',
+    },
   },
   typography: {
     fontFamily: ['"Spoqa Han Sans"', '"Spoqa Han Sans JP"', 'sans-serif'].join(','),

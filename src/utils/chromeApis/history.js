@@ -54,7 +54,7 @@ const urlTempList = [
     lastVisitTime: 1588933029447.23,
     title: 'React App',
     typedCount: 0,
-    url: 'https://www.naver.com',
+    hostName: 'https://www.naver.com',
     visitCount: 24,
   },
   {
@@ -62,7 +62,7 @@ const urlTempList = [
     lastVisitTime: 1588933029447.23,
     title: 'React App',
     typedCount: 0,
-    url: 'https://www.naver.com',
+    hostName: 'https://www.naver.com',
     visitCount: 24,
   },
   {
@@ -70,7 +70,7 @@ const urlTempList = [
     lastVisitTime: 1588933029447.23,
     title: 'React App',
     typedCount: 0,
-    url: 'https://www.naver.com',
+    hostName: 'https://www.naver.com',
     visitCount: 24,
   },
   {
@@ -78,7 +78,7 @@ const urlTempList = [
     lastVisitTime: 1588933029447.23,
     title: 'React App',
     typedCount: 0,
-    url: 'https://www.naver.com',
+    hostName: 'https://www.naver.com',
     visitCount: 24,
   },
   {
@@ -86,7 +86,7 @@ const urlTempList = [
     lastVisitTime: 1588933029447.23,
     title: 'React App',
     typedCount: 0,
-    url: 'https://www.naver.com',
+    hostName: 'https://www.naver.com',
     visitCount: 24,
   },
 ]
