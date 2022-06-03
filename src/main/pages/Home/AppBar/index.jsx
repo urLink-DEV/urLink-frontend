@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, memo, useState, useMemo, useRef } from 'react'
 
 import { Badge, List, Popover, Drawer } from '@mui/material'
+import clsx from 'clsx'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { alarmNoticeSelector } from '@/modules/alarmNotice'
@@ -69,7 +70,11 @@ function AppBar() {
 
   return (
     <>
-      <div className={classes.appBar}>
+      <div
+        className={clsx(classes.appBar, {
+          [classes.appBarHistoryOpen]: isHistoryOpen,
+        })}
+      >
         <SearchBar
           inputProps={{
             value: keyword,

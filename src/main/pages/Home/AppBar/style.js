@@ -14,6 +14,9 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
+  appBarHistoryOpen: {
+    backgroundColor: '#FFFFFF',
+  },
   imgButton: {
     width: 17,
     height: 17,
