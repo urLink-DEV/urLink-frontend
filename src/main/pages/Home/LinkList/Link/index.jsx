@@ -4,7 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import AddAlertIcon from '@mui/icons-material/AddAlert'
 import CreateIcon from '@mui/icons-material/Create'
 import DoneIcon from '@mui/icons-material/Done'
-import FavoriteIcon from '@mui/icons-material/Favorite'
+import FavoriteIcon from '@mui/icons-material/FavoriteBorderOutlined'
+import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined'
 import Backdrop from '@mui/material/Backdrop'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
@@ -26,11 +27,11 @@ import * as yup from 'yup'
 import { AlertModal } from '@/main/components/modals'
 import CloseIconImg from '@assets/images/close.svg'
 import LinkIconImg from '@assets/images/link.svg'
-import newTabIconImg from '@assets/images/new-tab.svg'
 import UnionIconImg from '@assets/images/union.svg'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import { alarmCreateThunk } from '@modules/alarm'
-import { linkSelector, linksRead, linkModifyThunk, linkSelect, linkCancleSelect } from '@modules/link'
+import { categorySelector, categoriesRead } from '@modules/category'
+import { linkSelector, linksRead, linkModifyThunk, linkSelect, linkCancleSelect, linkRemoveThunk } from '@modules/link'
 import { useToast } from '@modules/ui'
 import { createTab } from '@utils/chromeApis/tab'
 import copyLink from '@utils/copyLink'
@@ -47,6 +48,7 @@ function Link({ data }) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { openToast } = useToast()
+  const selectedCategory = useSelector(categorySelector.selectedCategory)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
   const {
     register,
@@ -61,7 +63,6 @@ function Link({ data }) {
   })
 
   const rootRef = useRef(null)
-  const [showNewTabIcon, setShowNewTabIcon] = useState(false)
   const [showAlarmModal, setShowAlarmModal] = useState(false)
   const [dateVal, setDateVal] = useState(moment(new Date()).format())
   const [isEditable, setIsEditable] = useState(false)
@@ -88,14 +89,6 @@ function Link({ data }) {
     },
     [data, dispatch, isEditable, isSelected]
   )
-
-  const handleShowNewTabIcon = useCallback(() => {
-    setShowNewTabIcon(true)
-  }, [])
-
-  const handleCloseNewTabIcon = useCallback(() => {
-    setShowNewTabIcon(false)
-  }, [])
 
   const handleNewTab = useCallback(
     (e) => {
@@ -161,6 +154,19 @@ function Link({ data }) {
     }
   }, [dateVal, data.category, data.id, dispatch, openToast])
 
+  const handleDelete = useCallback(async () => {
+    try {
+      await dispatch(linkRemoveThunk({ urlId: data.id }))
+      openToast({ type: 'success', message: '링크 카드를 삭제했습니다.' })
+      GAEvent('메인', '링크 삭제')
+    } catch (error) {
+      openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
+    } finally {
+      dispatch(categoriesRead.request())
+      dispatch(linksRead.request({ categoryId: selectedCategory.id }, { key: selectedCategory.id }))
+    }
+  }, [data.id, dispatch, openToast, selectedCategory.id])
+
   const handleShowEdit = useCallback(() => {
     setIsEditable(true)
     GAEvent('메인', '링크 수정 버튼 클릭')
@@ -201,25 +207,26 @@ function Link({ data }) {
         [classes.editableCard]: isEditable,
         [classes.selectedCard]: isSelected && !isEditable,
       })}
-      onClick={handleSelectedLinkCard}
-      onMouseEnter={handleShowNewTabIcon}
-      onMouseLeave={handleCloseNewTabIcon}
+      onClick={handleNewTab}
       ref={rootRef}
     >
-      <CardActionArea disableRipple>
+      <CardActionArea>
         <CardMedia component="img" height="120" image={data.image_path} alt={data.title} />
-        {showNewTabIcon && (
-          <img className={classes.newTabIcon} src={newTabIconImg} onClick={handleNewTab} alt="새 창으로 열기" />
-        )}
         <CardContent className={classes.cardContent}>
           {isEditable ? (
             <>
-              <InputBase className={classes.contentTitle} name="title" inputRef={register} />
-              <InputBase className={classes.contentDesc} name="description" rows={3} multiline inputRef={register} />
+              <InputBase className={classes.contentTitleEditable} name="title" rows={2} multiline inputRef={register} />
+              <InputBase
+                className={classes.contentDescEditable}
+                name="description"
+                rows={3}
+                multiline
+                inputRef={register}
+              />
             </>
           ) : (
             <>
-              <Typography className={classes.contentTitle} noWrap gutterBottom variant="h6" component="h2">
+              <Typography className={classes.contentTitle} variant="h6" component="p">
                 {data.title}
               </Typography>
               <Typography className={classes.contentDesc} color="textSecondary" variant="body2" component="p">
@@ -233,7 +240,7 @@ function Link({ data }) {
         {!isEditable ? (
           <>
             <IconButton aria-label="최상단 노출 하기" onClick={handleToggleFavorite}>
-              <FavoriteIcon fontSize="small" color={data.is_favorited ? 'secondary' : 'action'} />
+              {data.is_favorited ? <FavoriteOutlinedIcon fontSize="small" /> : <FavoriteIcon fontSize="small" />}
             </IconButton>
             <IconButton className={classes.editIcon} aria-label="제목 및 내용 수정 모드 전환" onClick={handleShowEdit}>
               <CreateIcon fontSize="small" />
@@ -275,7 +282,7 @@ function Link({ data }) {
                 />{' '}
                 알람 설정
               </MenuItem>
-              <MenuItem>
+              <MenuItem onClick={handleDelete}>
                 <img className={classes.menuIconImg} src={CloseIconImg} alt="링크 삭제하기" />
                 삭제
               </MenuItem>

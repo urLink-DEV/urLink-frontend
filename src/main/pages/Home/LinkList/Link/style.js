@@ -15,6 +15,11 @@ const useStyles = makeStyles({
     // [theme.breakpoints.up('md')]: {},
     // [theme.breakpoints.up('lg')]: {},
     // [theme.breakpoints.up('xl')]: {},
+
+    '&:hover': {
+      transform: 'translateY(-12px)',
+      transition: 'transform 0.5s',
+    },
   },
   selectedCard: {
     backgroundColor: 'rgba(29, 120, 255, 0.1)',
@@ -29,9 +34,35 @@ const useStyles = makeStyles({
     height: 182,
     padding: '20px 16px 0 16px',
   },
+  contentTitleEditable: {
+    width: '100%',
+    overflow: 'hidden',
+    fontSize: 16,
+    marginBottom: 4,
+    backgroundColor: '#F6F6F6',
+    borderRadius: 4,
+  },
+  contentDescEditable: {
+    display: 'box',
+    boxOrient: 'vertical',
+    overflow: 'hidden',
+    width: '100%',
+    maxHeight: 65,
+    fontSize: 14,
+    whiteSpace: 'pre-line',
+    lineClamp: 3,
+    backgroundColor: '#F6F6F6',
+    borderRadius: 4,
+  },
   contentTitle: {
+    width: '100%',
+    overflow: 'hidden',
+    display: 'box',
+    boxOrient: 'vertical',
+    lineClamp: 2,
     maxHeight: 50,
     fontSize: 16,
+    marginBottom: 4,
   },
   contentDesc: {
     display: 'box',

@@ -1,8 +1,8 @@
 import React from 'react'
 
 import CloseIcon from '@mui/icons-material/Close'
-import Alert from '@mui/lab/Alert'
 import { Snackbar, IconButton, Slide, Grow, Fade } from '@mui/material'
+import Alert from '@mui/material/Alert'
 
 function SnackbarTrasition({ transition, direction, ...rest }) {
   return (
