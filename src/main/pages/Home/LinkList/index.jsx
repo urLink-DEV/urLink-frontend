@@ -95,7 +95,14 @@ function LinkList() {
         </Grid>
       )}
 
-      <Grid item container className={classes.content} spacing={2} onScroll={handleScrollUpBtn} ref={contentRef}>
+      <Grid
+        item
+        container
+        className={classes.content}
+        onScroll={handleScrollUpBtn}
+        ref={contentRef}
+        columnSpacing={{ xs: 3, sm: 3, md: 3, lg: 3, xl: 3 }}
+      >
         {!skeletonLength
           ? null
           : dragData.type === 'link' && createLinksCategoryId === selectedCategory?.id
@@ -103,7 +110,7 @@ function LinkList() {
           : dragData.category.data.id === selectedCategory?.id && SkeletonList(skeletonLength)}
 
         {links?.map((data) => (
-          <Grid key={data.id} item xs={6} sm={6} md={4} lg={3} xl={3}>
+          <Grid key={data.id} item xs={6} sm={6} md={6} lg={4} xl={3}>
             <Link data={data} />
           </Grid>
         ))}

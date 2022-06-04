@@ -1,16 +1,23 @@
 import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles({
+  backdrop: {
+    position: 'absolute',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+  },
   root: {
     position: 'relative',
     width: 300,
     height: 348,
-  },
-  editableCard: {
-    border: '1px solid #3cb043',
+    marginTop: 50,
+    marginRight: 36,
+    // [theme.breakpoints.up('sm')]: {},
+    // [theme.breakpoints.up('md')]: {},
+    // [theme.breakpoints.up('lg')]: {},
+    // [theme.breakpoints.up('xl')]: {},
   },
   selectedCard: {
-    border: '1px solid #2083ff',
+    backgroundColor: 'rgba(29, 120, 255, 0.1)',
   },
   newTabIcon: {
     position: 'absolute',
@@ -46,8 +53,21 @@ const useStyles = makeStyles({
     width: 18,
     height: 18,
   },
-  editIcon: {
+  // editIcon: {
+  //   marginLeft: 'auto',
+  // },
+  doneIcon: {
     marginLeft: 'auto',
+  },
+  unionIcon: {
+    width: 30,
+    height: 30,
+    marginLeft: 'auto',
+  },
+  menuIconImg: {
+    width: 30,
+    height: 20,
+    paddingRight: 10,
   },
   alarmIconActive: {
     color: '#fdd835',
