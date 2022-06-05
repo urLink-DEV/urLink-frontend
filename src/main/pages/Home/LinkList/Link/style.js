@@ -29,6 +29,18 @@ const useStyles = makeStyles({
     top: 0,
     right: 0,
     color: 'white',
+    '&.Mui-checked': {
+      color: 'white',
+
+      '& > .MuiSvgIcon-root': {
+        backgroundColor: '#1D78FF',
+        borderRadius: 4,
+      },
+    },
+    '& > .MuiSvgIcon-root': {
+      backgroundColor: 'rgba(129, 147, 174, 0.4)',
+      borderRadius: 4,
+    },
   },
   newTabIcon: {
     position: 'absolute',

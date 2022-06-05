@@ -46,16 +46,9 @@ function Header({ links }) {
   //   setKeyword(e.target.value)
   // }, [])
 
-  const handleResetInput = useCallback(() => {
-    setKeyword('')
-  }, [])
-
-  const handleReload = useMemo(() => {
-    return debounce(() => {
-      handleResetInput()
-      GAEvent('메인', '새로고침 버튼 클릭')
-    }, 400)
-  }, [handleResetInput])
+  // const handleResetInput = useCallback(() => {
+  //   setKeyword('')
+  // }, [])
 
   const handleLinksSelectStateOpen = useCallback(() => {
     setSelectLinks(true)
@@ -92,14 +85,14 @@ function Header({ links }) {
     }
   }, [dispatch, selectedLinkList, selectedCategory.id, openToast])
 
-  const handleSelectName = useCallback(
-    (e) => {
-      handleResetInput()
-      setSelectedName(e.target.value)
-      GAEvent('메인', '검색 주제 바꾸기')
-    },
-    [handleResetInput]
-  )
+  // const handleSelectName = useCallback(
+  //   (e) => {
+  //     handleResetInput()
+  //     setSelectedName(e.target.value)
+  //     GAEvent('메인', '검색 주제 바꾸기')
+  //   },
+  //   [handleResetInput]
+  // )
 
   useEffect(() => {
     dispatch(linkSearchFilterChangeState({ selectedName, keyword: debouncedKeyword }))
@@ -109,9 +102,6 @@ function Header({ links }) {
     <Toolbar className={classes.toolbar}>
       <EditableCategoryTitle />
       {/* <TabButtonGroup /> */}
-      <IconButton onClick={handleReload} className={classes.refreshBtn}>
-        <RefreshIcon />
-      </IconButton>
       {/* <SearchBar
         inputProps={{
           onChange: handleChangeInput,

@@ -17,9 +17,6 @@ export const useStyles = makeStyles((theme) => ({
   tabDeleteText: {
     color: theme.palette.secondary.main,
   },
-  refreshBtn: {
-    padding: 12,
-  },
   selectLinksBtn: {
     padding: '8px 20px',
     marginLeft: 'auto',

@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
     width: 360,
     minHeight: 305,
     maxHeight: 524,
-    overflow: 'hidden',
+    overflow: 'scroll',
     backgroundColor: theme.palette.background.theme,
   },
   title: {

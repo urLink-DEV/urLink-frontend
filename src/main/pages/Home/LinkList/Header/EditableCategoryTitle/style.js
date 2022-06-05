@@ -8,6 +8,9 @@ export const useStyles = makeStyles((_theme) => ({
   editIconActive: {
     color: green[600],
   },
+  iconBtn: {
+    padding: 4,
+  },
 }))
 
 export default useStyles
