@@ -2,10 +2,13 @@ import { makeStyles } from '@mui/styles'
 
 export const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor:
-      theme.palette.type !== 'dark' ? theme.palette.colorGroup.lightGrey : theme.palette.background.default,
-    padding: '200px 108px 200px 56px',
-    [theme.breakpoints.up('sm')]: {},
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    [theme.breakpoints.up('sm')]: {
+      width: '100%',
+    },
     [theme.breakpoints.up('md')]: {
       minWidth: 748,
     },
@@ -15,11 +18,43 @@ export const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('xl')]: {
       minWidth: 1420,
     },
+    backgroundColor:
+      theme.palette.type !== 'dark' ? theme.palette.colorGroup.lightGrey : theme.palette.background.default,
+    padding: '200px 108px 200px 56px',
+  },
+  header: {
+    [theme.breakpoints.up('sm')]: {
+      width: '100%',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: 636,
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: 1008,
+    },
+    [theme.breakpoints.up('xl')]: {
+      width: 1344,
+    },
   },
   content: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    flexFlow: 'row wrap',
+    gap: 36,
     minHeight: 'calc(100vh - 61px);',
     margin: '0',
-    // '& > .MuiGrid-item': {},
+    [theme.breakpoints.up('sm')]: {
+      width: '100%',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: 636,
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: 972,
+    },
+    [theme.breakpoints.up('xl')]: {
+      width: 1308,
+    },
   },
   center: {
     display: 'flex',

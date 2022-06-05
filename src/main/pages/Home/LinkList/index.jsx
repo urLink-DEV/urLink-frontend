@@ -90,19 +90,11 @@ function LinkList() {
   return (
     <Grid container direction="column" className={classes.root} ref={rootRef}>
       {!!categoryList.length && (
-        <Grid item>
+        <div className={classes.header}>
           <Header links={links} />
-        </Grid>
+        </div>
       )}
-
-      <Grid
-        item
-        container
-        className={classes.content}
-        onScroll={handleScrollUpBtn}
-        ref={contentRef}
-        columnSpacing={{ xs: 3, sm: 3, md: 3, lg: 3, xl: 3 }}
-      >
+      <div className={classes.content} onScroll={handleScrollUpBtn} ref={contentRef}>
         {!skeletonLength
           ? null
           : dragData.type === 'link' && createLinksCategoryId === selectedCategory?.id
@@ -110,9 +102,7 @@ function LinkList() {
           : dragData.category.data.id === selectedCategory?.id && SkeletonList(skeletonLength)}
 
         {links?.map((data) => (
-          <Grid key={data.id} item xs={6} sm={6} md={6} lg={4} xl={3}>
-            <Link data={data} />
-          </Grid>
+          <Link key={data.id} data={data} />
         ))}
 
         {categories.length === CATEGORY_EMPTY ? (
@@ -131,8 +121,7 @@ function LinkList() {
             </Grid>
           ))
         )}
-      </Grid>
-
+      </div>
       <ScrollUpButton targetRef={contentRef} open={showScrollUpButton} />
     </Grid>
   )

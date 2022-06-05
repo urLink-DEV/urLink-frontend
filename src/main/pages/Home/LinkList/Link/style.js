@@ -10,11 +10,6 @@ const useStyles = makeStyles((theme) => ({
     width: 300,
     height: 348,
     marginTop: 50,
-    marginRight: 36,
-    // [theme.breakpoints.up('sm')]: {},
-    // [theme.breakpoints.up('md')]: {},
-    // [theme.breakpoints.up('lg')]: {},
-    // [theme.breakpoints.up('xl')]: {},
 
     '&:hover': {
       transform: 'translateY(-12px)',
@@ -108,17 +103,11 @@ const useStyles = makeStyles((theme) => ({
   },
   cardActions: {
     padding: '0 16px 20px 16px',
-    // '& .MuiIconButton-root': {
-    //   padding: 3,
-    // },
   },
   copyIcon: {
     width: 18,
     height: 18,
   },
-  // editIcon: {
-  //   marginLeft: 'auto',
-  // },
   doneIcon: {
     marginLeft: 'auto',
   },
