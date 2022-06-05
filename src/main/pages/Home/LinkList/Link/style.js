@@ -24,6 +24,12 @@ const useStyles = makeStyles({
   selectedCard: {
     backgroundColor: 'rgba(29, 120, 255, 0.1)',
   },
+  checkbox: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    color: 'white',
+  },
   newTabIcon: {
     position: 'absolute',
     top: 5,

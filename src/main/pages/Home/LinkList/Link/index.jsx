@@ -12,6 +12,7 @@ import CardActionArea from '@mui/material/CardActionArea'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
+import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import InputBase from '@mui/material/InputBase'
 import Menu from '@mui/material/Menu'
@@ -50,6 +51,7 @@ function Link({ data }) {
   const { openToast } = useToast()
   const selectedCategory = useSelector(categorySelector.selectedCategory)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
+  const selectedState = useSelector(linkSelector.selectedState)
   const {
     register,
     handleSubmit: checkSubmit,
@@ -68,6 +70,7 @@ function Link({ data }) {
   const [isEditable, setIsEditable] = useState(false)
   const [openMore, setOpenMore] = useState(false)
   const [moreAnchorEl, setMoreAnchorEl] = useState(null)
+  const [isChecked, setIsChecked] = useState(false)
   const isSelected = useMemo(() => {
     return selectedLinkList?.find((selectData) => selectData.id === data.id)
   }, [data.id, selectedLinkList])
@@ -79,15 +82,23 @@ function Link({ data }) {
     })
   }, [data, reset])
 
+  useEffect(() => {
+    if (!selectedState) {
+      setIsChecked(false)
+    }
+  }, [selectedState])
+
   const handleSelectedLinkCard = useCallback(
     (e) => {
       e.stopPropagation()
+      console.log('click select')
       if (isEditable) return
-      if (isSelected) dispatch(linkCancleSelect(data))
+      if (isSelected && isChecked) dispatch(linkCancleSelect(data))
       else dispatch(linkSelect(data))
+      setIsChecked(!isChecked)
       GAEvent('메인', '링크 선택 하기')
     },
-    [data, dispatch, isEditable, isSelected]
+    [data, dispatch, isEditable, isSelected, isChecked]
   )
 
   const handleNewTab = useCallback(
@@ -205,12 +216,13 @@ function Link({ data }) {
     <Card
       className={clsx(classes.root, {
         [classes.editableCard]: isEditable,
-        [classes.selectedCard]: isSelected && !isEditable,
+        [classes.selectedCard]: selectedState && isSelected && !isEditable,
       })}
-      onClick={handleNewTab}
+      onClick={selectedState ? handleSelectedLinkCard : handleNewTab}
       ref={rootRef}
     >
       <CardActionArea>
+        {selectedState && <Checkbox label={`selected-${data.id}`} className={classes.checkbox} checked={isChecked} />}
         <CardMedia component="img" height="120" image={data.image_path} alt={data.title} />
         <CardContent className={classes.cardContent}>
           {isEditable ? (
