@@ -94,7 +94,6 @@ function Link({ data }) {
   const handleSelectedLinkCard = useCallback(
     (e) => {
       e.stopPropagation()
-      console.log('click select')
       if (isEditable) return
       if (isSelected && isChecked) dispatch(linkCancleSelect(data))
       else dispatch(linkSelect(data))

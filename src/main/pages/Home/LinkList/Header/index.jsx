@@ -1,54 +1,27 @@
-import React, { useEffect, useCallback, memo, useState, useMemo } from 'react'
+import React, { useCallback, memo, useState } from 'react'
 
-import { Refresh as RefreshIcon } from '@mui/icons-material'
-import { Button, IconButton, Toolbar } from '@mui/material'
-import { debounce } from 'lodash'
+import { Button, Toolbar } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 
-import useDebounce from '@hooks/useDebounce'
-// import SearchBar from '@main/components/SearchBar'
 import { categorySelector, categoriesRead } from '@modules/category'
-import {
-  linkSelector,
-  linksSelectedState,
-  linkSearchFilterChangeState,
-  linkClearSelect,
-  linksRead,
-  linksRemoveThunk,
-} from '@modules/link'
+import { linkSelector, linksSelectedState, linkClearSelect, linksRead, linksRemoveThunk } from '@modules/link'
 import { useToast } from '@modules/ui'
 import { createTabList } from '@utils/chromeApis/tab'
 import { GAEvent } from '@utils/ga'
 
 import EditableCategoryTitle from './EditableCategoryTitle'
 import useStyles from './style'
-import TabButtonGroup from './TabButtonGroup'
 
-const searchFilterList = [
-  { search: 'path', name: '주소' },
-  { search: 'title', name: '제목' },
-]
-
-function Header({ links }) {
+function Header() {
   const classes = useStyles()
+
   const dispatch = useDispatch()
   const selectedCategory = useSelector(categorySelector.selectedCategory)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
+
   const { openToast } = useToast()
 
-  const [selectedName, setSelectedName] = useState(searchFilterList[0].search)
   const [selectLinks, setSelectLinks] = useState(false)
-  const [keyword, setKeyword] = useState('')
-
-  const debouncedKeyword = useDebounce(keyword, 250)
-
-  // const handleChangeInput = useCallback((e) => {
-  //   setKeyword(e.target.value)
-  // }, [])
-
-  // const handleResetInput = useCallback(() => {
-  //   setKeyword('')
-  // }, [])
 
   const handleLinksSelectStateOpen = useCallback(() => {
     setSelectLinks(true)
@@ -65,7 +38,6 @@ function Header({ links }) {
 
   const handleNewTab = useCallback(() => {
     createTabList(selectedLinkList.map((data) => data.path))
-    console.log('selectedLinkList', selectedLinkList)
     GAEvent('메인', '복수의 링크 새 탭 열기')
   }, [selectedLinkList])
 
@@ -85,32 +57,9 @@ function Header({ links }) {
     }
   }, [dispatch, selectedLinkList, selectedCategory.id, openToast])
 
-  // const handleSelectName = useCallback(
-  //   (e) => {
-  //     handleResetInput()
-  //     setSelectedName(e.target.value)
-  //     GAEvent('메인', '검색 주제 바꾸기')
-  //   },
-  //   [handleResetInput]
-  // )
-
-  useEffect(() => {
-    dispatch(linkSearchFilterChangeState({ selectedName, keyword: debouncedKeyword }))
-  }, [dispatch, selectedName, debouncedKeyword])
-
   return (
     <Toolbar className={classes.toolbar}>
       <EditableCategoryTitle />
-      {/* <TabButtonGroup /> */}
-      {/* <SearchBar
-        inputProps={{
-          onChange: handleChangeInput,
-          value: keyword,
-        }}
-        searchFilterList={searchFilterList}
-        onSelectName={handleSelectName}
-        selectedName={selectedName}
-      /> */}
       {!selectLinks ? (
         <Button onClick={handleLinksSelectStateOpen} className={classes.selectLinksBtn}>
           다중 선택

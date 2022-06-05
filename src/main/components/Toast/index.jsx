@@ -4,7 +4,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { Snackbar, IconButton, Slide, Grow, Fade } from '@mui/material'
 import Alert from '@mui/material/Alert'
 
-function SnackbarTrasition({ transition, direction, ...rest }) {
+function SnackbarTransition({ transition, direction, ...rest }) {
   return (
     <Snackbar
       TransitionComponent={{ slide: Slide, grow: Grow, fade: Fade }[transition]}
@@ -16,7 +16,7 @@ function SnackbarTrasition({ transition, direction, ...rest }) {
 
 function Toast({ open, type, message, close, ...props }) {
   return (
-    <SnackbarTrasition
+    <SnackbarTransition
       open={open}
       autoHideDuration={3000}
       onClose={close}
@@ -39,7 +39,7 @@ function Toast({ open, type, message, close, ...props }) {
           {message}
         </Alert>
       )}
-    </SnackbarTrasition>
+    </SnackbarTransition>
   )
 }
 
