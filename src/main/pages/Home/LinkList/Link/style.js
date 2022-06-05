@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     width: 300,
     height: 348,
-    marginTop: 50,
+    marginTop: 20,
 
     '&:hover': {
       transform: 'translateY(-12px)',
@@ -88,8 +88,9 @@ const useStyles = makeStyles((theme) => ({
     boxOrient: 'vertical',
     lineClamp: 2,
     maxHeight: 50,
+    fontWeight: 400,
     fontSize: 16,
-    marginBottom: 4,
+    marginBottom: 8,
   },
   contentDesc: {
     display: 'box',
@@ -97,7 +98,8 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     width: '100%',
     maxHeight: 65,
-    fontSize: 14,
+    fontWeight: 300,
+    fontSize: 13,
     whiteSpace: 'pre-line',
     lineClamp: 3,
   },

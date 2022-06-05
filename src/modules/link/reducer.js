@@ -18,7 +18,7 @@ export const linkRemoveThunk = createRequestThunk(linkRemove)
 export const linksRemove = createRequestAction(`${LINK}/LIST/REMOVE`)
 export const linksRemoveThunk = createRequestThunk(linksRemove)
 
-export const linksSelectedState = createAction(`${LINK}/SELECTED_STATE`)
+export const linkSelectBoxChangeState = createAction(`${LINK}/SELECTED_STATE`)
 export const linkSelect = createAction(`${LINK}/SELECT`)
 export const linkCancleSelect = createAction(`${LINK}/CANCLE_SELECT`)
 export const linkClearSelect = createAction(`${LINK}/CLEAR_SELECT`)
@@ -33,7 +33,7 @@ const initialState = {
     keyword: '',
   },
   linksData: {},
-  isSelectedState: false,
+  isOpenLinkSelectBox: false,
   selectedLink: [],
   createLinksCategoryId: undefined,
 }
@@ -50,8 +50,8 @@ export const linkReducer = createReducer(initialState, {
   [linkCreate.REQUEST]: (state, { payload }) => {
     state.createLinksCategoryId = payload.categoryId
   },
-  [linksSelectedState]: (state, { payload }) => {
-    state.isSelectedState = payload
+  [linkSelectBoxChangeState]: (state, { payload }) => {
+    state.isOpenLinkSelectBox = payload
   },
   [linkSelect]: (state, { payload: linkData }) => {
     if (!state.selectedLink.find((data) => data.id === linkData.id)) {
@@ -69,7 +69,7 @@ export const linkReducer = createReducer(initialState, {
 // Select
 export const linkSelector = {
   linksData: (state) => state[LINK].linksData,
-  selectedState: (state) => state[LINK].isSelectedState,
+  isOpenLinkSelectBox: (state) => state[LINK].isOpenLinkSelectBox,
   selectSelectedLink: (state) => state[LINK].selectedLink,
   searchFilter: (state) => state[LINK].searchFilter,
   createLinksCategoryId: (state) => state[LINK].createLinksCategoryId,

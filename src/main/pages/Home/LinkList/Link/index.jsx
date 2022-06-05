@@ -53,7 +53,7 @@ function Link({ data }) {
   const { openToast } = useToast()
   const selectedCategory = useSelector(categorySelector.selectedCategory)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
-  const selectedState = useSelector(linkSelector.selectedState)
+  const isOpenLinkSelectBox = useSelector(linkSelector.isOpenLinkSelectBox)
   const {
     register,
     handleSubmit: checkSubmit,
@@ -86,10 +86,10 @@ function Link({ data }) {
   }, [data, reset])
 
   useEffect(() => {
-    if (!selectedState) {
+    if (!isOpenLinkSelectBox) {
       setIsChecked(false)
     }
-  }, [selectedState])
+  }, [isOpenLinkSelectBox])
 
   const handleSelectedLinkCard = useCallback(
     (e) => {
@@ -218,13 +218,15 @@ function Link({ data }) {
     <Card
       className={clsx(classes.root, {
         [classes.editableCard]: isEditable,
-        [classes.selectedCard]: selectedState && isSelected && !isEditable,
+        [classes.selectedCard]: isOpenLinkSelectBox && isSelected && !isEditable,
       })}
-      onClick={selectedState ? handleSelectedLinkCard : handleNewTab}
+      onClick={isOpenLinkSelectBox ? handleSelectedLinkCard : handleNewTab}
       ref={rootRef}
     >
       <CardActionArea>
-        {selectedState && <Checkbox label={`selected-${data.id}`} className={classes.checkbox} checked={isChecked} />}
+        {isOpenLinkSelectBox && (
+          <Checkbox label={`selected-${data.id}`} className={classes.checkbox} checked={isChecked} />
+        )}
         <CardMedia component="img" height="120" image={data.image_path} alt={data.title} />
         <CardContent className={classes.cardContent}>
           <div className={classes.urlBox}>

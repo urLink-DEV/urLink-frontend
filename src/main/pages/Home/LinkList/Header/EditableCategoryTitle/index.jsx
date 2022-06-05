@@ -134,8 +134,8 @@ function EditableCategoryTitle() {
           </IconButton>
         </>
       ) : (
-        <>
-          <Typography variant="h5" component="span">
+        <div className={classes.root}>
+          <Typography className={classes.categoryName} variant="h5" component="span">
             {category?.name}
           </Typography>
           <IconButton className={classes.iconBtn} aria-label="카테고리 제목 수정 모드 전환" onClick={handleShowEdit}>
@@ -144,7 +144,7 @@ function EditableCategoryTitle() {
           <IconButton className={classes.iconBtn} aria-label="카테고리 새로고침" onClick={handleReload}>
             <RefreshIcon fontSize="small" />
           </IconButton>
-        </>
+        </div>
       )}
     </div>
   )

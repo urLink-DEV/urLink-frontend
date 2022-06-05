@@ -4,6 +4,10 @@ export const useStyles = makeStyles((theme) => ({
   toolbar: {
     paddingLeft: 0,
     paddingRight: 0,
+
+    [theme.breakpoints.up('sm')]: {
+      height: 40,
+    },
   },
   tabText: {
     fontSize: 14,

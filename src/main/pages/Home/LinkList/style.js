@@ -23,6 +23,7 @@ export const useStyles = makeStyles((theme) => ({
     padding: '200px 108px 200px 56px',
   },
   header: {
+    marginBottom: 32,
     [theme.breakpoints.up('sm')]: {
       width: '100%',
     },
@@ -30,10 +31,10 @@ export const useStyles = makeStyles((theme) => ({
       width: 636,
     },
     [theme.breakpoints.up('lg')]: {
-      width: 1008,
+      width: 972,
     },
     [theme.breakpoints.up('xl')]: {
-      width: 1344,
+      width: 1308,
     },
   },
   content: {

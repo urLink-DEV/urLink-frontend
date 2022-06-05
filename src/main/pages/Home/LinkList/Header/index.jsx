@@ -1,10 +1,10 @@
-import React, { useCallback, memo, useState } from 'react'
+import React, { useCallback, memo, useState, useEffect } from 'react'
 
 import { Button, Toolbar } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { categorySelector, categoriesRead } from '@modules/category'
-import { linkSelector, linksSelectedState, linkClearSelect, linksRead, linksRemoveThunk } from '@modules/link'
+import { linkSelector, linkSelectBoxChangeState, linkClearSelect, linksRead, linksRemoveThunk } from '@modules/link'
 import { useToast } from '@modules/ui'
 import { createTabList } from '@utils/chromeApis/tab'
 import { GAEvent } from '@utils/ga'
@@ -17,25 +17,31 @@ function Header() {
 
   const dispatch = useDispatch()
   const selectedCategory = useSelector(categorySelector.selectedCategory)
+  const isOpenLinkSelectBox = useSelector(linkSelector.isOpenLinkSelectBox)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
 
   const { openToast } = useToast()
 
-  const [selectLinks, setSelectLinks] = useState(false)
+  const [isOpenSelectBox, setIsOpenSelectBox] = useState(false)
 
+  useEffect(() => {
+    if (isOpenLinkSelectBox) setIsOpenSelectBox(true)
+    else setIsOpenSelectBox(false)
+  }, [isOpenLinkSelectBox])
+
+  console.log('isOpenLinkSelectBox', isOpenLinkSelectBox)
   const handleLinksSelectStateOpen = useCallback(() => {
-    setSelectLinks(true)
-    dispatch(linksSelectedState(true))
+    dispatch(linkSelectBoxChangeState(true))
     GAEvent('메인', '다중 선택 버튼 클릭')
   }, [dispatch])
 
   const handleLinksSelectStateClose = useCallback(() => {
-    setSelectLinks(false)
-    dispatch(linksSelectedState(false))
+    dispatch(linkSelectBoxChangeState(false))
     dispatch(linkClearSelect())
     GAEvent('메인', '선택 해제 버튼 클릭')
   }, [dispatch])
 
+  console.log(setIsOpenSelectBox)
   const handleNewTab = useCallback(() => {
     createTabList(selectedLinkList.map((data) => data.path))
     GAEvent('메인', '복수의 링크 새 탭 열기')
@@ -46,8 +52,7 @@ function Header() {
       await dispatch(linksRemoveThunk({ urlIdList: selectedLinkList.map((data) => ({ urlId: data.id })) }))
       dispatch(linkClearSelect())
       openToast({ type: 'success', message: '선택하신 링크 카드 정보들을 삭제했습니다.' })
-      setSelectLinks(false)
-      dispatch(linksSelectedState(false))
+      dispatch(linkSelectBoxChangeState(false))
       GAEvent('메인', '복수의 링크 삭제 하기')
     } catch (error) {
       openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
@@ -60,7 +65,7 @@ function Header() {
   return (
     <Toolbar className={classes.toolbar}>
       <EditableCategoryTitle />
-      {!selectLinks ? (
+      {!isOpenSelectBox ? (
         <Button onClick={handleLinksSelectStateOpen} className={classes.selectLinksBtn}>
           다중 선택
         </Button>
