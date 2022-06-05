@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   backdrop: {
     position: 'absolute',
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
@@ -41,6 +41,20 @@ const useStyles = makeStyles({
       backgroundColor: 'rgba(129, 147, 174, 0.4)',
       borderRadius: 4,
     },
+  },
+  urlBox: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  urlFavicon: {
+    paddingBottom: 8,
+  },
+  urlSubFont: {
+    color: theme.palette.text.secondary,
+    fontSize: 14,
+    letterSpacing: -0.6,
+    paddingLeft: 8,
+    paddingBottom: 8,
   },
   newTabIcon: {
     position: 'absolute',
@@ -124,6 +138,6 @@ const useStyles = makeStyles({
   dateTimePicker: {
     display: 'none',
   },
-})
+}))
 
 export default useStyles

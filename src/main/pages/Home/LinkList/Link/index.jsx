@@ -28,6 +28,7 @@ import * as yup from 'yup'
 import { AlertModal } from '@/main/components/modals'
 import CloseIconImg from '@assets/images/close.svg'
 import LinkIconImg from '@assets/images/link.svg'
+import LogoImg from '@assets/images/logo/logo16.png'
 import UnionIconImg from '@assets/images/union.svg'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import { alarmCreateThunk } from '@modules/alarm'
@@ -46,6 +47,7 @@ const LINK_SCHEMA = yup.object({
 })
 
 function Link({ data }) {
+  const hostname = new URL(data.path).hostname
   const classes = useStyles()
   const dispatch = useDispatch()
   const { openToast } = useToast()
@@ -71,6 +73,7 @@ function Link({ data }) {
   const [openMore, setOpenMore] = useState(false)
   const [moreAnchorEl, setMoreAnchorEl] = useState(null)
   const [isChecked, setIsChecked] = useState(false)
+  const [faviconLink, setFaviconLink] = useState(`https://www.google.com/s2/favicons?domain=${hostname}`)
   const isSelected = useMemo(() => {
     return selectedLinkList?.find((selectData) => selectData.id === data.id)
   }, [data.id, selectedLinkList])
@@ -225,6 +228,15 @@ function Link({ data }) {
         {selectedState && <Checkbox label={`selected-${data.id}`} className={classes.checkbox} checked={isChecked} />}
         <CardMedia component="img" height="120" image={data.image_path} alt={data.title} />
         <CardContent className={classes.cardContent}>
+          <div className={classes.urlBox}>
+            <img
+              className={classes.urlFavicon}
+              onError={() => setFaviconLink(LogoImg)}
+              src={faviconLink}
+              alt={data.title}
+            />
+            <span className={classes.urlSubFont}>{hostname}</span>
+          </div>
           {isEditable ? (
             <>
               <InputBase className={classes.contentTitleEditable} name="title" rows={2} multiline inputRef={register} />
