@@ -159,7 +159,7 @@ function AppBar() {
         open={isHistoryOpen}
         onClose={() => setIsHistoryOpen(false)}
       >
-        <DraggableHistoryList />
+        {isHistoryOpen && <DraggableHistoryList />}
       </Drawer>
     </>
   )
