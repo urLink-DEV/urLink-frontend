@@ -18,7 +18,7 @@ export const linkRemoveThunk = createRequestThunk(linkRemove)
 export const linksRemove = createRequestAction(`${LINK}/LIST/REMOVE`)
 export const linksRemoveThunk = createRequestThunk(linksRemove)
 
-export const linkSelectBoxChangeState = createAction(`${LINK}/SELECTED_STATE`)
+export const linkSelectBoxChangeState = createAction(`${LINK}/CHANGE_SELECT_BOX_STATE`)
 export const linkSelect = createAction(`${LINK}/SELECT`)
 export const linkCancleSelect = createAction(`${LINK}/CANCLE_SELECT`)
 export const linkClearSelect = createAction(`${LINK}/CLEAR_SELECT`)

@@ -29,7 +29,6 @@ function Header() {
     else setIsOpenSelectBox(false)
   }, [isOpenLinkSelectBox])
 
-  console.log('isOpenLinkSelectBox', isOpenLinkSelectBox)
   const handleLinksSelectStateOpen = useCallback(() => {
     dispatch(linkSelectBoxChangeState(true))
     GAEvent('메인', '다중 선택 버튼 클릭')
@@ -41,7 +40,6 @@ function Header() {
     GAEvent('메인', '선택 해제 버튼 클릭')
   }, [dispatch])
 
-  console.log(setIsOpenSelectBox)
   const handleNewTab = useCallback(() => {
     createTabList(selectedLinkList.map((data) => data.path))
     GAEvent('메인', '복수의 링크 새 탭 열기')
