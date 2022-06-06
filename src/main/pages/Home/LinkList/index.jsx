@@ -35,7 +35,6 @@ function LinkList() {
 
   const dispatch = useDispatch()
   const { categories } = useCategories()
-  const categoryList = useSelector(categorySelector.listData)
   const selectedCategory = useSelector(categorySelector.selectedCategory)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
   const searchFilter = useSelector(linkSelector.searchFilter)
@@ -91,7 +90,7 @@ function LinkList() {
 
   return (
     <Grid container direction="column" className={classes.root} ref={rootRef}>
-      {!!categoryList.length && (
+      {!!selectedCategory?.id && (
         <div className={classes.header}>
           <Header links={links} />
         </div>
