@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import starImg from '@assets/images/star.svg'
 import { categorySelect, categorySelector } from '@modules/category'
+import { linkSelector, linkSelectBoxChangeState, linkClearSelect } from '@modules/link'
 import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
@@ -14,15 +15,20 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
   const classes = useStyles()
   const dispatch = useDispatch()
   const editedCategory = useSelector(categorySelector.editedCategory)
+  const isOpenLinkSelectBox = useSelector(linkSelector.isOpenLinkSelectBox)
   const isEditingTitle = useMemo(() => Boolean(editedCategory?.id === data?.id), [editedCategory, data])
 
   const handleClickCategory = useCallback(
     (e) => {
       e.stopPropagation()
+      if (isOpenLinkSelectBox) {
+        dispatch(linkSelectBoxChangeState(false))
+        dispatch(linkClearSelect())
+      }
       dispatch(categorySelect({ ...data }))
       GAEvent('카테고리', '카테고리 선택')
     },
-    [dispatch, data]
+    [dispatch, isOpenLinkSelectBox, data]
   )
 
   return (

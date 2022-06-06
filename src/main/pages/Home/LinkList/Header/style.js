@@ -4,6 +4,10 @@ export const useStyles = makeStyles((theme) => ({
   toolbar: {
     paddingLeft: 0,
     paddingRight: 0,
+
+    [theme.breakpoints.up('sm')]: {
+      height: 40,
+    },
   },
   tabText: {
     fontSize: 14,
@@ -17,8 +21,36 @@ export const useStyles = makeStyles((theme) => ({
   tabDeleteText: {
     color: theme.palette.secondary.main,
   },
-  refreshBtn: {
-    padding: 12,
+  selectLinksBtn: {
+    padding: '8px 20px',
+    marginLeft: 'auto',
+    color: '#666666',
+    backgroundColor: '#ffffff',
+    border: '1px solid #E6E6E6',
+    borderRadius: 8,
+  },
+  selectLinksBtnGroup: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    fontSize: 14,
+    marginLeft: 'auto',
+  },
+  chosenLinks: {
+    marginRight: 8,
+  },
+  btnInBtnGroup: {
+    padding: '8px 20px',
+    marginLeft: 8,
+    backgroundColor: '#EDF0FF',
+    borderRadius: 8,
+  },
+  deleteLinksBtn: {
+    color: 'red',
+    padding: '8px 20px',
+    marginLeft: 8,
+    backgroundColor: '#FFEDE9',
+    borderRadius: 8,
   },
 }))
 

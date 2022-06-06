@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import CreateIcon from '@mui/icons-material/Create'
 import DoneIcon from '@mui/icons-material/Done'
+import RefreshIcon from '@mui/icons-material/Refresh'
 import IconButton from '@mui/material/IconButton'
 import InputBase from '@mui/material/InputBase'
 import Typography from '@mui/material/Typography'
@@ -97,6 +98,13 @@ function EditableCategoryTitle() {
     [handleEditDone]
   )
 
+  const handleReload = useMemo(() => {
+    // return debounce(() => {
+    // handleResetInput()
+    // GAEvent('메인', '새로고침 버튼 클릭')
+    // }, 400)
+  }, [])
+
   useOutsideAlerter(rootRef, isEditable, handleCancelEdit)
 
   if (!category.id) return null
@@ -126,14 +134,17 @@ function EditableCategoryTitle() {
           </IconButton>
         </>
       ) : (
-        <>
-          <Typography variant="h6" component="span">
+        <div className={classes.root}>
+          <Typography className={classes.categoryName} variant="h5" component="span">
             {category?.name}
           </Typography>
-          <IconButton aria-label="카테고리 제목 수정 모드 전환" onClick={handleShowEdit}>
+          <IconButton className={classes.iconBtn} aria-label="카테고리 제목 수정 모드 전환" onClick={handleShowEdit}>
             <CreateIcon fontSize="small" />
           </IconButton>
-        </>
+          <IconButton className={classes.iconBtn} aria-label="카테고리 새로고침" onClick={handleReload}>
+            <RefreshIcon fontSize="small" />
+          </IconButton>
+        </div>
       )}
     </div>
   )

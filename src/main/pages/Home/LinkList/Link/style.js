@@ -1,16 +1,55 @@
 import { makeStyles } from '@mui/styles'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    position: 'absolute',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+  },
   root: {
     position: 'relative',
     width: 300,
     height: 348,
-  },
-  editableCard: {
-    border: '1px solid #3cb043',
+    marginTop: 20,
+
+    '&:hover': {
+      transform: 'translateY(-12px)',
+      transition: 'transform 0.5s',
+    },
   },
   selectedCard: {
-    border: '1px solid #2083ff',
+    backgroundColor: 'rgba(29, 120, 255, 0.1)',
+  },
+  checkbox: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    color: 'white',
+    '&.Mui-checked': {
+      color: 'white',
+
+      '& > .MuiSvgIcon-root': {
+        backgroundColor: '#1D78FF',
+        borderRadius: 4,
+      },
+    },
+    '& > .MuiSvgIcon-root': {
+      backgroundColor: 'rgba(129, 147, 174, 0.4)',
+      borderRadius: 4,
+    },
+  },
+  urlBox: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  urlFavicon: {
+    paddingBottom: 8,
+  },
+  urlSubFont: {
+    color: theme.palette.text.secondary,
+    fontSize: 14,
+    letterSpacing: -0.6,
+    paddingLeft: 8,
+    paddingBottom: 8,
   },
   newTabIcon: {
     position: 'absolute',
@@ -22,11 +61,15 @@ const useStyles = makeStyles({
     height: 182,
     padding: '20px 16px 0 16px',
   },
-  contentTitle: {
-    maxHeight: 50,
+  contentTitleEditable: {
+    width: '100%',
+    overflow: 'hidden',
     fontSize: 16,
+    marginBottom: 4,
+    backgroundColor: '#F6F6F6',
+    borderRadius: 4,
   },
-  contentDesc: {
+  contentDescEditable: {
     display: 'box',
     boxOrient: 'vertical',
     overflow: 'hidden',
@@ -35,19 +78,50 @@ const useStyles = makeStyles({
     fontSize: 14,
     whiteSpace: 'pre-line',
     lineClamp: 3,
+    backgroundColor: '#F6F6F6',
+    borderRadius: 4,
+  },
+  contentTitle: {
+    width: '100%',
+    overflow: 'hidden',
+    display: 'box',
+    boxOrient: 'vertical',
+    lineClamp: 2,
+    maxHeight: 50,
+    fontWeight: 400,
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  contentDesc: {
+    display: 'box',
+    boxOrient: 'vertical',
+    overflow: 'hidden',
+    width: '100%',
+    maxHeight: 65,
+    fontWeight: 300,
+    fontSize: 13,
+    whiteSpace: 'pre-line',
+    lineClamp: 3,
   },
   cardActions: {
     padding: '0 16px 20px 16px',
-    // '& .MuiIconButton-root': {
-    //   padding: 3,
-    // },
   },
   copyIcon: {
     width: 18,
     height: 18,
   },
-  editIcon: {
+  doneIcon: {
     marginLeft: 'auto',
+  },
+  unionIcon: {
+    width: 30,
+    height: 30,
+    marginLeft: 'auto',
+  },
+  menuIconImg: {
+    width: 30,
+    height: 20,
+    paddingRight: 10,
   },
   alarmIconActive: {
     color: '#fdd835',
@@ -55,6 +129,6 @@ const useStyles = makeStyles({
   dateTimePicker: {
     display: 'none',
   },
-})
+}))
 
 export default useStyles

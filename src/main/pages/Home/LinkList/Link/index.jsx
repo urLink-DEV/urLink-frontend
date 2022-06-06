@@ -4,27 +4,36 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import AddAlertIcon from '@mui/icons-material/AddAlert'
 import CreateIcon from '@mui/icons-material/Create'
 import DoneIcon from '@mui/icons-material/Done'
-import FavoriteIcon from '@mui/icons-material/Favorite'
-import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker'
+import FavoriteIcon from '@mui/icons-material/FavoriteBorderOutlined'
+import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined'
+import Backdrop from '@mui/material/Backdrop'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
+import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import InputBase from '@mui/material/InputBase'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import clsx from 'clsx'
+import moment from 'moment'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import * as yup from 'yup'
 
-import copyIconImg from '@assets/images/link-icon.png'
-import newTabIconImg from '@assets/images/new-tab.svg'
+import { AlertModal } from '@/main/components/modals'
+import CloseIconImg from '@assets/images/close.svg'
+import LinkIconImg from '@assets/images/link.svg'
+import LogoImg from '@assets/images/logo/logo16.png'
+import UnionIconImg from '@assets/images/union.svg'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import { alarmCreateThunk } from '@modules/alarm'
-import { linkSelector, linksRead, linkModifyThunk, linkSelect, linkCancleSelect } from '@modules/link'
+import { categorySelector, categoriesRead } from '@modules/category'
+import { linkSelector, linksRead, linkModifyThunk, linkSelect, linkCancleSelect, linkRemoveThunk } from '@modules/link'
 import { useToast } from '@modules/ui'
 import { createTab } from '@utils/chromeApis/tab'
 import copyLink from '@utils/copyLink'
@@ -38,10 +47,13 @@ const LINK_SCHEMA = yup.object({
 })
 
 function Link({ data }) {
+  const hostname = new URL(data.path).hostname
   const classes = useStyles()
   const dispatch = useDispatch()
   const { openToast } = useToast()
+  const selectedCategory = useSelector(categorySelector.selectedCategory)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
+  const isOpenLinkSelectBox = useSelector(linkSelector.isOpenLinkSelectBox)
   const {
     register,
     handleSubmit: checkSubmit,
@@ -55,10 +67,13 @@ function Link({ data }) {
   })
 
   const rootRef = useRef(null)
-  const [showNewTabIcon, setShowNewTabIcon] = useState(false)
   const [showAlarmModal, setShowAlarmModal] = useState(false)
-  const [dateVal, setDateVal] = useState(new Date())
+  const [dateVal, setDateVal] = useState(moment(new Date()).format())
   const [isEditable, setIsEditable] = useState(false)
+  const [openMore, setOpenMore] = useState(false)
+  const [moreAnchorEl, setMoreAnchorEl] = useState(null)
+  const [isChecked, setIsChecked] = useState(false)
+  const [faviconLink, setFaviconLink] = useState(`https://www.google.com/s2/favicons?domain=${hostname}`)
   const isSelected = useMemo(() => {
     return selectedLinkList?.find((selectData) => selectData.id === data.id)
   }, [data.id, selectedLinkList])
@@ -70,24 +85,23 @@ function Link({ data }) {
     })
   }, [data, reset])
 
+  useEffect(() => {
+    if (!isOpenLinkSelectBox) {
+      setIsChecked(false)
+    }
+  }, [isOpenLinkSelectBox])
+
   const handleSelectedLinkCard = useCallback(
     (e) => {
       e.stopPropagation()
       if (isEditable) return
-      if (isSelected) dispatch(linkCancleSelect(data))
+      if (isSelected && isChecked) dispatch(linkCancleSelect(data))
       else dispatch(linkSelect(data))
+      setIsChecked(!isChecked)
       GAEvent('메인', '링크 선택 하기')
     },
-    [data, dispatch, isEditable, isSelected]
+    [data, dispatch, isEditable, isSelected, isChecked]
   )
-
-  const handleShowNewTabIcon = useCallback(() => {
-    setShowNewTabIcon(true)
-  }, [])
-
-  const handleCloseNewTabIcon = useCallback(() => {
-    setShowNewTabIcon(false)
-  }, [])
 
   const handleNewTab = useCallback(
     (e) => {
@@ -127,33 +141,44 @@ function Link({ data }) {
     [data.path, openToast]
   )
 
-  const handleSetAlarm = useCallback(
-    async (date) => {
-      GAEvent('메인', '알람 설정 버튼 클릭')
-      try {
-        await dispatch(
-          alarmCreateThunk({
-            categoryId: data.category,
-            urlId: data.id,
-            name: `${data.category}-${data.id}`,
-            reserved_time: {
-              year: date.year(),
-              month: date.month() + 1,
-              day: date.date(),
-              hour: date.hours(),
-              minute: date.minute(),
-            },
-          })
-        )
-        dispatch(linksRead.request({ categoryId: data.category }, { key: data.category }))
-        openToast({ type: 'success', message: '알람이 설정 되었습니다.' })
-        GAEvent('메인', '알람 설정 완료')
-      } catch (error) {
-        openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
-      }
-    },
-    [data.category, data.id, dispatch, openToast]
-  )
+  const handleSetAlarm = useCallback(async () => {
+    GAEvent('메인', '알람 설정 버튼 클릭')
+    try {
+      const date = moment(dateVal)
+      await dispatch(
+        alarmCreateThunk({
+          categoryId: data.category,
+          urlId: data.id,
+          name: `${data.category}-${data.id}`,
+          reserved_time: {
+            year: date.year(),
+            month: date.month() + 1,
+            day: date.date(),
+            hour: date.hours(),
+            minute: date.minute(),
+          },
+        })
+      )
+      dispatch(linksRead.request({ categoryId: data.category }, { key: data.category }))
+      openToast({ type: 'success', message: '알람이 설정 되었습니다.' })
+      GAEvent('메인', '알람 설정 완료')
+    } catch (error) {
+      openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
+    }
+  }, [dateVal, data.category, data.id, dispatch, openToast])
+
+  const handleDelete = useCallback(async () => {
+    try {
+      await dispatch(linkRemoveThunk({ urlId: data.id }))
+      openToast({ type: 'success', message: '링크 카드를 삭제했습니다.' })
+      GAEvent('메인', '링크 삭제')
+    } catch (error) {
+      openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
+    } finally {
+      dispatch(categoriesRead.request())
+      dispatch(linksRead.request({ categoryId: selectedCategory.id }, { key: selectedCategory.id }))
+    }
+  }, [data.id, dispatch, openToast, selectedCategory.id])
 
   const handleShowEdit = useCallback(() => {
     setIsEditable(true)
@@ -193,27 +218,40 @@ function Link({ data }) {
     <Card
       className={clsx(classes.root, {
         [classes.editableCard]: isEditable,
-        [classes.selectedCard]: isSelected && !isEditable,
+        [classes.selectedCard]: isOpenLinkSelectBox && isSelected && !isEditable,
       })}
-      onClick={handleSelectedLinkCard}
-      onMouseEnter={handleShowNewTabIcon}
-      onMouseLeave={handleCloseNewTabIcon}
+      onClick={isOpenLinkSelectBox ? handleSelectedLinkCard : handleNewTab}
       ref={rootRef}
     >
-      <CardActionArea disableRipple>
-        <CardMedia component="img" height="120" image={data.image_path} alt={data.title} />
-        {showNewTabIcon && (
-          <img className={classes.newTabIcon} src={newTabIconImg} onClick={handleNewTab} alt="새 창으로 열기" />
+      <CardActionArea>
+        {isOpenLinkSelectBox && (
+          <Checkbox label={`selected-${data.id}`} className={classes.checkbox} checked={isChecked} />
         )}
+        <CardMedia component="img" height="120" image={data.image_path} alt={data.title} />
         <CardContent className={classes.cardContent}>
+          <div className={classes.urlBox}>
+            <img
+              className={classes.urlFavicon}
+              onError={() => setFaviconLink(LogoImg)}
+              src={faviconLink}
+              alt={data.title}
+            />
+            <span className={classes.urlSubFont}>{hostname}</span>
+          </div>
           {isEditable ? (
             <>
-              <InputBase className={classes.contentTitle} name="title" inputRef={register} />
-              <InputBase className={classes.contentDesc} name="description" rows={3} multiline inputRef={register} />
+              <InputBase className={classes.contentTitleEditable} name="title" rows={2} multiline inputRef={register} />
+              <InputBase
+                className={classes.contentDescEditable}
+                name="description"
+                rows={3}
+                multiline
+                inputRef={register}
+              />
             </>
           ) : (
             <>
-              <Typography className={classes.contentTitle} noWrap gutterBottom variant="h6" component="h2">
+              <Typography className={classes.contentTitle} variant="h6" component="p">
                 {data.title}
               </Typography>
               <Typography className={classes.contentDesc} color="textSecondary" variant="body2" component="p">
@@ -224,94 +262,84 @@ function Link({ data }) {
         </CardContent>
       </CardActionArea>
       <CardActions className={classes.cardActions} disableSpacing onClick={(e) => e.stopPropagation()}>
-        <IconButton aria-label="최상단 노출 하기" onClick={handleToggleFavorite}>
-          <FavoriteIcon fontSize="small" color={data.is_favorited ? 'secondary' : 'action'} />
-        </IconButton>
-        <IconButton aria-label="복사 하기" onClick={handleCopy}>
-          <img className={classes.copyIcon} src={copyIconImg} alt="복사 하기" />
-        </IconButton>
-        {/* <MobileDateTimePicker
-          label="알람 시간 설정하기"
-          value={dateVal}
-          onChange={(value) => {
-            setDateVal(new Date(value))
+        {!isEditable ? (
+          <>
+            <IconButton aria-label="최상단 노출 하기" onClick={handleToggleFavorite}>
+              {data.is_favorited ? <FavoriteOutlinedIcon fontSize="small" /> : <FavoriteIcon fontSize="small" />}
+            </IconButton>
+            <IconButton className={classes.editIcon} aria-label="제목 및 내용 수정 모드 전환" onClick={handleShowEdit}>
+              <CreateIcon fontSize="small" />
+            </IconButton>
+            <IconButton
+              className={classes.unionIcon}
+              aria-label="메뉴 더보기"
+              onClick={(e) => {
+                setMoreAnchorEl(e.currentTarget)
+                setOpenMore((open) => !open)
+              }}
+            >
+              <img src={UnionIconImg} alt="alert-icon" />
+            </IconButton>
+            <Backdrop className={classes.backdrop} open={openMore} onClick={() => setOpenMore((open) => !open)} />
+            <Menu
+              id="more-menu"
+              open={openMore}
+              onClose={() => setOpenMore((open) => !open)}
+              anchorEl={moreAnchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+            >
+              <MenuItem onClick={handleCopy}>
+                <img className={classes.menuIconImg} src={LinkIconImg} alt="링크 복사하기" />
+                링크 복사
+              </MenuItem>
+              <MenuItem onClick={() => setShowAlarmModal(true)}>
+                <AddAlertIcon
+                  className={clsx(classes.menuIconImg, {
+                    [classes.alarmIconActive]: data.has_alarms,
+                  })}
+                />{' '}
+                알람 설정
+              </MenuItem>
+              <MenuItem onClick={handleDelete}>
+                <img className={classes.menuIconImg} src={CloseIconImg} alt="링크 삭제하기" />
+                삭제
+              </MenuItem>
+            </Menu>
+          </>
+        ) : (
+          <IconButton className={classes.doneIcon} aria-label="제목 및 내용 수정 하기" onClick={handleEditDone}>
+            <DoneIcon fontSize="small" />
+          </IconButton>
+        )}
+        <AlertModal
+          openBool={showAlarmModal}
+          handleClose={() => {
+            setDateVal(moment(new Date()).format())
+            setShowAlarmModal(false)
           }}
-          onAccept={handleSetAlarm}
-          disablePast={true}
-          minDate={new Date()}
-          ampm={false}
-          inputFormat="yyyy/MM/DD hh:mm a"
-          renderInput={(props) => {
-            return (
-              <div>
-                {
-                  // MobileDateTimePicker의 Input은 모달 안의 Input과 연결되어있다.
-                  // inputProps.onClick으로 구분가능
-                  props.inputProps.onClick ? (
-                    <div>
-                      <TextField className={classes.dateTimePicker} {...props} />
-                      <IconButton onClick={props.inputProps.onClick}>
-                        <AddAlertIcon
-                          fontSize="small"
-                          className={clsx({
-                            [classes.alarmIconActive]: data.has_alarms,
-                          })}
-                        />
-                      </IconButton>
-                    </div>
-                  ) : (
-                    <TextField {...props} />
-                  )
-                }
-              </div>
-            )
-          }}
-        /> */}{' '}
-        <IconButton onClick={() => setShowAlarmModal(true)}>
-          <AddAlertIcon
-            fontSize="small"
-            className={clsx({
-              [classes.alarmIconActive]: data.has_alarms,
-            })}
-          />
-        </IconButton>
-        {showAlarmModal ? (
+          handleYesClick={handleSetAlarm}
+        >
           <TextField
-            id="datetime-local"
+            id="datetime"
             type="datetime-local"
             label="알람 시간 설정하기"
-            value={dateVal}
-            onChange={(value) => {
-              setDateVal(new Date(value))
+            defaultValue={dateVal.toString().substring(0, 16)}
+            onChange={(e) => {
+              setDateVal(moment(new Date(e.target.value)).format())
             }}
-            defaultValue="2017-05-24T10:30"
             sx={{ width: 250 }}
             InputLabelProps={{
               shrink: true,
             }}
           />
-        ) : null}
-        {/* <MobileDateTimePicker
-          value={value}
-          onChange={(newValue) => {
-            setValue(newValue)
-          }}
-          label="With error handler"
-          onError={console.log}
-          minDate={new Date('2018-01-01T00:00')}
-          inputFormat="yyyy/MM/dd hh:mm a"
-          mask="___/__/__ __:__ _M"
-          renderInput={(params) => <TextField {...params} />}
-        /> */}
-        {isEditable ? (
-          <IconButton className={classes.editIcon} aria-label="제목 및 내용 수정 하기" onClick={handleEditDone}>
-            <DoneIcon fontSize="small" />
-          </IconButton>
-        ) : (
-          <IconButton className={classes.editIcon} aria-label="제목 및 내용 수정 모드 전환" onClick={handleShowEdit}>
-            <CreateIcon fontSize="small" />
-          </IconButton>
-        )}
+        </AlertModal>
       </CardActions>
     </Card>
   )
