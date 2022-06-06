@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     width: 266,
     marginRight: 16,
 
-    color: theme.palette.text.primary,
+    color: theme.palette.text.secondary,
 
     fontSize: 14,
     fontWeight: 400,
@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
 
     width: 157,
 
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.description,
 
     fontSize: 14,
     fontWeight: 400,

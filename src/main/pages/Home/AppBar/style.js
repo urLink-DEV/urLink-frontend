@@ -13,6 +13,9 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
+
+    backgroundColor:
+      theme.palette.type !== 'dark' ? theme.palette.colorGroup.lightGrey : theme.palette.background.default,
   },
   appBarHistoryOpen: {
     backgroundColor: '#FFFFFF',

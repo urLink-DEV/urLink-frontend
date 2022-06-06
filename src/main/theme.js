@@ -26,8 +26,9 @@ const theme = createTheme({
       main: '#1D78FF',
     },
     text: {
-      primary: '#666666',
-      secondary: '#999999',
+      primary: '#333333',
+      secondary: '#666666',
+      description: '#999999',
     },
   },
   typography: {
