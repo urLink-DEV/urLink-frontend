@@ -14,18 +14,6 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: 'colum',
     alignItems: 'self-end',
   },
-  tabText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    letterSpacing: -0.64,
-    textAlign: 'center',
-  },
-  tabOpenText: {
-    color: theme.palette.primary.main,
-  },
-  tabDeleteText: {
-    color: theme.palette.secondary.main,
-  },
   selectLinksBtn: {
     padding: '8px 20px',
     marginLeft: 'auto',

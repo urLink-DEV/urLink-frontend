@@ -35,6 +35,7 @@ function LinkList() {
 
   const dispatch = useDispatch()
   const { categories } = useCategories()
+  const categoryList = useSelector(categorySelector.listData)
   const selectedCategory = useSelector(categorySelector.selectedCategory)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
   const searchFilter = useSelector(linkSelector.searchFilter)

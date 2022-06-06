@@ -9,11 +9,8 @@ import { useToast } from '@modules/ui'
 import { createTabList } from '@utils/chromeApis/tab'
 import { GAEvent } from '@utils/ga'
 
-import AlarmList from './AlarmList'
-import DraggableHistoryList from './DraggableHistoryList'
 import EditableCategoryTitle from './EditableCategoryTitle'
 import useStyles from './style'
-import TabButtonGroup from './TabButtonGroup'
 
 function Header() {
   const classes = useStyles()
