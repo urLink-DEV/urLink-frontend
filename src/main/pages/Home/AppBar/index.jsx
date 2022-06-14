@@ -41,6 +41,7 @@ function AppBar() {
   const alarmRef = useRef(null)
   const profileRef = useRef(null)
 
+  const [isAppBarInversion, setIsAppBarInversion] = useState(false)
   const [isHistoryOpen, setIsHistoryOpen] = useState(false)
   const [isAlarmOpen, setIsAlarmOpen] = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
@@ -70,11 +71,21 @@ function AppBar() {
     dispatch(linkSearchFilterChangeState({ selectedName, keyword: debouncedKeyword }))
   }, [dispatch, selectedName, debouncedKeyword])
 
+  useEffect(() => {
+    const handleScrollAppBarIn = (e) => {
+      const scrollTop = document.documentElement.scrollTop
+      setIsAppBarInversion(scrollTop > 100)
+    }
+
+    window.addEventListener('scroll', handleScrollAppBarIn)
+    return () => document.removeEventListener('scroll', handleScrollAppBarIn)
+  }, [])
+
   return (
     <>
       <div
         className={clsx(classes.appBar, {
-          [classes.appBarHistoryOpen]: isHistoryOpen,
+          [classes.appBarInversion]: isAppBarInversion || isHistoryOpen,
         })}
       >
         <SearchBar

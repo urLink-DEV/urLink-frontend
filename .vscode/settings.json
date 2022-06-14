@@ -35,9 +35,11 @@
     "getcontentanchorel",
     "Glogin",
     "Gregister",
+    "gsap",
     "Nlogin",
     "Nregister",
     "pageview",
+    "scrollmagic",
     "Spoqa"
   ],
 }

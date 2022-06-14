@@ -5,18 +5,15 @@ export const useStyles = makeStyles((theme) => ({
     paddingLeft: 0,
     paddingRight: 0,
 
+    display: 'flex',
+    justifyContent: 'space-between',
+
     [theme.breakpoints.up('sm')]: {
       height: 40,
     },
   },
-  categoryTitleGroup: {
-    display: 'flex',
-    flexDirection: 'colum',
-    alignItems: 'self-end',
-  },
   selectLinksBtn: {
     padding: '8px 20px',
-    marginLeft: 'auto',
     color: '#666666',
     backgroundColor: '#ffffff',
     border: '1px solid #E6E6E6',

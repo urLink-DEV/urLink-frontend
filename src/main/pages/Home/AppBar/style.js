@@ -17,7 +17,7 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor:
       theme.palette.type !== 'dark' ? theme.palette.colorGroup.lightGrey : theme.palette.background.default,
   },
-  appBarHistoryOpen: {
+  appBarInversion: {
     backgroundColor: '#FFFFFF',
   },
   imgButton: {

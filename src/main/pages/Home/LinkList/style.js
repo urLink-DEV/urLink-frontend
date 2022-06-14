@@ -23,6 +23,10 @@ export const useStyles = makeStyles((theme) => ({
     padding: '172px 108px 172px 56px',
   },
   header: {
+    position: 'sticky',
+    top: 0,
+    zIndex: 101,
+
     marginBottom: 32,
     [theme.breakpoints.up('sm')]: {
       width: '100%',

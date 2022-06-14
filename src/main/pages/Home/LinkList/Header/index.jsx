@@ -1,7 +1,9 @@
 import React, { useCallback, memo, useState, useEffect } from 'react'
 
 import { Button, Toolbar } from '@mui/material'
+import { Tween, Timeline } from 'react-gsap'
 import { useDispatch, useSelector } from 'react-redux'
+import { Scene } from 'react-scrollmagic'
 
 import { categorySelector, categoriesRead } from '@modules/category'
 import { linkSelector, linkSelectBoxChangeState, linkClearSelect, linksRead, linksRemoveThunk } from '@modules/link'
@@ -63,24 +65,30 @@ function Header() {
   return (
     <Toolbar className={classes.toolbar}>
       <EditableCategoryTitle />
-      {!isOpenSelectBox ? (
-        <Button onClick={handleLinksSelectStateOpen} className={classes.selectLinksBtn}>
-          다중 선택
-        </Button>
-      ) : (
-        <div className={classes.selectLinksBtnGroup}>
-          <span className={classes.chosenLinks}>{selectedLinkList.length}개 선택</span>
-          <Button className={classes.btnInBtnGroup} onClick={handleLinksSelectStateClose}>
-            선택 해제
-          </Button>
-          <Button className={classes.btnInBtnGroup} onClick={handleNewTab}>
-            링크 열기
-          </Button>
-          <Button className={classes.deleteLinksBtn} onClick={handleDeleteSelectedLinkList}>
-            삭제
-          </Button>
-        </div>
-      )}
+      <Scene duration={100} triggerHook={0.2}>
+        <Timeline>
+          <Tween from={{ opacity: 1 }} to={{ opacity: 0 }} duration={2} ease="slow(0.5, 0.8)">
+            {!isOpenSelectBox ? (
+              <Button onClick={handleLinksSelectStateOpen} className={classes.selectLinksBtn}>
+                다중 선택
+              </Button>
+            ) : (
+              <div className={classes.selectLinksBtnGroup}>
+                <span className={classes.chosenLinks}>{selectedLinkList.length}개 선택</span>
+                <Button className={classes.btnInBtnGroup} onClick={handleLinksSelectStateClose}>
+                  선택 해제
+                </Button>
+                <Button className={classes.btnInBtnGroup} onClick={handleNewTab}>
+                  링크 열기
+                </Button>
+                <Button className={classes.deleteLinksBtn} onClick={handleDeleteSelectedLinkList}>
+                  삭제
+                </Button>
+              </div>
+            )}
+          </Tween>
+        </Timeline>
+      </Scene>
     </Toolbar>
   )
 }
