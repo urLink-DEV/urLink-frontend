@@ -45,11 +45,13 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'transparent',
+    border: 'unset',
     borderRadius: 'unset',
 
     '& > h3': {
       fontSize: 16,
       fontWeight: 400,
+      lineHeight: '32px',
       color: '#666',
       padding: '4px 16px',
       borderRadius: 8,
@@ -59,6 +61,7 @@ const useStyles = makeStyles(() => ({
     },
 
     '&:hover': {
+      cursor: 'pointer',
       backgroundColor: 'transparent',
       '& > h3': {
         backgroundColor: '#F2F2F2',

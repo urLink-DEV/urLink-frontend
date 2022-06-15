@@ -254,12 +254,12 @@ function CategoryList() {
             {/*---Category end---*/}
           </div>
 
-          <Button className={classes.addCategoryBtn} onClick={addCategoryToggle}>
+          <button type="button" className={classes.addCategoryBtn} onClick={addCategoryToggle}>
             <h3>
               새 카테고리 추가
               <img src={plusImg} alt="add category" />
             </h3>
-          </Button>
+          </button>
 
           {addCategoryOpen && <AddCategoryModal open={addCategoryOpen} onClose={addCategoryClose} />}
           {updateCategoryOpen && <UpdateCategoryModal open={updateCategoryOpen} onClose={updateCategoryClose} />}
