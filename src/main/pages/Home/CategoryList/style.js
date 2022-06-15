@@ -67,6 +67,9 @@ const useStyles = makeStyles(() => ({
         backgroundColor: '#F2F2F2',
       },
     },
+    '&:focus-visible': {
+      outline: 'unset',
+    },
   },
 }))
 
