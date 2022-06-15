@@ -32,13 +32,6 @@ export const useStyles = makeStyles((theme) => ({
     border: 'unset',
     cursor: 'pointer',
   },
-  iconBtn: {
-    color: '#AAAAAA',
-    width: 18,
-    height: 18,
-    padding: 4,
-    marginRight: 10,
-  },
 }))
 
 export default useStyles

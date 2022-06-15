@@ -32,7 +32,7 @@ export const categoryReducer = createReducer(initialState, {
     if (meta?.selectFirstCategory) {
       state.selectedCategory = {
         ...state.selectedCategory,
-        ...payload.filter((item) => !item.is_favorited)[0],
+        ...payload[0],
       }
     }
   },

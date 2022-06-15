@@ -26,9 +26,8 @@ import useStyles from './style'
 function CategoryItem({ data = {}, selected = false, hovered = false, dragFinished = false }) {
   const { openToast } = useToast()
   const dispatch = useDispatch()
-  const editedCategory = useSelector(categorySelector.editedCategory)
+  const selectedCategory = useSelector(categorySelector.selectedCategory)
   const isOpenLinkSelectBox = useSelector(linkSelector.isOpenLinkSelectBox)
-  const isEditingTitle = Boolean(editedCategory?.id === data?.id)
   const [moreOpen, setMoreOpen] = useState(false)
   const [deleteStatus, setDeleteStatus] = useState(false)
   const [moreBtnGroupPosition, setMoreBtnGroupPosition] = useState({})
@@ -102,7 +101,9 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
       e.stopPropagation()
       handleCloseDeleteAlert()
       await dispatch(categoryRemoveThunk({ id: data.id }))
-      dispatch(categoriesRead.request(undefined, { selectFirstCategory: true }))
+      if (data.id === selectedCategory.id) {
+        dispatch(categoriesRead.request(undefined, { selectFirstCategory: true }))
+      }
       openToast({ type: 'success', message: '선택하신 카테고리가 삭제되었습니다.' })
       GAEvent('카테고리', '카테고리 삭제 완료')
     } catch (error) {
