@@ -25,7 +25,7 @@ export default function Home() {
   const handleScroll = useCallback(
     (e) => {
       const scrollTop = e.target.scrollTop
-      dispatch(appBarInversionChangeState(scrollTop > 200))
+      dispatch(appBarInversionChangeState(scrollTop > 150))
     },
     [dispatch]
   )
