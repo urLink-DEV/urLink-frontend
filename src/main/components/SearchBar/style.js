@@ -38,6 +38,7 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: 'flex-start',
   },
   searchInput: {
+    width: '100%',
     display: 'flex',
     alignItems: 'center',
 
