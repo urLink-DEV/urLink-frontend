@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { categorySelector, categoriesRead } from '@modules/category'
 import { linkSelector, linkSelectBoxChangeState, linkClearSelect, linksRead, linksRemoveThunk } from '@modules/link'
-import { useToast } from '@modules/ui'
+import { uiSelector, useToast } from '@modules/ui'
 import { createTabList } from '@utils/chromeApis/tab'
 import { GAEvent } from '@utils/ga'
 
@@ -20,11 +20,11 @@ function Header() {
   const selectedCategory = useSelector(categorySelector.selectedCategory)
   const isOpenLinkSelectBox = useSelector(linkSelector.isOpenLinkSelectBox)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
+  const isAppBarInversion = useSelector(uiSelector.isAppBarInversion)
 
   const { openToast } = useToast()
 
   const [isOpenSelectBox, setIsOpenSelectBox] = useState(false)
-  const [isScrollTrigger, setIsScrollTrigger] = useState(false)
 
   useEffect(() => {
     if (isOpenLinkSelectBox) setIsOpenSelectBox(true)
@@ -62,28 +62,18 @@ function Header() {
     }
   }, [dispatch, selectedLinkList, selectedCategory.id, openToast])
 
-  useEffect(() => {
-    const handleScrollAppBarIn = () => {
-      const scrollTop = document.documentElement.scrollTop
-      setIsScrollTrigger(scrollTop > 100)
-    }
-
-    window.addEventListener('scroll', handleScrollAppBarIn)
-    return () => document.removeEventListener('scroll', handleScrollAppBarIn)
-  }, [])
-
   return (
     <Toolbar className={classes.toolbar}>
       <EditableCategoryTitle />
       {!isOpenSelectBox ? (
         <Button
-          className={clsx(classes.selectLinksBtn, { [classes.selectBoxInversion]: isScrollTrigger })}
+          className={clsx(classes.selectLinksBtn, { [classes.selectBoxInversion]: isAppBarInversion })}
           onClick={handleLinksSelectStateOpen}
         >
           다중 선택
         </Button>
       ) : (
-        <div className={clsx(classes.selectLinksBtnGroup, { [classes.selectBoxInversion]: isScrollTrigger })}>
+        <div className={clsx(classes.selectLinksBtnGroup, { [classes.selectBoxInversion]: isAppBarInversion })}>
           <span className={classes.chosenLinks}>{selectedLinkList.length}개 선택</span>
           <Button className={classes.btnInBtnGroup} onClick={handleLinksSelectStateClose}>
             선택 해제

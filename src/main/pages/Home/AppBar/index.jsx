@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { alarmNoticeSelector } from '@/modules/alarmNotice'
 import { categorySelector } from '@/modules/category'
 import { useHistoryLinks } from '@/modules/historyLink'
+import { uiSelector } from '@/modules/ui'
 import alarmImg from '@assets/images/alarm.png'
 import historyImg from '@assets/images/history.png'
 import personImg from '@assets/images/person.png'
@@ -31,6 +32,7 @@ function AppBar() {
   const dispatch = useDispatch()
   const category = useSelector(categorySelector.selectedCategory)
   const alarmList = useSelector(alarmNoticeSelector.listData)
+  const isAppBarInversion = useSelector(uiSelector.isAppBarInversion)
 
   const { reload } = useHistoryLinks()
 
@@ -41,7 +43,6 @@ function AppBar() {
   const alarmRef = useRef(null)
   const profileRef = useRef(null)
 
-  const [isAppBarInversion, setIsAppBarInversion] = useState(false)
   const [isHistoryOpen, setIsHistoryOpen] = useState(false)
   const [isAlarmOpen, setIsAlarmOpen] = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
@@ -70,16 +71,6 @@ function AppBar() {
   useEffect(() => {
     dispatch(linkSearchFilterChangeState({ selectedName, keyword: debouncedKeyword }))
   }, [dispatch, selectedName, debouncedKeyword])
-
-  useEffect(() => {
-    const handleScrollAppBarIn = () => {
-      const scrollTop = document.documentElement.scrollTop
-      setIsAppBarInversion(scrollTop > 100)
-    }
-
-    window.addEventListener('scroll', handleScrollAppBarIn)
-    return () => document.removeEventListener('scroll', handleScrollAppBarIn)
-  }, [])
 
   return (
     <>

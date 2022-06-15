@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import { Resizable } from 're-resizable'
+import { useDispatch } from 'react-redux'
 
 import { useAlarmNoticeConnection } from '@/modules/alarmNotice'
+import { appBarInversionChangeState } from '@/modules/ui'
 
 import AppBar from './AppBar'
 import CategoryList from './CategoryList'
@@ -12,10 +14,21 @@ import useStyles from './style'
 
 export default function Home() {
   useAlarmNoticeConnection()
+
   const [resizing, setResizing] = useState(false)
   const onResizeStart = () => setResizing(true)
   const onResizeStop = () => setResizing(false)
   const classes = useStyles({ resizing })
+
+  const dispatch = useDispatch()
+
+  const handleScroll = useCallback(
+    (e) => {
+      const scrollTop = e.target.scrollTop
+      dispatch(appBarInversionChangeState(scrollTop > 200))
+    },
+    [dispatch]
+  )
 
   return (
     <div className={classes.root}>
@@ -44,7 +57,7 @@ export default function Home() {
       >
         <CategoryList />
       </Resizable>
-      <main className={classes.main}>
+      <main className={classes.main} onScroll={handleScroll}>
         <AppBar />
         <LinkDropZone />
         <LinkList />

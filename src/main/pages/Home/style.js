@@ -16,6 +16,9 @@ export const useStyles = makeStyles((theme) => ({
   },
   main: {
     width: '100%',
+    height: '100vh',
+
+    overflow: 'scroll',
   },
 }))
 
