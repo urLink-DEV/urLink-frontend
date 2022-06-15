@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef, useCallback } from 'react'
 
 import { Grid } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
-import { Controller, Scene } from 'react-scrollmagic'
 
 import linkListEmptyImg from '@assets/images/group-11.png'
 import linkListSearchEmptyImg from '@assets/images/group-17.png'
