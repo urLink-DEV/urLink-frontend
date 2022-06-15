@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     height: 56,
   },
   cover: {
-    height: 217,
+    height: 358,
     backgroundSize: 'auto',
   },
   text: {
