@@ -19,39 +19,39 @@ export default function Home() {
   const classes = useStyles({ resizing })
 
   return (
-    <Controller>
-      <div className={classes.root}>
-        <Resizable
-          className="resizable-category"
-          defaultSize={{
-            width: 288,
-            height: '100vh',
-          }}
-          minWidth={288}
-          maxWidth={388}
-          handleClasses={{ right: 'resize-handler' }}
-          enable={{
-            top: false,
-            right: true,
-            bottom: false,
-            left: false,
-            topRight: false,
-            bottomRight: false,
-            bottomLeft: false,
-            topLeft: false,
-          }}
-          style={{ backgroundColor: '#fff' }}
-          onResizeStart={onResizeStart}
-          onResizeStop={onResizeStop}
-        >
-          <CategoryList />
-        </Resizable>
+    <div className={classes.root}>
+      <Resizable
+        className="resizable-category"
+        defaultSize={{
+          width: 288,
+          height: '100vh',
+        }}
+        minWidth={288}
+        maxWidth={388}
+        handleClasses={{ right: 'resize-handler' }}
+        enable={{
+          top: false,
+          right: true,
+          bottom: false,
+          left: false,
+          topRight: false,
+          bottomRight: false,
+          bottomLeft: false,
+          topLeft: false,
+        }}
+        style={{ backgroundColor: '#fff' }}
+        onResizeStart={onResizeStart}
+        onResizeStop={onResizeStop}
+      >
+        <CategoryList />
+      </Resizable>
+      <Controller>
         <main className={classes.main}>
           <AppBar />
           <LinkDropZone />
           <LinkList />
         </main>
-      </div>
-    </Controller>
+      </Controller>
+    </div>
   )
 }

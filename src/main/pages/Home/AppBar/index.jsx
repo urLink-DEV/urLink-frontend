@@ -84,6 +84,7 @@ function AppBar() {
   return (
     <>
       <div
+        id="appBar"
         className={clsx(classes.appBar, {
           [classes.appBarInversion]: isAppBarInversion || isHistoryOpen,
         })}

@@ -65,7 +65,7 @@ function Header() {
   return (
     <Toolbar className={classes.toolbar}>
       <EditableCategoryTitle />
-      <Scene duration={100} triggerHook={0.2}>
+      <Scene duration={100} triggerHook={0} triggerElement={'#appBar'}>
         <Timeline>
           <Tween from={{ opacity: 1 }} to={{ opacity: 0 }} duration={2} ease="slow(0.5, 0.8)">
             {!isOpenSelectBox ? (

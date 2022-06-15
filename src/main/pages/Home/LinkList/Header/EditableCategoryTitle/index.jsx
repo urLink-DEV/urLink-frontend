@@ -32,12 +32,11 @@ function EditableCategoryTitle() {
   return (
     <div className={classes.root}>
       <div className={classes.titleContainer}>
-        <Scene duration={100} triggerHook={0.2}>
+        <Scene duration={100} triggerHook={0} triggerElement={'#appBar'}>
           <Timeline>
             <Tween
               from={{ fontWeight: 700, fontSize: 28 }}
               to={{ fontWeight: 700, fontSize: 16 }}
-              duration={2}
               ease="slow(0.5, 0.8)"
             >
               <Typography variant="h6" component="span" className={classes.title}>
@@ -47,7 +46,7 @@ function EditableCategoryTitle() {
           </Timeline>
         </Scene>
 
-        <Scene duration={100} triggerHook={0.2}>
+        <Scene duration={100} triggerHook={0} triggerElement={'#appBar'}>
           <Timeline>
             <Tween from={{ opacity: 1 }} to={{ opacity: 0 }} duration={2} ease="slow(0.5, 0.8)">
               <IconButton
