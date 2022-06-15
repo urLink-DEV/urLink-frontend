@@ -1,8 +1,9 @@
 import React, { useState, useRef, useCallback } from 'react'
 
+import CancelIcon from '@mui/icons-material/Cancel'
 import SearchIcon from '@mui/icons-material/Search'
 import { CalendarPicker } from '@mui/lab'
-import { Typography } from '@mui/material'
+import { IconButton, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import InputBase from '@mui/material/InputBase'
@@ -13,7 +14,16 @@ import clsx from 'clsx'
 
 import useStyles from './style'
 
-function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, onChangeDate, selectedDate, disabled }) {
+function SearchBar({
+  inputProps,
+  searchFilterList,
+  selectedName,
+  onSelectName,
+  onChangeDate,
+  onReset,
+  selectedDate,
+  disabled,
+}) {
   const classes = useStyles()
 
   const pickerRef = useRef(null)
@@ -26,6 +36,10 @@ function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, o
     },
     [onChangeDate, openPicker]
   )
+
+  const handleCancelSearch = useCallback(() => {
+    onReset()
+  }, [onReset])
 
   return (
     <div
@@ -108,6 +122,11 @@ function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, o
           disabled={disabled}
           {...inputProps}
         />
+      )}
+      {(inputProps?.value || selectedDate) && (
+        <IconButton className={classes.searchInputCancel} onClick={handleCancelSearch}>
+          <CancelIcon />
+        </IconButton>
       )}
     </div>
   )

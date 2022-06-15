@@ -73,6 +73,15 @@ export const useStyles = makeStyles((theme) => ({
     height: 16,
     color: '#777777',
   },
+  searchInputCancel: {
+    position: 'relative',
+    top: 0,
+    right: -31,
+
+    width: 24,
+    height: 24,
+    color: '#6b6b6f',
+  },
 }))
 
 export default useStyles

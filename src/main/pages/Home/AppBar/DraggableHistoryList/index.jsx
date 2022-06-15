@@ -168,9 +168,10 @@ function DraggableHistoryList() {
               onChange: handleChangeInput,
             }}
             searchFilterList={searchFilterList}
-            onSelectName={handleSelectName}
             selectedName={selectedName}
+            onSelectName={handleSelectName}
             onChangeDate={handleChangeDate}
+            onReset={handleResetInput}
             selectedDate={dateKeyword}
           />
         ) : (

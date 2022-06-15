@@ -85,8 +85,9 @@ function AppBar() {
             onChange: handleChangeInput,
           }}
           searchFilterList={SEARCH_FILTER_LIST}
-          onSelectName={handleSelectName}
           selectedName={selectedName}
+          onSelectName={handleSelectName}
+          onReset={handleResetInput}
           disabled={!category?.id || isHistoryOpen}
         />
         <List className={classes.iconButtonGroup}>
