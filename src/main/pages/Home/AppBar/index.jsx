@@ -72,7 +72,7 @@ function AppBar() {
   }, [dispatch, selectedName, debouncedKeyword])
 
   useEffect(() => {
-    const handleScrollAppBarIn = (e) => {
+    const handleScrollAppBarIn = () => {
       const scrollTop = document.documentElement.scrollTop
       setIsAppBarInversion(scrollTop > 100)
     }
@@ -84,7 +84,6 @@ function AppBar() {
   return (
     <>
       <div
-        id="appBar"
         className={clsx(classes.appBar, {
           [classes.appBarInversion]: isAppBarInversion || isHistoryOpen,
         })}

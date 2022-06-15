@@ -1,9 +1,8 @@
 import React, { useCallback, memo, useState, useEffect } from 'react'
 
 import { Button, Toolbar } from '@mui/material'
-import { Tween, Timeline } from 'react-gsap'
+import clsx from 'clsx'
 import { useDispatch, useSelector } from 'react-redux'
-import { Scene } from 'react-scrollmagic'
 
 import { categorySelector, categoriesRead } from '@modules/category'
 import { linkSelector, linkSelectBoxChangeState, linkClearSelect, linksRead, linksRemoveThunk } from '@modules/link'
@@ -25,6 +24,7 @@ function Header() {
   const { openToast } = useToast()
 
   const [isOpenSelectBox, setIsOpenSelectBox] = useState(false)
+  const [isScrollTrigger, setIsScrollTrigger] = useState(false)
 
   useEffect(() => {
     if (isOpenLinkSelectBox) setIsOpenSelectBox(true)
@@ -62,33 +62,40 @@ function Header() {
     }
   }, [dispatch, selectedLinkList, selectedCategory.id, openToast])
 
+  useEffect(() => {
+    const handleScrollAppBarIn = () => {
+      const scrollTop = document.documentElement.scrollTop
+      setIsScrollTrigger(scrollTop > 100)
+    }
+
+    window.addEventListener('scroll', handleScrollAppBarIn)
+    return () => document.removeEventListener('scroll', handleScrollAppBarIn)
+  }, [])
+
   return (
     <Toolbar className={classes.toolbar}>
       <EditableCategoryTitle />
-      <Scene duration={100} triggerHook={0} triggerElement={'#appBar'}>
-        <Timeline>
-          <Tween from={{ opacity: 1 }} to={{ opacity: 0 }} duration={2} ease="slow(0.5, 0.8)">
-            {!isOpenSelectBox ? (
-              <Button onClick={handleLinksSelectStateOpen} className={classes.selectLinksBtn}>
-                다중 선택
-              </Button>
-            ) : (
-              <div className={classes.selectLinksBtnGroup}>
-                <span className={classes.chosenLinks}>{selectedLinkList.length}개 선택</span>
-                <Button className={classes.btnInBtnGroup} onClick={handleLinksSelectStateClose}>
-                  선택 해제
-                </Button>
-                <Button className={classes.btnInBtnGroup} onClick={handleNewTab}>
-                  링크 열기
-                </Button>
-                <Button className={classes.deleteLinksBtn} onClick={handleDeleteSelectedLinkList}>
-                  삭제
-                </Button>
-              </div>
-            )}
-          </Tween>
-        </Timeline>
-      </Scene>
+      {!isOpenSelectBox ? (
+        <Button
+          className={clsx(classes.selectLinksBtn, { [classes.selectBoxInversion]: isScrollTrigger })}
+          onClick={handleLinksSelectStateOpen}
+        >
+          다중 선택
+        </Button>
+      ) : (
+        <div className={clsx(classes.selectLinksBtnGroup, { [classes.selectBoxInversion]: isScrollTrigger })}>
+          <span className={classes.chosenLinks}>{selectedLinkList.length}개 선택</span>
+          <Button className={classes.btnInBtnGroup} onClick={handleLinksSelectStateClose}>
+            선택 해제
+          </Button>
+          <Button className={classes.btnInBtnGroup} onClick={handleNewTab}>
+            링크 열기
+          </Button>
+          <Button className={classes.deleteLinksBtn} onClick={handleDeleteSelectedLinkList}>
+            삭제
+          </Button>
+        </div>
+      )}
     </Toolbar>
   )
 }

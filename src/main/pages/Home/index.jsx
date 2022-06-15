@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
 import { Resizable } from 're-resizable'
-import { Controller } from 'react-scrollmagic'
 
 import { useAlarmNoticeConnection } from '@/modules/alarmNotice'
 
@@ -45,13 +44,11 @@ export default function Home() {
       >
         <CategoryList />
       </Resizable>
-      <Controller>
-        <main className={classes.main}>
-          <AppBar />
-          <LinkDropZone />
-          <LinkList />
-        </main>
-      </Controller>
+      <main className={classes.main}>
+        <AppBar />
+        <LinkDropZone />
+        <LinkList />
+      </main>
     </div>
   )
 }

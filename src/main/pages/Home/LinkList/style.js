@@ -24,7 +24,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   header: {
     position: 'sticky',
-    top: 0,
+    top: 8,
     zIndex: 101,
 
     marginBottom: 32,
