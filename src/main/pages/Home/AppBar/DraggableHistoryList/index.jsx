@@ -215,14 +215,7 @@ function DraggableHistoryList() {
             />
           </div>
         ) : (
-          <div className={clsx(classes.center, classes.marginTop16)}>
-            <CardMedia
-              component="img"
-              className={classes.imgContent}
-              image={linkListEmptyImg}
-              alt="link list is empty"
-            />
-          </div>
+          <div className={clsx(classes.center, classes.marginTop16)}>최근에 방문한 기록이 없습니다.</div>
         )}
       </CardContent>
       <HistoryDragBox ref={dragBoxRef} selectedCount={selectedList.length} />

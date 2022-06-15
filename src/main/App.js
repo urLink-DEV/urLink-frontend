@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
 
-import { gsap } from 'gsap'
-import { SlowMo } from 'gsap/EasePack'
 import moment from 'moment'
 import { Router } from 'react-chrome-extension-router'
 import { useLocation } from 'react-router-dom'
@@ -15,7 +13,6 @@ import { getAccessToken } from '@utils/http/auth'
 import GetStartPage from './pages/Start'
 import 'moment/locale/ko'
 
-gsap.registerPlugin(SlowMo)
 moment.locale('ko')
 
 function App() {
