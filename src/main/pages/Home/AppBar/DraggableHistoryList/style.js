@@ -66,8 +66,12 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     padding: '12px 36px 0px',
   },
-  imgContent: {
-    width: 'auto',
+  linkListEmpty: {
+    marginTop: 80,
+    fontWeight: 400,
+    fontSize: 20,
+    lineHeight: '14px',
+    color: '#77777B',
   },
 
   /* common */
@@ -79,9 +83,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  marginTop16: {
-    marginTop: 16,
   },
 }))
 

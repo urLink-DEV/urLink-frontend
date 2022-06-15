@@ -23,7 +23,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   searchSelectPaper: {
     padding: '12px 0 12px 0',
-    width: 199,
+    minWidth: 199,
     borderRadius: 8,
 
     '& > .MuiMenu-list': {

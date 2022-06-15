@@ -1,13 +1,11 @@
 import React, { Fragment, useRef, useState, useEffect, useCallback, useMemo } from 'react'
 
 import { Refresh as RefreshIcon } from '@mui/icons-material'
-import { Card, CardContent, CardMedia, IconButton, List, Typography } from '@mui/material'
+import { Card, CardContent, IconButton, List, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
 import clsx from 'clsx'
 import { debounce } from 'lodash'
 
-import linkListSearchEmptyImg from '@assets/images/group-17.png'
-import linkListEmptyImg from '@assets/images/group-19.png'
 import useDebounce from '@hooks/useDebounce'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import ScrollUpButton from '@main/components/ScrollUpButton'
@@ -26,8 +24,8 @@ const { LINK } = DRAG
 const { LINK_DROP_ZONE } = DROP_ZONE
 
 const searchFilterList = [
-  { search: 'text', name: '제목/주소', description: '링크 제목 / 도메인 주소로 검색' },
-  { search: 'date', name: '날짜', description: '날짜를 지정하여 검색' },
+  { search: 'text', name: '제목/주소', description: '방문기록 제목 또는 도메인 주소로 검색' },
+  { search: 'date', name: '날짜', description: '링크에 방문한 날짜로 검색' },
 ]
 
 function DraggableHistoryList() {
@@ -206,16 +204,9 @@ function DraggableHistoryList() {
             ))}
           </List>
         ) : filter.text ? (
-          <div className={clsx(classes.center, classes.marginTop16)}>
-            <CardMedia
-              component="img"
-              className={classes.imgContent}
-              image={linkListSearchEmptyImg}
-              alt="link search list is empty"
-            />
-          </div>
+          <div className={clsx(classes.center, classes.linkListEmpty)}>검색어와 일치하는 검색결과가 없습니다</div>
         ) : (
-          <div className={clsx(classes.center, classes.marginTop16)}>최근에 방문한 기록이 없습니다.</div>
+          <div className={clsx(classes.center, classes.linkListEmpty)}>최근에 방문한 기록이 없습니다.</div>
         )}
       </CardContent>
       <HistoryDragBox ref={dragBoxRef} selectedCount={selectedList.length} />
