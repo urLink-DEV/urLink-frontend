@@ -3,30 +3,73 @@ import { makeStyles } from '@mui/styles'
 const useStyles = makeStyles(() => ({
   logo: {
     width: 95,
-    margin: '28px 5px 28px 20px',
+    margin: '24px 0 28px',
   },
   drawerPaper: {
-    width: 260,
+    width: '100%',
+    height: '100%',
+    padding: '0 28px',
   },
-  layout: {
-    width: 240,
-    margin: '0px auto',
-    padding: '0 10px',
-    backgroundColor: '#fff',
+  categoryContainer: {
+    width: '100%',
+    height: 'calc(100% - 200px)',
     scrollbarWidth: 'none',
     '&::-webkit-scrollbar': {
       display: 'none',
     },
-    height: '100%',
-    overflowY: 'auto',
+    overflowY: 'scroll',
+    borderTop: ({ observerVisible }) => (observerVisible ? 'unset' : '1px solid #C0C0C0'),
   },
-
+  ioBox: {
+    width: '100%',
+    height: 52,
+  },
   flexCenterBackground: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
+  },
+  favoriteList: {
+    padding: 0,
+    marginBottom: 52,
+  },
+  notFavoriteList: {},
+  addCategoryBtn: {
+    height: '120px',
+    width: '100%',
+    borderTop: '1px solid #C0C0C0',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    border: 'unset',
+    borderRadius: 'unset',
+
+    '& > h3': {
+      fontSize: 16,
+      fontWeight: 400,
+      lineHeight: '32px',
+      color: '#666',
+      padding: '4px 16px',
+      borderRadius: 8,
+      justifyContent: 'space-between',
+      display: 'flex',
+      width: '100%',
+    },
+
+    '&:hover': {
+      cursor: 'pointer',
+      backgroundColor: 'transparent',
+      '& > h3': {
+        backgroundColor: '#F2F2F2',
+      },
+    },
+    '&:focus-visible': {
+      outline: 'unset',
+    },
   },
 }))
 

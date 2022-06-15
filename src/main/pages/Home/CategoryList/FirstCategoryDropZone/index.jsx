@@ -11,7 +11,9 @@ function FirstCategoryDropZone({ openDropZone, handleDragDrop, handleDragOverFir
       data-dropzone="first-cateogory-dropzone"
       onDragOver={handleDragOverFirstCategory}
       onDrop={handleDragDrop()}
-    />
+    >
+      <h1 className={classes.title}> 카테고리를 생성해주세요.</h1>
+    </div>
   )
 }
 

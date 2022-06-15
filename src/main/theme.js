@@ -23,7 +23,7 @@ const theme = createTheme({
       black: '#212529',
     },
     primary: {
-      main: '#2083ff',
+      main: '#1D78FF',
     },
   },
   typography: {
@@ -44,7 +44,8 @@ const theme = createTheme({
         button: {
           cursor: pointer;
           outline: 0;
-          border: none;
+          border: unset;
+          background-color: transparent;
         }
       `,
     },

@@ -52,6 +52,9 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: '#FFEDE9',
     borderRadius: 8,
   },
+  refreshBtn: {
+    padding: 6,
+  },
 }))
 
 export default useStyles

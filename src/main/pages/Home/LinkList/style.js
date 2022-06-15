@@ -20,7 +20,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     backgroundColor:
       theme.palette.type !== 'dark' ? theme.palette.colorGroup.lightGrey : theme.palette.background.default,
-    padding: '200px 108px 200px 56px',
+    padding: '172px 108px 172px 56px',
   },
   header: {
     marginBottom: 32,

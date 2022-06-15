@@ -1,26 +1,36 @@
-import green from '@mui/material/colors/green'
 import { makeStyles } from '@mui/styles'
 
-export const useStyles = makeStyles((_theme) => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
     flexShrink: 0,
+    maxWidth: 499,
+    borderRadius: 8,
   },
-  categoryName: {
+  titleContainer: {
+    display: 'flex',
+    alignContent: 'center',
+    justifyContent: 'space-between',
+  },
+  title: {
     fontWeight: 700,
-    fontSize: 28,
-    marginRight: 16,
+    fontSize: 20,
+    color: '#333',
   },
-  editIconActive: {
-    color: green[600],
+  updateBtn: {
+    marginLeft: 10,
   },
-  iconBtn: {
-    color: '#AAAAAA',
-    width: 18,
-    height: 18,
-    padding: 4,
-    marginRight: 10,
+  confirmBtn: {
+    width: 74,
+    height: 38,
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: 8,
+    color: '#fff',
+    fontWeight: 400,
+    fontSize: 14,
+    border: 'unset',
+    cursor: 'pointer',
   },
 }))
 
