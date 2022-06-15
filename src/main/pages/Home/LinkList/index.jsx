@@ -7,7 +7,6 @@ import linkListEmptyImg from '@assets/images/group-11.png'
 import linkListSearchEmptyImg from '@assets/images/group-17.png'
 import CategoryEmptyImg from '@assets/images/group-5.svg'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
-import ScrollUpButton from '@main/components/ScrollUpButton'
 import { useCategories, categorySelector } from '@modules/category'
 import { useLinks, linkSelector, linkClearSelect, linkSearchFilterInit, linksRead, linkCreate } from '@modules/link'
 import { PENDING } from '@modules/pending'
@@ -53,14 +52,6 @@ function LinkList() {
   })
 
   const rootRef = useRef(null)
-  const contentRef = useRef(null)
-  const [showScrollUpButton, setButtonOpen] = useState(null)
-
-  const handleScrollUpBtn = (e) => {
-    const scrollTop = e.currentTarget.scrollTop
-    const clientHeight = e.currentTarget.clientHeight
-    setButtonOpen(scrollTop + clientHeight / 2 > clientHeight)
-  }
 
   useOutsideAlerter(
     rootRef,
@@ -69,7 +60,6 @@ function LinkList() {
   )
 
   useEffect(() => {
-    contentRef.current.scrollTop = 0
     dispatch(linkClearSelect())
   }, [dispatch, links])
 
@@ -95,7 +85,7 @@ function LinkList() {
           <Header links={links} />
         </div>
       )}
-      <div className={classes.content} onScroll={handleScrollUpBtn} ref={contentRef}>
+      <div className={classes.content}>
         {!skeletonLength
           ? null
           : dragData.type === 'link' && createLinksCategoryId === selectedCategory?.id
@@ -123,7 +113,6 @@ function LinkList() {
           ))
         )}
       </div>
-      <ScrollUpButton targetRef={contentRef} open={showScrollUpButton} />
     </Grid>
   )
 }
