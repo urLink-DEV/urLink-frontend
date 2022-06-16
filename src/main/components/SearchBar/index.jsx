@@ -117,8 +117,9 @@ function SearchBar({
         </>
       ) : (
         <InputBase
-          placeholder="찾고 싶은 링크를 검색하세요"
+          className={classes.searchInputBase}
           classes={{ input: classes.searchInput }}
+          placeholder="찾고 싶은 링크를 검색하세요"
           disabled={disabled}
           {...inputProps}
         />

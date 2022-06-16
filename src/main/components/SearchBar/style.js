@@ -37,8 +37,10 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'flex-start',
   },
-  searchInput: {
+  searchInputBase: {
     width: '100%',
+  },
+  searchInput: {
     display: 'flex',
     alignItems: 'center',
 
