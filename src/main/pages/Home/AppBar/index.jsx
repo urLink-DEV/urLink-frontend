@@ -1,47 +1,106 @@
-import React, { useState, useRef, useMemo, Fragment } from 'react'
+import React, { useEffect, useCallback, memo, useState, useMemo, useRef } from 'react'
 
-import { Popover, Badge, List, Avatar, Grid, Drawer } from '@mui/material'
-import { useSelector } from 'react-redux'
+import { Badge, List, Popover, Drawer } from '@mui/material'
+import clsx from 'clsx'
+import { useDispatch, useSelector } from 'react-redux'
 
+import { alarmNoticeSelector } from '@/modules/alarmNotice'
+import { categorySelector } from '@/modules/category'
+import { useHistoryLinks } from '@/modules/historyLink'
+import { uiSelector } from '@/modules/ui'
 import alarmImg from '@assets/images/alarm.png'
 import historyImg from '@assets/images/history.png'
 import personImg from '@assets/images/person.png'
-import { alarmNoticeSelector } from '@modules/alarmNotice'
-import { useHistoryLinks } from '@modules/historyLink'
+import useDebounce from '@hooks/useDebounce'
+import SearchBar from '@main/components/SearchBar'
+import { linkSearchFilterChangeState } from '@modules/link'
 import { GAEvent } from '@utils/ga'
 
 import AlarmList from './AlarmList'
-import DragableHistoryList from './DragableHistoryList'
+import DraggableHistoryList from './DraggableHistoryList'
 import Profile from './Profile'
 import useStyles, { StyledListItem } from './style'
 
+const SEARCH_FILTER_LIST = [
+  { search: 'path', name: '주소', description: '링크 도메인 주소로 검색' },
+  { search: 'title', name: '제목', description: '링크 제목으로 검색' },
+]
+
 function AppBar() {
   const classes = useStyles()
-  const { reload } = useHistoryLinks()
+
+  const dispatch = useDispatch()
+  const category = useSelector(categorySelector.selectedCategory)
   const alarmList = useSelector(alarmNoticeSelector.listData)
+  const isAppBarInversion = useSelector(uiSelector.isAppBarInversion)
+
+  const { reload } = useHistoryLinks()
+
   const notReadAlarmList = useMemo(() => {
     return alarmList?.filter((item) => !item?.alarm_has_read)
   }, [alarmList])
+
   const alarmRef = useRef(null)
   const profileRef = useRef(null)
-  const [historyOpen, setOpenHistory] = useState(false)
-  const [openAlarm, setOpenAlarm] = useState(false)
-  const [openProfile, setOpenProfile] = useState(false)
+
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false)
+  const [isAlarmOpen, setIsAlarmOpen] = useState(false)
+  const [isProfileOpen, setIsProfileOpen] = useState(false)
+
+  const [selectedName, setSelectedName] = useState(SEARCH_FILTER_LIST[0].search)
+  const [keyword, setKeyword] = useState('')
+  const debouncedKeyword = useDebounce(keyword, 250)
+
+  const handleChangeInput = useCallback((e) => {
+    setKeyword(e.target.value)
+  }, [])
+
+  const handleResetInput = useCallback(() => {
+    setKeyword('')
+  }, [])
+
+  const handleSelectName = useCallback(
+    (e) => {
+      handleResetInput()
+      setSelectedName(e.target.value)
+      GAEvent('메인', '검색 주제 바꾸기')
+    },
+    [handleResetInput]
+  )
+
+  useEffect(() => {
+    dispatch(linkSearchFilterChangeState({ selectedName, keyword: debouncedKeyword }))
+  }, [dispatch, selectedName, debouncedKeyword])
 
   return (
-    <Fragment>
-      <Grid container className={classes.appBar}>
-        <List className={classes.toolBar}>
+    <>
+      <div
+        className={clsx(classes.appBar, {
+          [classes.appBarInversion]: isAppBarInversion || isHistoryOpen,
+        })}
+      >
+        <SearchBar
+          inputProps={{
+            value: keyword,
+            onChange: handleChangeInput,
+          }}
+          searchFilterList={SEARCH_FILTER_LIST}
+          selectedName={selectedName}
+          onSelectName={handleSelectName}
+          onReset={handleResetInput}
+          disabled={!category?.id || isHistoryOpen}
+        />
+        <List className={classes.iconButtonGroup}>
           <StyledListItem
             button
             aria-describedby="history-drawer"
             onClick={() => {
               reload()
-              setOpenHistory((open) => !open)
+              setIsHistoryOpen((open) => !open)
               GAEvent('앱바', '방문기록 드로어 버튼 클릭')
             }}
           >
-            <Avatar variant="square" className={classes.imgButton} src={historyImg} alt="history button" />
+            <img className={classes.imgButton} src={historyImg} alt="history drawer icon button" />
           </StyledListItem>
 
           <StyledListItem
@@ -49,7 +108,7 @@ function AppBar() {
             ref={alarmRef}
             aria-describedby="alarm-popover"
             onClick={() => {
-              setOpenAlarm((open) => !open)
+              setIsAlarmOpen((open) => !open)
               GAEvent('앱바', '알람 팝업 버튼 클릭')
             }}
           >
@@ -59,14 +118,14 @@ function AppBar() {
               max={99}
               color="primary"
             >
-              <Avatar variant="square" src={alarmImg} alt="alarm button" className={classes.imgButton} />
+              <img className={classes.imgButton} src={alarmImg} alt="alarm list icon button" />
             </Badge>
             <Popover
               id="alarm-popover"
-              open={openAlarm}
+              open={isAlarmOpen}
               anchorEl={alarmRef.current}
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-              transformOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
             >
               <AlarmList />
             </Popover>
@@ -77,36 +136,36 @@ function AppBar() {
             ref={profileRef}
             aria-describedby="profile-popover"
             onClick={() => {
-              setOpenProfile((open) => !open)
+              setIsProfileOpen((open) => !open)
               GAEvent('앱바', '프로필 팝업 버튼 클릭')
             }}
           >
-            <Avatar variant="square" src={personImg} alt="profile-popover-button" className={classes.imgButton} />
+            <img className={classes.imgButton} src={personImg} alt="profile popover icon button" />
           </StyledListItem>
           <Popover
             id="profile-popover"
-            open={openProfile}
-            onClose={() => setOpenProfile((open) => !open)}
+            open={isProfileOpen}
+            onClose={() => setIsProfileOpen((open) => !open)}
             anchorEl={profileRef.current}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-            transformOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
           >
             <Profile />
           </Popover>
         </List>
-      </Grid>
+      </div>
 
       <Drawer
         className={classes.drawer}
         variant="persistent"
         anchor="right"
-        open={historyOpen}
-        onClose={() => setOpenHistory(false)}
+        open={isHistoryOpen}
+        onClose={() => setIsHistoryOpen(false)}
       >
-        <DragableHistoryList />
+        {isHistoryOpen && <DraggableHistoryList />}
       </Drawer>
-    </Fragment>
+    </>
   )
 }
 
-export default AppBar
+export default memo(AppBar)

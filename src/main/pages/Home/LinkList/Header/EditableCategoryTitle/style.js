@@ -4,22 +4,24 @@ export const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'space-between',
     flexShrink: 0,
     maxWidth: 499,
     borderRadius: 8,
   },
-  titleContainer: {
-    display: 'flex',
-    alignContent: 'center',
-    justifyContent: 'space-between',
-  },
   title: {
     fontWeight: 700,
-    fontSize: 20,
+    fontSize: 28,
     color: '#333',
+  },
+  titleInversion: {
+    fontSize: 16,
   },
   updateBtn: {
     marginLeft: 10,
+  },
+  updateBtnInversion: {
+    opacity: 0,
   },
   confirmBtn: {
     width: 74,

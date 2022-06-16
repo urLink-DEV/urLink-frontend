@@ -12,6 +12,7 @@ export const closeDropZone = createAction(`${UI}/CLOSE_DROP_ZONE`)
 export const closeAllDropZones = createAction(`${UI}/CLOSE_ALL_DROP_ZONES`)
 export const setDrag = createAction(`${UI}/SET_DRAG`)
 export const clearDrag = createAction(`${UI}/CLEAR_DRAG`)
+export const appBarInversionChangeState = createAction(`${UI}/APP_BAR_INVERSION_CHANGE_STATE`)
 
 // Reducer
 const initialState = {
@@ -43,6 +44,7 @@ const initialState = {
       },
     },
   },
+  isAppBarInversion: false,
 }
 export const uiReducer = createReducer(initialState, {
   [openDialog]: (state, { payload }) => {
@@ -88,6 +90,9 @@ export const uiReducer = createReducer(initialState, {
   [clearDrag]: (state) => {
     state.drag = initialState.drag
   },
+  [appBarInversionChangeState]: (state, { payload }) => {
+    state.isAppBarInversion = payload
+  },
 })
 
 // Select
@@ -96,4 +101,5 @@ export const uiSelector = {
   toast: (state) => state[UI].toast,
   dropZones: (state) => state[UI].dropZones,
   drag: (state) => state[UI].drag,
+  isAppBarInversion: (state) => state[UI].isAppBarInversion,
 }

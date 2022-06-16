@@ -1,11 +1,12 @@
 import React, { useCallback, memo, useState, useEffect } from 'react'
 
 import { Button, Toolbar } from '@mui/material'
+import clsx from 'clsx'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { categorySelector, categoriesRead } from '@modules/category'
 import { linkSelector, linkSelectBoxChangeState, linkClearSelect, linksRead, linksRemoveThunk } from '@modules/link'
-import { useToast } from '@modules/ui'
+import { uiSelector, useToast } from '@modules/ui'
 import { createTabList } from '@utils/chromeApis/tab'
 import { GAEvent } from '@utils/ga'
 
@@ -19,6 +20,7 @@ function Header() {
   const selectedCategory = useSelector(categorySelector.selectedCategory)
   const isOpenLinkSelectBox = useSelector(linkSelector.isOpenLinkSelectBox)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
+  const isAppBarInversion = useSelector(uiSelector.isAppBarInversion)
 
   const { openToast } = useToast()
 
@@ -64,11 +66,14 @@ function Header() {
     <Toolbar className={classes.toolbar}>
       <EditableCategoryTitle />
       {!isOpenSelectBox ? (
-        <Button onClick={handleLinksSelectStateOpen} className={classes.selectLinksBtn}>
+        <Button
+          className={clsx(classes.selectLinksBtn, { [classes.selectBoxInversion]: isAppBarInversion })}
+          onClick={handleLinksSelectStateOpen}
+        >
           다중 선택
         </Button>
       ) : (
-        <div className={classes.selectLinksBtnGroup}>
+        <div className={clsx(classes.selectLinksBtnGroup, { [classes.selectBoxInversion]: isAppBarInversion })}>
           <span className={classes.chosenLinks}>{selectedLinkList.length}개 선택</span>
           <Button className={classes.btnInBtnGroup} onClick={handleLinksSelectStateClose}>
             선택 해제

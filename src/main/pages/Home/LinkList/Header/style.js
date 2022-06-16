@@ -5,25 +5,15 @@ export const useStyles = makeStyles((theme) => ({
     paddingLeft: 0,
     paddingRight: 0,
 
+    display: 'flex',
+    justifyContent: 'space-between',
+
     [theme.breakpoints.up('sm')]: {
       height: 40,
     },
   },
-  tabText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    letterSpacing: -0.64,
-    textAlign: 'center',
-  },
-  tabOpenText: {
-    color: theme.palette.primary.main,
-  },
-  tabDeleteText: {
-    color: theme.palette.secondary.main,
-  },
   selectLinksBtn: {
     padding: '8px 20px',
-    marginLeft: 'auto',
     color: '#666666',
     backgroundColor: '#ffffff',
     border: '1px solid #E6E6E6',
@@ -35,6 +25,9 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     fontSize: 14,
     marginLeft: 'auto',
+  },
+  selectBoxInversion: {
+    opacity: 0,
   },
   chosenLinks: {
     marginRight: 8,

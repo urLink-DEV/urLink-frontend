@@ -1,9 +1,10 @@
 import React, { memo, useCallback, useState } from 'react'
 
+import LinkIcon from '@mui/icons-material/Link'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { IconButton, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText } from '@mui/material'
 import clsx from 'clsx'
 
-import linkCopyImg from '@assets/images/link-copy.svg'
 import logoImg from '@assets/images/logo/logo16.png'
 import newTabImg from '@assets/images/new-tab.svg'
 import { useToast } from '@modules/ui'
@@ -63,10 +64,10 @@ function History({ isSelected = false, data = {}, ...props }) {
       />
       <ListItemSecondaryAction className={classes.buttonGroup}>
         <IconButton onClick={handleNewTab} className={classes.iconButton}>
-          <img src={newTabImg} alt="새 창으로 열기" title="새 창으로 열기" />
+          <OpenInNewIcon className={classes.openInNewIcon} alt="새 창으로 열기" />
         </IconButton>
         <IconButton onClick={handleLinkCopy} className={classes.iconButton}>
-          <img src={linkCopyImg} alt="링크 복사 하기" title="링크 복사 하기" />
+          <LinkIcon className={classes.linkIcon} alt="링크 복사 하기" />
         </IconButton>
       </ListItemSecondaryAction>
     </ListItem>

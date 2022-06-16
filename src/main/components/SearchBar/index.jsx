@@ -1,18 +1,29 @@
 import React, { useState, useRef, useCallback } from 'react'
 
+import CancelIcon from '@mui/icons-material/Cancel'
 import SearchIcon from '@mui/icons-material/Search'
-import CalendarPicker from '@mui/lab/CalendarPicker'
+import { CalendarPicker } from '@mui/lab'
+import { IconButton, Typography } from '@mui/material'
 import Button from '@mui/material/Button'
-import Container from '@mui/material/Container'
 import Divider from '@mui/material/Divider'
 import InputBase from '@mui/material/InputBase'
 import MenuItem from '@mui/material/MenuItem'
 import Popover from '@mui/material/Popover'
 import Select from '@mui/material/Select'
+import clsx from 'clsx'
 
 import useStyles from './style'
 
-function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, onChangeDate, selectedDate }) {
+function SearchBar({
+  inputProps,
+  searchFilterList,
+  selectedName,
+  onSelectName,
+  onChangeDate,
+  onReset,
+  selectedDate,
+  disabled,
+}) {
   const classes = useStyles()
 
   const pickerRef = useRef(null)
@@ -26,44 +37,61 @@ function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, o
     [onChangeDate, openPicker]
   )
 
+  const handleCancelSearch = useCallback(() => {
+    onReset()
+  }, [onReset])
+
   return (
-    <Container className={classes.searchBar}>
-      <SearchIcon className={classes.searchIcon} />
-      <Divider className={classes.divider} orientation="vertical" flexItem={true} />
+    <div
+      className={clsx(classes.searchBar, {
+        [classes.searchBarDisabled]: disabled,
+      })}
+    >
       <Select
-        className={classes.inputSelect}
         variant="standard"
         disableUnderline={true}
         MenuProps={{
-          getcontentanchorel: null,
           anchorOrigin: {
             vertical: 'bottom',
-            horizontal: 'center',
+            horizontal: 'right',
           },
           transformOrigin: {
             vertical: 'top',
             horizontal: 'center',
           },
+          PaperProps: {
+            className: classes.searchSelectPaper,
+          },
         }}
+        className={classes.searchSelect}
+        disabled={disabled}
         value={selectedName}
         onChange={onSelectName}
+        renderValue={(selected) => searchFilterList?.find((searchFilter) => searchFilter.search === selected)?.name}
       >
-        {searchFilterList?.map(({ search, name }) => (
-          <MenuItem className={classes.menuItem} key={search} value={search}>
-            {name}
+        {searchFilterList?.map(({ search, name, description }) => (
+          <MenuItem className={classes.searchSelectItem} key={search} value={search}>
+            <Typography fontSize={14} fontWeight={400} lineHeight={'20px'} color={'#666666'}>
+              {name}
+            </Typography>
+            <Typography fontSize={14} fontWeight={400} lineHeight={'20px'} color={'#999999'}>
+              {description}
+            </Typography>
           </MenuItem>
         ))}
       </Select>
-      <Divider className={classes.divider} orientation="vertical" flexItem={true} />
+      <Divider className={classes.divider} orientation="vertical" />
+      <SearchIcon className={classes.searchIcon} />
       {selectedName === 'date' ? (
         <>
           <Button
             className={classes.pickerBtn}
             ref={pickerRef}
             aria-describedby="calendar-popover"
+            disabled={disabled}
             onClick={() => setOpenPicker((open) => !open)}
           >
-            {selectedDate ? new Date(selectedDate).toLocaleDateString() : '날짜를 검색하려면 클릭하세요'}
+            {selectedDate ? selectedDate.format('YYYY-MM-DD') : '날짜를 검색하려면 클릭하세요'}
           </Button>
           <Popover
             id="calendar-popover"
@@ -90,13 +118,18 @@ function SearchBar({ inputProps, searchFilterList, onSelectName, selectedName, o
       ) : (
         <InputBase
           className={classes.searchInputBase}
-          placeholder="웹사이트 주소나 제목을 검색하세요"
           classes={{ input: classes.searchInput }}
-          inputProps={{ 'aria-label': 'search' }}
+          placeholder="찾고 싶은 링크를 검색하세요"
+          disabled={disabled}
           {...inputProps}
         />
       )}
-    </Container>
+      {(inputProps?.value || selectedDate) && (
+        <IconButton className={classes.searchInputCancel} onClick={handleCancelSearch}>
+          <CancelIcon />
+        </IconButton>
+      )}
+    </div>
   )
 }
 

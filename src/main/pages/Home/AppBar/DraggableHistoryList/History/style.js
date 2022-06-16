@@ -2,41 +2,46 @@ import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
-    margin: '13px 0',
-    padding: 1,
+    margin: '10px 0',
+    padding: '2px 253px 2px 16px',
 
-    border: 'solid 1px rgba(32, 131, 255, 0)',
+    width: 583,
+    height: 36,
+
     borderRadius: 4,
     backgroundColor: theme.palette.background.paper,
-    boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.12)',
 
     '& .Mui-focusVisible': {
       backgroundColor: 'transparent',
     },
     '&:hover': {
-      boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 5px 12px 0 rgba(0, 0, 0, 0.12)',
+      backgroundColor: '#F2F2F2',
       '& > $buttonGroup': {
         visibility: 'inherit',
       },
     },
   },
   selected: {
-    border: 'solid 1px rgba(32, 131, 255, 1)',
+    backgroundColor: '#E8F1FF',
   },
   listButton: {
-    padding: '3px 12px 3px 12px',
-    width: '100%',
+    padding: '1px 0 0 0',
+    width: 555,
+
     '& .MuiListItemIcon-root': {
-      minWidth: 16,
-      marginRight: 12,
+      minWidth: 14,
+      marginRight: 17,
     },
     '& .MuiListItemText-primary': {
       display: 'flex',
     },
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
   },
   favicon: {
-    width: 16,
-    height: 16,
+    width: 14,
+    height: 14,
   },
   mainFont: {
     display: 'inline-block',
@@ -44,12 +49,13 @@ const useStyles = makeStyles((theme) => ({
 
     overflow: 'hidden',
 
-    width: 295,
-    marginRight: 12,
+    width: 266,
+    marginRight: 16,
 
-    color: theme.palette.text.primary,
+    color: theme.palette.text.secondary,
 
     fontSize: 14,
+    fontWeight: 400,
     letterSpacing: -0.44,
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
@@ -62,18 +68,34 @@ const useStyles = makeStyles((theme) => ({
 
     width: 157,
 
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.description,
 
     fontSize: 14,
+    fontWeight: 400,
     letterSpacing: -0.6,
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
   },
   buttonGroup: {
     visibility: 'hidden',
+
+    display: 'flex',
+    gap: 7,
   },
   iconButton: {
-    padding: 5,
+    padding: 7,
+
+    width: 25,
+    height: 25,
+    borderRadius: 4,
+    backgroundColor: '#FFFFFF',
+    color: '#666666',
+  },
+  openInNewIcon: {
+    width: 11.11,
+  },
+  linkIcon: {
+    width: 16.67,
   },
 }))
 

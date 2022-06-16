@@ -20,9 +20,13 @@ export const useStyles = makeStyles((theme) => ({
     },
     backgroundColor:
       theme.palette.type !== 'dark' ? theme.palette.colorGroup.lightGrey : theme.palette.background.default,
-    padding: '172px 108px 172px 56px',
+    padding: '80px 108px 172px 56px',
   },
   header: {
+    position: 'sticky',
+    top: 8,
+    zIndex: 101,
+
     marginBottom: 32,
     [theme.breakpoints.up('sm')]: {
       width: '100%',
@@ -61,7 +65,7 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 'calc(100vh - 112px);',
+    minHeight: 'calc(100vh - 280.65px);',
   },
 }))
 

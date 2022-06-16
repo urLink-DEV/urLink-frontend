@@ -3,19 +3,21 @@ import React from 'react'
 import CreateIcon from '@mui/icons-material/Create'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
+import clsx from 'clsx'
 import { useSelector, useDispatch } from 'react-redux'
-import * as yup from 'yup'
 
-import { MODAL_NAME, useDialog } from '@/modules/ui'
+import { MODAL_NAME, uiSelector, useDialog } from '@/modules/ui'
 import { categoryEdit, categorySelector } from '@modules/category'
 import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 
 function EditableCategoryTitle() {
+  const classes = useStyles()
+
   const dispatch = useDispatch()
   const category = useSelector(categorySelector.selectedCategory)
-  const classes = useStyles()
+  const isAppBarInversion = useSelector(uiSelector.isAppBarInversion)
 
   const { toggle: updateCategoryToggle } = useDialog(MODAL_NAME.UPDATE_CATEGORY_MODAL)
 
@@ -30,18 +32,20 @@ function EditableCategoryTitle() {
 
   return (
     <div className={classes.root}>
-      <div className={classes.titleContainer}>
-        <Typography variant="h6" component="span" className={classes.title}>
-          {category?.name}
-        </Typography>
-        <IconButton
-          aria-label="카테고리 제목 수정 모달 팝업"
-          onClick={handleClickChangeName}
-          className={classes.updateBtn}
-        >
-          <CreateIcon fontSize="small" />
-        </IconButton>
-      </div>
+      <Typography
+        variant="h6"
+        component="span"
+        className={clsx(classes.title, { [classes.titleInversion]: isAppBarInversion })}
+      >
+        {category?.name}
+      </Typography>
+      <IconButton
+        aria-label="카테고리 제목 수정 모달 팝업"
+        onClick={handleClickChangeName}
+        className={clsx(classes.updateBtn, { [classes.updateBtnInversion]: isAppBarInversion })}
+      >
+        <CreateIcon fontSize="small" />
+      </IconButton>
     </div>
   )
 }

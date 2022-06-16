@@ -4,9 +4,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
 
-    width: 700,
-    height: '100vh',
-    // padding: '20px 24px 22px 24px',
+    width: 656,
+    height: 'calc(100vh - 72px);',
 
     backgroundColor:
       theme.palette.type !== 'dark' ? theme.palette.colorGroup.lightGrey : theme.palette.background.default,
@@ -16,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
 
-    padding: '16px 16px 10px 16px',
+    padding: '17px 36px',
   },
   mainText: {
     marginRight: 10,
@@ -25,48 +24,65 @@ const useStyles = makeStyles((theme) => ({
 
     backgroundColor: 'transparent',
 
-    fontSize: '20pt',
-    fontWeight: 'bold',
+    fontWeight: 700,
+    fontSize: 20,
+    color: '#333333',
   },
   reloadIcon: {
+    width: 16,
+    height: 16,
     padding: 0,
+    color: '#666666',
   },
-  tabOpenButton: {
-    marginLeft: 10,
-    marginTop: 10,
-    padding: 0,
-    backgroundColor: 'transparent',
+  headerButtonGroup: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
   },
-  tabOpenText: {
-    color: theme.palette.primary.main,
+  headerSelectedLinkText: {
+    color: '#747778',
 
+    fontWeight: 400,
     fontSize: 14,
-    fontWeight: 'bold',
-    letterSpacing: -0.64,
-    textAlign: 'center',
+    lineHeight: '30px',
+  },
+  headerButton: {
+    padding: '12px 24px',
+
+    backgroundColor: '#EDF0FF',
+    borderRadius: 8,
+  },
+  headerButtonText: {
+    color: '#0058CB',
+
+    fontWeight: 400,
+    fontSize: 14,
+    lineHeight: '14px',
   },
   content: {
     overflowY: 'scroll',
     overflowX: 'hidden',
 
     height: '100%',
-    paddingTop: 0,
+    padding: '12px 36px 0px',
   },
-  imgContent: {
-    width: 'auto',
+  linkListEmpty: {
+    marginTop: 80,
+    fontWeight: 400,
+    fontSize: 20,
+    lineHeight: '14px',
+    color: '#77777B',
   },
 
   /* common */
   rowSpread: {
     display: 'flex',
+    alignItems: 'center',
   },
   center: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  marginTop16: {
-    marginTop: 16,
   },
 }))
 

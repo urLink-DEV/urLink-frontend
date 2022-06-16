@@ -3,65 +3,86 @@ import { makeStyles } from '@mui/styles'
 export const useStyles = makeStyles((theme) => ({
   searchBar: {
     display: 'flex',
-    width: 410,
-    padding: 0,
-    margin: 'auto 0 auto auto',
-    borderRadius: 20,
-    backgroundColor: 'white',
-    border: theme.spacing(0.5, 0),
+    gap: 3,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
 
-    '& > .MuiInput-underline:before': {
-      left: 0,
-      right: 0,
-      bottom: 0,
-      position: 'absolute',
-      transition: 'border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-      borderBottom: '0px',
-      pointerEvents: 'none',
+    width: 380,
+    height: 38,
+    padding: '0px 40px 0px 16px',
+    backgroundColor: '#F3F3F3',
+    borderRadius: 8,
+  },
+  searchBarDisabled: {
+    opacity: 0.4,
+  },
+  searchSelect: {
+    paddingRight: '12px',
+    fontSize: 14,
+  },
+  searchSelectPaper: {
+    padding: '12px 0 12px 0',
+    minWidth: 199,
+    borderRadius: 8,
+
+    '& > .MuiMenu-list': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 10,
     },
+  },
+  searchSelectItem: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
   },
   searchInputBase: {
-    width: '65%',
+    width: '100%',
   },
   searchInput: {
-    width: 250,
-    color: 'black',
-    paddingLeft: theme.spacing(1),
-  },
-  inputSelect: {
-    width: '25%',
+    display: 'flex',
+    alignItems: 'center',
+
+    fontWeight: 400,
     fontSize: 14,
-    '& > .MuiSelect-select.MuiSelect-select': {
-      width: 70,
-      paddingLeft: 10,
-    },
-    '& > .MuiSelect-iconStandard': {
-      right: 0,
-    },
-  },
-  menuItem: {
-    fontSize: 14,
-    padding: theme.spacing(0, 1.5),
+    lineHeight: 14,
+
+    color: '#777777',
   },
   divider: {
-    margin: theme.spacing(0.5, 0),
+    height: 31,
   },
   pickerBtn: {
-    color: '#2083FF',
-    textDecoration: 'underline',
-    fontSize: '1rem',
+    color: theme.palette.primary.main,
+    fontWeight: 400,
+    fontSize: 14,
+
+    width: '100%',
+    borderBottom: '1px solid',
+    borderRadius: 0,
+
     '&:hover': {
-      color: '#2083FF',
-      textDecoration: 'underline',
+      color: theme.palette.primary.main,
     },
   },
   datePicker: {
     width: 320,
   },
   searchIcon: {
-    width: '10%',
-    color: '#CCCCCC',
-    margin: '7px 0 7px 7px',
+    margin: '11px 10px',
+    width: 16,
+    height: 16,
+    color: '#777777',
+  },
+  searchInputCancel: {
+    position: 'relative',
+    top: 0,
+    right: -31,
+
+    width: 24,
+    height: 24,
+    color: '#6b6b6f',
   },
 }))
 
