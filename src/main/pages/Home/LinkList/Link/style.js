@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
     width: 300,
     height: 348,
     marginTop: 20,
+    boxShadow: 'none',
 
     '&:hover': {
       transform: 'translateY(-12px)',
