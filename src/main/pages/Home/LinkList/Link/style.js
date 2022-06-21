@@ -106,7 +106,10 @@ const useStyles = makeStyles((theme) => ({
     lineClamp: 3,
   },
   cardActions: {
-    padding: '0 16px 20px 16px',
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    padding: '0 16px 16px 16px',
   },
   copyIcon: {
     width: 18,

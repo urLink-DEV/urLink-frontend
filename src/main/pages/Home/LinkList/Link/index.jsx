@@ -8,7 +8,6 @@ import FavoriteIcon from '@mui/icons-material/FavoriteBorderOutlined'
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined'
 import Backdrop from '@mui/material/Backdrop'
 import Card from '@mui/material/Card'
-import CardActionArea from '@mui/material/CardActionArea'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
@@ -41,6 +40,7 @@ import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 
+const LINK_DEFAULT_IMG_SRC = 'https://urlink.s3.ap-northeast-2.amazonaws.com/static/404-image-20210113.png'
 const LINK_SCHEMA = yup.object({
   title: yup.string(),
   description: yup.string(),
@@ -56,6 +56,7 @@ function Link({ data }) {
   const isOpenLinkSelectBox = useSelector(linkSelector.isOpenLinkSelectBox)
   const {
     register,
+    control,
     handleSubmit: checkSubmit,
     reset,
   } = useForm({
@@ -230,7 +231,9 @@ function Link({ data }) {
       {isOpenLinkSelectBox && (
         <Checkbox label={`selected-${data.id}`} className={classes.checkbox} checked={isChecked} />
       )}
-      <CardMedia component="img" height="120" image={data.image_path} alt={data.title} />
+      {data.image_path !== LINK_DEFAULT_IMG_SRC && (
+        <CardMedia component="img" height="120" image={data.image_path} alt={data.title} />
+      )}
       <CardContent className={classes.cardContent}>
         <div className={classes.urlBox}>
           <img

@@ -4,6 +4,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     width: 300,
     height: 348,
+    marginTop: 20,
     boxShadow: 'none',
   },
   cardContent: {
