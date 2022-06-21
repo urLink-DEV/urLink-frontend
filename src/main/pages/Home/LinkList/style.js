@@ -6,6 +6,7 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    height: 'max-content',
     [theme.breakpoints.up('sm')]: {
       width: '100%',
     },
@@ -46,7 +47,6 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-start',
     flexFlow: 'row wrap',
     gap: 36,
-    minHeight: 'calc(100vh - 61px);',
     margin: '0',
     [theme.breakpoints.up('sm')]: {
       width: '100%',
@@ -63,9 +63,26 @@ export const useStyles = makeStyles((theme) => ({
   },
   center: {
     display: 'flex',
-    justifyContent: 'center',
+    flexDirection: 'column',
     alignItems: 'center',
-    minHeight: 'calc(100vh - 280.65px);',
+    width: '100%',
+    height: 482,
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+  },
+  centerFont: {
+    height: 40,
+    fontWeight: 400,
+    fontSize: 20,
+    lineHeight: 36,
+    color: '#77777B',
+  },
+  centerSubFont: {
+    height: 25,
+    fontWeight: 300,
+    fontSize: 16,
+    lineHeight: 22,
+    color: '#77777B',
   },
 }))
 
