@@ -2,15 +2,13 @@ import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    width: 208,
-    height: 241,
-  },
-  media: {
-    width: '100%',
-    height: 120,
+    width: 300,
+    height: 348,
+    marginTop: 20,
+    boxShadow: 'none',
   },
   cardContent: {
-    padding: 5,
+    padding: '12px 16px',
     '& span': {
       transform: 'scale(1.0)',
     },

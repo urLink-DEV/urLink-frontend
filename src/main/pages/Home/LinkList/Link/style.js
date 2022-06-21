@@ -10,10 +10,12 @@ const useStyles = makeStyles((theme) => ({
     width: 300,
     height: 348,
     marginTop: 20,
+    boxShadow: 'none',
 
     '&:hover': {
       transform: 'translateY(-12px)',
       transition: 'transform 0.5s',
+      cursor: 'pointer',
     },
   },
   selectedCard: {
@@ -65,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     overflow: 'hidden',
     fontSize: 16,
+    padding: '4px 8px',
     marginBottom: 4,
     backgroundColor: '#F6F6F6',
     borderRadius: 4,
@@ -78,6 +81,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     whiteSpace: 'pre-line',
     lineClamp: 3,
+    padding: '4px 8px',
     backgroundColor: '#F6F6F6',
     borderRadius: 4,
   },
@@ -104,7 +108,10 @@ const useStyles = makeStyles((theme) => ({
     lineClamp: 3,
   },
   cardActions: {
-    padding: '0 16px 20px 16px',
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    padding: '0 16px 16px 16px',
   },
   copyIcon: {
     width: 18,

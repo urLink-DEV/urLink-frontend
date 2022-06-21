@@ -8,7 +8,6 @@ import FavoriteIcon from '@mui/icons-material/FavoriteBorderOutlined'
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined'
 import Backdrop from '@mui/material/Backdrop'
 import Card from '@mui/material/Card'
-import CardActionArea from '@mui/material/CardActionArea'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
@@ -41,6 +40,7 @@ import { GAEvent } from '@utils/ga'
 
 import useStyles from './style'
 
+const LINK_DEFAULT_IMG_SRC = 'https://urlink.s3.ap-northeast-2.amazonaws.com/static/404-image-20210113.png'
 const LINK_SCHEMA = yup.object({
   title: yup.string(),
   description: yup.string(),
@@ -56,6 +56,7 @@ function Link({ data }) {
   const isOpenLinkSelectBox = useSelector(linkSelector.isOpenLinkSelectBox)
   const {
     register,
+    control,
     handleSubmit: checkSubmit,
     reset,
   } = useForm({
@@ -106,10 +107,11 @@ function Link({ data }) {
   const handleNewTab = useCallback(
     (e) => {
       e.stopPropagation()
+      if (isEditable) return
       createTab(data.path)
       GAEvent('메인', '링크 새 탭 열기 버튼 클릭')
     },
-    [data.path]
+    [isEditable, data.path]
   )
 
   const handleToggleFavorite = useCallback(
@@ -136,6 +138,7 @@ function Link({ data }) {
       e.stopPropagation()
       copyLink(data.path)
       openToast({ type: 'success', message: '링크가 복사 되었습니다.' })
+      setOpenMore(false)
       GAEvent('메인', '링크 복사 버튼 클릭')
     },
     [data.path, openToast]
@@ -161,6 +164,8 @@ function Link({ data }) {
       )
       dispatch(linksRead.request({ categoryId: data.category }, { key: data.category }))
       openToast({ type: 'success', message: '알람이 설정 되었습니다.' })
+      setShowAlarmModal(false)
+      setOpenMore(false)
       GAEvent('메인', '알람 설정 완료')
     } catch (error) {
       openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
@@ -223,44 +228,44 @@ function Link({ data }) {
       onClick={isOpenLinkSelectBox ? handleSelectedLinkCard : handleNewTab}
       ref={rootRef}
     >
-      <CardActionArea>
-        {isOpenLinkSelectBox && (
-          <Checkbox label={`selected-${data.id}`} className={classes.checkbox} checked={isChecked} />
-        )}
+      {isOpenLinkSelectBox && (
+        <Checkbox label={`selected-${data.id}`} className={classes.checkbox} checked={isChecked} />
+      )}
+      {data.image_path !== LINK_DEFAULT_IMG_SRC && (
         <CardMedia component="img" height="120" image={data.image_path} alt={data.title} />
-        <CardContent className={classes.cardContent}>
-          <div className={classes.urlBox}>
-            <img
-              className={classes.urlFavicon}
-              onError={() => setFaviconLink(LogoImg)}
-              src={faviconLink}
-              alt={data.title}
+      )}
+      <CardContent className={classes.cardContent}>
+        <div className={classes.urlBox}>
+          <img
+            className={classes.urlFavicon}
+            onError={() => setFaviconLink(LogoImg)}
+            src={faviconLink}
+            alt={data.title}
+          />
+          <span className={classes.urlSubFont}>{hostname}</span>
+        </div>
+        {isEditable ? (
+          <>
+            <InputBase className={classes.contentTitleEditable} name="title" rows={2} multiline inputRef={register} />
+            <InputBase
+              className={classes.contentDescEditable}
+              name="description"
+              rows={3}
+              multiline
+              inputRef={register}
             />
-            <span className={classes.urlSubFont}>{hostname}</span>
-          </div>
-          {isEditable ? (
-            <>
-              <InputBase className={classes.contentTitleEditable} name="title" rows={2} multiline inputRef={register} />
-              <InputBase
-                className={classes.contentDescEditable}
-                name="description"
-                rows={3}
-                multiline
-                inputRef={register}
-              />
-            </>
-          ) : (
-            <>
-              <Typography className={classes.contentTitle} variant="h6" component="p">
-                {data.title}
-              </Typography>
-              <Typography className={classes.contentDesc} color="textSecondary" variant="body2" component="p">
-                {data.description}
-              </Typography>
-            </>
-          )}
-        </CardContent>
-      </CardActionArea>
+          </>
+        ) : (
+          <>
+            <Typography className={classes.contentTitle} variant="h6" component="p">
+              {data.title}
+            </Typography>
+            <Typography className={classes.contentDesc} color="textSecondary" variant="body2" component="p">
+              {data.description}
+            </Typography>
+          </>
+        )}
+      </CardContent>
       <CardActions className={classes.cardActions} disableSpacing onClick={(e) => e.stopPropagation()}>
         {!isEditable ? (
           <>

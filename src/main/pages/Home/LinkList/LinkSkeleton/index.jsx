@@ -11,12 +11,12 @@ function LinkSkeleton() {
 
   return (
     <Card className={classes.card}>
-      <Skeleton animation="wave" variant="rect" className={classes.media} />
+      <Skeleton animation="wave" variant="rect" height={120} sx={{ bgcolor: '#F2F2F2' }} />
 
       <CardContent className={classes.cardContent}>
-        <Skeleton animation="wave" height={20} width="100%" />
-        <Skeleton animation="wave" height={45} width="100%" style={{ margin: '5px 0 12px' }} />
-        <Skeleton animation="wave" height={25} width="100%" />
+        <Skeleton animation="wave" height={20} sx={{ bgcolor: '#F2F2F2' }} />
+        <Skeleton animation="wave" height={128} sx={{ bgcolor: '#F2F2F2', margin: '8px 0 16px' }} />
+        <Skeleton animation="wave" height={28} sx={{ bgcolor: '#F2F2F2' }} />
       </CardContent>
     </Card>
   )

@@ -1,11 +1,8 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
 
-import linkListEmptyImg from '@assets/images/group-11.png'
-import linkListSearchEmptyImg from '@assets/images/group-17.png'
-import CategoryEmptyImg from '@assets/images/group-5.svg'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import { useCategories, categorySelector } from '@modules/category'
 import { useLinks, linkSelector, linkClearSelect, linkSearchFilterInit, linksRead, linkCreate } from '@modules/link'
@@ -79,7 +76,7 @@ function LinkList() {
   }, [dragData, linkCreatePending, linksReadPending])
 
   return (
-    <Grid container direction="column" className={classes.root} ref={rootRef}>
+    <Grid className={classes.root} ref={rootRef}>
       {!!selectedCategory?.id && (
         <div className={classes.header}>
           <Header links={links} />
@@ -95,24 +92,28 @@ function LinkList() {
         {links?.map((data) => (
           <Link key={data.id} data={data} />
         ))}
-
-        {categories.length === CATEGORY_EMPTY ? (
-          <Grid item xs={12} className={classes.center}>
-            <img src={CategoryEmptyImg} alt="카테고리 비어 있음" />
-          </Grid>
-        ) : (
-          links.length === LINK_EMPTY &&
-          (skeletonLength ? null : searchFilter.keyword && SEARCH_LINK_EMPTY ? (
-            <Grid item xs={12} className={classes.center}>
-              <img src={linkListSearchEmptyImg} alt="검색 조회 없음" />
-            </Grid>
-          ) : (
-            <Grid item xs={12} className={classes.center}>
-              <img src={linkListEmptyImg} alt="링크 비어 있음" />
-            </Grid>
-          ))
-        )}
       </div>
+
+      {categories.length === CATEGORY_EMPTY ? (
+        <div className={classes.center}>
+          <Typography className={classes.centerFont}>생성하신 카테고리가 없습니다</Typography>
+          <Typography className={classes.centerSubFont}>링크 보관을 위해 새로운 카테고리를 생성해주세요.</Typography>
+        </div>
+      ) : (
+        links.length === LINK_EMPTY &&
+        (skeletonLength ? null : searchFilter.keyword && SEARCH_LINK_EMPTY ? (
+          <div className={classes.center}>
+            <Typography className={classes.centerFont}>검색어와 일치하는 검색 결과가 없습니다</Typography>
+          </div>
+        ) : (
+          <div className={classes.center}>
+            <Typography className={classes.centerFont}>카테고리에 담은 링크가 없습니다</Typography>
+            <Typography className={classes.centerSubFont}>
+              방문기록을 열어 보관할 링크를 선택하고 카테고리에 끌어다 놓으세요.
+            </Typography>
+          </div>
+        ))
+      )}
     </Grid>
   )
 }
