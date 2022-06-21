@@ -137,6 +137,7 @@ function Link({ data }) {
       e.stopPropagation()
       copyLink(data.path)
       openToast({ type: 'success', message: '링크가 복사 되었습니다.' })
+      setOpenMore(false)
       GAEvent('메인', '링크 복사 버튼 클릭')
     },
     [data.path, openToast]
@@ -163,6 +164,7 @@ function Link({ data }) {
       dispatch(linksRead.request({ categoryId: data.category }, { key: data.category }))
       openToast({ type: 'success', message: '알람이 설정 되었습니다.' })
       setShowAlarmModal(false)
+      setOpenMore(false)
       GAEvent('메인', '알람 설정 완료')
     } catch (error) {
       openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
