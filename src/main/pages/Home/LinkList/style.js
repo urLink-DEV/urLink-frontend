@@ -65,6 +65,7 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
     width: '100%',
     height: 482,
     backgroundColor: '#ffffff',
@@ -74,14 +75,12 @@ export const useStyles = makeStyles((theme) => ({
     height: 40,
     fontWeight: 400,
     fontSize: 20,
-    lineHeight: 36,
     color: '#77777B',
   },
   centerSubFont: {
     height: 25,
     fontWeight: 300,
     fontSize: 16,
-    lineHeight: 22,
     color: '#77777B',
   },
 }))
