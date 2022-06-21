@@ -3,9 +3,6 @@ import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { Grid, Typography } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
 
-import linkListEmptyImg from '@assets/images/group-11.png'
-import linkListSearchEmptyImg from '@assets/images/group-17.png'
-import CategoryEmptyImg from '@assets/images/group-5.svg'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
 import { useCategories, categorySelector } from '@modules/category'
 import { useLinks, linkSelector, linkClearSelect, linkSearchFilterInit, linksRead, linkCreate } from '@modules/link'
@@ -79,7 +76,7 @@ function LinkList() {
   }, [dragData, linkCreatePending, linksReadPending])
 
   return (
-    <div className={classes.root} ref={rootRef}>
+    <Grid className={classes.root} ref={rootRef}>
       {!!selectedCategory?.id && (
         <div className={classes.header}>
           <Header links={links} />
@@ -117,7 +114,7 @@ function LinkList() {
           </div>
         ))
       )}
-    </div>
+    </Grid>
   )
 }
 
