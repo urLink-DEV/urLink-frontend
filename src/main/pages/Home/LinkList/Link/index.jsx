@@ -106,10 +106,11 @@ function Link({ data }) {
   const handleNewTab = useCallback(
     (e) => {
       e.stopPropagation()
+      if (isEditable) return
       createTab(data.path)
       GAEvent('메인', '링크 새 탭 열기 버튼 클릭')
     },
-    [data.path]
+    [isEditable, data.path]
   )
 
   const handleToggleFavorite = useCallback(
@@ -223,44 +224,42 @@ function Link({ data }) {
       onClick={isOpenLinkSelectBox ? handleSelectedLinkCard : handleNewTab}
       ref={rootRef}
     >
-      <CardActionArea>
-        {isOpenLinkSelectBox && (
-          <Checkbox label={`selected-${data.id}`} className={classes.checkbox} checked={isChecked} />
-        )}
-        <CardMedia component="img" height="120" image={data.image_path} alt={data.title} />
-        <CardContent className={classes.cardContent}>
-          <div className={classes.urlBox}>
-            <img
-              className={classes.urlFavicon}
-              onError={() => setFaviconLink(LogoImg)}
-              src={faviconLink}
-              alt={data.title}
+      {isOpenLinkSelectBox && (
+        <Checkbox label={`selected-${data.id}`} className={classes.checkbox} checked={isChecked} />
+      )}
+      <CardMedia component="img" height="120" image={data.image_path} alt={data.title} />
+      <CardContent className={classes.cardContent}>
+        <div className={classes.urlBox}>
+          <img
+            className={classes.urlFavicon}
+            onError={() => setFaviconLink(LogoImg)}
+            src={faviconLink}
+            alt={data.title}
+          />
+          <span className={classes.urlSubFont}>{hostname}</span>
+        </div>
+        {isEditable ? (
+          <>
+            <InputBase className={classes.contentTitleEditable} name="title" rows={2} multiline inputRef={register} />
+            <InputBase
+              className={classes.contentDescEditable}
+              name="description"
+              rows={3}
+              multiline
+              inputRef={register}
             />
-            <span className={classes.urlSubFont}>{hostname}</span>
-          </div>
-          {isEditable ? (
-            <>
-              <InputBase className={classes.contentTitleEditable} name="title" rows={2} multiline inputRef={register} />
-              <InputBase
-                className={classes.contentDescEditable}
-                name="description"
-                rows={3}
-                multiline
-                inputRef={register}
-              />
-            </>
-          ) : (
-            <>
-              <Typography className={classes.contentTitle} variant="h6" component="p">
-                {data.title}
-              </Typography>
-              <Typography className={classes.contentDesc} color="textSecondary" variant="body2" component="p">
-                {data.description}
-              </Typography>
-            </>
-          )}
-        </CardContent>
-      </CardActionArea>
+          </>
+        ) : (
+          <>
+            <Typography className={classes.contentTitle} variant="h6" component="p">
+              {data.title}
+            </Typography>
+            <Typography className={classes.contentDesc} color="textSecondary" variant="body2" component="p">
+              {data.description}
+            </Typography>
+          </>
+        )}
+      </CardContent>
       <CardActions className={classes.cardActions} disableSpacing onClick={(e) => e.stopPropagation()}>
         {!isEditable ? (
           <>

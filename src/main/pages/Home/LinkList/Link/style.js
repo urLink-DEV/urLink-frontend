@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       transform: 'translateY(-12px)',
       transition: 'transform 0.5s',
+      cursor: 'pointer',
     },
   },
   selectedCard: {
