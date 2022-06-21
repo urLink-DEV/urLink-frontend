@@ -70,6 +70,18 @@ export const useStyles = makeStyles((theme) => ({
     height: 482,
     backgroundColor: '#ffffff',
     borderRadius: 8,
+    [theme.breakpoints.up('sm')]: {
+      width: '100%',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: 636,
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: 972,
+    },
+    [theme.breakpoints.up('xl')]: {
+      width: 1308,
+    },
   },
   centerFont: {
     height: 40,
