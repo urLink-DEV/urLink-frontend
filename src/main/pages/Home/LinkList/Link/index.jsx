@@ -162,6 +162,7 @@ function Link({ data }) {
       )
       dispatch(linksRead.request({ categoryId: data.category }, { key: data.category }))
       openToast({ type: 'success', message: '알람이 설정 되었습니다.' })
+      setShowAlarmModal(false)
       GAEvent('메인', '알람 설정 완료')
     } catch (error) {
       openToast({ type: 'error', message: error?.response?.data?.message || '네트워크 오류!!' })
