@@ -157,9 +157,6 @@ function DraggableHistoryList() {
       <div className={classes.header}>
         <div className={classes.rowSpread}>
           <Typography className={classes.mainText}>방문기록</Typography>
-          <IconButton className={classes.reloadIcon} onClick={handleReload}>
-            <RefreshIcon />
-          </IconButton>
         </div>
         {!selectedList.length ? (
           <SearchBar
