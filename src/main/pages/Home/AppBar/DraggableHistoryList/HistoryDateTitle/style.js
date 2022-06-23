@@ -20,9 +20,10 @@ const useStyles = makeStyles((theme) => ({
   },
   line: {
     width: 575,
+    height: 0.5,
 
     display: 'inline-block',
-    border: '0.5px solid #C3C3C3',
+    background: '#C3C3C3',
   },
 }))
 
