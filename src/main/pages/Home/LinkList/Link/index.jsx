@@ -270,10 +270,10 @@ function Link({ data }) {
         {!isEditable ? (
           <>
             <IconButton aria-label="최상단 노출 하기" onClick={handleToggleFavorite}>
-              {data.is_favorited ? <FavoriteOutlinedIcon fontSize="small" /> : <FavoriteIcon fontSize="small" />}
+              {data.is_favorited ? <FavoriteOutlinedIcon /> : <FavoriteIcon />}
             </IconButton>
-            <IconButton className={classes.editIcon} aria-label="제목 및 내용 수정 모드 전환" onClick={handleShowEdit}>
-              <CreateIcon fontSize="small" />
+            <IconButton aria-label="제목 및 내용 수정 모드 전환" onClick={handleShowEdit}>
+              <CreateIcon />
             </IconButton>
             <IconButton
               className={classes.unionIcon}

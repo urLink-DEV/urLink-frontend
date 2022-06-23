@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     height: 348,
     marginTop: 20,
     boxShadow: 'none',
+    borderRadius: 8,
 
     '&:hover': {
       transform: 'translateY(-12px)',
@@ -48,7 +49,8 @@ const useStyles = makeStyles((theme) => ({
   },
   urlSubFont: {
     color: theme.palette.text.secondary,
-    fontSize: 14,
+    fontSize: 12,
+    fontWeight: 400,
     letterSpacing: -0.6,
     paddingLeft: 8,
     paddingBottom: 8,
@@ -61,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cardContent: {
     height: 182,
-    padding: '20px 16px 0 16px',
+    padding: '12px 16px 0 16px',
   },
   contentTitleEditable: {
     width: '100%',
