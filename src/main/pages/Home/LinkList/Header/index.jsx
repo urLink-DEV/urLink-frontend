@@ -13,7 +13,7 @@ import { GAEvent } from '@utils/ga'
 import EditableCategoryTitle from './EditableCategoryTitle'
 import useStyles from './style'
 
-function Header() {
+function Header({ isForceCloseListSelectBox }) {
   const classes = useStyles()
 
   const dispatch = useDispatch()
@@ -65,27 +65,28 @@ function Header() {
   return (
     <Toolbar className={classes.toolbar}>
       <EditableCategoryTitle />
-      {!isOpenSelectBox ? (
-        <Button
-          className={clsx(classes.selectLinksBtn, { [classes.selectBoxInversion]: isAppBarInversion })}
-          onClick={handleLinksSelectStateOpen}
-        >
-          다중 선택
-        </Button>
-      ) : (
-        <div className={clsx(classes.selectLinksBtnGroup, { [classes.selectBoxInversion]: isAppBarInversion })}>
-          <span className={classes.chosenLinks}>{selectedLinkList.length}개 선택</span>
-          <Button className={classes.btnInBtnGroup} onClick={handleLinksSelectStateClose}>
-            선택 해제
+      {!isForceCloseListSelectBox &&
+        (!isOpenSelectBox ? (
+          <Button
+            className={clsx(classes.selectLinksBtn, { [classes.selectBoxInversion]: isAppBarInversion })}
+            onClick={handleLinksSelectStateOpen}
+          >
+            다중 선택
           </Button>
-          <Button className={classes.btnInBtnGroup} onClick={handleNewTab}>
-            링크 열기
-          </Button>
-          <Button className={classes.deleteLinksBtn} onClick={handleDeleteSelectedLinkList}>
-            삭제
-          </Button>
-        </div>
-      )}
+        ) : (
+          <div className={clsx(classes.selectLinksBtnGroup, { [classes.selectBoxInversion]: isAppBarInversion })}>
+            <span className={classes.chosenLinks}>{selectedLinkList.length}개 선택</span>
+            <Button className={classes.btnInBtnGroup} onClick={handleLinksSelectStateClose}>
+              선택 해제
+            </Button>
+            <Button className={classes.btnInBtnGroup} onClick={handleNewTab}>
+              링크 열기
+            </Button>
+            <Button className={classes.deleteLinksBtn} onClick={handleDeleteSelectedLinkList}>
+              삭제
+            </Button>
+          </div>
+        ))}
     </Toolbar>
   )
 }
