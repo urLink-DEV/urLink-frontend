@@ -19,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
       cursor: 'pointer',
     },
   },
-  selectedCard: {
+  selectedBackdrop: {
+    position: 'absolute',
     backgroundColor: 'rgba(29, 120, 255, 0.1)',
   },
   checkbox: {

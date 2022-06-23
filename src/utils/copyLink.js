@@ -1,10 +1,10 @@
-function copyLink(url) {
-  const copyElement = document.createElement('textarea')
-  copyElement.value = url
-  document.body.appendChild(copyElement)
-  copyElement.select()
-  document.execCommand('copy')
-  document.body.removeChild(copyElement)
+async function copyLink(url) {
+  try {
+    await navigator.clipboard.writeText(url)
+    return true
+  } catch (e) {
+    return false
+  }
 }
 
 export default copyLink
