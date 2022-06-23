@@ -28,6 +28,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   selectBoxInversion: {
     opacity: 0,
+    display: 'none',
   },
   chosenLinks: {
     marginRight: 8,
