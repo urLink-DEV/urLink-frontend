@@ -3,7 +3,7 @@
   "version": "1.3.0",
   "manifest_version": 2,
   "description": "북마크보다 손쉽게 웹사이트를 보관하고 정리하세요.",
-  "permissions": ["<all_urls>", "identity", "history", "notifications"],
+  "permissions": ["<all_urls>", "identity", "history", "notifications", "bookmarks"],
   "icons": {
     "16": "images/logo/logo16.png",
     "24": "images/logo/logo24.png",

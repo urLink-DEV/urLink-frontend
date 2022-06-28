@@ -5,6 +5,7 @@ import { createRequestAction, createRequestThunk } from '../helpers'
 export const LINK = 'LINK'
 
 export const linksRead = createRequestAction(`${LINK}/LIST/READ`)
+export const linksReadThunk = createRequestThunk(linksRead)
 
 export const linkCreate = createRequestAction(`${LINK}/CREATE`)
 export const linkCreateThunk = createRequestThunk(linkCreate)
