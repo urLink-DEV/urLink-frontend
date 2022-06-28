@@ -38,6 +38,7 @@ function AppBar() {
   const isAppBarInversion = useSelector(uiSelector.isAppBarInversion)
   const { categories } = useCategories()
   const links = useSelector((state) => linkSelector.linksData(state))
+  const { openToast } = useToast()
 
   const {
     open: migrateBookmarksOpen,
@@ -81,12 +82,12 @@ function AppBar() {
 
   const fetchAllLinkData = async () => {
     //로딩 처리 필요
+    migrateBookmarksClose()
     if (categories.length) {
       for (const category of categories) {
         await dispatch(linksReadThunk({ categoryId: category.id }, { key: category.id }))
       }
     }
-    migrateBookmarksClose()
     setIsReadyForMigration(true)
   }
 
@@ -107,10 +108,11 @@ function AppBar() {
       }
 
       setIsReadyForMigration(false)
+      openToast({ type: 'success', message: '이동이 완료되었습니다. 북마크를 확인해주세요.' })
     }
     //유어링크 북마크 폴더 생성
     createBookmarkFolder({ id: '1', title: 'urLink Bookmarks' }, callback)
-  }, [links, categories])
+  }, [links, categories, openToast])
 
   useEffect(() => {
     dispatch(linkSearchFilterChangeState({ selectedName, keyword: debouncedKeyword }))
