@@ -79,7 +79,7 @@ function LinkList() {
     <Grid className={classes.root} ref={rootRef}>
       {!!selectedCategory?.id && (
         <div className={classes.header}>
-          <Header links={links} />
+          <Header isForceCloseListSelectBox={!links.length} />
         </div>
       )}
       <div className={classes.content}>

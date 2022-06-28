@@ -22,11 +22,12 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: 14,
   },
   searchSelectPaper: {
-    padding: '12px 0 12px 0',
+    padding: 0,
     minWidth: 199,
     borderRadius: 8,
 
     '& > .MuiMenu-list': {
+      padding: 0,
       display: 'flex',
       flexDirection: 'column',
       gap: 10,
@@ -36,6 +37,7 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
+    rowGap: 4,
   },
   searchInputBase: {
     width: '100%',

@@ -36,6 +36,11 @@ export const categoryReducer = createReducer(initialState, {
       }
     }
   },
+  [categoryRemove.SUCCESS]: (state, { payload, meta }) => {
+    if (meta?.key === state.selectedCategory.id) {
+      state.selectedCategory = initialState.selectedCategory
+    }
+  },
   [categorySelect]: (state, { payload }) => {
     state.selectedCategory = { ...state.selectedCategory, ...payload }
   },

@@ -8,6 +8,7 @@ import FavoriteIcon from '@mui/icons-material/FavoriteBorderOutlined'
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined'
 import Backdrop from '@mui/material/Backdrop'
 import Card from '@mui/material/Card'
+import CardActionArea from '@mui/material/CardActionArea'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
@@ -134,10 +135,14 @@ function Link({ data }) {
   )
 
   const handleCopy = useCallback(
-    (e) => {
+    async (e) => {
       e.stopPropagation()
-      copyLink(data.path)
-      openToast({ type: 'success', message: '링크가 복사 되었습니다.' })
+      const isSuccess = await copyLink(data.path)
+      if (isSuccess) {
+        openToast({ type: 'success', message: '링크가 복사 되었습니다.' })
+      } else {
+        openToast({ type: 'error', message: '링크 복사 실패' })
+      }
       setOpenMore(false)
       GAEvent('메인', '링크 복사 버튼 클릭')
     },
@@ -223,7 +228,6 @@ function Link({ data }) {
     <Card
       className={clsx(classes.root, {
         [classes.editableCard]: isEditable,
-        [classes.selectedCard]: isOpenLinkSelectBox && isSelected && !isEditable,
       })}
       onClick={isOpenLinkSelectBox ? handleSelectedLinkCard : handleNewTab}
       ref={rootRef}
@@ -266,14 +270,16 @@ function Link({ data }) {
           </>
         )}
       </CardContent>
+      <Backdrop className={classes.selectedBackdrop} open={isOpenLinkSelectBox && isSelected && !isEditable} />
+      <Backdrop className={classes.backdrop} open={openMore} onClick={() => setOpenMore((open) => !open)} />
       <CardActions className={classes.cardActions} disableSpacing onClick={(e) => e.stopPropagation()}>
         {!isEditable ? (
           <>
             <IconButton aria-label="최상단 노출 하기" onClick={handleToggleFavorite}>
-              {data.is_favorited ? <FavoriteOutlinedIcon fontSize="small" /> : <FavoriteIcon fontSize="small" />}
+              {data.is_favorited ? <FavoriteOutlinedIcon /> : <FavoriteIcon />}
             </IconButton>
-            <IconButton className={classes.editIcon} aria-label="제목 및 내용 수정 모드 전환" onClick={handleShowEdit}>
-              <CreateIcon fontSize="small" />
+            <IconButton aria-label="제목 및 내용 수정 모드 전환" onClick={handleShowEdit}>
+              <CreateIcon />
             </IconButton>
             <IconButton
               className={classes.unionIcon}
@@ -285,7 +291,6 @@ function Link({ data }) {
             >
               <img src={UnionIconImg} alt="alert-icon" />
             </IconButton>
-            <Backdrop className={classes.backdrop} open={openMore} onClick={() => setOpenMore((open) => !open)} />
             <Menu
               id="more-menu"
               open={openMore}

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react'
+import React, { useCallback, useRef, useState, useEffect } from 'react'
 
 import clsx from 'clsx'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,6 +16,7 @@ import {
   categoriesRead,
   categoryEdit,
   categorySelector,
+  categoryRemove,
 } from '@modules/category'
 import { linkSelector, linkSelectBoxChangeState, linkClearSelect } from '@modules/link'
 import { useToast, useDialog, MODAL_NAME } from '@modules/ui'
@@ -100,9 +101,11 @@ function CategoryItem({ data = {}, selected = false, hovered = false, dragFinish
     try {
       e.stopPropagation()
       handleCloseDeleteAlert()
-      await dispatch(categoryRemoveThunk({ id: data.id }))
+      await dispatch(categoryRemove.request({ id: data.id }, { key: data.id }))
       if (data.id === selectedCategory.id) {
         dispatch(categoriesRead.request(undefined, { selectFirstCategory: true }))
+      } else {
+        dispatch(categoriesReadThunk())
       }
       openToast({ type: 'success', message: '선택하신 카테고리가 삭제되었습니다.' })
       GAEvent('카테고리', '카테고리 삭제 완료')
