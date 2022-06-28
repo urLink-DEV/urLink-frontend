@@ -19,4 +19,6 @@ const HistoryDragBox = forwardRef(({ selectedCount }, ref) => {
   )
 })
 
+HistoryDragBox.displayName = 'HistoryDragBox'
+
 export default HistoryDragBox

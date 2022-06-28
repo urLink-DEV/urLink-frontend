@@ -11,7 +11,6 @@ import { GAPageview, initGA } from '@utils/ga'
 import { getAccessToken } from '@utils/http/auth'
 
 import GetStartPage from './pages/Start'
-
 import 'moment/locale/ko'
 
 moment.locale('ko')

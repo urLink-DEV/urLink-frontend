@@ -1,13 +1,9 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 
-import { Grid } from '@material-ui/core'
+import { Grid, Typography } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
 
-import linkListEmptyImg from '@assets/images/group-11.png'
-import linkListSearchEmptyImg from '@assets/images/group-17.png'
-import CategoryEmptyImg from '@assets/images/group-5.svg'
 import useOutsideAlerter from '@hooks/useOutsideAlerter'
-import ScrollUpButton from '@main/components/ScrollUpButton'
 import { useCategories, categorySelector } from '@modules/category'
 import { useLinks, linkSelector, linkClearSelect, linkSearchFilterInit, linksRead, linkCreate } from '@modules/link'
 import { PENDING } from '@modules/pending'
@@ -32,17 +28,18 @@ const SkeletonList = (length) => {
 
 function LinkList() {
   const classes = useStyles()
+
   const dispatch = useDispatch()
   const { categories } = useCategories()
-  const categoryList = useSelector(categorySelector.listData)
   const selectedCategory = useSelector(categorySelector.selectedCategory)
   const selectedLinkList = useSelector(linkSelector.selectSelectedLink)
   const searchFilter = useSelector(linkSelector.searchFilter)
   const createLinksCategoryId = useSelector(linkSelector.createLinksCategoryId)
   const dragData = useSelector(uiSelector.drag)
-  const [skeletonLength, setSkeletonLength] = useState(0)
   const linkCreatePending = useSelector((state) => state[PENDING][linkCreate.TYPE])
   const linksReadPending = useSelector((state) => state[PENDING][linksRead.TYPE])
+
+  const [skeletonLength, setSkeletonLength] = useState(0)
 
   const { links } = useLinks({
     detact: true,
@@ -52,14 +49,6 @@ function LinkList() {
   })
 
   const rootRef = useRef(null)
-  const contentRef = useRef(null)
-  const [showScrollUpButton, setButtonOpen] = useState(null)
-
-  const handleScrollUpBtn = (e) => {
-    const scrollTop = e.currentTarget.scrollTop
-    const clientHeight = e.currentTarget.clientHeight
-    setButtonOpen(scrollTop + clientHeight / 2 > clientHeight)
-  }
 
   useOutsideAlerter(
     rootRef,
@@ -68,7 +57,6 @@ function LinkList() {
   )
 
   useEffect(() => {
-    contentRef.current.scrollTop = 0
     dispatch(linkClearSelect())
   }, [dispatch, links])
 
@@ -88,14 +76,13 @@ function LinkList() {
   }, [dragData, linkCreatePending, linksReadPending])
 
   return (
-    <Grid container direction="column" className={classes.root} ref={rootRef}>
-      {!!categoryList.length && (
-        <Grid item>
-          <Header links={links} />
-        </Grid>
+    <Grid className={classes.root} ref={rootRef}>
+      {!!selectedCategory?.id && (
+        <div className={classes.header}>
+          <Header isForceCloseListSelectBox={!links.length} />
+        </div>
       )}
-
-      <Grid item container className={classes.content} spacing={2} onScroll={handleScrollUpBtn} ref={contentRef}>
+      <div className={classes.content}>
         {!skeletonLength
           ? null
           : dragData.type === 'link' && createLinksCategoryId === selectedCategory?.id
@@ -103,30 +90,30 @@ function LinkList() {
           : dragData.category.data.id === selectedCategory?.id && SkeletonList(skeletonLength)}
 
         {links?.map((data) => (
-          <Grid item key={data.id}>
-            <Link data={data} />
-          </Grid>
+          <Link key={data.id} data={data} />
         ))}
+      </div>
 
-        {categories.length === CATEGORY_EMPTY ? (
-          <Grid item xs={12} className={classes.center}>
-            <img src={CategoryEmptyImg} alt="카테고리 비어 있음" />
-          </Grid>
+      {categories.length === CATEGORY_EMPTY ? (
+        <div className={classes.center}>
+          <Typography className={classes.centerFont}>생성하신 카테고리가 없습니다</Typography>
+          <Typography className={classes.centerSubFont}>링크 보관을 위해 새로운 카테고리를 생성해주세요.</Typography>
+        </div>
+      ) : (
+        links.length === LINK_EMPTY &&
+        (skeletonLength ? null : searchFilter.keyword && SEARCH_LINK_EMPTY ? (
+          <div className={classes.center}>
+            <Typography className={classes.centerFont}>검색어와 일치하는 검색 결과가 없습니다</Typography>
+          </div>
         ) : (
-          links.length === LINK_EMPTY &&
-          (skeletonLength ? null : searchFilter.keyword && SEARCH_LINK_EMPTY ? (
-            <Grid item xs={12} className={classes.center}>
-              <img src={linkListSearchEmptyImg} alt="검색 조회 없음" />
-            </Grid>
-          ) : (
-            <Grid item xs={12} className={classes.center}>
-              <img src={linkListEmptyImg} alt="링크 비어 있음" />
-            </Grid>
-          ))
-        )}
-      </Grid>
-
-      <ScrollUpButton targetRef={contentRef} open={showScrollUpButton} />
+          <div className={classes.center}>
+            <Typography className={classes.centerFont}>카테고리에 담은 링크가 없습니다</Typography>
+            <Typography className={classes.centerSubFont}>
+              방문기록을 열어 보관할 링크를 선택하고 카테고리에 끌어다 놓으세요.
+            </Typography>
+          </div>
+        ))
+      )}
     </Grid>
   )
 }

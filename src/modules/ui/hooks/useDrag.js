@@ -8,7 +8,12 @@ const { DRAG_STATUS } = DRAG
 
 const useDrag = (type) => {
   const dispatch = useDispatch()
-  const { type: dragType, status: dragStatus, listData, data } = useSelector((state) => {
+  const {
+    type: dragType,
+    status: dragStatus,
+    listData,
+    data,
+  } = useSelector((state) => {
     return {
       type: state[UI].drag.type,
       status: state[UI].drag.status,

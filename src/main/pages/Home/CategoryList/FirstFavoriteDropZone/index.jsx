@@ -12,7 +12,7 @@ function FirstFavoriteDropZone({ handleDragDrop, handleDragOverFirstFavorite }) 
       onDragOver={handleDragOverFirstFavorite}
       onDrop={handleDragDrop()}
     >
-      Drag the category here!
+      <h1 className={classes.title}> 자주 사용하는 카테고리 등록</h1>
     </div>
   )
 }

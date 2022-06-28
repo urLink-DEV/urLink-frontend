@@ -1,20 +1,22 @@
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
   firstFavoriteDropZone: {
-    width: '208px',
-    height: '52px',
+    width: '100%',
+    height: '90px',
+  },
+  title: {
     borderRadius: '4px',
-    border: 'dashed 1px #ced4da',
-    backgroundColor: '#f8f9fa',
-    fontSize: '15px',
-    fontWeight: 300,
+    border: 'dashed 1px #CCCCCC',
+    backgroundColor: '#FCFCFC',
+    fontSize: 14,
+    fontWeight: 400,
     fontStretch: 'normal',
     fontStyle: 'normal',
-    lineHeight: '50px',
+    lineHeight: '38px',
     letterSpacing: 'normal',
     textAlign: 'center',
-    color: '#868e96',
+    color: '#CCCCCC',
     margin: '10px auto',
   },
 }))

@@ -9,7 +9,7 @@ function HistoryDateTitle({ data }) {
 
   if (!data.first) return null
   return (
-    <div>
+    <div className={classes.root}>
       <span className={classes.title}>{curDate === linkDate ? '오늘' : linkDate}</span>
       <span className={classes.line}></span>
     </div>

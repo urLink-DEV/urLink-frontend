@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 
-import { Popover } from '@material-ui/core'
-import ToggleButton from '@material-ui/lab/ToggleButton'
+import Popover from '@mui/material/Popover'
+import ToggleButton from '@mui/material/ToggleButton'
 
 import SearchImg from '@assets/images/search.png'
 

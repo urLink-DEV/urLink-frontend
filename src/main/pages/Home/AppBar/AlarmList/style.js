@@ -1,6 +1,6 @@
-import { Avatar } from '@material-ui/core'
-import { grey } from '@material-ui/core/colors'
-import { makeStyles, withStyles } from '@material-ui/styles'
+import { Avatar } from '@mui/material'
+import { grey } from '@mui/material/colors'
+import { makeStyles, withStyles } from '@mui/styles'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     height: 56,
   },
   cover: {
-    height: 217,
+    height: 358,
     backgroundSize: 'auto',
   },
   text: {

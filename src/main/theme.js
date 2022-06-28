@@ -1,10 +1,19 @@
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createTheme } from '@mui/material/styles'
 
-const theme = createMuiTheme({
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 1098,
+      lg: 1435,
+      xl: 1770,
+    },
+  },
   palette: {
     colorGroup: {
       battleshipGrey: '#737b84',
-      lightGrey: '#f6f6f6',
+      lightGrey: '#fafafa',
       blueGrey: '#868e96',
       paleGrey: '#f6f7f9',
       salmon: '#ff6b6b',
@@ -14,28 +23,36 @@ const theme = createMuiTheme({
       black: '#212529',
     },
     primary: {
-      main: '#2083ff',
+      main: '#1D78FF',
+    },
+    text: {
+      primary: '#333333',
+      secondary: '#666666',
+      description: '#999999',
     },
   },
   typography: {
     fontFamily: ['"Spoqa Han Sans"', '"Spoqa Han Sans JP"', 'sans-serif'].join(','),
   },
-  overrides: {
+  components: {
     MuiCssBaseline: {
-      '@global': {
-        '::-webkit-scrollbar': {
-          display: 'none',
-        },
-        '*': {
-          // boxSizing: 'border-box',
-          fontFamily: "'Spoqa Han Sans', 'Spoqa Han Sans JP', sans-serif",
-        },
+      styleOverrides: `
+        ::-webkit-scrollbar {
+          display: none;
+        }
+
+        *: {
+          // box-sizing: border-box;
+          font-family: "Spoqa Han Sans", "Spoqa Han Sans JP", "sans-serif";
+        }
+
         button: {
-          cursor: 'pointer',
-          outline: 0,
-          border: 'none',
-        },
-      },
+          cursor: pointer;
+          outline: 0;
+          border: unset;
+          background-color: transparent;
+        }
+      `,
     },
   },
 })

@@ -1,4 +1,4 @@
-import makeStyles from '@material-ui/styles/makeStyles'
+import makeStyles from '@mui/styles/makeStyles'
 
 const useStyles = makeStyles({
   root: {
@@ -40,7 +40,6 @@ const useStyles = makeStyles({
   },
   logoutBtn: {
     width: '100%',
-    backgroundColor: 'white',
   },
 })
 

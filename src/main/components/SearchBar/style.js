@@ -1,60 +1,90 @@
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 
 export const useStyles = makeStyles((theme) => ({
   searchBar: {
     display: 'flex',
-    width: 410,
-    padding: 0,
-    margin: 'auto 0 auto auto',
-    borderRadius: 20,
-    backgroundColor: 'white',
-    border: theme.spacing(0.5, 0),
+    gap: 3,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
 
-    '& > .MuiInput-underline:before': {
-      left: 0,
-      right: 0,
-      bottom: 0,
-      position: 'absolute',
-      transition: 'border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-      borderBottom: '0px',
-      pointerEvents: 'none',
+    width: 380,
+    height: 38,
+    padding: '0px 40px 0px 16px',
+    backgroundColor: '#F3F3F3',
+    borderRadius: 8,
+  },
+  searchBarDisabled: {
+    opacity: 0.4,
+  },
+  searchSelect: {
+    paddingRight: '12px',
+    fontSize: 14,
+  },
+  searchSelectPaper: {
+    padding: 0,
+    minWidth: 199,
+    borderRadius: 8,
+
+    '& > .MuiMenu-list': {
+      padding: 0,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 10,
     },
+  },
+  searchSelectItem: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    rowGap: 4,
   },
   searchInputBase: {
-    width: '65%',
+    width: '100%',
   },
   searchInput: {
-    width: '100%',
-    color: 'black',
+    display: 'flex',
+    alignItems: 'center',
+
+    fontWeight: 400,
     fontSize: 14,
-    paddingLeft: `calc(${theme.spacing(1)}px)`,
-  },
-  inputSelect: {
-    width: '25%',
-    fontSize: 14,
-    '& > .MuiSelect-select.MuiSelect-select': {
-      paddingLeft: '10px',
-    },
-  },
-  menuItem: {
-    fontSize: 14,
-    padding: theme.spacing(0, 1.5),
+    lineHeight: 14,
+
+    color: '#777777',
   },
   divider: {
-    margin: theme.spacing(0.5, 0),
+    height: 31,
   },
-  datePicker: {
-    width: '65%',
-    padding: theme.spacing(0, 1),
-    marginTop: 5,
-    '& > .MuiInputBase-root.MuiInput-root.MuiInput-underline.MuiInputBase-formControl.MuiInput-formControl': {
-      fontSize: 14,
+  pickerBtn: {
+    color: theme.palette.primary.main,
+    fontWeight: 400,
+    fontSize: 14,
+
+    width: '100%',
+    borderBottom: '1px solid',
+    borderRadius: 0,
+
+    '&:hover': {
+      color: theme.palette.primary.main,
     },
   },
+  datePicker: {
+    width: 320,
+  },
   searchIcon: {
-    width: '10%',
-    color: '#CCCCCC',
-    margin: '7px 0 7px 7px',
+    margin: '11px 10px',
+    width: 16,
+    height: 16,
+    color: '#777777',
+  },
+  searchInputCancel: {
+    position: 'relative',
+    top: 0,
+    right: -31,
+
+    width: 24,
+    height: 24,
+    color: '#6b6b6f',
   },
 }))
 

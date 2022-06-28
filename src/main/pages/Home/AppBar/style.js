@@ -1,43 +1,57 @@
-import { ListItem } from '@material-ui/core'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import { ListItem } from '@mui/material'
+import { makeStyles, withStyles } from '@mui/styles'
 
-const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme) => ({
   appBar: {
-    position: 'relative',
-    zIndex: theme.zIndex.drawer,
+    position: 'sticky',
+    top: 0,
+    zIndex: 100,
 
-    height: '100vh',
+    paddingTop: 12,
+    paddingBottom: 12,
 
-    backgroundColor: '#fff',
-    boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.1)',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+
+    backgroundColor:
+      theme.palette.type !== 'dark' ? theme.palette.colorGroup.lightGrey : theme.palette.background.default,
   },
-  toolBar: {
-    paddingTop: 32,
+  appBarInversion: {
+    backgroundColor: '#FFFFFF',
   },
   imgButton: {
-    width: 20,
-    height: 20,
+    width: 17,
+    height: 17,
 
     '& > img': {
       objectFit: 'contain',
     },
+  },
+  iconButtonGroup: {
+    padding: 0,
+    marginLeft: 11,
+    marginRight: 37,
+    display: 'flex',
+    gap: 11,
   },
   drawer: {
     '& > .MuiDrawer-paper': {
       zIndex: theme.zIndex.drawer - 1,
     },
     '& > .MuiDrawer-paperAnchorRight': {
-      right: 50,
+      top: 73,
     },
   },
 }))
 
 export const StyledListItem = withStyles((theme) => ({
   root: {
-    height: 40,
-    margin: '17px auto',
+    width: 48,
+    height: 48,
 
-    borderRadius: 4,
+    backgroundColor: 'white',
+    borderRadius: 8,
 
     '&:hover': {
       backgroundColor: '#d6e4f5',

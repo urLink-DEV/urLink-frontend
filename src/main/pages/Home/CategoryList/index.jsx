@@ -1,29 +1,29 @@
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback, useEffect } from 'react'
 
-import Drawer from '@material-ui/core/Drawer'
-import List from '@material-ui/core/List'
-import ErrorIcon from '@material-ui/icons/Error'
+import ErrorIcon from '@mui/icons-material/Error'
+import Button from '@mui/material/Button'
+import List from '@mui/material/List'
 import { useDispatch, useSelector } from 'react-redux'
 
 import urlinkLogoImg from '@assets/images/logo-urlink-full.png'
+import plusImg from '@assets/images/plus_noborder.svg'
 import { useCategories, categorySelector, categoriesReadThunk, categoryModifyThunk } from '@modules/category'
 import { linkCreateThunk, linksRead } from '@modules/link'
-import { useToast } from '@modules/ui'
+import { MODAL_NAME, useDialog, useToast } from '@modules/ui'
 import { DRAG, useDrag } from '@modules/ui'
 import { GAEvent } from '@utils/ga'
 
-import CategoryButtonGroup from './CategoryButtonGroup'
+import AddCategoryModal from './AddCategoryModal'
 import CategoryHeader from './CategoryHeader'
 import CategoryItem from './CategoryItem'
 import CategoryItemWrapper from './CategoryItemWrapper'
 import FirstCategoryDropZone from './FirstCategoryDropZone'
-import FirstFavoriteDropZone from './FirstFavoriteDropZone'
 import useStyles from './style'
+import UpdateCategoryModal from './UpdateCategoryModal'
 
 const { CATEGORY, LINK } = DRAG
 
 function CategoryList() {
-  const classes = useStyles()
   const dispatch = useDispatch()
   const { error, favoritedArr, notFavoritedArr } = useCategories()
   const selectedCategory = useSelector(categorySelector.selectedCategory)
@@ -34,23 +34,18 @@ function CategoryList() {
   const draggedCategoryRef = useRef(null)
   const [linkHoverTabId, setLinkHoverTabId] = useState(null)
   const [dragOverTabData, setDragOverTabData] = useState({})
+  const { open: updateCategoryOpen, close: updateCategoryClose } = useDialog(MODAL_NAME.UPDATE_CATEGORY_MODAL)
+  const {
+    open: addCategoryOpen,
+    toggle: addCategoryToggle,
+    close: addCategoryClose,
+  } = useDialog(MODAL_NAME.ADD_CATEGORY_MODAL)
 
-  const handleDragOverFirstFavorite = useCallback(
-    (e) => {
-      e.stopPropagation()
-      e.preventDefault()
-      if (dragType === CATEGORY && !dragData.is_favorited) {
-        setDragOverTabData({
-          ...dragOverTabData,
-          id: dragData.id,
-          name: dragData.name,
-          order: 1,
-          is_favorited: true,
-        })
-      }
-    },
-    [dragData, dragType, dragOverTabData, setDragOverTabData]
-  )
+  const ioTargetRef = useRef(null)
+  const ioContainerRef = useRef(null)
+  const [observerVisible, setObserverVisible] = useState(true)
+
+  const classes = useStyles({ observerVisible })
 
   const handleDragOverFirstCategory = useCallback(
     (e) => {
@@ -161,8 +156,26 @@ function CategoryList() {
     [dragType, dispatch, dragData, setDragData, linkListData, linkHoverTabId, dragOverTabData, clearDragData, openToast]
   )
 
+  const ioHandler = (entries) => {
+    if (!entries[0].isIntersecting) {
+      setObserverVisible(false)
+    } else {
+      setObserverVisible(true)
+    }
+  }
+
+  useEffect(() => {
+    const io = new IntersectionObserver(ioHandler, {
+      root: ioContainerRef.current,
+    })
+    if (ioContainerRef.current && ioTargetRef.current) {
+      io.observe(ioTargetRef.current)
+    }
+    return () => io && io.disconnect()
+  }, [ioContainerRef, ioTargetRef])
+
   return (
-    <Drawer classes={{ paper: classes.drawerPaper }} variant="permanent">
+    <div className={classes.drawerPaper}>
       {error ? (
         <div className={classes.flexCenterBackground}>
           <ErrorIcon color="primary" fontSize="large" />
@@ -171,46 +184,50 @@ function CategoryList() {
       ) : (
         <>
           <img className={classes.logo} src={urlinkLogoImg} alt="URLink logo" />
-          <div className={classes.layout}>
-            <CategoryHeader type="favorite" />
-            {!favoritedArr?.length && (
-              <FirstFavoriteDropZone
-                handleDragDrop={handleDragDrop}
-                handleDragOverFirstFavorite={handleDragOverFirstFavorite}
-              />
-            )}
-            <List>
-              {favoritedArr?.map((data) => (
-                <CategoryItemWrapper
-                  key={data.id}
-                  data={data}
-                  draggedOrder={dragData.order}
-                  handleDragStart={handleDragStart}
-                  handleDragOver={handleDragOver}
-                  handleDragLeave={handleDragLeave}
-                  handleDragDrop={handleDragDrop}
-                  handleDragEnd={handleDragEnd}
-                >
-                  <CategoryItem
-                    data={data}
-                    selected={data.id === selectedCategory?.id}
-                    hovered={data.id === linkHoverTabId}
-                    dragFinished={
-                      Boolean(dragData.dragFinished && data.id === linkHoverTabId) ||
-                      Boolean(dragData.dragFinished && data.id === dragData.id)
-                    }
-                  />
-                </CategoryItemWrapper>
-              ))}
-            </List>
+          <div id="category-container" className={classes.categoryContainer} ref={ioContainerRef}>
+            {/*---Favorite Category start---*/}
+            <div className={classes.ioBox} ref={ioTargetRef}></div>
+            {favoritedArr?.length ? (
+              <React.Fragment>
+                <CategoryHeader type="favorite" />
+                <List className={classes.favoriteList}>
+                  {favoritedArr.map((data) => (
+                    <CategoryItemWrapper
+                      key={data.id}
+                      data={data}
+                      draggedOrder={dragData.order}
+                      handleDragStart={handleDragStart}
+                      handleDragOver={handleDragOver}
+                      handleDragLeave={handleDragLeave}
+                      handleDragDrop={handleDragDrop}
+                      handleDragEnd={handleDragEnd}
+                    >
+                      <CategoryItem
+                        data={data}
+                        selected={data.id === selectedCategory?.id}
+                        hovered={data.id === linkHoverTabId}
+                        dragFinished={
+                          Boolean(dragData.dragFinished && data.id === linkHoverTabId) ||
+                          Boolean(dragData.dragFinished && data.id === dragData.id)
+                        }
+                      />
+                    </CategoryItemWrapper>
+                  ))}
+                </List>
+              </React.Fragment>
+            ) : null}
+
+            {/*---Favorite Category end---*/}
+
+            {/*---Category start---*/}
             <CategoryHeader type="category" />
-            <CategoryButtonGroup />
+            {/* <CategoryButtonGroup /> */}
             <FirstCategoryDropZone
-              openDropZone={!Boolean(notFavoritedArr.length)}
+              openDropZone={!notFavoritedArr.length}
               handleDragDrop={handleDragDrop}
               handleDragOverFirstCategory={handleDragOverFirstCategory}
             />
-            <List>
+            <List className={classes.notFavoriteList}>
               {notFavoritedArr?.map((data) => (
                 <CategoryItemWrapper
                   key={data.id}
@@ -234,10 +251,21 @@ function CategoryList() {
                 </CategoryItemWrapper>
               ))}
             </List>
+            {/*---Category end---*/}
           </div>
+
+          <button type="button" className={classes.addCategoryBtn} onClick={addCategoryToggle}>
+            <h3>
+              새 카테고리 추가
+              <img src={plusImg} alt="add category" />
+            </h3>
+          </button>
+
+          {addCategoryOpen && <AddCategoryModal open={addCategoryOpen} onClose={addCategoryClose} />}
+          {updateCategoryOpen && <UpdateCategoryModal open={updateCategoryOpen} onClose={updateCategoryClose} />}
         </>
       )}
-    </Drawer>
+    </div>
   )
 }
 

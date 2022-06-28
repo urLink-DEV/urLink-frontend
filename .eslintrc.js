@@ -2,8 +2,8 @@ const path = require('path')
 
 module.exports = {
   root: true,
-  extends: ['react-app', 'plugin:prettier/recommended'],
-  plugins: ['react-hooks', 'import', 'prettier'],
+  extends: ['eslint:recommended', 'plugin:react/recommended', 'eslint-config-prettier', 'plugin:prettier/recommended'],
+  plugins: ['react', 'react-hooks', 'import', 'prettier'],
   env: {
     browser: true,
     node: true,
@@ -37,6 +37,8 @@ module.exports = {
     },
   },
   rules: {
+    'react/prop-types': [0],
+    'no-unused-vars': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn', // Checks effect dependencies
     'import/order': [
@@ -58,6 +60,11 @@ module.exports = {
         },
       },
     ],
-    'prettier/prettier': 'error',
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
   },
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Button } from '@material-ui/core'
+import { Button } from '@mui/material'
 
 import alertIcon from '@assets/images/logo/group-2.svg'
 import {
@@ -20,6 +20,7 @@ function AlertModal({
   handleNoText = '취소',
   handleYesClick,
   handleNoClick,
+  children,
 }) {
   const classes = useStyles()
 
@@ -28,7 +29,7 @@ function AlertModal({
       <StyledDialogContent>
         <StyledDialogContentText id="alert-dialog-description" className={classes.alertModal}>
           <img className={classes.alertIcon} src={alertIcon} alt="alert-icon"></img>
-          {contentText}
+          {contentText || children}
         </StyledDialogContentText>
       </StyledDialogContent>
       <StyledDialogActions>
