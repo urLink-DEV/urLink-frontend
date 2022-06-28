@@ -52,6 +52,7 @@ export const StyledListItem = withStyles((theme) => ({
 
     backgroundColor: 'white',
     borderRadius: 8,
+    justifyContent: 'center',
 
     '&:hover': {
       backgroundColor: '#d6e4f5',
